@@ -1,0 +1,21 @@
+{
+  "name": "sd",
+  "version": "1.0.0",
+  "description": "Estimulacion Niñ@s Sindrome de Down",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Estimulación",
+    "Síndrome",
+    "Down",
+    "Niños",
+    "Niñas",
+    "Software",
+    "Web",
+    "Online"
+  ],
+  "author": "Esperanza Turner",
+  "license": "ISC"
+}
