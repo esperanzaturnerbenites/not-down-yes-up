@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Regístrate en Undefine</title>
+</head>
+<body>
+	<section class="container">
+		<header>
+			<h1>Nombre aplicación</h1>
+		</header>
+		
+		<section class="register">
+			<article>
+				<form>
+					<fieldset class="data validChildren">
+						<legend>¡Maravilloso! ¿Qué niñ@ conoceremos hoy?</legend>
+						<input type="number" id="validIdChildren" name="validIdChildren" min="1111" placeholder="Número Identificación" required>
+					</fieldset>
+
+					<fieldset class="data children">
+						<legend>Niñ@</legend>
+						<section class="">
+							<fieldset>
+								<legend>Personal</legend>
+								<input type="text" id="nameChildren" name="nameChildren" placeholder="Nombres Niñ@" required>
+								<input type="text" id="lastnameChildren" name="lastnameChildren" placeholder="Apellidos Niñ@" required>
+								<input type="number" id="idChildren" name="idChildren" min="1111" placeholder="Número Identificación" required>
+								<article class="img">
+									<span>Foto</span>
+									<input type="file" id="imgChildren" name="imgChildren" accept="image/*">
+								</article>
+								<label for="birthdateChildren">Fecha de Nacimiento</label>
+								<input type="date">
+								<!--<input-datetime></input-datetime>-->
+								<input type="text" id="originChildren" name="originChildren" placeholder="Lugar de Nacimiento" required>
+								<input type="number" id="edadChildren" name="edadChildren" min="0" max="48" placeholder="Edad en meses" required>
+								<label for="genderChildren">Sexo</label>
+								<select name="genderChildren" id="genderChildren">
+									<option value="Niña" selected>Niña</option>
+									<option value="Niño">Niño</option>
+								</select>
+								<!--
+								<label for="children_liveMom">¿Vive con mamá?</label>
+								<input type="checkbox" name="children_liveMom" id="children_liveMom">
+								<label for="children_liveDad">¿Vive con papá?</label>
+								<input type="checkbox" name="children_liveDad" id="children_liveDad">
+								-->
+								<label for="liveSon">¿Vive con:?</label>
+								<section>
+									<label for="liveSon">Ambos Padres</label>
+									<input type="radio" name="liveSon">
+									<label for="liveSon">Mamá</label>
+									<input type="radio" name="liveSon">
+									<label for="liveSon">Papá</label>
+									<input type="radio" name="liveSon">
+									<label for="liveSon">Otro cuidador</label>
+									<input type="radio" name="liveSon">
+								</section>
+							</fieldset>
+
+							<fieldset>
+								<legend>Salud</legend>
+								
+							</fieldset>
+
+							<fieldset>
+								<legend>Habilidades</legend>
+
+							</fieldset>
+
+							<fieldset>
+								<legend>Debilidades</legend>
+
+							</fieldset>
+							
+						</section>
+					</fieldset>
+
+					<fieldset class="data mom">
+						<legend>Mamá</legend>
+						<section class="">
+							<fieldset>
+								<legend>Personal</legend>
+								<input type="text" id="nameMom" name="nameMom" placeholder="Nombres Mamita" required>
+								<input type="text" id="lastnameMom" name="lastnameMom" placeholder="Apellidos Mamita" required>
+								<input type="number" id="idMom" name="idMom" min="1111" placeholder="Cédula Mamita" required>
+								<input type="text" id="idExpeditionMom" name="idExpeditionMom" placeholder="Lugar de Expedición" required>
+								<label for="birthdateMom">Fecha de Nacimiento</label>
+								<input type="date">
+								<!--<input-datetime></input-datetime>-->
+								<article>
+									<article class="img">
+										<span>Foto</span>
+										<input type="file" id="imgMom" name="imgMom" accept="image/*">
+									</article>
+								</article>
+							</fieldset>
+
+							<fieldset>
+								<legend>Contacto</legend>
+								<input type="number" id="telMom" name="telMom" min="1111111" max="9999999" placeholder="Teléfono Fijo" required>
+								<input type="number" id="celMom" name="celMom" min="1111111111" max="9999999999" placeholder="Celular" required>
+								<input type="email" id="emailMom" name="emailMom" placeholder="correo-mamita@abc.com">
+								<input type="text" id="addressMom" name="addressMom" placeholder="Dirección Mamita" required>
+								<input type="text" id="localityMom" name="localityMom" placeholder="Barrio" required>
+								<input type="text" id="municipalityMom" name="municipalityMom" placeholder="Ciudad/Municipio" required>
+								<input type="text" id="departamentMom" name="departamentMom" placeholder="Departamento" required>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Profesión</legend>
+								<label for="studyMom">Nivel de Estudios</label>
+								<select name="studyMom" id="studyMom">
+									<option value="Básica Primaria" selected>Básica Primaria</option>
+									<option value="Básica Secundaria">Básica Secundaria</option>
+									<option value="Bachiller">Bachiller</option>
+									<option value="Técnico Profesional">Técnico Profesional</option>
+									<option value="Tecnólogo">Tecnólogo</option>
+									<option value="Profesional">Profesional</option>
+									<option value="Especialización">Especialización</option>
+									<option value="Maestría">Maestría</option>
+									<option value="Doctorado">Doctorado</option>
+								</select>
+								<input type="text" id="professionMom" name="professionMom" placeholder="Título adquirido">
+								<input type="text" id="jobMom" name="jobMom" placeholder="Ocupación">
+							</fieldset>
+						</section>
+					</fieldset>
+
+					<fieldset class="data dad">
+						<legend>Papá</legend>
+						<section class="">
+							<fieldset>
+								<legend>Personal</legend>
+								<input type="text" id="nameDad" name="nameDad" placeholder="Nombres Papito" required>
+								<input type="text" id="lastnameDad" name="lastnameDad" placeholder="Apellidos Papito" required>
+								<input type="number" id="idDad" name="idDad" min="1111" placeholder="Cédula Papito" required>
+								<input type="text" id="idExpeditionDad" name="idExpeditionDad" placeholder="Lugar de Expedición" required>
+								<label for="birthdateDad">Fecha de Nacimiento</label>
+								<input type="date">
+								<!--<input-datetime></input-datetime>-->
+								<section>
+									<article class="img">
+										<span>Foto</span>
+										<input type="file" id="imgDad" name="imgDad" accept="image/*">
+									</article>
+								</section>
+							</fieldset>
+
+							<fieldset>
+								<legend>Contacto</legend>
+								<input type="number" id="telDad" name="telDad" min="1111111" max="9999999" placeholder="Teléfono Fijo" required>
+								<input type="number" id="celDad" name="celDad" min="1111111111" max="9999999999" placeholder="Celular" required>
+								<input type="email" id="emailDad" name="emailDad" placeholder="correo-papito@abc.com">
+								<input type="text" id="addressDad" name="addressDad" placeholder="Dirección Papito" required>
+								<input type="text" id="localityDad" name="localityDad" placeholder="Barrio" required>
+								<input type="text" id="municipalityDad" name="municipalityDad" placeholder="Ciudad/Municipio" required>
+								<input type="text" id="departamentDad" name="departamentDad" placeholder="Departamento" required>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Profesión</legend>
+								<label for="studyDad">Nivel de Estudios</label>
+								<select name="studyDad" id="studyDad">
+									<option value="Básica Primaria" selected>Básica Primaria</option>
+									<option value="Básica Secundaria">Básica Secundaria</option>
+									<option value="Bachiller">Bachiller</option>
+									<option value="Técnico Profesional">Técnico Profesional</option>
+									<option value="Tecnólogo">Tecnólogo</option>
+									<option value="Profesional">Profesional</option>
+									<option value="Especialización">Especialización</option>
+									<option value="Maestría">Maestría</option>
+									<option value="Doctorado">Doctorado</option>
+								</select>
+								<input type="text" id="professionDad" name="professionDad" placeholder="Título adquirido">
+								<input type="text" id="jobDad" name="jobDad" placeholder="Ocupación">
+							</fieldset>	
+						</section>
+					</fieldset>
+					
+					<fieldset class="data care">
+						<legend>Cuidador</legend>
+						<section class="">
+							<fieldset>
+								<legend>Personal</legend>
+								<input type="text" id="nameCare" name="nameCare" placeholder="Nombres Cuidador" required>
+								<input type="text" id="lastnameCare" name="lastnameCare" placeholder="Apellidos Cuidador" required>
+								<input type="number" id="idCare" name="idCare" min="1111" placeholder="Cédula Cuidador" required>
+								<input type="text" id="idExpeditionCare" name="idExpeditionCare" placeholder="Lugar de Expedición" required>
+								<label for="birthdateCare">Fecha de Nacimiento</label>
+								<input type="date">
+								<!--<input-datetime></input-datetime>-->
+								<input type="text" id="relationshipCare" name="relationshipCare" placeholder="Parentesco" required>
+								<section>
+									<article class="img">
+										<span>Foto</span>
+										<input type="file" id="imgCare" name="imgCare" accept="image/*">
+									</article>
+								</section>
+							</fieldset>
+
+							<fieldset>
+								<legend>Contacto</legend>
+								<input type="number" id="telCare" name="telCare" min="1111111" max="9999999" placeholder="Teléfono Fijo" required>
+								<input type="number" id="celCare" name="celCare" min="1111111111" max="9999999999" placeholder="Celular" required>
+								<input type="email" id="emailCare" name="emailCare" placeholder="correo-cuidador@abc.com">
+								<input type="text" id="addressCare" name="addressCare" placeholder="Dirección Cuidador" required>
+								<input type="text" id="localityCare" name="localityCare" placeholder="Barrio" required>
+								<input type="text" id="municipalityCare" name="municipalityCare" placeholder="Ciudad/Municipio" required>
+								<input type="text" id="departamentCare" name="departamentCare" placeholder="Departamento" required>
+							</fieldset>
+							
+							<fieldset>
+								<legend>Profesión</legend>
+								<label for="studyCare">Nivel de Estudios</label>
+								<select name="studyCare" id="studyCare">
+									<option value="Básica Primaria" selected>Básica Primaria</option>
+									<option value="Básica Secundaria">Básica Secundaria</option>
+									<option value="Bachiller">Bachiller</option>
+									<option value="Técnico Profesional">Técnico Profesional</option>
+									<option value="Tecnólogo">Tecnólogo</option>
+									<option value="Profesional">Profesional</option>
+									<option value="Especialización">Especialización</option>
+									<option value="Maestría">Maestría</option>
+									<option value="Doctorado">Doctorado</option>
+								</select>
+								<input type="text" id="professionCare" name="professionCare" placeholder="Título adquirido">
+								<input type="text" id="jobCare" name="jobCare" placeholder="Ocupación">
+							</fieldset>	
+						</section>
+					</fieldset>
+
+					<fieldset class="data user">
+						<legend>Usuario</legend>
+						<section class="">
+							<input type="email" id="email" name="email" placeholder="correo@abc.com" required>
+							<input type="email" id="confirmEmail" name="confirmEmail" placeholder="correo@abc.com" required>
+							<input type="text" id="user" name="user" placeholder="Usuario" required>
+							<input type="password" id="password" name="password" placeholder="Escriba su Contraseña" required>
+							<input type="password" id="ConfirmPassword" name="ComfirmPassword" placeholder="Confirme su Contraseña" required>
+
+							<button type="submit">
+								<span>Finalizar Registro</span>
+							</button>
+							<button type="reset">
+								<span>Cancelar</span>
+							</button>
+						</section>
+					</fieldset>
+				</form>
+			</article>
+		</section>
+	</section>
+</body>
+</html>
