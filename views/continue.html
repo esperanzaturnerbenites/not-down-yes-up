@@ -3,49 +3,51 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Continuar Actividad en Undefine</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<section class="container">
 		<header>
-			<h1>Nombre aplicación</h1>
+			<h2>Software de Estimulación Temprana .:Síndrome de Down:.</h2>
+			<h1>Not Down, ¡Yes UP!</h1>
 		</header>
 
 		<section class="continue">
-			<article>
-				<form>
-					<fieldset class="data validChildren">
-						<legend>¿Con cuál niñ@ nos divertiremos hoy?</legend>
-						<input type="number" id="validIdChildrenContinue" name="validIdChildrenContinue" min="1111" placeholder="Número Identificación" required>
-					</fieldset>
-				</form>
-			</article>
+			<form>
+				<fieldset class="data validChildren">
+					<legend>¿Con cuál niñ@ nos divertiremos hoy?</legend>
+					<input type="number" id="validIdChildrenContinue" name="validIdChildrenContinue" min="1111" placeholder="Número Identificación" required>
+				</fieldset>
+			</form>
 		</section>
 
-		<section class="continue continueData">
-			<article class="data">
-				<h3>Datos Niñ@</h3>
-				<p>
-					<span><b>Nombre:</b></span>
-					<span id="continueName">Nombre</span>
-				</p>
-				<p>
-					<span><b>Edad</b></span>
-					<span id="continueAge">Edad</span>
-				</p>
-			</article>
-			<article class="img">
-				<p>
-					<img id="continueImg" src="" alt="Foto">
-				</p>
-			</article>
-			<article class="more">
-				<p>
-					<span><a id="continueViewMore" href="#">Ver Más</a></span>
-				</p>
-			</article>
-		</section>
 
 		<section class="continue continueProgress">
+			<article class="continueData">
+				<section class="date">
+					<h3>Datos Niñ@</h3>
+					<p>
+						<span><b>Nombre:</b></span>
+						<span id="continueName">Nombre</span>
+					</p>
+					<p>
+						<span><b>Edad</b></span>
+						<span id="continueAge">Edad</span>
+					</p>
+				</section>
+				<section class="img">
+					<p>
+						<img id="continueImg" src="" alt="Foto">
+					</p>
+				</section>
+				<section class="more">
+					<p>
+						<span><a id="continueViewMore" href="#">Ver Más</a></span>
+					</p>
+				</section>
+			</article>
+
 			<article class="activities">
 				<h3>Progreso</h3>
 				<table id="progress">
@@ -70,10 +72,12 @@
 						</tr>
 					</tbody>
 				</table>
-				<p><a id="continueActAll" href="#">Ver Todo</a></p>
+				<section class="more">
+					<p><a id="continueActAll" href="#">Ver Todo</a></p>
+				</section>
 			</article>
 
-			<article class="continue continueLogros">
+			<article class="continueLogros">
 				<h3>Últimos Logros Alcanzados</h3>
 				<table id="continueLogros">
 					<tbody>
@@ -95,17 +99,17 @@
 				</table>
 			</article>
 
-			<article class="continue continueContinue">
+			<article class="contActivities">
 				<h3>Continuar Actividades</h3>
 				<section class="continueAct">
 					<p>
-						<span><b><a id="continueContUltAct" href="#">Continuar con la Última Actividad Pendiente</a></b></span>
+						<span><b><a id="continueContUltAct" href="#"><img src="img/check.png" alt=".::">Continuar con la Última Actividad Pendiente</a></b></span>
 					</p>
 				</section>
 
-				<section class="continue continueNewAct">
+				<section class="continueNewAct">
 					<p>
-						<span><b><a id="continueNewAct" href="#">Iniciar Una Nueva Actividad</a></b></span>
+						<span><b><a id="continueNewAct" href="#"><img src="img/check.png" alt=".::">Iniciar Una Nueva Actividad</a></b></span>
 					</p>
 				</section>
 			</article>

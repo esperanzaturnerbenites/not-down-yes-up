@@ -3,203 +3,430 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Consultas en Undefine</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<section class="container">
 		<header>
-			<h1>Nombre aplicación</h1>
+			<h2>Software de Estimulación Temprana .:Síndrome de Down:.</h2>
+			<h1>Not Down, ¡Yes UP!</h1>
 		</header>
 
 		<section class="consul">
-			<header>
-				<h2>¿Qué deseas consultar?</h2>
-			</header>
+			<h3>¿Qué deseas consultar?</h3>
 
-			<section id="consulGeneral">
-				<form>
-					<fieldset class="consul consulGeneral">
-						<legend>Consultas Generales</legend>
-						<label for="consulG">Tipo de Consulta</label>
-						<select name="consulG" id="consulG">
-							<option value="" disabled selected>Escoge tu Consulta</option>
-							<option value="Listado General">Listado General</option>
-							<option value="Listado por Edades y Etapas">Listado por Edades y Etapas</option>
-							<option value="Listado por Resultados">Listado por Resultados</option>
-						</select>
-					</fieldset>
-				</form>
+			<section class="consulFlex">
+				<section id="consulGeneral">
+					<form>
+						<fieldset class="consul consulGeneral">
+							<legend>Consultas Generales</legend>
+							<label for="consulG">Tipo de Consulta</label>
+							<select name="consulG" id="consulG">
+								<option value="" disabled selected>Escoge tu Consulta</option>
+								<option value="Listado General">Listado General</option>
+								<option value="Listado por Edades y Etapas">Listado por Edades y Etapas</option>
+								<option value="Listado por Resultados">Listado por Resultados</option>
+							</select>
+						</fieldset>
+					</form>
+				</section>
+
+				<section id="consulChildren">
+					<form>
+						<fieldset class="consul consulChildren">
+							<legend>Consultas por Nin@</legend>
+							<input type="number" id="consulIdChildren" name="consulIdChildren" min="1111" placeholder="Número Identificación" required>
+							<button type="submit" class="buttons">
+								<span>Confirmar Consulta</span>
+							</button>
+						</fieldset>
+					</form>
+				</section>
+
+				<section id="consulAvanced">
+					<form>
+						<fieldset class="consul consulAvanced">
+							<legend>Consulta Avanzada</legend>
+							<article>
+								<label for="ageConsul">Edad en Meses</label>
+								<select name="consulAge" id="consulAge">
+									<option value="No Validar" selected>No Validar</option>
+									<option value="Mayor Que">Mayor Que</option>
+									<option value="Menor Que">Menor Que</option>
+									<option value="Entre">Entre</option>
+								</select>
+								<input type="number" id="consulIdConsulAvanced" name="consulIdConsulAvanced" min="0" max="24" placeholder="Meses">
+								<input type="number" id="consulIdConsulAvanced2" name="consulIdConsulAvanced2" min="0" max="24" placeholder="Meses">
+							</article>
+
+							<article>
+								<label for="stepConsul">Etapa</label>
+								<select name="consulStep" id="consulStep">
+									<option value="No Validar" selected>No Validar</option>
+									<option value="Etapa 1">Etapa 1</option>
+									<option value="Etapa 2">Etapa 2</option>
+									<option value="Etapa 3">Etapa 3</option>
+									<option value="Etapa 4">Etapa 4</option>
+								</select>
+							</article>
+
+							<article>
+								<label>Cantidad de Actividades Completadas</label>
+								<input type="number" id="consulActCompleted" name="consulActCompleted" min="0" max="8" placeholder="Act">
+							</article>
+
+							<button type="submit" class="buttons">
+								<span>Consultar</span>
+							</button>
+						</fieldset>
+					</form>
+				</section>
+
+				<section id="buttons">
+					<form>
+						<fieldset class="consul buttons">
+							<legend>Imprimir/Exportar</legend>
+							<button type="">
+								<span>Imprimir</span>
+							</button>
+							<button type="">
+								<span>Exportar PDF</span>
+							</button>
+						</fieldset>
+					</form>
+				</section>
 			</section>
 
-			<section id="consulChildren">
-				<form>
-					<fieldset class="consul consulChildren">
-						<legend>Consultas por Nin@</legend>
-						<input type="number" id="consulIdChildren" name="consulIdChildren" min="1111" placeholder="Número Identificación" required>
-						<button type="submit" class="buttons">
-							<span>Confirmar Consulta</span>
-						</button>
-					</fieldset>
-				</form>
+			<section class="consul consulQuery" id="consulQueryChildren">
+				<h3>Resultado Consulta por Niñ@</h3>
+
+				<section class="cQChildren">
+					<article class="consulName">
+						<p>
+							<span><b>Nombre:</b></span>
+							<span id="consulRName">NombreQuery</span>
+						</p>
+
+						<article class="consulImg">
+						<p>
+							<img id="consulRImg" src="" alt="Foto">
+						</p>
+						</article>
+					</article>
+
+					<article class="consulData">
+						<p>
+							<span><b>Número de Identificación:</b></span>
+							<span id="consulRIdChildren">IdQuery</span>
+						</p>
+						<p>
+							<span><b>Sexo:</b></span>
+							<span id="consulRSex">SexoQuery</span>
+						</p>
+						<p>
+							<span><b>Fecha Nacimiento:</b></span>
+							<span id="consulRBirthdate">FechaNacimientoQuery</span>
+						</p>
+						<p>
+							<span><b>Edad</b></span>
+							<span id="consulRAge">EdadQuery</span>
+						</p>
+						<p>
+							<span><b>Mamá:</b></span>
+							<span id="consulRMom">MamáQuery</span>
+						</p>
+						<p>
+							<span><b>Papá:</b></span>
+							<span id="consulRDad">PapáQuery</span>
+						</p>
+						<p>
+							<span><b>Cuidador:</b></span>
+							<span id="consulRCare">CuidadorQuery</span>
+						</p>
+						<p>
+							<span><b>Dirección:</b></span>
+							<span id="consulRAddress">DirecciónQuery</span>
+						</p>
+						<p>
+							<span><b>Teléfono:</b></span>
+							<spanid="consulRTel">TelQuery</span>
+						</p>
+					</article>
+
+					<article class="consulStatus">
+						<p>
+							<span><b>Fecha de Ingreso:</b></span>
+							<span id="consulRDateIni">FechaIngresoQuery</span>
+						</p>
+						<p>
+							<span><b>Estado Actual:</b></span>
+							<span id="consulRStatus">EstadoQuery</span>
+						</p>
+						<p>
+							<span><b>% Etapa:</b></span>
+							<span id="consulRStep">EtapaQuery</span>
+							<span id="consulRPercentajeStep">PorcentajeQuery</span>
+						</p>
+						<p>
+							<span><b>% General:</b></span>
+							<span id="consulRPercentaje">PorcentajeQuery</span>
+						</p>
+					</article>
+					
+					<article class="consulTable">
+						<p class="consulTableP"><span><b>ETAPA 1</b></span></p>
+						<table id="consulStep1">
+							<thead>
+								<tr>
+									<th>ACTIVIDAD</th>
+									<th>ESTADO</th>
+									<th>%</th>
+									<th>ULT. INGRESO</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+								</tr>
+							</tbody>
+						</table>
+						
+					</article>
+
+					<article class="consulTable">
+						<p class="consulTableP"><span><b>ETAPA 2</b></span></p>
+						<table id="consulStep2">
+							<thead>
+								<tr>
+									<th>ACTIVIDAD</th>
+									<th>ESTADO</th>
+									<th>%</th>
+									<th>ULT. INGRESO</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+
+					<article class="consulTable">
+						<p class="consulTableP"><span><b>ETAPA 3</b></span></p>
+						<table id="consulStep3">
+							<thead>
+								<tr>
+									<th>ACTIVIDAD</th>
+									<th>ESTADO</th>
+									<th>%</th>
+									<th>ULT. INGRESO</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+
+					<article class="consulTable">
+						<p class="consulTableP"><span><b>ETAPA 4</b></span></p>
+						<table id="consulStep4">
+							<thead>
+								<tr>
+									<th>ACTIVIDAD</th>
+									<th>ESTADO</th>
+									<th>%</th>
+									<th>ULT. INGRESO</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+									<td>xxx</td>
+								</tr>
+							</tbody>
+						</table>
+					</article>
+				</section>
 			</section>
 
-			<section id="consulAvanced">
-				<form>
-					<fieldset class="consul consulAvanced">
-						<legend>Consulta Avanzada</legend>
-						<label for="ageConsul">Edad en Meses</label>
-						<select name="consulAge" id="consulAge">
-							<option value="No Validar" selected>No Validar</option>
-							<option value="Mayor Que">Mayor Que</option>
-							<option value="Menor Que">Menor Que</option>
-							<option value="Entre">Entre</option>
-						</select>
-						<input type="number" id="consulIdConsulAvanced" name="consulIdConsulAvanced" min="0" max="24" placeholder="Meses">
-						<input type="number" id="consulIdConsulAvanced2" name="consulIdConsulAvanced2" min="0" max="24" placeholder="Meses">
-						<label for="stepConsul">Etapa</label>
-						<select name="consulStep" id="consulStep">
-							<option value="No Validar" selected>No Validar</option>
-							<option value="Etapa 1">Etapa 1</option>
-							<option value="Etapa 2">Etapa 2</option>
-							<option value="Etapa 3">Etapa 3</option>
-							<option value="Etapa 4">Etapa 4</option>
-						</select>
-						<label>Cantidad de Actividades Completadas</label>
-						<input type="number" id="consulActCompleted" name="consulActCompleted" min="0" max="8" placeholder="Act">
-						<button type="submit" class="buttons">
-							<span>Consultar</span>
-						</button>
-					</fieldset>
-				</form>
+			<section class="consul consulQuery" id="consulQueryGeneralAvanced">
+				<h3>Listado General</h3>
+
+				<p class="consulTableP"><span><b>RESULTADOS</b></span></p>
+				<article class="consulTable">
+					<table id="consulGeneralAvanced">
+						<thead>
+							<tr>
+								<th>NOMBRE</th>
+								<th>EDAD</th>
+								<th>ETAPA</th>
+								<th>%</th>
+								<th>ACT. COMPLETADAS</th>
+								<th>ACT. PENDIENTES</th>
+								<th>ULT. INGRESO</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+							</tr>
+						</tbody>
+					</table>
+				</article>
 			</section>
 
-			<section id="buttons">
-				<form>
-					<fieldset class="consul buttons">
-						<legend>Imprimir/Exportar</legend>
-						<button type="">
-							<span>Imprimir</span>
-						</button>
-						<button type="">
-							<span>Exportar PDF</span>
-						</button>
-					</fieldset>
-				</form>
+			<section class="consul consulQuery" id="consulQueryAgeStep">
+				<h3>Listado por Edades y Etapas</h3>
+				
+				<p class="consulTableP"><span><b>RESULTADOS</b></span></p>
+				<article class="consulTable">
+					<table id="consulAgeStep">
+						<thead>
+							<tr>
+								<th>ETAPA 1</th>
+								<th>ETAPA 2</th>
+								<th>ETAPA 3</th>
+								<th>ETAPA 4</th>
+							</tr>
+							<tr>
+								<th>0 - 6 MESES</th>
+								<th>6 - 12 MESES</th>
+								<th>12 - 18 MESES</th>
+								<th>18 - 24 MESES</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+							</tr>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th id="consulTotalStep1">Total Etapa 1</th>
+								<th id="consulTotalStep2">Total Etapa 2</th>
+								<th id="consulTotalStep3">Total Etapa 3</th>
+								<th id="consulTotalStep4">Total Etapa 4</th>
+							</tr>
+						</tfoot>
+					</table>
+				</article>
 			</section>
 
-			<section class="consul consulQueryChildren" id="consulQueryChildren">
-				<header>
-					<h3>Resultado Consulta por Niñ@</h3>
-				</header>
-
-				<article class="consulName">
-					<p>
-						<span><b>Nombre:</b></span>
-						<span id="consulRName">NombreQuery</span>
-					</p>
+			<section class="consul consulQuery" id="consulQueryResults">
+				<h3>Listado por Resultados</h3>
+				
+				<p class="consulTableP"><span><b>ETAPA 1</b></span></p>
+				<article class="consulTable">
+					<table id="consulResults1">
+						<thead>
+							<tr>
+								<th>NOMBRE</th>
+								<th>EDAD</th>
+								<th>ACT. COMPLETADAS</th>
+								<th>ACT. PENDIENTES</th>
+								<th>%</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+							</tr>
+						</tbody>
+					</table>
 				</article>
 
-				<article class="consulImg">
-				<p>
-					<img id="consulRImg" src="" alt="Foto">
-				</p>
+				<p class="consulTableP"><span><b>ETAPA 2</b></span></p>
+				<article class="consulTable">
+					<table id="consulResults2">
+						<thead>
+							<tr>
+								<th>NOMBRE</th>
+								<th>EDAD</th>
+								<th>ACT. COMPLETADAS</th>
+								<th>ACT. PENDIENTES</th>
+								<th>%</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+							</tr>
+						</tbody>
+					</table>
 				</article>
 
-				<article class="consulData">
-					<p>
-						<span><b>Número de Identificación:</b></span>
-						<span id="consulRIdChildren">IdQuery</span>
-					</p>
-					<p>
-						<span><b>Sexo:</b></span>
-						<span id="consulRSex">SexoQuery</span>
-					</p>
-					<p>
-						<span><b>Fecha Nacimiento:</b></span>
-						<span id="consulRBirthdate">FechaNacimientoQuery</span>
-					</p>
-					<p>
-						<span><b>Edad</b></span>
-						<span id="consulRAge">EdadQuery</span>
-					</p>
-					<p>
-						<span><b>Mamá:</b></span>
-						<span id="consulRMom">MamáQuery</span>
-					</p>
-					<p>
-						<span><b>Papá:</b></span>
-						<span id="consulRDad">PapáQuery</span>
-					</p>
-					<p>
-						<span><b>Cuidador:</b></span>
-						<span id="consulRCare">CuidadorQuery</span>
-					</p>
-					<p>
-						<span><b>Dirección:</b></span>
-						<span id="consulRAddress">DirecciónQuery</span>
-					</p>
-					<p>
-						<span><b>Teléfono:</b></span>
-						<spanid="consulRTel">TelQuery</span>
-					</p>
-				</article>
-
-				<article class="consulStatus">
-					<p>
-						<span><b>Fecha de Ingreso:</b></span>
-						<span id="consulRDateIni">FechaIngresoQuery</span>
-					</p>
-					<p>
-						<span><b>Estado Actual:</b></span>
-						<span id="consulRStatus">EstadoQuery</span>
-					</p>
-					<p>
-						<span><b>% Etapa:</b></span>
-						<span id="consulRStep">EtapaQuery</span>
-						<span id="consulRPercentajeStep">PorcentajeQuery</span>
-					</p>
-					<p>
-						<span><b>% General:</b></span>
-						<span id="consulRPercentaje">PorcentajeQuery</span>
-					</p>
+				<p class="consulTableP"><span><b>ETAPA 3</b></span></p>
+				<article class="consulTable">
+					<table id="consulResults3">
+						<thead>
+							<tr>
+								<th>NOMBRE</th>
+								<th>EDAD</th>
+								<th>ACT. COMPLETADAS</th>
+								<th>ACT. PENDIENTES</th>
+								<th>%</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+								<td>xxx</td>
+							</tr>
+						</tbody>
+					</table>
 				</article>
 				
-				<article class="consulTable1-2">
-					<table id="consulStep1">
+				<p class="consulTableP"><span><b>ETAPA 4</b></span></p>
+				<article class="consulTable">
+					<table id="consulResults4">
 						<thead>
 							<tr>
-								ETAPA 1
-							</tr>
-							<tr>
-								<th>ACTIVIDAD</th>
-								<th>ESTADO</th>
+								<th>NOMBRE</th>
+								<th>EDAD</th>
+								<th>ACT. COMPLETADAS</th>
+								<th>ACT. PENDIENTES</th>
 								<th>%</th>
-								<th>ULT. INGRESO</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-							</tr>
-						</tbody>
-					</table>
-					
-					<table id="consulStep2">
-						<thead>
-							<tr>
-								ETAPA 2
-							</tr>
-							<tr>
-								<th>ACTIVIDAD</th>
-								<th>ESTADO</th>
-								<th>%</th>
-								<th>ULT. INGRESO</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
 								<td>xxx</td>
 								<td>xxx</td>
 								<td>xxx</td>
@@ -208,227 +435,6 @@
 						</tbody>
 					</table>
 				</article>
-
-				<article class="consulTable3-4">
-					<table id="consulStep3">
-						<thead>
-							<tr>
-								ETAPA 3
-							</tr>
-							<tr>
-								<th>ACTIVIDAD</th>
-								<th>ESTADO</th>
-								<th>%</th>
-								<th>ULT. INGRESO</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-							</tr>
-						</tbody>
-					</table>
-
-					<table id="consulStep4">
-						<thead>
-							<tr>
-								ETAPA 4
-							</tr>
-							<tr>
-								<th>ACTIVIDAD</th>
-								<th>ESTADO</th>
-								<th>%</th>
-								<th>ULT. INGRESO</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-								<td>xxx</td>
-							</tr>
-						</tbody>
-					</table>
-				</article>
-			</section>
-
-			<section class="consul consulQueryGeneralAvanced" id="consulQueryGeneralAvanced">
-				<header>
-					<h3>Listado General</h3>
-				</header>
-				<table id="consulGeneralAvanced">
-					<thead>
-						<tr>
-							RESULTADOS
-						</tr>
-						<tr>
-							<th>NOMBRE</th>
-							<th>EDAD</th>
-							<th>ETAPA</th>
-							<th>%</th>
-							<th>ACT. COMPLETADAS</th>
-							<th>ACT. PENDIENTES</th>
-							<th>ULT. INGRESO</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-				</table>
-			</section>
-
-			<section class="consul consulQueryAgeStep" id="consulQueryAgeStep">
-				<header>
-					<h3>Listado por Edades y Etapas</h3>
-				</header>
-				<table id="consulAgeStep">
-					<thead>
-						<tr>
-							RESULTADOS
-						</tr>
-						<tr>
-							<th>ETAPA 1</th>
-							<th>ETAPA 2</th>
-							<th>ETAPA 3</th>
-							<th>ETAPA 4</th>
-						</tr>
-						<tr>
-							<th>0 - 6 MESES</th>
-							<th>6 - 12 MESES</th>
-							<th>12 - 18 MESES</th>
-							<th>18 - 24 MESES</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<th id="consulTotalStep1">Total Etapa 1</th>
-							<th id="consulTotalStep2">Total Etapa 2</th>
-							<th id="consulTotalStep3">Total Etapa 3</th>
-							<th id="consulTotalStep4">Total Etapa 4</th>
-						</tr>
-					</tfoot>
-				</table>
-			</section>
-
-			<section class="consul consulQueryResults" id="consulQueryResults">
-				<header>
-					<h3>Listado por Resultados</h3>
-				</header>
-				<table id="consulResults1">
-					<thead>
-						<tr>
-							ETAPA 1
-						</tr>
-						<tr>
-							<th>NOMBRE</th>
-							<th>EDAD</th>
-							<th>ACT. COMPLETADAS</th>
-							<th>ACT. PENDIENTES</th>
-							<th>%</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table id="consulResults2">
-					<thead>
-						<tr>
-							ETAPA 2
-						</tr>
-						<tr>
-							<th>NOMBRE</th>
-							<th>EDAD</th>
-							<th>ACT. COMPLETADAS</th>
-							<th>ACT. PENDIENTES</th>
-							<th>%</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table id="consulResults3">
-					<thead>
-						<tr>
-							ETAPA 3
-						</tr>
-						<tr>
-							<th>NOMBRE</th>
-							<th>EDAD</th>
-							<th>ACT. COMPLETADAS</th>
-							<th>ACT. PENDIENTES</th>
-							<th>%</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-				</table>
-
-				<table id="consulResults4">
-					<thead>
-						<tr>
-							ETAPA 4
-						</tr>
-						<tr>
-							<th>NOMBRE</th>
-							<th>EDAD</th>
-							<th>ACT. COMPLETADAS</th>
-							<th>ACT. PENDIENTES</th>
-							<th>%</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-							<td>xxx</td>
-						</tr>
-					</tbody>
-				</table>
 			</section>
 		</section>
 	</section>
