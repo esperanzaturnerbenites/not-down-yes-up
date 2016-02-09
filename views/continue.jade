@@ -1,0 +1,84 @@
+extends templates/template.jade
+block title
+  title Continuar Actividad en ¡No Down, Yes Up!
+block content
+  section.continue
+    form
+      fieldset.data.validChildren
+        legend ¿Con cuál niñ@ nos divertiremos hoy?
+        input#validIdChildrenContinue(type='number', name='validIdChildrenContinue', min='1111', placeholder='Número Identificación', required='')
+  section.continue.continueProgress
+    article.continueData
+      section.date
+        h3 Datos Niñ@
+        p
+          span
+            b Nombre:
+          span#continueName Nombre
+        p
+          span
+            b Edad
+          span#continueAge Edad
+      section.img
+        p
+          img#continueImg(src='', alt='Foto')
+      section.more
+        p
+          span
+            a#continueViewMore(href='#') Ver Más
+    article.activities
+      h3 Progreso
+      table#progress
+        thead
+          tr
+            th ACTIVIDADES
+            th ESTADO
+        tbody
+          tr
+            td
+              a#continueAct3(href='#') TrasAntepenúltima Actividad
+            td Estado
+          tr
+            td
+              a#continueAct2(href='#') Antepenúltima Actividad
+            td Estado
+          tr
+            td
+              a#continueAct1(href='#') Última Actividad
+            td Estado
+      section.more
+        p
+          a#continueActAll(href='#') Ver Todo
+    article.continueLogros
+      h3 Últimos Logros Alcanzados
+      table#continueLogros
+        tbody
+          tr
+            th Etapa
+            td#continueNumStep Número Etapa
+          tr
+            th Actividades Completadas
+            td#continueNumComp Número de Actividades
+            td
+              a#continueLinkAllAtcComp(href='#') Ver
+          tr
+            th Actividades Pendientes
+            td#continueNumPend Número de Actividades
+            td
+              a#continueLinkAllActPend(href='#') Ver
+    article.contActivities
+      h3 Continuar Actividades
+      section.continueAct
+        p
+          span
+            b
+              a#continueContUltAct(href='#')
+                img(src='img/check.png', alt='.::')
+                | Continuar con la Última Actividad Pendiente
+      section.continueNewAct
+        p
+          span
+            b
+              a#continueNewAct(href='#')
+                img(src='img/check.png', alt='.::')
+                | Iniciar Una Nueva Actividad

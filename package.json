@@ -17,5 +17,13 @@
     "Online"
   ],
   "author": "Esperanza Turner",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.4",
+    "jade": "^1.11.0"
+  },
+  "devDependencies": {
+    "body-parser": "^1.14.2",
+    "supervisor": "^0.9.1"
+  }
 }
