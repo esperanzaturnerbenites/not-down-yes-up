@@ -1,6 +1,6 @@
 extends templates/template.jade
 block title
-  title Nuevo Niñ@ en ¡No Down, Yes Up!
+  title Nuevo Niñ@ en ¡Not Down, Yes Up!
 block exit
   h2.exit
     a(href='/admin/menu-admin') VOLVER
@@ -26,7 +26,7 @@ block content
               label(for='birthdateChildren', reqiured='') Fecha de Nacimiento
               input(type='date', required='')
               // <input-datetime></input-datetime>
-              input#originChildren(type='text', name='originChildren', placeholder='Lugar de Nacimiento', required='')
+              input#birthplaceChildren(type='text', name='birthplaceChildren', placeholder='Lugar de Nacimiento', required='')
               input#edadChildren(type='number', name='edadChildren', min='0', max='48', placeholder='Edad en meses', required='')
               article
                 label(for='genderChildren') Sexo

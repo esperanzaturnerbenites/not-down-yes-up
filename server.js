@@ -4,6 +4,8 @@ const express = require('express'),
 http = require('http'),
 //Crear aplicacion express
 app = express(),
+//Requerir mongous
+mongoose = require('mongoose'),
 //Crear un servidor http basado en la app de Express
 server = http.createServer(app),
 //modulo para parse peticiones
@@ -15,6 +17,9 @@ jade = require('jade'),
 userURLUsers = require('./endPoints/users'),
 userURLEstimulation = require('./endPoints/estimulation'),
 userURLAdmin = require('./endPoints/admin')
+
+/*conectarse a una db. si no se especifica el puerto ,el se conecta al default*/
+mongoose.connect('mongodb://localhost/centerestimulation')
 
 app.use("/users",userURLUsers)
 app.use("/estimulation",userURLEstimulation)
@@ -35,32 +40,11 @@ app.use(bodyParser.json())
 //Definir motor de vistas
 app.set('view engine', 'jade')
 
-function addChildren(req,res){
-	console.log(req.body)
-
-	if (true){
-		//res.redirect('/foo/bar');
-		res.json({ message: 'Exito al agregar el niñ@' });
-	}else{
-		res.json({ message: 'Error al agregar el niñ@' });
-	}
-}
 
 //Definición de rutas (URL)
 app.get("/",(req,res)=>{
 	res.render("index")
 })
-
-
-
-app.post("/children/add",addChildren)
-
-
-
-
-
-
-
 
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku

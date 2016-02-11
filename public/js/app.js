@@ -21,11 +21,13 @@ formAuthenticateUser.on("submit", (event) => {
 formAddChildren.on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
-		url: "/children/add",
+		url: "/admin/register-children",
 		async : false, 
-		data : formAddChildren.serialize(),
+		data : {children : $(".children").serialize(),
+			mom : $(".mom").serialize(),
+			dad : $(".dad").serialize(),
+			care : $(".care").serialize()},
 		type : "POST",
-		contentType: 'multipart/form-data',
 		success: function(result){
         console.log(result);
 	    }

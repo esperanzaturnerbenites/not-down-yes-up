@@ -1,18 +1,19 @@
-var express = require("express"),
+const express = require("express"),
+models = require('./../models'),
 router = express.Router(),
 bodyParser = require('body-parser')
+
 
 router.use(bodyParser.urlencoded())
 
 function authenticate(req,res){
-	console.log(req.body)
-
-	if (true){
-		//res.redirect('/foo/bar');
-		res.json({ message: 'Exito' });
-	}else{
-		res.json({ message: 'Error' });
-	}
+	var data = req.body
+	models.user.findOne({ userName: data.loginUser }, (err,user) => {
+		console.log(user)
+		if (err) return res.send(errs)
+		if (user) return res.json({ message: 'Exito' , user : user})
+		return res.json({ message: 'User Not Found' })
+	})
 }
 
 router.get("/login",(req,res)=>{

@@ -240,7 +240,7 @@ button:hover{
  .logoCorp{
   display:flex;
   justify-content:space-between;
-  align-items:flex-start;
+  align-items:flex-end;
  }
 
 .logoCorp img{
@@ -248,7 +248,7 @@ button:hover{
 }
 
 .logoCorp a{
-  width:10%; 
+  width:18%; 
 }
 
 .logoCorpAct{
