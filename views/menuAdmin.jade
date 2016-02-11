@@ -1,18 +1,23 @@
 extends templates/template.jade
 block title
   title Menú Principal .:¡No Down, Yes Up!:.
+block exit
+  h2.exit
+    a(href='/users/login') SALIR
 block content
   nav.menuPrincipal
     ul
       li
-        a(href='#') CENTRO DE ESTIMULACIÓN
+        a(href='/admin/register-children') NIÑ@ NUEV@
       li
-        a(href='#') NIÑ@ NUEV@
+        a(href='/admin/register-user') DOCENTE NUEV@
       li
-        a(href='#') CONSULTAS
+        a(href='/admin/admin-users') ADMIN USUARIOS
+      li
+        a(href='/admin/reports') REPORTES
   article.infoImp
     header
-      h2 BIENVENID@
+      h2 BIENVENID@ ADMIN
     p
       | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
   section.backgroundFooter

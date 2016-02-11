@@ -4,6 +4,7 @@
 
 html{
   height:100%;
+  -webkit-user-select:none;
 }
 
 body{
@@ -14,26 +15,29 @@ body{
 
 header{
   background-color:#CCDD91;
-  padding:20px;
+  padding:10px;
 }
 
 h1{
+  margin:10px 0;
+}
+
+h1 a{
   margin:0;
-  padding:20px;
-  padding-top:30px;
+  padding:30px 20px 0 0;
   font-size:2rem;
   text-align:justify;
   color:#758540;
-  -webkit-user-select:none;
+  
 }
 
 h2{
-  margin:0;
+  margin:0 10px 0 0;
   font-size:1rem;
   text-align:right;
   color:#F2FBD1;
   font-style:italic;
-  -webkit-user-select:none;
+  
 }
 
 h3{
@@ -42,15 +46,20 @@ h3{
   font-size:1.5rem;
   text-align:center;
   color:#191E09;
-  -webkit-user-select:none;
+  
 }
 
 
 
 button{
-  padding:5px;
-  border-bottom-right-radius:15px;
-  border-top-left-radius:15px;
+  border-bottom-right-radius:10px;
+  border-top-left-radius:10px;
+  padding:0.5%;
+  background-color:#76A339;
+  text-align:center;
+  color:#142101;
+  -webkit-box-shadow: inset 0 0 10px #305300;
+  box-shadow:inset 0 0 10px #305300;
 }
 
 ul{
@@ -119,7 +128,7 @@ legend{
   border-radius:5px;
   background-color:#e6f1bf;
   padding:10px;
-  -webkit-user-select:none;
+  
 }
 
 select{
@@ -135,10 +144,39 @@ option{
   color:#606d38;
 }
 
+button:hover{
+  background-color:#5D9A0A;
+}
+
+.exit{
+  width:10%;
+  max-width:10%;
+  border-radius:10px;
+  background-color:#e6f1bf;
+  font-size:1.2rem;
+  text-align:center;
+  margin:0 85%;
+}
+
+.exit a{
+  display:block;
+  padding:5%;
+  color:#758500;
+  text-decoration:none;
+}
+
+.exit a:visited{
+  color:#758500;
+}
+
+.exit:hover{
+  background-color:#AAD471;
+}
+
 .backgroundFooter{
   height:59%;
   width:26%;
-  background-image:url("img/bebeyDown.png");
+  background-image:url("/img/bebeyDown.png");
   background-position:0 0;
   position:fixed;
   bottom:0;
@@ -171,6 +209,62 @@ option{
 
  }
 
+ .cancel{
+  padding:0.5%;
+  background-color:#76A339;
+  width:10%;
+  text-align:center;
+  color:#142101;
+  border-top-left-radius:10px;
+  border-bottom-right-radius:10px;
+  -webkit-box-shadow: inset 0 0 10px #305300;
+  box-shadow:inset 0 0 10px #305300;
+ }
+
+ .cancel a{
+  text-decoration:none;
+ }
+
+ .cancel a:visited{
+  color:black;
+ }
+
+ .cancel:hover{
+  background-color:#5D9A0A;
+ }
+
+ .backgroundF{
+  background-image:url("/img/fondoEst.png");
+ }
+
+ .logoCorp{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+ }
+
+.logoCorp img{
+  width:100%;
+}
+
+.logoCorp a{
+  width:10%; 
+}
+
+.logoCorpAct{
+  display:flex;
+  justify-content:center;
+}
+
+.logoCorpAct img{
+  width:100%;
+}
+
+.logoCorpAct a{
+  margin-top:10px;
+  width:15%;
+}
+
 .login{
   display:flex;
   flex-direction:column;
@@ -202,6 +296,11 @@ option{
   font-size:1.5rem;
 }
 
+.menuPrincipal{
+  margin:0 auto;
+  width:90%;
+}
+
 .menuPrincipal ul{
   display:flex;
   justify-content:space-around;
@@ -210,16 +309,17 @@ option{
 }
 
 .menuPrincipal li{
-  display:inline-block;
+  list-style:none;
   border:1px solid #ccdd91;
-  padding:15px;
-  width:25%;
+  width:22%;
   text-align:center;
   border-radius:8px;
   background-color:#acc652;
 }
 
 .menuPrincipal a{
+  display:block;
+  padding:15px;
   text-decoration:none;
   color:#4f6407;
 }
@@ -254,13 +354,14 @@ option{
   margin:10px auto;
   border:1px solid green;
   border-radius:7px;
-  width:95%;
+  width:80%;
 }
 
 .data{
   display:flex;
   justify-content:space-around;
   align-items:flex-start;
+  flex-wrap:wrap;
 }
 
 
@@ -351,13 +452,12 @@ option{
   flex-direction:row;
   justify-content:space-around;
   width:95%;
-  height:90%;
   padding:10px;
 }
 
 .continue article{
-  max-width:500px;
-  width:500px;
+  max-width:40%;
+  width:40%;
   border:1px solid green;
   border-radius:8px;
   padding:5px;
@@ -365,7 +465,11 @@ option{
 }
 
 .continue form{
-  width:95%;
+  width:inherit;
+}
+
+.continue fieldset{
+  width:inherit;
 }
 
 .continue a{
@@ -470,6 +574,69 @@ option{
   margin:10px auto;
 }
 
+.actContent{
+  display:flex;
+  justify-content:space-around;
+  width:90%;
+  margin:10px auto;
+}
+
+.actContent article{
+  padding-right:5px;
+  padding-left:5px;
+  max-width:30%;
+  width:30%;
+  border:1px #9F3C8C solid;
+  border-radius:8px;
+  margin:20px auto;
+  text-align:center;
+}
+
+.actContent img{
+  width:50%;
+  max-width:50%;
+}
+
+.actContent p{
+  padding-top:5px;
+  padding-bottom:5px;
+  border-radius:8px;
+  background-color:#ECBBE3;
+  font-size:1.3rem;
+}
+
+.actDesc{
+  background-color:#FCDFF7;
+  border:1px #9F3C8C solid;
+  border-radius:20px;
+  padding:10px;
+  width:90%;
+  margin:20px auto;
+  text-align:justify;
+  font-size:1rem;
+}
+
+.actDesc p{
+  margin:0;
+  
+}
+
+.stepDesc{
+  background-color:#FFD2A7;
+  border:1px #FF7600 solid;
+  border-radius:20px;
+  padding:10px;
+  width:90%;
+  margin:0 auto;
+  text-align:justify;
+  font-size:1rem;
+}
+
+.stepDesc p{
+  margin:0;
+  
+}
+
 .stepAct{
   display:flex;
   flex-flow:wrap;
@@ -480,8 +647,8 @@ option{
 }
 
 .stepAct article{
-  max-width:40%;
-  width:40%;
+  max-width:35%;
+  width:35%;
   border-radius:8px;
   padding:5px;
   margin:20px auto;
@@ -489,12 +656,17 @@ option{
 }
 
 .stepAct img{
+  display:block;
+  padding:15px;
   border-radius:20px;
-  max-width:40%;
-  width:40%;
+  max-width:35%;
+  width:35%;
+  margin:0 auto;
 }
 
 .step1{
+  -webkit-box-shadow: inset 0 0 10px orange;
+  box-shadow:inset 0 0 10px orange;
   background-color:#FFD2A7;
 }
 
@@ -503,6 +675,8 @@ option{
 }
 
 .step2{
+  -webkit-box-shadow: inset 0 0 10px blue;
+  box-shadow:inset 0 0 10px blue;
   background-color:#BADCEC;
 }
 
@@ -511,6 +685,8 @@ option{
 }
 
 .step3{
+  -webkit-box-shadow: inset 0 0 10px green;
+  box-shadow:inset 0 0 10px green;
   background-color:#CCF5C6;
 }
 
@@ -519,6 +695,8 @@ option{
 }
 
 .step4{
+  -webkit-box-shadow: inset 0 0 10px purple;
+  box-shadow:inset 0 0 10px purple;
   background-color:#E2BDE6;
 }
 
@@ -534,47 +712,70 @@ option{
 }
 
 .centerEstimulation p{
-  -webkit-user-select:none;
+  margin:0;
   color:#246700;
+}
+
+.activity{
+  border-radius:20px;
+  width:80%;
+  margin:20px auto;
+  background-color:#DEABD4;
+  text-align:center;
+  font-size:2rem;
+}
+
+.activity p{
+  margin:0;
+  
+  color:#560747;
+}
+
+.activity a{
+  margin:10px;
+  background-color:#F1D6EC;
+  color:#8C357B;
+  text-decoration:none;
+  font-size:1.3rem;
+  padding:8px;
+  border-radius:8px;
+}
+
+.activity a:hover{
+  background-color:#C88BBC;
 }
 
 .step{
   border-radius:20px;
   width:80%;
-  margin:10px auto;
+  margin:20px auto;
   background-color:#FFB65A;
   text-align:center;
   font-size:2rem;
 }
 
 .step p{
-  -webkit-user-select:none;
+  margin:0;
+  
   color:#5F3200;
-  padding:10px;
+}
+
+.step a{
+  margin:10px;
+  background-color:#FFC38E;
+  color:#D36300;
+  text-decoration:none;
+  font-size:1.3rem;
+  padding:8px;
+  border-radius:8px;
+}
+
+.step a:hover{
+  background-color:#FFDCBC;
 }
 
 .act{
-  width:95%;
-}
-
-.act1 p{
-  padding:10px;
-  border-radius:20px;
-  margin:0 auto;
-  width:75%;
-  background-color:#FFD2A7;
-  color:#FB1200;
-  font-size:1.5rem;
-}
-
-.act2 p{
-  padding:10px;
-  border-radius:20px;
-  margin:0 auto;
-  width:75%;
-  background-color:#BADCEC;
-  color:blue;
-  font-size:1.5rem;
+  width:80%;
 }
 
 .act img{
@@ -583,8 +784,40 @@ option{
   width:70%;
 }
 
-.act1 img{
+.act article{
+  padding:0;
+  margin:0;
+}
+
+.act1 p{
+  padding:5px;
+  border-radius:20px;
+  margin:5px auto;
+  width:75%;
   background-color:#FFD2A7;
+  color:#FB1200;
+  font-size:1.5rem;
+  -webkit-box-shadow: inset 0 0 10px orange;
+  box-shadow:inset 0 0 10px orange;
+}
+
+.act2 p{
+  padding:5px;
+  border-radius:20px;
+  margin:5px auto;
+  width:75%;
+  background-color:#BADCEC;
+  color:blue;
+  font-size:1.5rem;
+  -webkit-box-shadow: inset 0 0 10px blue;
+  box-shadow:inset 0 0 10px blue;
+}
+
+.act1 img{
+  padding:0;
+  background-color:#FFD2A7;
+  -webkit-box-shadow: inset 0 0 10px orange;
+  box-shadow:inset 0 0 10px orange;
 }
 
 .act1 img:hover{
@@ -592,7 +825,10 @@ option{
 }
 
 .act2 img{
+  padding:0;  
   background-color:#BADCEC;
+  -webkit-box-shadow: inset 0 0 10px blue;
+  box-shadow:inset 0 0 10px blue;
 }
 
 .act2 img:hover{

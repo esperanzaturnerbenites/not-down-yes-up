@@ -1,6 +1,9 @@
 extends templates/template.jade
 block title
   title Continuar Actividad en ¡No Down, Yes Up!
+block exit
+  h2.exit
+    a(href='/estimulation/menu-teacher') VOLVER
 block content
   section.continue
     form
@@ -25,7 +28,7 @@ block content
       section.more
         p
           span
-            a#continueViewMore(href='#') Ver Más
+            a#continueViewMore(href='/estimulation/continue/continue-detail') Ver Más
     article.activities
       h3 Progreso
       table#progress
@@ -36,19 +39,19 @@ block content
         tbody
           tr
             td
-              a#continueAct3(href='#') TrasAntepenúltima Actividad
+              a#continueAct3(href='/estimulation/continue/continue-detail') TrasAntepenúltima Actividad
             td Estado
           tr
             td
-              a#continueAct2(href='#') Antepenúltima Actividad
+              a#continueAct2(href='/estimulation/continue/continue-detail') Antepenúltima Actividad
             td Estado
           tr
             td
-              a#continueAct1(href='#') Última Actividad
+              a#continueAct1(href='/estimulation/continue/continue-detail') Última Actividad
             td Estado
       section.more
         p
-          a#continueActAll(href='#') Ver Todo
+          a#continueActAll(href='/estimulation/continue/continue-detail') Ver Todo
     article.continueLogros
       h3 Últimos Logros Alcanzados
       table#continueLogros
@@ -60,12 +63,12 @@ block content
             th Actividades Completadas
             td#continueNumComp Número de Actividades
             td
-              a#continueLinkAllAtcComp(href='#') Ver
+              a#continueLinkAllAtcComp(href='/estimulation/continue/continue-detail') Ver
           tr
             th Actividades Pendientes
             td#continueNumPend Número de Actividades
             td
-              a#continueLinkAllActPend(href='#') Ver
+              a#continueLinkAllActPend(href='/estimulation/continue/continue-detail') Ver
     article.contActivities
       h3 Continuar Actividades
       section.continueAct
@@ -73,12 +76,12 @@ block content
           span
             b
               a#continueContUltAct(href='#')
-                img(src='img/check.png', alt='.::')
+                img(src='/img/check.png', alt='.::')
                 | Continuar con la Última Actividad Pendiente
       section.continueNewAct
         p
           span
             b
-              a#continueNewAct(href='#')
-                img(src='img/check.png', alt='.::')
+              a#continueNewAct(href='/estimulation/steps')
+                img(src='/img/check.png', alt='.::')
                 | Iniciar Una Nueva Actividad

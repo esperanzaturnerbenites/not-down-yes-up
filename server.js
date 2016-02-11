@@ -10,8 +10,15 @@ server = http.createServer(app),
 bodyParser = require('body-parser'),
 //Definir el modulo jade
 jade = require('jade'),
-userURL = require('./endPoints/users')
-app.use("/users",userURL)
+
+//Definicion de Rutas
+userURLUsers = require('./endPoints/users'),
+userURLEstimulation = require('./endPoints/estimulation'),
+userURLAdmin = require('./endPoints/admin')
+
+app.use("/users",userURLUsers)
+app.use("/estimulation",userURLEstimulation)
+app.use("/admin",userURLAdmin)
 
 //definir carpeta para vistas
 app.set('views', __dirname + '/views')

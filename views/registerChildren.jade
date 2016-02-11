@@ -1,6 +1,9 @@
 extends templates/template.jade
 block title
-  title Regístrate en ¡No Down, Yes Up!
+  title Nuevo Niñ@ en ¡No Down, Yes Up!
+block exit
+  h2.exit
+    a(href='/admin/menu-admin') VOLVER
 block content
   section.register
     h3 Niñ@s Nuev@s
@@ -175,7 +178,9 @@ block content
           legend Confirmar Registro
           section
             button(type='submit')
-              span Finalizar Registro
+              span Registrar
             button(type='reset')
-              span Cancelar
+              span Limpiar
+            p.cancel
+              a(href='/admin/menu-admin') Cancelar
   script(src="/js/app.js")

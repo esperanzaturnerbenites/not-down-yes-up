@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Regístrate en Undefine</title>
+	<link rel="stylesheet" href="normalize.css">
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<section class="container">
+		<header>
+			<h2>Software de Estimulación Temprana .:Síndrome de Down:.</h2>
+			<h1>Not Down, ¡Yes UP!</h1>
+		</header>
+		
+		<section class="register">
+			<h3>Administración de Usuarios</h3>
+			<article>
+				<form id="formUpdatePass">
+					<fieldset>
+						<legend>Actualizar Contraseña</legend>
+						<section class="data">
+							<input type="text" id="adminIdUser" name="adminIdUser" min="1111" placeholder="Usuario" required>
+							<input type="password" id="adminPassUser" name="adminPassUser" placeholder="Contraseña" required>
+							<input type="password" id="adminPassConfirmUser" name="adminPassConfirmUser" placeholder="Repite Contraseña" required>
+							<button type="submit">
+								<span>Actualizar</span>
+							</button>
+						</section>
+					</fieldset>
+				</form>
+
+				<form id="formOpeUsers">
+					<fieldset>
+						<legend>Usuarios</legend>
+						<section class="data">
+							<input type="text" id="adminOpeIdUser" name="adminOpeIdUser" placeholder="Usuario" required>
+							<a href="#">Actualizar Info</a>
+							<button>
+								<span>Eliminar</span>
+							</button>
+						</section>
+					</fieldset>
+				</form>
+
+				<form id="formOpeTeachAdmin">
+					<fieldset>
+						<legend>Docente/Administrador(s)</legend>
+						<section class="data">
+							<input type="number" id="adminOpeTeachAdmin" name="adminOpeTeachAdmin" min="1111" placeholder="Cédula Usuario" required>
+							<a href="#">Actualizar Info</a>
+							<button>
+								<span>Eliminar</span>
+							</button>
+						</section>
+					</fieldset>
+				</form>
+
+				<form id="formOpeChildren">
+					<fieldset>
+						<legend>Niñ@s</legend>
+						<section class="data">
+							<input type="number" id="adminOpeChildren" name="adminOpeChildren" min="1111" placeholder="Identificación Niñ@" required>
+							<a href="#">Actualizar Info</a>
+							<button>
+								<span>Eliminar</span>
+							</button>
+						</section>
+					</fieldset>
+				</form>
+		</section>
+	</section>
+</body>
+</html>

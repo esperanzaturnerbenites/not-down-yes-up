@@ -3,9 +3,6 @@ router = express.Router(),
 bodyParser = require('body-parser')
 
 router.use(bodyParser.urlencoded())
- 
-// parse application/json 
-router.use(bodyParser.json())
 
 function authenticate(req,res){
 	console.log(req.body)
@@ -20,10 +17,6 @@ function authenticate(req,res){
 
 router.get("/login",(req,res)=>{
 	res.render("login")
-})
-
-router.get("/register",(req,res)=>{
-	res.render("register")
 })
 
 router.post("/authenticate",authenticate)

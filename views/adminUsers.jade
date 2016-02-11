@@ -1,0 +1,47 @@
+extends templates/template.jade
+block title
+  title Administración de Usuarios en ¡No Down, Yes Up!
+block exit
+  h2.exit
+    a(href='/admin/menu-admin') VOLVER
+block content
+  section.register
+    h3 Administración de Usuarios
+    article.data
+      form#formUpdatePass
+        fieldset
+          legend Actualizar Contraseña
+          section
+            input#adminIdUser(type='text', name='adminIdUser', min='1111', placeholder='Usuario', required='')
+            article
+              input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
+              input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
+              button(type='submit')
+                span Actualizar
+      form#formOpeUsers
+        fieldset
+          legend Usuarios
+          section
+            input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
+            button
+              span Actualizar Info
+            button
+              span Eliminar
+      form#formOpeTeachAdmin
+        fieldset
+          legend Docente/Administrador(s)
+          section
+            input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
+            button
+              span Actualizar Info
+            button
+              span Eliminar
+      form#formOpeChildren
+        fieldset
+          legend Niñ@s
+          section
+            input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
+            button
+              span Actualizar Info
+            button
+              span Eliminar

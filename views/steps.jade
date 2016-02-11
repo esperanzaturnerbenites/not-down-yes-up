@@ -3,23 +3,29 @@ html(lang='es')
   head
     meta(charset='UTF-8')
     title Centro de Estimulación .:Undefine:.
-    link(rel='stylesheet', href='normalize.css')
-    link(rel='stylesheet', href='style.css')
-  body
+    link(rel='stylesheet', href='/css/normalize.css')
+    link(rel='stylesheet', href='/css/style.css')
+  body.backgroundF
     section.container
       section.centerEstimulation
         p
           span Centro de Estimulación
-      section.stepAct
-        article.step1
-          a(href='#')
-            img(src='img/1.png', alt='')
-        article.step2
-          a(href='#')
-            img(src='img/2.png', alt='')
-        article.step3
-          a(href='#')
-            img(src='img/3.png', alt='')
-        article.step4
-          a(href='#')
-            img(src='img/4.png', alt='')
+        h2.exit
+          a(href='/estimulation/menu-teacher') TERMINAR
+      section
+        section.logoCorpAct
+          a(href="www.corporacionsindromededown.org")
+            img(src="/img/LogoCorpSD.png", alt="")
+        section.stepAct
+          article.step1
+            a(href='/estimulation/steps/step1')
+              img(src='/img/1.png')
+          article.step2
+            a(href='/estimulation/steps/step2')
+              img(src='/img/2.png')
+          article.step3
+            a(href='/estimulation/steps/step3')
+              img(src='/img/3.png')
+          article.step4
+            a(href='/estimulation/steps/step4')
+              img(src='/img/4.png')
