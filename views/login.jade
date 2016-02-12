@@ -5,9 +5,9 @@ block content
   section.login
     h3 INGRESA
     article
-      form#formAuthenticateUser
-        input#loginUser(type='text', name='loginUser', placeholder='Usuario', required='')
-        input#loginPassword(type='password', name='loginPassword', placeholder='Contraseña', required='')
+      form#formAuthenticateUser(action="/authenticate" method="POST")
+        input#loginUser(type='text', name='username', placeholder='Usuario', required='')
+        input#loginPassword(type='password', name='password', placeholder='Contraseña', required='')
         button(type='submit')
           span Ingresar
   section.backgroundFooter

@@ -12,15 +12,17 @@ block content
         fieldset.data.validChildren
           legend Digita la cédula
           input#validIdUser(type='number', name='validIdUser', min='1111', placeholder='Cédula', required='')
-        fieldset
+        fieldset.userAdd
           legend Nuevo Usuario
           section.data
             fieldset
               legend Personal
-              input#nameUser(type='text', name='nameUser', placeholder='Nombres', required='')
-              input#lastnameUser(type='text', name='lastnameUser', placeholder='Apellidos', required='')
-              input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula', required='')
-              input#expeditionUser(type='text', name='idExpeditionUser', placeholder='Lugar de Expedición', required)
+              article
+                input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula', required='')
+                input#expeditionUser(type='text', name='idExpeditionUser', placeholder='Lugar de Expedición', required)
+              article
+                input#nameUser(type='text', name='nameUser', placeholder='Nombres', required='')
+                input#lastnameUser(type='text', name='lastnameUser', placeholder='Apellidos', required='')
               article
                 label(for='ageUser') Edad: 
                 input#ageUser(type='number', name='ageUser', min='18', max='99', placeholder='Edad' required)
@@ -29,13 +31,15 @@ block content
                 input#imgUser(type='file', name='imgUser', accept='image/*')
             fieldset
               legend Contacto
-              input#telUser(type='number', name='telUser', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-              input#celUser(type='number', name='celUser', min='1111111111', max='9999999999', placeholder='Celular', required='')
-              input#emailUser(type='email', name='emailUser', placeholder='correo-usuario@abc.com', required)
-              input#addressUser(type='text', name='addressUser', placeholder='Dirección', required='')
-              input#localityUser(type='text', name='localityUser', placeholder='Barrio', required='')
-              input#municipalityUser(type='text', name='municipalityUser', placeholder='Ciudad/Municipio', required='')
-              input#departamentUser(type='text', name='departamentUser', placeholder='Departamento', required='')
+              article
+                input#telUser(type='number', name='telUser', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+                input#celUser(type='number', name='celUser', min='1111111111', max='9999999999', placeholder='Celular', required='')
+                input#emailUser(type='email', name='emailUser', placeholder='correo-usuario@abc.com', required)
+              article
+                input#addressUser(type='text', name='addressUser', placeholder='Dirección', required='')
+                input#localityUser(type='text', name='localityUser', placeholder='Barrio', required='')
+                input#municipalityUser(type='text', name='municipalityUser', placeholder='Ciudad/Municipio', required='')
+                input#departamentUser(type='text', name='departamentUser', placeholder='Departamento', required='')
             fieldset
               legend Profesión
               article
@@ -51,12 +55,12 @@ block content
                   option(value='Maestría') Maestría
                   option(value='Doctorado') Doctorado
               input#professionUser(type='text', name='professionUser', placeholder='Título adquirido', required)
+              label(for='experienceUser') Experiencia en meses: 
+              input#experienceUser(type='number', name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
               article
-                label(for='experienceUser') Experiencia en meses: 
-                input#experienceUser(type='number', name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
               input#centerUser(type='text', name='centerUser', placeholder='Centro Zonal', required)
         
-        fieldset.data.user
+        fieldset.userAdmin.data.user
           legend Confirmar Registro
           section
             article

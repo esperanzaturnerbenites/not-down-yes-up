@@ -1,21 +1,8 @@
 //Definir constante que captura un elemento html
 const formAddChildren = $("#formAddChildren"),
-formAuthenticateUser = $("#formAuthenticateUser")
-
-	
-
-formAuthenticateUser.on("submit", (event) => {
-	event.preventDefault()
-	$.ajax({
-		url: "/users/authenticate",
-		async : false, 
-		data : formAuthenticateUser.serialize(),
-		type : "POST",
-		success: function(result){
-        console.log(result);
-	    }
-	});
-})
+formAddUser = $("#formAddUser"),
+formUpdatePass = $("#formUpdatePass")
+formOpeChildren = $("#formOpeChildren")
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
 formAddChildren.on("submit",(event) => {
@@ -23,7 +10,7 @@ formAddChildren.on("submit",(event) => {
 	$.ajax({
 		url: "/admin/register-children",
 		async : false, 
-		data : {children : $(".children").serialize(),
+		data : {children : $(".children").serialize(), //Como concatenar otros datos Status, DateStart, Date End
 			mom : $(".mom").serialize(),
 			dad : $(".dad").serialize(),
 			care : $(".care").serialize()},
@@ -34,3 +21,43 @@ formAddChildren.on("submit",(event) => {
 	});
 })
 
+//Asigna un escuchador de evento --- Cuando suceda el evento
+formAddUser.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/register-user",
+		async : false, 
+		data : {userAdd : $(".userAdd").serialize(),
+			userAdmin : $(".userAdmin").serialize()},
+		type : "POST",
+		success: function(result){
+        console.log(result);
+	    }
+	});
+})
+
+formUpdatePass.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/admin-users",
+		async : false, 
+		data : $("#formUpdatePass").serialize(),
+		type : "POST",
+		success: function(result){
+        console.log(result);
+	    }
+	});
+})
+
+formOpeChildren.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/delete-users",
+		async : false, 
+		data : $("#formOpeChildren").serialize(),
+		type : "POST",
+		success: function(result){
+        console.log(result);
+	    }
+	});
+})

@@ -11,13 +11,13 @@ block content
       form#formUpdatePass
         fieldset
           legend Actualizar Contraseña
-          section
+          article
             input#adminIdUser(type='text', name='adminIdUser', min='1111', placeholder='Usuario', required='')
-            article
-              input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
-              input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
-              button(type='submit')
-                span Actualizar
+          article
+            input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
+            input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
+            button(type='submit')
+              span Actualizar
       form#formOpeUsers
         fieldset
           legend Usuarios
@@ -45,3 +45,4 @@ block content
               span Actualizar Info
             button
               span Eliminar
+  script(src="/js/app.js")
