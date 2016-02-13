@@ -12,6 +12,7 @@ models = require('./models'),
 server = http.createServer(app),
 //modulo para parse peticiones
 bodyParser = require('body-parser'),
+//Requrir modulos para manejo de sesiones
 cookieParser = require('cookie-parser'),
 expressSession = require('express-session'),
 passport = require('passport'),
@@ -24,44 +25,55 @@ userURLUsers = require('./endPoints/users'),
 userURLEstimulation = require('./endPoints/estimulation'),
 userURLAdmin = require('./endPoints/admin')
 
+// *****************************************************************************
 app.use(cookieParser())
 app.use(expressSession({
-  secret: 'my secretz are mine',
+  secret: 'SinLimites28*',
   resave: false,
   saveUninitialized: false
 }))
+// **************************************************************************+
 app.use(passport.initialize())
 app.use(passport.session())
 
+//Definicion de estrategia de logueo
 passport.use(new LocalStrategy( (username, password, done) => {
-	models.adminUser.findOne({ userUser: username }, (err,user) => {
-		if (err) return done(null, false, { message: err	})
-		if (!user) return done(null, false, { message: 'Unknown user'	})
+	models.adminuser.findOne({ userUser: username }, (err,user) => {
+		if (err) return done(null, false, { message: err})
+		if (!user){
+			done(null, false, { message: 'Unknown user'})	
+		}else if (password === user.passUser) {
+				if (username === user.userUser && password === user.passUser) {
+		    	
+		    		return done(null,user)
+		 		}
+			} else done(null, false, { message: 'Unknown password'})	
+		})
+}))
 
-		if (username === user.userUser && password === user.passUser) {
-    		console.log(user)
-    		return done(null,user)
- 		}
-
-  		//done(null, false, { message: 'Unknown user'	})
-
- 		})
-	})
-)
-
+//Deslogueo
 app.get('/logout', (req, res) => {
   req.logout()
   res.redirect('/users/login')
 })
+passport.serializeUser(function(user, done) {
+    done(null, user); 
+   // where is this user.id going? Are we supposed to access this anywhere?
+});
 
-passport.serializeUser((user, done) => done(null, user))
-passport.deserializeUser((user, done) => done(null, user))
+// used to deserialize the user
+passport.deserializeUser(function(user, done) {
+	models.adminuser.findOne({_id:user._id},(err,user) => {
+        done(err, user)	
+	})
+})
+
 /*conectarse a una db. si no se especifica el puerto ,el se conecta al default*/
 mongoose.connect('mongodb://localhost/centerestimulation')
 
 app.use("/users",userURLUsers)
-app.use("/estimulation",ensureAuth,userURLEstimulation)
-app.use("/admin",ensureAuth,userURLAdmin)
+app.use("/estimulation", ensureAuth, userURLEstimulation)
+app.use("/admin", ensureAuth, userURLAdmin)
 
 //definir carpeta para vistas
 app.set('views', __dirname + '/views')
@@ -82,15 +94,18 @@ app.set('view engine', 'jade')
 app.get("/",(req,res)=>{
 	res.render("index")
 })
-app.post("/authenticate", passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/users/login' })
-)
+
+app.post("/authenticate", 
+	passport.authenticate('local',{failureRedirect: 'users/login'}), 
+	(req, res) => {
+		if(req.user.typeUser == "Administrador") return res.redirect("/admin/menu-admin")
+		if(req.user.typeUser == "Docente") return res.redirect("/estimulation/menu-teacher")
+})
+
+//VAlidar si se encuentra autenticado
 function ensureAuth (req, res, next) {
   if (req.isAuthenticated()) {
-    return next()
-  }
-
+    return next() }
   res.redirect('/users/login')
 }
 

@@ -61,7 +61,11 @@ block content
               span Imprimir
             button(type='')
               span Exportar PDF
-    section#consulQueryChildren.consul.consulQuery
+
+    section#showResult
+
+    template#consulQueryChildren
+      section.consul.consulQuery
       h3 Resultado Consulta por Niñ@
       section.cQChildren
         article.consulName
@@ -194,7 +198,8 @@ block content
                 td xxx
                 td xxx
                 td xxx
-    section#consulQueryGeneralAvanced.consul.consulQuery
+    template#consulQueryGeneralAvanced
+      section.consul.consulQuery
       h3 Listado General
       p.consulTableP
         span
@@ -219,7 +224,8 @@ block content
               td xxx
               td xxx
               td xxx
-    section#consulQueryAgeStep.consul.consulQuery
+    template#consulQueryAgeStep
+      section.consul.consulQuery
       h3 Listado por Edades y Etapas
       p.consulTableP
         span
@@ -249,7 +255,8 @@ block content
               th#consulTotalStep2 Total Etapa 2
               th#consulTotalStep3 Total Etapa 3
               th#consulTotalStep4 Total Etapa 4
-    section#consulQueryResults.consul.consulQuery
+    template#consulQueryResults
+      section.consul.consulQuery
       h3 Listado por Resultados
       p.consulTableP
         span

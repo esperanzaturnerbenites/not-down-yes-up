@@ -3,7 +3,7 @@ var Mongoose = require('mongoose')
 
 //Crear Esquemas
 const userSchema = new Mongoose.Schema({
-	idUser: {type:Number , required:true, unique:true},
+	idUser: {type:Number , required:true},
 	expeditionUser: {type:String, default:""},
 	nameUser: {type:String, default:""},
 	lastnameUser : {type:String, default:""},
@@ -23,7 +23,7 @@ const userSchema = new Mongoose.Schema({
 }),
 
 momSchema = new Mongoose.Schema({
-	idMom: {type:Number , required:true, unique:true},
+	idMom: {type:Number , required:true},
 	idExpeditionMom: {type:String, default:""},
 	nameMom: {type:String, default:""},
 	lastnameMom: {type:String, default:""},
@@ -42,7 +42,7 @@ momSchema = new Mongoose.Schema({
 }),
 
 dadSchema = new Mongoose.Schema({
-	idDad: {type:Number , required:true, unique:true},
+	idDad: {type:Number , required:true},
 	idExpeditionDad : {type:String, default:""},
 	nameDad: {type:String, default:""},
 	lastnameDad: {type:String, default:""},
@@ -61,7 +61,7 @@ dadSchema = new Mongoose.Schema({
 }),
 
 careSchema = new Mongoose.Schema({
-	idCare: {type:Number , required:true, unique:true},
+	idCare: {type:Number , required:true},
 	idExpeditionCare : {type:String, default:""},
 	nameCare: {type:String, default:""},
 	lastnameCare: {type:String, default:""},
@@ -81,7 +81,7 @@ careSchema = new Mongoose.Schema({
 }),
 
 childrenSchema = new Mongoose.Schema({
-	idChildren: {type:Number , required:true, unique:true},
+	idChildren: {type:Number , required:true},
 	nameChildren: {type:String, default:""},
 	lastnameChildren: {type:String, default:""},
 	imgChildren: {type:String, default:""},
@@ -92,29 +92,27 @@ childrenSchema = new Mongoose.Schema({
 	liveSon: {type:String, default:""},
 	status: {type:String, default:""},
 	dateStart: {type:String, default:""},
-	dateEnd: {type:String, default:""}
+	dateEnd: {type:String, default:""},
+	idMom: {type:Number},
+	idDad: {type:Number},
+	idCare: {type:Number},
+	nameActivity: {type:Number}
 }),
 
-adminUserSchema = new Mongoose.Schema({
+adminuserSchema = new Mongoose.Schema({
 	typeUser: {type:String, default:""},
-	userUser: {type:String, unique:true ,default:""},
+	userUser: {type:String, default:""},
 	passUser: {type:String, default:""}
 }),
 
-stepSchema = new Mongoose.Schema({
-	numberStep: {type:String, default:""},
-	descriptionStep: {type:String, default:""},
-	scoreStep: {type:Number, default:0},
-	statusStep: {type:String, default:""},
-	dateStep: {type:Date, default:Date.now}
-}),
-
-activitySchema = new Mongoose.Schema({
-	nameActivity: {type:String, default:""},
-	descriptionActivity: {type:String, default:""},
+activityhistorySchema = new Mongoose.Schema({
+	Activity: {type:String, default:"Validado"},
 	scoreActivity: {type:Number, default:0},
-	observationActivity: {type:String, default:""},
-	statusActivity: {type:String, default:""},
+	observationActivity: {type:String, default:"Validado"},
+	step: {type:String, default:""},
+	statusStep: {type:String, default:"Pendiente"},
+	scoreStep: {type:Number, default:0},
+	observationStep: {type:String, default:"Pendiente"},
 	dateActivity: {type:Date, default:Date.now}
 })
 
@@ -125,7 +123,6 @@ module.exports = {
 	dad : Mongoose.model('dad', dadSchema),
 	care : Mongoose.model('care', careSchema),
 	children : Mongoose.model('children', childrenSchema),
-	adminUser : Mongoose.model('adminUser', adminUserSchema),
-	step : Mongoose.model('step', stepSchema),
-	activity : Mongoose.model('activity', activitySchema)
+	adminuser : Mongoose.model('adminUser', adminuserSchema),
+	activityhistory : Mongoose.model('activityhistorySchema', activityhistorySchema)
 };

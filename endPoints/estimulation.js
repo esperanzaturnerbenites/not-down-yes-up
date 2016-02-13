@@ -69,7 +69,11 @@ router.get("/steps/step4-act2",(req,res)=>{
 })
 
 router.get("/steps/:step/:activity",(req,res)=>{
+	const step = req.params.step,
+	activity = req.params.activity
+	console.log(activity)
 	res.render("step4Act2")
+
 })
 
 //Exportar una variable de js mediante NodeJS

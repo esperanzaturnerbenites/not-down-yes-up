@@ -39,7 +39,7 @@ formAddUser.on("submit",(event) => {
 formUpdatePass.on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
-		url: "/admin/admin-users",
+		url: "/admin/update-pass",
 		async : false, 
 		data : $("#formUpdatePass").serialize(),
 		type : "POST",
@@ -49,10 +49,10 @@ formUpdatePass.on("submit",(event) => {
 	});
 })
 
-formOpeChildren.on("submit",(event) => {
+formOpeChildren.on("submit.formOpeChildrenDel",(event) => {
 	event.preventDefault()
 	$.ajax({
-		url: "/admin/delete-users",
+		url: "/admin/delete-childrens",
 		async : false, 
 		data : $("#formOpeChildren").serialize(),
 		type : "POST",
