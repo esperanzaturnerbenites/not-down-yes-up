@@ -18,23 +18,23 @@ block content
             input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
             button(type='submit')
               span Actualizar
-      form#formOpeUsers
+      form#formOpeUser
         fieldset
           legend Usuarios
           section
             input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
-            button
+            button#formOpeUserUpd
               span Actualizar Info
-            button
+            button#formOpeUserDel(type='submit')
               span Eliminar
       form#formOpeTeachAdmin
         fieldset
           legend Docente/Administrador(s)
           section
             input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
-            button
+            button#formOpeTeachAdminUpd
               span Actualizar Info
-            button
+            button#formOpeTeachAdminDel(type='submit')
               span Eliminar
       form#formOpeChildren
         fieldset

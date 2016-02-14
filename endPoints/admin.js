@@ -19,6 +19,10 @@ router.all("/register-children",(req,res)=>{
 		dataDad = querystring.parse(req.body.dad),
 		dataCare = querystring.parse(req.body.care)
 
+		dataChildren.idMom = dataMom.idMom
+		dataChildren.idDad = dataDad.idDad
+		dataChildren.idCare = dataCare.idCare
+
 		models.children.findOne({idChildren:dataChildren.idChildren},(err,exists) =>{
 			if(err) return res.send(err);
 			if(exists){
@@ -48,18 +52,30 @@ router.all("/register-user",(req,res)=>{
 	}else if(req.method == "POST"){
 		dataUser = querystring.parse(req.body.userAdd),
 		dataUserAdmin = querystring.parse(req.body.userAdmin)
+		
+		dataUserAdmin.idUser = dataUser.idUser
 
+		console.dir(dataUser)
+		
 		models.user.findOne({idUser : dataUser.idUser},(err,exists) => {
 	  		if (err) return res.send(err);
 	  		if(exists){
 	  			return res.json({msg:"User Replay"});
 	  		}else{
 		  		models.user.create(dataUser, function (err, user) {
-		  		if (err) return res.send(err);
-					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
-			  		if (err) return res.send(err);
-			  		return res.json({message:"User Add Complete", adminuser : adminuser})
-					})
+		  			if (err) return res.send(err);
+		  			models.adminuser.findOne({userUser : dataUser.userUser},(err,exists) => {
+		  				if (err) return res.send(err);
+		  				if(exists){
+		  					return res.json({msg:"UserAdmin Replay"});
+		  				}else{
+							models.adminuser.create(dataUserAdmin, function (err, adminuser) {
+					  		if (err) return res.send(err);
+					  		return res.json({message:"User Add Complete", adminuser : adminuser})
+							})
+		  					
+		  				}
+		  			})
 				})
   			}
 		})
@@ -91,9 +107,9 @@ router.post("/delete-childrens",(req,res)=>{
   		if (err) return res.send(err);
   		if(exists){
 
-			models.children.remove({idChildren:data.adminOpeChildren},(err) => {
+			models.children.remove({idChildren : data.adminOpeChildren},(err) => {
 			  	if (err) return res.send(err);
-			  	return res.send({msg:"Delete Complete"})
+			  	return res.send({msg:"Children Delete Complete"})
 
 			})
 		}else{
@@ -103,6 +119,39 @@ router.post("/delete-childrens",(req,res)=>{
 
 })
 
+router.post("/delete-users",(req,res)=>{
+	data = req.body
+
+	models.adminuser.findOne({userUser : data.adminOpeIdUser},(err,exists) => {
+		console.log(data.adminOpeIdUser)
+  		if (err) return res.send(err);
+  		if(exists){
+			models.adminuser.remove({userUser : data.adminOpeIdUser},(err) => {
+			  	if (err) return res.send(err);
+			  	return res.send({msg:"User Delete Complete"})
+			})
+		}else return res.json({msg:"User not Found"});
+	})
+
+})
+
+router.post("/delete-teachadmin",(req,res)=>{
+	data = req.body
+
+	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,exists) => {
+  		if (err) return res.send(err);
+  		if(exists){
+			models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
+			  	if (err) return res.send(err);
+				models.adminuser.remove({userUser : data.adminOpeTeachAdmin},(err) => {
+					if (err) return res.send(err);
+					return res.send({msg:"User(TeachAdmin) Delete Complete"})
+				})
+			})
+		}else return res.json({msg:"User(TeachAdmin) not Found"});
+	})
+
+})
 
 router.get("/reports",(req,res)=>{
 	res.render("report")

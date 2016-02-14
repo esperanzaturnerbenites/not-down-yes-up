@@ -8,8 +8,8 @@ block content
   section.consul
     h3 ¿Qué deseas consultar?
     section.consulFlex
-      section#consulGeneral
-        form
+      section
+        form#consulGeneral
           fieldset.consul.consulGeneral
             legend Consultas Generales
             label(for='consulG') Tipo de Consulta: 
@@ -18,15 +18,15 @@ block content
               option(value='Listado General') Listado General
               option(value='Listado por Edades y Etapas') Listado por Edades y Etapas
               option(value='Listado por Resultados') Listado por Resultados
-      section#consulChildren
-        form
+      section
+        form#consulChildren
           fieldset.consul.consulChildren
             legend Consultas por Nin@
             input#consulIdChildren(type='number', name='consulIdChildren', min='1111', placeholder='Número Identificación', required='')
             button.buttons(type='submit')
               span Confirmar Consulta
-      section#consulAvanced
-        form
+      section
+        form#consulAvanced
           fieldset.consul.consulAvanced
             legend Consulta Avanzada
             article
@@ -63,274 +63,8 @@ block content
               span Exportar PDF
 
     section#showResult
-
-    template#consulQueryChildren
-      section.consul.consulQuery
-      h3 Resultado Consulta por Niñ@
-      section.cQChildren
-        article.consulName
-          p
-            span
-              b Nombre:
-            span#consulRName NombreQuery
-          article.consulImg
-            p
-              img#consulRImg(src='', alt='Foto')
-        article.consulData
-          p
-            span
-              b Número de Identificación:
-            span#consulRIdChildren IdQuery
-          p
-            span
-              b Sexo:
-            span#consulRSex SexoQuery
-          p
-            span
-              b Fecha Nacimiento:
-            span#consulRBirthdate FechaNacimientoQuery
-          p
-            span
-              b Edad
-            span#consulRAge EdadQuery
-          p
-            span
-              b Mamá:
-            span#consulRMom MamáQuery
-          p
-            span
-              b Papá:
-            span#consulRDad PapáQuery
-          p
-            span
-              b Cuidador:
-            span#consulRCare CuidadorQuery
-          p
-            span
-              b Dirección:
-            span#consulRAddress DirecciónQuery
-          p
-            span
-              b Teléfono:
-        article.consulStatus
-          p
-            span
-              b Fecha de Ingreso:
-            span#consulRDateIni FechaIngresoQuery
-          p
-            span
-              b Estado Actual:
-            span#consulRStatus EstadoQuery
-          p
-            span
-              b % Etapa:
-            span#consulRStep EtapaQuery
-            span#consulRPercentajeStep PorcentajeQuery
-          p
-            span
-              b % General:
-            span#consulRPercentaje PorcentajeQuery
-        article.consulTable
-          p.consulTableP
-            span
-              b ETAPA 1
-          table#consulStep1
-            thead
-              tr
-                th ACTIVIDAD
-                th ESTADO
-                th %
-                th ULT. INGRESO
-            tbody
-              tr
-                td xxx
-                td xxx
-                td xxx
-                td xxx
-        article.consulTable
-          p.consulTableP
-            span
-              b ETAPA 2
-          table#consulStep2
-            thead
-              tr
-                th ACTIVIDAD
-                th ESTADO
-                th %
-                th ULT. INGRESO
-            tbody
-              tr
-                td xxx
-                td xxx
-                td xxx
-                td xxx
-        article.consulTable
-          p.consulTableP
-            span
-              b ETAPA 3
-          table#consulStep3
-            thead
-              tr
-                th ACTIVIDAD
-                th ESTADO
-                th %
-                th ULT. INGRESO
-            tbody
-              tr
-                td xxx
-                td xxx
-                td xxx
-                td xxx
-        article.consulTable
-          p.consulTableP
-            span
-              b ETAPA 4
-          table#consulStep4
-            thead
-              tr
-                th ACTIVIDAD
-                th ESTADO
-                th %
-                th ULT. INGRESO
-            tbody
-              tr
-                td xxx
-                td xxx
-                td xxx
-                td xxx
-    template#consulQueryGeneralAvanced
-      section.consul.consulQuery
-      h3 Listado General
-      p.consulTableP
-        span
-          b RESULTADOS
-      article.consulTable
-        table#consulGeneralAvanced
-          thead
-            tr
-              th NOMBRE
-              th EDAD
-              th ETAPA
-              th %
-              th ACT. COMPLETADAS
-              th ACT. PENDIENTES
-              th ULT. INGRESO
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-    template#consulQueryAgeStep
-      section.consul.consulQuery
-      h3 Listado por Edades y Etapas
-      p.consulTableP
-        span
-          b RESULTADOS
-      article.consulTable
-        table#consulAgeStep
-          thead
-            tr
-              th ETAPA 1
-              th ETAPA 2
-              th ETAPA 3
-              th ETAPA 4
-            tr
-              th 0 - 6 MESES
-              th 6 - 12 MESES
-              th 12 - 18 MESES
-              th 18 - 24 MESES
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-          tfoot
-            tr
-              th#consulTotalStep1 Total Etapa 1
-              th#consulTotalStep2 Total Etapa 2
-              th#consulTotalStep3 Total Etapa 3
-              th#consulTotalStep4 Total Etapa 4
-    template#consulQueryResults
-      section.consul.consulQuery
-      h3 Listado por Resultados
-      p.consulTableP
-        span
-          b ETAPA 1
-      article.consulTable
-        table#consulResults1
-          thead
-            tr
-              th NOMBRE
-              th EDAD
-              th ACT. COMPLETADAS
-              th ACT. PENDIENTES
-              th %
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-      p.consulTableP
-        span
-          b ETAPA 2
-      article.consulTable
-        table#consulResults2
-          thead
-            tr
-              th NOMBRE
-              th EDAD
-              th ACT. COMPLETADAS
-              th ACT. PENDIENTES
-              th %
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-      p.consulTableP
-        span
-          b ETAPA 3
-      article.consulTable
-        table#consulResults3
-          thead
-            tr
-              th NOMBRE
-              th EDAD
-              th ACT. COMPLETADAS
-              th ACT. PENDIENTES
-              th %
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-      p.consulTableP
-        span
-          b ETAPA 4
-      article.consulTable
-        table#consulResults4
-          thead
-            tr
-              th NOMBRE
-              th EDAD
-              th ACT. COMPLETADAS
-              th ACT. PENDIENTES
-              th %
-          tbody
-            tr
-              td xxx
-              td xxx
-              td xxx
-              td xxx
-              td xxx
+    include templatesQuery/children.jade
+    include templatesQuery/general.jade
+    include templatesQuery/ageStep.jade
+    include templatesQuery/results.jade
+    script(src="/js/reports.js")

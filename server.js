@@ -19,21 +19,35 @@ passport = require('passport'),
 LocalStrategy = require('passport-local').Strategy,
 //Definir el modulo jade
 jade = require('jade'),
+connect = require('connect'),
+MongoStore = require('connect-mongo')(expressSession)
 
 //Definicion de Rutas
 userURLUsers = require('./endPoints/users'),
 userURLEstimulation = require('./endPoints/estimulation'),
-userURLAdmin = require('./endPoints/admin')
+userURLAdmin = require('./endPoints/admin'),
+userURLReports = require('./endPoints/reports')
 
 // *****************************************************************************
+
+//Parceador de cookies
 app.use(cookieParser())
+
+//Cofiguracion de la session
 app.use(expressSession({
   secret: 'SinLimites28*',
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection
+    })
 }))
 // **************************************************************************+
+
+//inicializacion de passport
 app.use(passport.initialize())
+
+//inicializacion de las sesiones
 app.use(passport.session())
 
 //Definicion de estrategia de logueo
@@ -74,6 +88,7 @@ mongoose.connect('mongodb://localhost/centerestimulation')
 app.use("/users",userURLUsers)
 app.use("/estimulation", ensureAuth, userURLEstimulation)
 app.use("/admin", ensureAuth, userURLAdmin)
+app.use("/reports", userURLReports)
 
 //definir carpeta para vistas
 app.set('views', __dirname + '/views')
