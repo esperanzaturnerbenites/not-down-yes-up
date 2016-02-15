@@ -28,8 +28,6 @@ userURLEstimulation = require('./endPoints/estimulation'),
 userURLAdmin = require('./endPoints/admin'),
 userURLReports = require('./endPoints/reports')
 
-// *****************************************************************************
-
 //Parceador de cookies
 app.use(cookieParser())
 
@@ -42,7 +40,6 @@ app.use(expressSession({
     mongooseConnection: mongoose.connection
     })
 }))
-// **************************************************************************+
 
 //inicializacion de passport
 app.use(passport.initialize())
@@ -75,7 +72,7 @@ passport.serializeUser(function(user, done) {
    // where is this user.id going? Are we supposed to access this anywhere?
 });
 
-// used to deserialize the user
+//Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
 	models.adminuser.findOne({_id:user._id},(err,user) => {
         done(err, user)	
@@ -110,6 +107,7 @@ app.get("/",(req,res)=>{
 	res.render("index")
 })
 
+//Redireccionamiento tras la autenticacion
 app.post("/authenticate", 
 	passport.authenticate('local',{failureRedirect: 'users/login'}), 
 	(req, res) => {
@@ -117,7 +115,7 @@ app.post("/authenticate",
 		if(req.user.typeUser == "Docente") return res.redirect("/estimulation/menu-teacher")
 })
 
-//VAlidar si se encuentra autenticado
+//Valida si se encuentra autenticado
 function ensureAuth (req, res, next) {
   if (req.isAuthenticated()) {
     return next() }

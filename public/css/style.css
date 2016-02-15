@@ -834,3 +834,10 @@ button:hover{
 .act2 img:hover{
   background-color:#C4CEEC;
 }
+
+.hide{
+  display: none !important;
+}
+.show{
+  display: block !important;
+}

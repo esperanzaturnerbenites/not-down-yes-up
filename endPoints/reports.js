@@ -8,13 +8,19 @@ passport = require('passport')
 router.use(bodyParser.urlencoded())
 
 router.post("/general",(req,res)=>{
+	var data = []
 	models.children.find().lean().exec((err,childrens) =>{
 		if (err) return res.send(err)
 		for (children of childrens){
-			//var activities = models.activityhistory.find({idChildren: children.idChildren}).lean()
-			children.acitivities = "activities"
+			console.log(children.idChildren)
+			models.activityhistory.find({idChildren: children.idChildren}).lean().exec((err,acitivities) =>{
+				if (err) return res.send(err)
+				children.act = acitivities
+				console.dir(acitivities)
+			})
+			data.push(children)
 		}
-		res.json(childrens)	
+		res.json(data)	
 	})
 })
 

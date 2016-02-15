@@ -2,16 +2,21 @@ extends templates/template.jade
 block title
   title Nuevo Usuario en ¡No Down, Yes Up!
 block exit
-  h2.exit
+  h2.exit 
     a(href='/admin/menu-admin') VOLVER
 block content
   section.register
     h3 Nuevo Usuario
     article
-      form#formAddUser
+      form#formValidUser
         fieldset.data.validChildren
           legend Digita la cédula
-          input#validIdUser(type='number', name='validIdUser', min='1111', placeholder='Cédula', required='')
+          article
+            input#validUser(type='number', name='validUser', min='1111', placeholder='Cédula', required='')
+          article
+            button(type='submit')
+              span Iniciar Registro
+      form#formAddUser.hide
         fieldset.userAdd
           legend Nuevo Usuario
           section.data

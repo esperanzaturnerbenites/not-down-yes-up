@@ -8,11 +8,27 @@ block content
   section.register
     h3 Administración de Usuarios
     article.data
+      form#formNewUser
+        fieldset
+          legend Nuevo Usuario del Sistema
+          article
+            input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required='')
+            input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required='')
+          article
+            label(for='typeUser') Tipo de usuario: 
+            select#typeUser(name='typeUser')
+              option(value='Administrador', selected) Administrador
+              option(value='Docente') Docente
+          article
+            input#passUser(type='password', name='passUser', placeholder='Contraseña', required='')
+            input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
+            button(type='submit')
+              span Crear
       form#formUpdatePass
         fieldset
           legend Actualizar Contraseña
           article
-            input#adminIdUser(type='text', name='adminIdUser', min='1111', placeholder='Usuario', required='')
+            input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required='')
           article
             input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
             input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
@@ -20,7 +36,7 @@ block content
               span Actualizar
       form#formOpeUser
         fieldset
-          legend Usuarios
+          legend Usuario Sistema
           section
             input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
             button#formOpeUserUpd

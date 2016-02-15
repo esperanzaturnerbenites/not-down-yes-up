@@ -1,10 +1,13 @@
 //Definir constante que captura un elemento html
 const formAddChildren = $("#formAddChildren"),
 formAddUser = $("#formAddUser"),
+formValidUser = $("#formValidUser"),
 formUpdatePass = $("#formUpdatePass"),
 formOpeChildren = $("#formOpeChildren"),
 formOpeUser = $("#formOpeUser"),
-formOpeTeachAdmin = $("#formOpeTeachAdmin")
+formOpeTeachAdmin = $("#formOpeTeachAdmin"),
+formNewUser = $("#formNewUser")
+
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
 formAddChildren.on("submit",(event) => {
@@ -24,13 +27,51 @@ formAddChildren.on("submit",(event) => {
 })
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
-formAddUser.on("submit",(event) => {
+function addUser(){
+
 	event.preventDefault()
 	$.ajax({
 		url: "/admin/register-user",
 		async : false, 
 		data : {userAdd : $(".userAdd").serialize(),
 			userAdmin : $(".userAdmin").serialize()},
+		type : "POST",
+		success: function(result){
+        console.log(result);
+	    }
+	});
+}
+//Asigna un escuchador de evento --- Cuando suceda el evento
+formValidUser.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/valid-user",
+		async : false, 
+		data : $("#formValidUser").serialize(),
+		type : "POST",
+		success: function(result){
+			console.log(typeof result)
+			console.log(result)
+       		if (result.valid) {
+       			$("#formAddUser")
+       			.removeClass("hide")
+       			.on("submit",addUser)
+       		}else{
+				$("#formAddUser")
+				.addClass("hide")
+				.off("submit",addUser)
+       	}
+
+	    }
+	});
+})
+
+formNewUser.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/register-newuser",
+		async : false, 
+		data : $("#formNewUser").serialize(),
 		type : "POST",
 		success: function(result){
         console.log(result);
@@ -44,19 +85,6 @@ formUpdatePass.on("submit",(event) => {
 		url: "/admin/update-pass",
 		async : false, 
 		data : $("#formUpdatePass").serialize(),
-		type : "POST",
-		success: function(result){
-        console.log(result);
-	    }
-	});
-})
-
-formOpeChildren.on("submit.formOpeChildrenDel",(event) => {
-	event.preventDefault()
-	$.ajax({
-		url: "/admin/delete-childrens",
-		async : false, 
-		data : $("#formOpeChildren").serialize(),
 		type : "POST",
 		success: function(result){
         console.log(result);
@@ -83,6 +111,19 @@ formOpeTeachAdmin.on("submit.formOpeTeachAdminDel",(event) => {
 		url: "/admin/delete-teachadmin",
 		async : false, 
 		data : $("#formOpeTeachAdmin").serialize(),
+		type : "POST",
+		success: function(result){
+        console.log(result);
+	    }
+	});
+})
+
+formOpeChildren.on("submit.formOpeChildrenDel",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/delete-childrens",
+		async : false, 
+		data : $("#formOpeChildren").serialize(),
 		type : "POST",
 		success: function(result){
         console.log(result);
