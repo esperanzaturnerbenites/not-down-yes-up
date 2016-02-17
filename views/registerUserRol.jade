@@ -16,6 +16,7 @@ block content
           article
             button(type='submit')
               span Iniciar Registro
+      
       form#formAddUser.hide
         fieldset.userAdd
           legend Nuevo Usuario
@@ -23,7 +24,7 @@ block content
             fieldset
               legend Personal
               article
-                input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula', required='')
+                input#idUser(type='number', name='idUser', readonly)
                 input#expeditionUser(type='text', name='expeditionUser', placeholder='Lugar de Expedición', required)
               article
                 input#nameUser(type='text', name='nameUser', placeholder='Nombres', required='')

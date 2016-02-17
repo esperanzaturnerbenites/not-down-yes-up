@@ -12,6 +12,7 @@ models = require('./models'),
 server = http.createServer(app),
 //modulo para parse peticiones
 bodyParser = require('body-parser'),
+favicon = require('express-favicon'),
 //Requrir modulos para manejo de sesiones
 cookieParser = require('cookie-parser'),
 expressSession = require('express-session'),
@@ -30,6 +31,7 @@ userURLReports = require('./endPoints/reports')
 
 //Parceador de cookies
 app.use(cookieParser())
+app.use(favicon(__dirname + '/public/img/favicon.png'))
 
 //Cofiguracion de la session
 app.use(expressSession({
@@ -74,7 +76,7 @@ passport.serializeUser(function(user, done) {
 
 //Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
-	models.adminuser.findOne({_id:user._id},(err,user) => {
+	models.adminuser.findOne({idUser:user.idUser},(err,user) => {
         done(err, user)	
 	})
 })
@@ -118,6 +120,7 @@ app.post("/authenticate",
 //Valida si se encuentra autenticado
 function ensureAuth (req, res, next) {
   if (req.isAuthenticated()) {
+  	console.log(req.user)
     return next() }
   res.redirect('/users/login')
 }

@@ -5,7 +5,6 @@ block exit
   h2.exit
     a(href="/logout") SALIR
 block content
-  p #{user.userUser}
   nav.menuPrincipal
     ul
       li
@@ -18,7 +17,8 @@ block content
         a(href='/admin/reports') REPORTES
   article.infoImp
     header
-      h2 BIENVENID@ ADMIN
+      if user.userUser
+        h2.userR #{user.userUser}
     p
       | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
   section.backgroundFooter

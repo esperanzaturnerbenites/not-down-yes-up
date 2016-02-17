@@ -8,6 +8,33 @@ block content
   section.register
     h3 Administración de Usuarios
     article.data
+      
+      form#formOpeChildren
+        fieldset
+          legend Niñ@s
+          section
+            input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
+            button#formOpeChildrenUpd
+              span Actualizar Info
+            button#formOpeChildrenDel(type='submit')
+              span Eliminar
+          article#showResultChildren
+          include templatesQuery/updateChildren.jade
+      
+      form#formFindAll
+        fieldset
+          legend Ver Usuarios
+          article
+            select#typeUser(name='typeUser')
+              option(value='Administrador', selected='') Administradores
+              option(value='Docente') Docentes
+              option(value='Todos') Todos
+            button(type='submit')
+              span Buscar
+            
+          article#showResults
+          include templatesQuery/findAllUsers.jade
+      
       form#formNewUser
         fieldset
           legend Nuevo Usuario del Sistema
@@ -24,6 +51,7 @@ block content
             input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
             button(type='submit')
               span Crear
+      
       form#formUpdatePass
         fieldset
           legend Actualizar Contraseña
@@ -34,31 +62,26 @@ block content
             input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
             button(type='submit')
               span Actualizar
+      
       form#formOpeUser
         fieldset
           legend Usuario Sistema
           section
             input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
-            button#formOpeUserUpd
-              span Actualizar Info
             button#formOpeUserDel(type='submit')
               span Eliminar
+      
       form#formOpeTeachAdmin
         fieldset
           legend Docente/Administrador(s)
           section
             input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
-            button#formOpeTeachAdminUpd
+            button#formOpeTeachAdminUpd(type='submit')
               span Actualizar Info
             button#formOpeTeachAdminDel(type='submit')
               span Eliminar
-      form#formOpeChildren
-        fieldset
-          legend Niñ@s
-          section
-            input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
-            button#formOpeChildrenUpd
-              span Actualizar Info
-            button#formOpeChildrenDel(type='submit')
-              span Eliminar
+
+          article#showResultTeachAdmin
+          include templatesQuery/updateUser.jade
+      
   script(src="/js/app.js")

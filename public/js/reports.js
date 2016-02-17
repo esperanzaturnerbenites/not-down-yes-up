@@ -6,7 +6,7 @@ function getClone(selector){
 	return clone = document.importNode(t.content,true)
 }
 
-function renderResults(node){ showResult.append(node)}
+function renderResults(node){ showResult.html(""); showResult.append(node)}
 
 $("#consulG").change(() => {
 	$.ajax({
@@ -24,13 +24,11 @@ $("#consulG").change(() => {
 				)
 				data.append(tr)
 			}
-
-
-
 			renderResults(clone)
 	    }
 	})
 })
+
 $("#consulChildren").submit(() => {
 
 })

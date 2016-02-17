@@ -5,7 +5,7 @@ bodyParser = require('body-parser')
 router.use(bodyParser.urlencoded())
 	
 router.get("/menu-teacher",(req,res)=>{
-	res.render("menuTeacher")
+	res.render("menuTeacher",{user :req.user})
 })
 
 router.get("/continue",(req,res)=>{

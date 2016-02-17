@@ -38,7 +38,8 @@ momSchema = new Mongoose.Schema({
 	departamentMom: {type:String, default:""},
 	studyMom: {type:String, default:""},
 	professionMom: {type:String, default:""},
-	jobMom: {type:String, default:""}
+	jobMom: {type:String, default:""},
+	idChildren: {type:Number}
 }),
 
 dadSchema = new Mongoose.Schema({
@@ -57,7 +58,8 @@ dadSchema = new Mongoose.Schema({
 	departamentDad: {type:String, default:""},
 	studyDad: {type:String, default:""},
 	professionDad: {type:String, default:""},
-	jobDad: {type:String, default:""}
+	jobDad: {type:String, default:""},
+	idChildren: {type:Number}
 }),
 
 careSchema = new Mongoose.Schema({
@@ -77,7 +79,8 @@ careSchema = new Mongoose.Schema({
 	departamentCare: {type:String, default:""},
 	studyCare: {type:String, default:""},
 	professionCare: {type:String, default:""},
-	jobCare: {type:String, default:""}
+	jobCare: {type:String, default:""},
+	idChildren: {type:Number}
 }),
 
 childrenSchema = new Mongoose.Schema({
@@ -92,16 +95,14 @@ childrenSchema = new Mongoose.Schema({
 	liveSon: {type:String, default:""},
 	statusChildren: {type:String, default:"Registrado"},
 	dateStart: {type:Date, default:Date.now},
-	dateEnd: {type:Date, default:Date.now},
-	idMom: {type:Number},
-	idDad: {type:Number},
-	idCare: {type:Number}
+	dateEnd: {type:Date, default:Date.now}
 }),
 
 adminuserSchema = new Mongoose.Schema({
-	typeUser: {type:String, default:""},
 	userUser: {type:String, default:""},
 	passUser: {type:String, default:""},
+	typeUser: {type:String, default:""},
+	dateUser: {type:Date, default:Date.now},
 	idUser: {type:Number}
 }),
 

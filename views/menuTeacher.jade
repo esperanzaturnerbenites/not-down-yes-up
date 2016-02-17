@@ -11,7 +11,8 @@ block content
         a(href='/estimulation/continue') CENTRO DE ESTIMULACIÓN
   article.infoImp
     header
-      h2 BIENVENID@
+      if user.userUser
+        h2.userR #{user.userUser}
     p
       | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
   section.backgroundFooter

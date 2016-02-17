@@ -8,16 +8,22 @@ block content
   section.register
     h3 Niñ@s Nuev@s
     article
-      form#formAddChildren
+      form#formValidChildren
         fieldset.data.validChildren
           legend ¡Maravilloso! ¿Qué niñ@ conoceremos hoy?
-          input#validIdChildren(type='number', name='validIdChildren', min='1111', placeholder='Número Identificación', required='')
+          article
+            input#validChildren(type='number', name='validChildren', min='1111', placeholder='Número Identificación', required='')
+          article
+            button(type='submit')
+              span Iniciar Registro
+        
+      form#formAddChildren.hide
         fieldset.children
           legend Niñ@
           section.data
             fieldset
               legend Personal
-              input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required='')
+              input#idChildren(type='number', name='idChildren', readonly)
               input#nameChildren(type='text', name='nameChildren', placeholder='Nombres Niñ@', required='')
               input#lastnameChildren(type='text', name='lastnameChildren', placeholder='Apellidos Niñ@', required='')
               article.img
@@ -40,10 +46,6 @@ block content
                   option(value='Mamá') Mamá
                   option(value='Papá') Papá
                   option(value='Otro Cuidador') Otro Cuidador
-                article
-                  label
-                    input#brotherChildren(name='brotherChildren' type='checkbox')
-                    | Hermano Registrado
             fieldset
               legend Salud
             fieldset

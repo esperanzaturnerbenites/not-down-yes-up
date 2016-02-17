@@ -19,9 +19,12 @@ router.all("/register-children",(req,res)=>{
 		dataDad = querystring.parse(req.body.dad),
 		dataCare = querystring.parse(req.body.care)
 
-		dataChildren.idMom = dataMom.idMom
+		/*dataChildren.idMom = dataMom.idMom
 		dataChildren.idDad = dataDad.idDad
-		dataChildren.idCare = dataCare.idCare
+		dataChildren.idCare = dataCare.idCare*/
+		dataMom.idChildren = dataChildren.idChildren
+		dataDad.idChildren = dataChildren.idChildren
+		dataCare.idChildren = dataChildren.idChildren
 
 		models.children.findOne({idChildren:dataChildren.idChildren},(err,exists) =>{
 			if(err) return res.send(err);
@@ -46,6 +49,16 @@ router.all("/register-children",(req,res)=>{
 	}
 })
 
+router.post("/valid-children",(req,res)=>{
+	data = req.body
+
+	models.children.findOne({idChildren : data.validChildren},(err,exists) => {
+  		if (err) return res.send(err);
+  		if(exists) res.json({valid:false, msg:"Children exists",statusCode:0})
+		else res.json({valid:true, msg:"",statusCode:1})
+	})
+})
+
 router.all("/register-user",(req,res)=>{
 	if(req.method == "GET"){	
 		res.render("registerUserRol")
@@ -55,34 +68,30 @@ router.all("/register-user",(req,res)=>{
 		
 		dataUserAdmin.idUser = dataUser.idUser
 
-		//console.dir(dataUserAdmin)
-
-		if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
-			models.user.findOne({idUser : dataUser.idUser},(err,exists) => {
-		  		if (err) return res.send(err);
-		  		if(exists){
-		  			return res.json({msg:"User Replay"});
-		  		}else{
-		  			models.adminuser.findOne({userUser : dataUserAdmin.userUser},(err,existsa) => {
-		  				if (err) return res.send(err);
-		  				if(existsa){
-		  					return res.json({msg:"UserAdmin Replay"});
-		  				}else{
-					  		models.user.create(dataUser, function (err, user) {
-					  			if (err) return res.send(err);
-								models.adminuser.create(dataUserAdmin, function (err, adminuser) {
-							  		if (err) return res.send(err);
-							  		return res.json({message:"User Add Complete"})
-								})
+		//console.dir(dataUser.idUser)
+		models.user.findOne({idUser : dataUser.idUser},(err,exists) => {
+	  		if (err) return res.send(err);
+	  		if(exists){
+	  			return res.json({msg:"User Replay"});
+	  		}else{
+	  			models.adminuser.findOne({userUser : dataUserAdmin.userUser},(err,existsa) => {
+	  				if (err) return res.send(err);
+	  				if(existsa){
+	  					return res.json({msg:"UserAdmin Replay"});
+	  				}else{
+				  		models.user.create(dataUser, function (err, user) {
+				  			if (err) return res.send(err);
+							models.adminuser.create(dataUserAdmin, function (err, adminuser) {
+						  		if (err) return res.send(err);
+						  		return res.json({message:"User Add Complete"})
 							})
-		  				}
-		  			})
-	  			}
-			})
-		}else return res.json({msg:"Password not equals"});
+						})
+	  				}
+	  			})
+  			}
+		})
 	}
 })
-
 
 router.post("/valid-user",(req,res)=>{
 	data = req.body
@@ -90,7 +99,7 @@ router.post("/valid-user",(req,res)=>{
 	models.user.findOne({idUser : data.validUser},(err,exists) => {
   		if (err) return res.send(err);
   		if(exists){
-			 res.json({valid:false, msg:"El usuario ya esta registrado",statusCode:0});
+			 res.json({valid:false, msg:"El usuario ya se encuentra registrado",statusCode:0});
 		}else{
 			 res.json({valid:true, msg:"",statusCode:1});
 		}
@@ -128,42 +137,63 @@ router.get("/admin-users",(req,res)=>{
 	res.render("adminUsers")
 })
 
+router.post("/find-all",(req,res)=>{
+	var data = req.body
+	console.log(data)
+	if(data.typeUser == "Todos"){
+		models.adminuser.find({}, (err,users) =>{
+			if (err) return res.send(err)
+			res.json(users)	
+		})
+	}else{
+		models.adminuser.find({typeUser : data.typeUser}, (err,users) =>{
+			if (err) return res.send(err)
+			res.json(users)	
+		})
+	}
+})
+
 router.post("/update-pass",(req,res)=>{
 	data = req.body
-
-	if(data.adminPassUser == data.adminPassConfirmUser){
-		if (data.adminIdUser == "admin"){
-			return res.send({msg:"User not Password Update"})
-		}else{
-			models.adminuser.findOneAndUpdate(
-				{userUser : data.adminIdUser},
-				{$set:{passUser:data.adminPassUser}},
-				(err,doc) => {
-		  			if (err) return res.send(err);
-				  	return res.json({message:"Password Chage Complete", adminuser : doc})
-			})
-		}
-	}else return res.json({msg:"Password not equals"}); 
-
+	
+	if (data.adminIdUser == "admin"){
+		return res.send({msg:"User not Password Update"})
+	}else{
+		models.adminuser.findOneAndUpdate(
+			{userUser : data.adminIdUser},
+			{$set:{passUser:data.adminPassUser}},
+			(err,doc) => {
+	  			if (err) return res.send(err);
+			  	return res.json({message:"Password Chage Complete", adminuser : doc})
+		})
+	}
 })
 
 router.post("/delete-childrens",(req,res)=>{
 	data = req.body
 
+	var child = models.children.findOne({idChildren : data.adminOpeChildren})
+
 	models.children.findOne({idChildren : data.adminOpeChildren},(err,exists) => {
   		if (err) return res.send(err);
   		if(exists){
-
 			models.children.remove({idChildren : data.adminOpeChildren},(err) => {
 			  	if (err) return res.send(err);
-			  	return res.send({msg:"Children Delete Complete"})
-
+			  	models.mom.remove({idChildren : data.adminOpeChildren},(err) => {
+				  	if (err) return res.send(err);
+				  	models.dad.remove({idChildren : data.adminOpeChildren},(err) => {
+					  	if (err) return res.send(err);
+					  	models.care.remove({idChildren : data.adminOpeChildren},(err) => {
+						  	if (err) return res.send(err);
+			  				return res.send({msg:"Children Delete Complete"})
+						})	
+					})	
+				})	
 			})
 		}else{
   			return res.json({msg:"Childre not Found"});
   		}
 	})
-
 })
 
 router.post("/delete-users",(req,res)=>{
@@ -199,7 +229,32 @@ router.post("/delete-teachadmin",(req,res)=>{
 			})
 		}else return res.json({msg:"User(TeachAdmin) not Found"});
 	})
+})
 
+router.post("/update-teachAdmin",(req,res)=>{
+	data = req.body
+
+	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,exists) => {
+  		if (err) return res.send(err);
+  		if(exists){
+			res.json({valid:true, msg:"",statusCode:1});
+		}else{
+			res.json({valid:false, msg:"User not found",statusCode:0});
+		}
+	})
+})
+
+router.post("/update-children",(req,res)=>{
+	data = req.body
+
+	models.children.findOne({idChildren : data.adminOpeChildren},(err,exists) => {
+  		if (err) return res.send(err);
+  		if(exists){
+			res.json({valid:true, msg:"",statusCode:1});
+		}else{
+			res.json({valid:false, msg:"User not found",statusCode:0});
+		}
+	})
 })
 
 router.get("/reports",(req,res)=>{
