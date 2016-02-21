@@ -38,6 +38,7 @@ function addChildren(){
 	        .trigger("reset")
 	        .off("submit")
 	        .addClass("hide")
+	        $("#validChildrenformOpeChildrenUpd").prop("readonly", false)
 	    }
 	});
 }
@@ -57,9 +58,21 @@ function addUser(){
 		        .trigger("reset")
 		        .off("submit")
 		        .addClass("hide")
+       			$("#validUser").prop("readonly", false)
+
 		    }
 		});
 	}else console.log({msg:"Password not equals"});
+}
+
+function typeUserFind(type, res){
+	if(type == "0"){
+		var typeU = "Administrador"
+		return typeU
+	}else if(type == "1"){
+		var typeU = "Docente"
+		return typeU
+	}
 }
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
@@ -78,10 +91,12 @@ formValidUser.on("submit",(event) => {
        			.removeClass("hide")
        			.on("submit",addUser)
 				$("#idUser").val($("#validUser").val())
+				$("#validUser").prop("readonly", true)
        		}else{
 				$("#formAddUser")
 				.addClass("hide")
 				.off("submit",addUser)
+				$("#validUser").prop("readonly", false)
        	}
 
 	    }
@@ -104,11 +119,12 @@ formValidChildren.on("submit",(event) => {
        			.removeClass("hide")
        			.on("submit",addChildren)
        			$("#idChildren").val($("#validChildren").val())
-       			
+       			$("#validChildren").prop("readonly", true)
        		}else{
 				$("#formAddChildren")
 				.addClass("hide")
 				.off("submit",addChildren)
+				$("#validChildren").prop("readonly", false)
        		}
 	    }
 	});
@@ -122,7 +138,7 @@ formNewUser.on("submit",(event) => {
 		data : $("#formNewUser").serialize(),
 		type : "POST",
 		success: function(result){
-        console.log(result);
+			  	console.log(result);
 	    }
 	});
 })
@@ -142,8 +158,8 @@ formFindAll.on("submit",(event) => {
 				console.log(users)
 				var tr = $("<tr>").append(
 					$("<td>",{html : adminuser.userUser }),
-					$("<td>",{html : adminuser.typeUser }),
-					$("<td>",{html : adminuser.idUser }),
+					$("<td>",{html : typeUserFind(adminuser.typeUser)}),
+					$("<td>",{html : adminuser.userUser }),
 					$("<td>",{html : adminuser.dateUser })
 				)
 				data.append(tr)
@@ -228,19 +244,6 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 
 $("#formOpeChildrenUpd").on("click",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/update-children",
-		async : false, 
-		data : $("#formOpeChildren").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.valid) {
-				var clone = getClone("#consulQueryChildrenUpdate")
-				renderResultChildren(clone)
-				console.log(typeof result)
-				console.log(result)
-			}
-
-	    }
-	});
+	var params = $("#adminOpeChildren").val()
+	window.open("/admin/register-children/" + params)	
 })

@@ -1,185 +1,176 @@
 template#consulQueryChildrenUpdate
+
   form#formUpdateChildren
-    fieldset.children
-      legend Actualizar Niñ@
-      section.data
-        fieldset
-          legend Personal
-          input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required='')
-          input#nameChildren(type='text', name='nameChildren', placeholder='Nombres Niñ@', required='')
-          input#lastnameChildren(type='text', name='lastnameChildren', placeholder='Apellidos Niñ@', required='')
-          article.img
-            span Foto
-            input#imgChildren(type='file', name='imgChildren', accept='image/*')
-          label(for='birthdateChildren', reqiured='') Fecha de Nacimiento
-          input#birthdateChildren(type='date', required='')
-          // <input-datetime></input-datetime>
-          input#birthplaceChildren(type='text', name='birthplaceChildren', placeholder='Lugar de Nacimiento', required='')
-          article
-            label(for='ageChildren') Edad en Meses: 
-            input#ageChildren(type='number', name='ageChildren', min='0', max='48', placeholder='Edad en meses', required='')
-          article
-            label(for='genderChildren') Sexo
-            select#genderChildren(name='genderChildren')
-              option(value='Nina', selected='') Niña
-              option(value='Nino') Niño
-            label(for='liveSon')  ¿Vive con?
-            select#liveSon(name='liveSon')
-              option(value='Ambos Padres', selected='') Ambos Padres
-              option(value='Mamá') Mamá
-              option(value='Papá') Papá
-              option(value='Otro Cuidador') Otro Cuidador
-        fieldset
-          legend Salud
-        fieldset
-          legend Habilidades
-        fieldset
-          legend Debilidades
-    
-    fieldset.mom
-      legend Mamá
-      section.data
-        fieldset
-          legend Personal
-          article
-            input.idMom#idMom(type='number', name='idMom', min='1111', placeholder='Cédula Mamita', required='')
-            input#idExpeditionMom(type='text', name='idExpeditionMom', placeholder='Lugar de Expedición', required='')
-          article
-            input#nameMom(type='text', name='nameMom', placeholder='Nombres Mamita', required='')
-            input#lastnameMom(type='text', name='lastnameMom', placeholder='Apellidos Mamita', required='')
-          article
-            label(for='birthdateMom') Fecha de Nacimiento
-            input#birthdateMom(type='date', required='')
-            // <input-datetime></input-datetime>
-          article.img
-            span Foto
-            input#imgMom(type='file', name='imgMom', accept='image/*')
-        fieldset
-          legend Contacto
-          article
-            input#telMom(type='number', name='telMom', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-            input#celMom(type='number', name='celMom', min='1111111111', max='9999999999', placeholder='Celular', required='')
-            input#emailMom(type='email', name='emailMom', placeholder='correo-mamita@abc.com')
-          article
-            input#addressMom(type='text', name='addressMom', placeholder='Dirección Mamita', required='')
-            input#localityMom(type='text', name='localityMom', placeholder='Barrio', required='')
-            input#municipalityMom(type='text', name='municipalityMom', placeholder='Ciudad/Municipio', required='')
-            input#departamentMom(type='text', name='departamentMom', placeholder='Departamento', required='')
-        fieldset
-          legend Profesión
-          article
-            label(for='studyMom') Nivel de Estudios
-            select#studyMom(name='studyMom')
-              option(value='Básica Primaria', selected='') Básica Primaria
-              option(value='Básica Secundaria') Básica Secundaria
-              option(value='Bachiller') Bachiller
-              option(value='Técnico Profesional') Técnico Profesional
-              option(value='Tecnólogo') Tecnólogo
-              option(value='Profesional') Profesional
-              option(value='Especialización') Especialización
-              option(value='Maestría') Maestría
-              option(value='Doctorado') Doctorado
-          input#professionMom(type='text', name='professionMom', placeholder='Título adquirido')
-          input#jobMom(type='text', name='jobMom', placeholder='Ocupación')
-    
-    fieldset.dad
-      legend Papá
-      section.data
-        fieldset
-          legend Personal
-          article
-            input.idDad#idDad(type='number', name='idDad', min='1111', placeholder='Cédula Papito', required='')
-            input#idExpeditionDad(type='text', name='idExpeditionDad', placeholder='Lugar de Expedición', required='')
-          article
-            input#nameDad(type='text', name='nameDad', placeholder='Nombres Papito', required='')
-            input#lastnameDad(type='text', name='lastnameDad', placeholder='Apellidos Papito', required='')
-          article
-            label(for='birthdateDad') Fecha de Nacimiento
-            input#birthdateDad(type='date', required='')
-            // <input-datetime></input-datetime>
-          article.img
-            span Foto
-            input#imgDad(type='file', name='imgDad', accept='image/*')
-        fieldset
-          legend Contacto
-          article
-            input#telDad(type='number', name='telDad', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-            input#celDad(type='number', name='celDad', min='1111111111', max='9999999999', placeholder='Celular', required='')
-            input#emailDad(type='email', name='emailDad', placeholder='correo-papito@abc.com')
-          article
-            input#addressDad(type='text', name='addressDad', placeholder='Dirección Papito', required='')
-            input#localityDad(type='text', name='localityDad', placeholder='Barrio', required='')
-            input#municipalityDad(type='text', name='municipalityDad', placeholder='Ciudad/Municipio', required='')
-            input#departamentDad(type='text', name='departamentDad', placeholder='Departamento', required='')
-        fieldset
-          legend Profesión
-          article
-            label(for='studyDad') Nivel de Estudios
-            select#studyDad(name='studyDad')
-              option(value='Básica Primaria', selected='') Básica Primaria
-              option(value='Básica Secundaria') Básica Secundaria
-              option(value='Bachiller') Bachiller
-              option(value='Técnico Profesional') Técnico Profesional
-              option(value='Tecnólogo') Tecnólogo
-              option(value='Profesional') Profesional
-              option(value='Especialización') Especialización
-              option(value='Maestría') Maestría
-              option(value='Doctorado') Doctorado
-          input#professionDad(type='text', name='professionDad', placeholder='Título adquirido')
-          input#jobDad(type='text', name='jobDad', placeholder='Ocupación')
-    
-    fieldset.care
-      legend Cuidador
-      section.data
-        fieldset
-          legend Personal
-          article
-            input.idCare#idCare(type='number', name='idCare', min='1111', placeholder='Cédula Cuidador', required='')
-            input#idExpeditionCare(type='text', name='idExpeditionCare', placeholder='Lugar de Expedición', required='')
-          article
-            input#nameCare(type='text', name='nameCare', placeholder='Nombres Cuidador', required='')
-            input#lastnameCare(type='text', name='lastnameCare', placeholder='Apellidos Cuidador', required='')
-          article
-            label(for='birthdateCare') Fecha de Nacimiento
-            input#birthdateCare(type='date', required='')
-            // <input-datetime></input-datetime>
-          input#relationshipCare(type='text', name='relationshipCare', placeholder='Parentesco', required='')
-          article.img
-            span Foto
-            input#imgCare(type='file', name='imgCare', accept='image/*')
-        fieldset
-          legend Contacto
-          article
-            input#telCare(type='number', name='telCare', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-            input#celCare(type='number', name='celCare', min='1111111111', max='9999999999', placeholder='Celular', required='')
-            input#emailCare(type='email', name='emailCare', placeholder='correo-cuidador@abc.com')
-          article
-            input#addressCare(type='text', name='addressCare', placeholder='Dirección Cuidador', required='')
-            input#localityCare(type='text', name='localityCare', placeholder='Barrio', required='')
-            input#municipalityCare(type='text', name='municipalityCare', placeholder='Ciudad/Municipio', required='')
-            input#departamentCare(type='text', name='departamentCare', placeholder='Departamento', required='')
-        fieldset
-          legend Profesión
-          article
-            label(for='studyCare') Nivel de Estudios
-            select#studyCare(name='studyCare')
-              option(value='Básica Primaria', selected='') Básica Primaria
-              option(value='Básica Secundaria') Básica Secundaria
-              option(value='Bachiller') Bachiller
-              option(value='Técnico Profesional') Técnico Profesional
-              option(value='Tecnólogo') Tecnólogo
-              option(value='Profesional') Profesional
-              option(value='Especialización') Especialización
-              option(value='Maestría') Maestría
-              option(value='Doctorado') Doctorado
-          input#professionCare(type='text', name='professionCare', placeholder='Título adquirido')
-          input#jobCare(type='text', name='jobCare', placeholder='Ocupación')
-    fieldset.user.data
-      legend Actualizar
-      section
-        button(type='submit')
-          span Actualizar
-        button(type='reset')
-          span Limpiar
-        p.cancel
-          a(href='/admin/admin-users') Cancelar
+        fieldset.children
+          legend Actualizar Niñ@
+          section.data
+            fieldset
+              legend Personal
+              input#idChildren(type='number', name='idChildren', readonly)
+              input#nameChildren(type='text', name='nameChildren', placeholder='Nombres Niñ@', required='')
+              input#lastnameChildren(type='text', name='lastnameChildren', placeholder='Apellidos Niñ@', required='')
+              article.img
+                span Foto
+                input#imgChildren(type='file', name='imgChildren', accept='image/*')
+              label(for='birthdateChildren', reqiured='') Fecha de Nacimiento
+              input#birthdateChildren(type='date', required='')
+              // <input-datetime></input-datetime>
+              input#birthplaceChildren(type='text', name='birthplaceChildren', placeholder='Lugar de Nacimiento', required='')
+              article
+                label(for='ageChildren') Edad en Meses: 
+                input#ageChildren(type='number', name='ageChildren', min='0', max='48', placeholder='Edad en meses', required='')
+                label(for='genderChildren') Sexo
+                select#genderChildren(name='genderChildren')
+                  option(value='0', selected='') Niña
+                  option(value='1') Niño
+                label(for='liveSon')  ¿Vive con?
+                select#liveSon(name='liveSon')
+                  option(value='0', selected='') Ambos Padres
+                  option(value='1') Mamá
+                  option(value='2') Papá
+                  option(value='3') Otro Cuidador
+              article
+                input#addressChildren(type='text', name='addressChildren', placeholder='Dirección', required='')
+                input#districtChildren(type='text', name='districtChildren', placeholder='Barrio', required='')
+                input#localityChildren(type='text', name='localityChildren', placeholder='Localidad')
+                input#municipalityChildren(type='text', name='municipalityChildren', placeholder='Ciudad/Municipio', required='')
+                input#departamentChildren(type='text', name='departamentChildren', placeholder='Departamento', required='')
+                label(for='levelhomeChildren') Estrato de la residencia: 
+                input#levelhomeChildren(type='number', name='levelhomeChildren', min='1', max='6', placeholder='Estrato', required='')
+            fieldset
+              legend Salud
+              textarea(name='healthChildren' placeholder='Indicaciones de Salud...' required)
+              article
+                input#epsChildren(type='text', name='epsChildren', placeholder='EPS del niñ@', required='')
+              article
+                label(for='apbChildren') APB - Organización que cobija al niñ@ (Policia, Ejercito, Sanidad Naval, Fuerza Aérea, Ecopetrol, ETB): 
+                input#apbChildren(type='text', name='apbChildren', placeholder='APB del niño', required='')
+              article
+                label(for='glassesChildren')  ¿Usa Gafas:?
+                select#glassesChildren(name='glassesChildren')
+                  option(value='0', selected='') No
+                  option(value='1') Si
+                label(for='hearingaidChildren')  ¿Usa Audífonos:?
+                select#hearingaidChildren(name='hearingaidChildren')
+                  option(value='0', selected='') No
+                  option(value='1') Si
+            fieldset
+              legend Habilidades
+              textarea(name='abilityChildren' placeholder='Habilidades del niñ@...')
+            fieldset
+              legend Debilidades
+              textarea(name='debilityChildren' placeholder='Debilidades del niñ@...')
+        fieldset.mom
+          legend Mamá
+          section.data
+            fieldset
+              legend Personal
+              article
+                input.idMom#idMom(type='number', name='idMom', min='1111', placeholder='Cédula Mamita', required='')
+                input#idExpeditionMom(type='text', name='idExpeditionMom', placeholder='Lugar de Expedición', required='')
+              article
+                input#nameMom(type='text', name='nameMom', placeholder='Nombres Mamita', required='')
+                input#lastnameMom(type='text', name='lastnameMom', placeholder='Apellidos Mamita', required='')
+              article
+                label(for='birthdateMom') Fecha de Nacimiento
+                input#birthdateMom(type='date')
+                // <input-datetime></input-datetime>
+              article.img
+                span Foto
+                input#imgMom(type='file', name='imgMom', accept='image/*')
+            fieldset
+              legend Contacto
+              article
+                input#telMom(type='number', name='telMom', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+                input#celMom(type='number', name='celMom', min='1111111111', max='9999999999', placeholder='Celular', required='')
+                input#emailMom(type='email', name='emailMom', placeholder='correo-mamita@abc.com')
+            fieldset
+              legend Profesión
+              article
+                label(for='studyMom') Nivel de Estudios
+                select#studyMom(name='studyMom')
+                  option(value='0', selected='') Básica Primaria
+                  option(value='1') Básica Secundaria
+                  option(value='2') Bachiller
+                  option(value='3') Técnico Profesional
+                  option(value='4') Tecnólogo
+                  option(value='5') Profesional
+                  option(value='6') Especialización
+                  option(value='7') Maestría
+                  option(value='8') Doctorado
+              input#professionMom(type='text', name='professionMom', placeholder='Título adquirido')
+              input#jobMom(type='text', name='jobMom', placeholder='Ocupación')
+        fieldset.dad
+          legend Papá
+          section.data
+            fieldset
+              legend Personal
+              article
+                input.idDad#idDad(type='number', name='idDad', min='1111', placeholder='Cédula Papito', required='')
+                input#idExpeditionDad(type='text', name='idExpeditionDad', placeholder='Lugar de Expedición', required='')
+              article
+                input#nameDad(type='text', name='nameDad', placeholder='Nombres Papito', required='')
+                input#lastnameDad(type='text', name='lastnameDad', placeholder='Apellidos Papito', required='')
+              article
+                label(for='birthdateDad') Fecha de Nacimiento
+                input#birthdateDad(type='date')
+                // <input-datetime></input-datetime>
+              article.img
+                span Foto
+                input#imgDad(type='file', name='imgDad', accept='image/*')
+            fieldset
+              legend Contacto
+              article
+                input#telDad(type='number', name='telDad', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+                input#celDad(type='number', name='celDad', min='1111111111', max='9999999999', placeholder='Celular', required='')
+                input#emailDad(type='email', name='emailDad', placeholder='correo-papito@abc.com')
+            fieldset
+              legend Profesión
+              article
+                label(for='studyDad') Nivel de Estudios
+                select#studyDad(name='studyDad')
+                  option(value='0', selected='') Básica Primaria
+                  option(value='1') Básica Secundaria
+                  option(value='2') Bachiller
+                  option(value='3') Técnico Profesional
+                  option(value='4') Tecnólogo
+                  option(value='5') Profesional
+                  option(value='6') Especialización
+                  option(value='7') Maestría
+                  option(value='8') Doctorado
+              input#professionDad(type='text', name='professionDad', placeholder='Título adquirido')
+              input#jobDad(type='text', name='jobDad', placeholder='Ocupación')
+        fieldset.care
+          legend Cuidador
+          section.data
+            fieldset
+              legend Personal
+              article
+                input.idCare#idCare(type='number', name='idCare', min='1111', placeholder='Cédula Cuidador', required='')
+                input#idExpeditionCare(type='text', name='idExpeditionCare', placeholder='Lugar de Expedición', required='')
+              article
+                input#nameCare(type='text', name='nameCare', placeholder='Nombres Cuidador', required='')
+                input#lastnameCare(type='text', name='lastnameCare', placeholder='Apellidos Cuidador', required='')
+              article
+                label(for='birthdateCare') Fecha de Nacimiento
+                input#birthdateCare(type='date')
+                // <input-datetime></input-datetime>
+              input#relationshipCare(type='text', name='relationshipCare', placeholder='Parentesco', required='')
+              article.img
+                span Foto
+                input#imgCare(type='file', name='imgCare', accept='image/*')
+            fieldset
+              legend Contacto
+              article
+                input#telCare(type='number', name='telCare', min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+                input#celCare(type='number', name='celCare', min='1111111111', max='9999999999', placeholder='Celular', required='')
+                input#emailCare(type='email', name='emailCare', placeholder='correo-cuidador@abc.com')
+        fieldset.user.data
+          legend Confirmar Registro
+          section
+            button(type='submit')
+              span Registrar
+            button(type='reset')
+              span Limpiar
+            p.cancel
+              a(href='/admin/admin-users') Cancelar

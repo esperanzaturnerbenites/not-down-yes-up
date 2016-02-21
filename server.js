@@ -53,11 +53,11 @@ app.use(passport.session())
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
 		if (err) return done(null, false, { message: err})
+		console.log(user)
 		if (!user){
 			done(null, false, { message: 'Unknown user'})	
 		}else if (password === user.passUser) {
 				if (username === user.userUser && password === user.passUser) {
-		    	
 		    		return done(null,user)
 		 		}
 			} else done(null, false, { message: 'Unknown password'})	
@@ -76,7 +76,7 @@ passport.serializeUser(function(user, done) {
 
 //Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
-	models.adminuser.findOne({idUser:user.idUser},(err,user) => {
+	models.adminuser.findOne({_id:user._id},(err,user) => {
         done(err, user)	
 	})
 })
@@ -113,14 +113,13 @@ app.get("/",(req,res)=>{
 app.post("/authenticate", 
 	passport.authenticate('local',{failureRedirect: 'users/login'}), 
 	(req, res) => {
-		if(req.user.typeUser == "Administrador") return res.redirect("/admin/menu-admin")
-		if(req.user.typeUser == "Docente") return res.redirect("/estimulation/menu-teacher")
+		if(req.user.typeUser == 0) return res.redirect("/admin/menu-admin")
+		if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
 })
 
 //Valida si se encuentra autenticado
 function ensureAuth (req, res, next) {
   if (req.isAuthenticated()) {
-  	console.log(req.user)
     return next() }
   res.redirect('/users/login')
 }

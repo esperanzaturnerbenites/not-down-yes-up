@@ -8,12 +8,16 @@ router.get("/menu-teacher",(req,res)=>{
 	res.render("menuTeacher",{user :req.user})
 })
 
-router.get("/continue",(req,res)=>{
-	res.render("continue")
+router.get("/continue-one",(req,res)=>{
+	res.render("continueOne")
 })
 
-router.get("/continue/continue-detail",(req,res)=>{
-	res.render("continueDetail")
+router.get("/continue-group",(req,res)=>{
+	res.render("continueGroup")
+})
+
+router.get("/continue/continue-detail-one",(req,res)=>{
+	res.render("continueDetailOne")
 })
 
 router.get("/steps",(req,res)=>{

@@ -43,23 +43,24 @@ block content
                 input#emailUser(type='email', name='emailUser', placeholder='correo-usuario@abc.com', required)
               article
                 input#addressUser(type='text', name='addressUser', placeholder='Dirección', required='')
-                input#localityUser(type='text', name='localityUser', placeholder='Barrio', required='')
-                input#municipalityUser(type='text', name='municipalityUser', placeholder='Ciudad/Municipio', required='')
+                input#districtUser(type='text', name='districtUser', placeholder='Barrio', required='')
+                input#localityUser(type='text', name='localityUser', placeholder='Localidad')
+                input#districtUser(type='text', name='municipalityUser', placeholder='Ciudad/Municipio', required='')
                 input#departamentUser(type='text', name='departamentUser', placeholder='Departamento', required='')
             fieldset
               legend Profesión
               article
                 label(for='studyUser') Nivel de Estudios: 
                 select#studyUser(name='studyUser')
-                  option(value='Básica Primaria', selected) Básica Primaria
-                  option(value='Básica Secundaria') Básica Secundaria
-                  option(value='Bachiller') Bachiller
-                  option(value='Técnico Profesional') Técnico Profesional
-                  option(value='Tecnólogo') Tecnólogo
-                  option(value='Profesional') Profesional
-                  option(value='Especialización') Especialización
-                  option(value='Maestría') Maestría
-                  option(value='Doctorado') Doctorado
+                  option(value='0', selected) Básica Primaria
+                  option(value='1') Básica Secundaria
+                  option(value='2') Bachiller
+                  option(value='3') Técnico Profesional
+                  option(value='4') Tecnólogo
+                  option(value='5') Profesional
+                  option(value='6') Especialización
+                  option(value='7') Maestría
+                  option(value='8') Doctorado
               input#professionUser(type='text', name='professionUser', placeholder='Título adquirido', required)
               label(for='experienceUser') Experiencia en meses: 
               input#experienceUser(type='number', name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
@@ -72,8 +73,8 @@ block content
             article
                 label(for='typeUser') Tipo de usuario: 
                 select#typeUser(name='typeUser')
-                  option(value='Administrador', selected) Administrador
-                  option(value='Docente') Docente
+                  option(value='0', selected) Administrador
+                  option(value='1') Docente
             input#userUser(type='text', name='userUser', placeholder='Usuario', required)
             input#passUser(type='password', name='passUser', placeholder='Contraseña', required)
             input#passConfirmUser(type='password', name='passConfirmUser', placeholder='Repite Contraseña', required)

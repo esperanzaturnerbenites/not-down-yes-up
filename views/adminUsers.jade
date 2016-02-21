@@ -15,8 +15,8 @@ block content
           section
             input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
             button#formOpeChildrenUpd
-              span Actualizar Info
-            button#formOpeChildrenDel(type='submit')
+              span Actualizar
+            button#formOpeChildrenDel
               span Eliminar
           article#showResultChildren
           include templatesQuery/updateChildren.jade
@@ -26,9 +26,9 @@ block content
           legend Ver Usuarios
           article
             select#typeUser(name='typeUser')
-              option(value='Administrador', selected='') Administradores
-              option(value='Docente') Docentes
-              option(value='Todos') Todos
+              option(value='0', selected='') Administradores
+              option(value='1') Docentes
+              option(value='2') Todos
             button(type='submit')
               span Buscar
             
@@ -44,8 +44,8 @@ block content
           article
             label(for='typeUser') Tipo de usuario: 
             select#typeUser(name='typeUser')
-              option(value='Administrador', selected) Administrador
-              option(value='Docente') Docente
+              option(value='0', selected) Administrador
+              option(value='1') Docente
           article
             input#passUser(type='password', name='passUser', placeholder='Contraseña', required='')
             input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
@@ -65,7 +65,7 @@ block content
       
       form#formOpeUser
         fieldset
-          legend Usuario Sistema
+          legend Eliminar Usuario Sistema
           section
             input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
             button#formOpeUserDel(type='submit')
@@ -76,9 +76,9 @@ block content
           legend Docente/Administrador(s)
           section
             input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
-            button#formOpeTeachAdminUpd(type='submit')
-              span Actualizar Info
-            button#formOpeTeachAdminDel(type='submit')
+            button#formOpeTeachAdminUpd
+              span Actualizar
+            button#formOpeTeachAdminDel
               span Eliminar
 
           article#showResultTeachAdmin

@@ -50,7 +50,6 @@ h3{
 }
 
 
-
 button{
   border-bottom-right-radius:10px;
   border-top-left-radius:10px;
@@ -86,6 +85,10 @@ td{
   padding:5px;
 }
 
+input:empty{
+  background-color:#e6f1bf;
+}
+
 input:valid{
   background-color:#e6f1bf;
 }
@@ -94,9 +97,10 @@ input:focus:invalid{
   background:#e8b8b8;
 }*/
 
-input:empty{
-  background-color:#e6f1bf;
+input:invalid{
+  background:#e8b8b8; 
 }
+
 /*
 input:required{
   background-color:#e6f1bf;
@@ -108,8 +112,24 @@ input{
   padding:5px;
 }
 
-input:invalid{
+textarea:empty{
+  background-color:#e6f1bf;
+}
+
+textarea:invalid{
   background:#e8b8b8; 
+}
+
+textarea:valid{
+  background-color:#e6f1bf;
+}
+
+textarea{
+  width:50%;
+  border-radius:5px;
+  background-color:#e6f1bf;
+  outline: none;
+  padding:5px;
 }
 
 fieldset{
@@ -622,7 +642,7 @@ article.actCentral{
   padding:10px;
   width:90%;
   margin:20px auto;
-  text-align:justify;
+  text-align:center;
   font-size:1rem;
 }
 
@@ -850,4 +870,22 @@ article.actCentral{
 }
 .show{
   display: block !important;
+}
+
+.actGroup input{
+  font-size:1.5rem;
+}
+
+.actGroup fieldset{
+  background:#d5e59f;
+  margin:20px auto;
+  text-align:center;
+  width:50%;
+  max-width:50%;
+}
+
+.actGroup article{
+  margin:10px auto;
+  width:90%;
+  max-width:95%;
 }
