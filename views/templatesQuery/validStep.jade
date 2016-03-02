@@ -1,0 +1,28 @@
+template#consulQueryChildrenValid
+
+  form#formValidChildren
+    fieldset.validStep
+      legend Validar Etapa
+      article#dataNameChild
+      
+      article
+        label Etapa
+        select#step(name='step')
+          option(value='0', selected='') Etapa 1
+          option(value='1') Etapa 2
+          option(value='2') Etapa 3
+          option(value='3') Etapa 4
+      
+      article
+        label Actividad 1
+        input#act1(type='text', name='act1', value='Completada', readonly)
+      
+      article
+        label Actividad 2
+        input#act2(type='text', name='act2', value='Completada', readonly)
+
+      button
+        span Validar
+
+      button#cancelValidStep(type='button')
+        span Cancelar

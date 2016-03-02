@@ -109,16 +109,18 @@ careSchema = new Mongoose.Schema({
 }),
 
 activityhistorySchema = new Mongoose.Schema({
-	Activity: {type:String, default:""},
+	Activity: {type:Number, default:0},
 	statusActivity: {type:String, default:"Pendiente"},
-	scoreActivity: {type:Number, default:0},
-	indicatorBackingActivity:{type:String, default:""},
-	indicatorResultActivity:{type:String, default:""},
+	scoreSystemActivity: {type:Number, default:0},
+	scoreTeachActivity: {type:Number, default:0},
+	backingMaxActivity:{type:String, default:""},
+	backingMinActivity:{type:String, default:""},
+	backingDFunctionActivity:{type:String, default:""},
 	observationActivity: {type:String, default:"Validado"},
-	step: {type:String, default:""},
+	step: {type:Number, default:0},
 	statusStep: {type:String, default:"Pendiente"},
-	scoreStep: {type:Number, default:0},
-	observationStep: {type:String, default:"Pendiente"},
+	scoreStep: {type:Number, default:0},//******************Calcular
+	observationStep: {type:String, default:"Sin Validar"},
 	dateActivity: {type:Date, default:Date.now},
 	idUser: {type:Schema.Types.ObjectId, ref: "user"},
 	idChildren: {type:Schema.Types.ObjectId, ref: "children"}

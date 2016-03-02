@@ -9,22 +9,13 @@ router.use(bodyParser.urlencoded())
 
 router.post("/general",(req,res)=>{
 	var data = []
-	models.children.find().lean().exec((err,childrens) =>{
-		if (err) return res.send(err)
-		for (children of childrens){
-			console.log(children.idChildren)
-			models.activityhistory.find({idChildren: children.idChildren}).lean().exec((err,acitivities) =>{
-				if (err) return res.send(err)
-				children.act = acitivities
-				console.dir(acitivities)
-			})
-			data.push(children)
-		}
-		res.json(data)	
+	models.children.find({},(err,childrens) =>{
+		models.activityhistory.populate(childrens, {path: "_id/idChildren"},function(err, childrens){
+			if (err) return res.send(err)
+			res.json(childrens)
+		})
 	})
 })
-
-
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

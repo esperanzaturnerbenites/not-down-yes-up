@@ -6,11 +6,10 @@ block exit
     a(href="/logout") SALIR
 block content
   nav.menuPrincipal
-    ul
-      li
-        a(href='/estimulation/continue-group') ESTIMULACIÓN EN GRUPOS
-      li
-        a(href='/estimulation/continue-one') ESTIMULACIÓN INDIVIDUAL
+    article.menuPrincipalTeach
+      ul
+        li
+          a(href='/estimulation/steps') INGRESAR AL CENTRO DE ESTIMULACIÓN
   article.infoImp
     header
       if user.userUser

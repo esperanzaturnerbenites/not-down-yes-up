@@ -8,19 +8,7 @@ block content
   section.register
     h3 Administración de Usuarios
     article.data
-      
-      form#formOpeChildren
-        fieldset
-          legend Niñ@s
-          section
-            input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
-            button#formOpeChildrenUpd
-              span Actualizar
-            button#formOpeChildrenDel
-              span Eliminar
-          article#showResultChildren
-          include templatesQuery/updateChildren.jade
-      
+            
       form#formFindAll
         fieldset
           legend Ver Usuarios
@@ -81,7 +69,7 @@ block content
             button#formOpeTeachAdminDel
               span Eliminar
 
-          article#showResultTeachAdmin
-          include templatesQuery/updateUser.jade
+      article#showResultTeachAdmin
+      include templatesQuery/updateUser.jade
       
   script(src="/js/app.js")

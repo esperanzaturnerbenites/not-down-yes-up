@@ -1,0 +1,21 @@
+extends templates/template.jade
+block title
+  title Salvar Info ¡No Down, Yes Up!
+block exit
+  h2.exit
+    a(href='/admin/menu-admin') VOLVER
+block content
+  section.register
+    h3 Salvar la Información
+    article.data
+      
+      form#formSave
+        fieldset
+          legend Backup Info
+          section
+            p
+              span Recuerde realizar el backup del sistema de manera periódica para evitar posibles pérdidas de información.
+            button#buttonSave
+              span Realizar Backup
+      
+  script(src="/js/app.js")

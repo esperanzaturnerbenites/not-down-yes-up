@@ -1,49 +1,23 @@
-doctype html
-html(lang='es')
-  head
-    meta(charset='UTF-8')
-    title Centro de Estimulación - Nombre Actividad
-    link(rel='stylesheet', href='/css/normalize.css')
-    link(rel='stylesheet', href='/css/style.css')
-  body.backgroundF
-    section.container
-      section.centerEstimulation
-        h2.exit
-          a(href='/estimulation/steps/step1') VOLVER
-      section.activity
-        p
-          span ETAPA 1 - ACTIVIDAD 1
-        a(href='#') Reiniciar Actividad
-        a(href='#') Validar Actividad
-      section.actDesc
-        p
-          |Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis rem non eum rerum sint deserunt esse vel nisi vero dolore, architecto, maxime repellendus distinctio vitae est suscipit voluptates quia corporis.  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, voluptate, beatae. Nobis id ut, iste fugit in, distinctio est voluptate incidunt modi voluptatibus cumque, laudantium architecto corporis repellendus adipisci alias?
-      section.actDesc
-        article
-          label(for='childrenList') Selecciona el niñ@ para iniciar la actividad: 
-          select#childrenList(name='childrenList')
-            option(value='0', selected) Niñ@ 1
-            option(value='1') Niñ@ 2
-            option(value='2') Niñ@ 3
-            option(value='3') Niñ@ 4
-            option(value='4') Niñ@ 5
-            option(value='5') Niñ@ 6
-            option(value='6') Niñ@ 7
-            option(value='7') Niñ@ 8
-            option(value='8') Niñ@ 9
-            option(value='9') Niñ@ 10
-      section.actContent
-        article
-          p
-            b DESCRIPCIÓN ACTIVIDAD 1
-          span
-            | 1. Paso1 ...2... 3...
-        article.actCentral
-          p
-            b ACTIVIDAD A REALIZAR
-          a(href='#')
-            img(src='', alt='IMG')
-        article
-          p
-            b RESULTADO
-          img(src='/img/espera.png', alt='')
+extends templates/templateEstimulation.jade
+block title
+	title Centro de stimulación - Nombre Actividad
+block a-exit
+	a(href='/estimulation/steps/step1') VOLVER
+block desc
+	section.activity
+		p ETAPA 1 - ACTIVIDAD 1
+		button#RestarActClic
+			span Reiniciar Actividad
+		button#validActClic(disabled)
+			span Validar Actividad
+
+	section#showValidAct.validAct
+	include templatesQuery/validActivity.jade
+
+	section.actDesc
+		p
+			|Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis rem non eum rerum sint deserunt esse vel nisi vero dolore, architecto, maxime repellendus distinctio vitae est suscipit voluptates quia corporis.  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, voluptate, beatae. Nobis id ut, iste fugit in, distinctio est voluptate incidunt modi voluptatibus cumque, laudantium architecto corporis repellendus adipisci alias?
+
+block activity
+	section#activityChildrens.actContent
+	include templatesQuery/activityChildrenAct.jade

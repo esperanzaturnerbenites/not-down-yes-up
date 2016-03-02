@@ -6,15 +6,24 @@ block exit
     a(href="/logout") SALIR
 block content
   nav.menuPrincipal
-    ul
-      li
-        a(href='/admin/register-children') NIÑ@ NUEV@
-      li
-        a(href='/admin/register-user') NUEV@ USUARIO
-      li
-        a(href='/admin/admin-users') ADMIN USUARIOS
-      li
-        a(href='/admin/reports') REPORTES
+    article.menuPrincipalNew
+      ul
+        li
+          a(href='/admin/register-children') NIÑ@ NUEV@
+        li
+          a(href='/admin/register-user') NUEV@ USUARIO
+    article.menuPrincipalAdmin
+      ul
+        li
+          a(href='/admin/admin-users') ADMIN USUARIOS
+        li
+          a(href='/admin/admin-childrens') ADMIN NIÑ@S
+        li
+          a(href='/admin/reports') REPORTES
+    article.menuPrincipalBackup
+      ul
+        li
+          a(href='/admin/backup') BACKUPS
   article.infoImp
     header
       if user.userUser

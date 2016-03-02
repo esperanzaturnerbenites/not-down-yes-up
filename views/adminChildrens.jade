@@ -1,0 +1,42 @@
+extends templates/template.jade
+block title
+  title Administración de Usuarios en ¡No Down, Yes Up!
+block exit
+  h2.exit
+    a(href='/admin/menu-admin') VOLVER
+block content
+  section.register
+    h3 Administración de Usuarios
+    article.data
+      
+      form#formOpeChildren
+        fieldset
+          legend Niñ@s
+          section
+            input#adminOpeChildren(type='number', name='adminOpeChildren', min='1111', placeholder='Identificación Niñ@', required='')
+            button#formOpeChildrenUpd
+              span Actualizar
+            button#formOpeChildrenDel
+              span Eliminar
+          article#showResultChildren
+          include templatesQuery/updateChildren.jade
+            
+      form#formOpeValidChildren
+        fieldset
+          legend Validar Estapa
+          article
+            select#typeUser(name='typeUser')
+              option(value='0', selected='') Etapa 1
+              option(value='1') Etapa 2
+              option(value='2') Etapa 3
+              option(value='3') Etapa 4
+            button#formValidChildrenFound(type='submit')
+              span Buscar
+          article
+            input#idChildren(type='number', name='idChildren', min='1111', placeholder='Identificación Niñ@', required='')
+            button#formValidChildrenValid(type='submit')
+              span Validar
+      article#showResultValid
+      include templatesQuery/validStep.jade
+      
+  script(src="/js/app.js")

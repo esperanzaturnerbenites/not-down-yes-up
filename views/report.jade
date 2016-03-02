@@ -15,9 +15,9 @@ block content
             label(for='consulG') Tipo de Consulta: 
             select#consulG(name='consulG')
               option(value='', disabled='', selected='') Escoge tu Consulta
-              option(value='Listado General') Listado General
-              option(value='Listado por Edades y Etapas') Listado por Edades y Etapas
-              option(value='Listado por Resultados') Listado por Resultados
+              option(value='0') Listado General
+              option(value='1') Listado por Edades y Etapas
+              option(value='2') Listado por Resultados
       section
         form#consulChildren
           fieldset.consul.consulChildren
@@ -51,6 +51,9 @@ block content
             article
               label Cantidad de Actividades Completadas: 
               input#consulActCompleted(type='number', name='consulActCompleted', min='0', max='8', placeholder='Act')
+            article
+              label Cantidad de Actividades Pendientes: 
+              input#consulActPending(type='number', name='consulActPending', min='0', max='8', placeholder='Act')
             button.buttons(type='submit')
               span Consultar
       section#buttons

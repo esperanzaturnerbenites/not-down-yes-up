@@ -14,17 +14,20 @@ $("#consulG").change(() => {
 		async : false, 
 		type : "POST",
 		success: function(childrens){
-			var clone = getClone("#consulQueryGeneralAvanced")
-			var data = $(clone.querySelector("#data"))
+			if($("#consulG").val() == 0){
+				var clone = getClone("#consulQueryGeneralAvanced")
+				var data = $(clone.querySelector("#data"))
 
-			for (children of childrens){
-				var tr = $("<tr>").append(
-					$("<td>",{html : children.nameChildren + children.lastnameChildren }),
-					$("<td>",{html : children.ageChildren })
-				)
-				data.append(tr)
+				for (children of childrens){
+					var tr = $("<tr>").append(
+						$("<td>",{html : children.nameChildren + children.lastnameChildren }),
+						$("<td>",{html : children.ageChildren })
+					)
+					data.append(tr)
+				}
+				renderResults(clone)
 			}
-			renderResults(clone)
+			
 	    }
 	})
 })

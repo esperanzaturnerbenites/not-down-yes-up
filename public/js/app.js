@@ -5,11 +5,13 @@ formUpdatePass = $("#formUpdatePass"),
 formOpeChildren = $("#formOpeChildren"),
 formOpeUser = $("#formOpeUser"),
 formNewUser = $("#formNewUser"),
-formFindAll = $("#formFindAll")
+formFindAll = $("#formFindAll"),
+formOpeValidChildren = $("#formOpeValidChildren")
 
 var showResults = $("#showResults"),
-showResultTeachAdmin = $("#showResultTeachAdmin")
+showResultTeachAdmin = $("#showResultTeachAdmin"),
 showResultChildren = $("#showResultChildren")
+showResultValid = $("#showResultValid")
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -20,6 +22,7 @@ function getClone(selector){
 function renderResults(node){showResults.html(""); showResults.append(node)}
 function renderResultTeachAdmin(node){showResultTeachAdmin.html(""); showResultTeachAdmin.append(node)}
 function renderResultChildren(node){showResultChildren.html(""); showResultChildren.append(node)}
+function renderResultValid(node){showResultValid.html(""); showResultValid.append(node)}
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
 function addChildren(){
@@ -143,6 +146,31 @@ formNewUser.on("submit",(event) => {
 	});
 })
 
+$("#formValidChildrenValid").on("click",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/valid-step",
+		async : false, 
+		type : "POST",
+		data : formOpeValidChildren.serializeArray(),
+		success: function(children){
+			if(children.idChildren != null){
+				var clone = getClone("#consulQueryChildrenValid")
+				var data = $(clone.querySelector("#dataNameChild"))
+				var p = $("<p>").attr({id:children.idChildren}).append(
+					span = $("<span>",{html : children.nameChildren + " " + children.lastnameChildren})
+				)
+				data.append(p)
+				$("#cancelValidStep",clone).click(()=>{
+					$("#formValidChildren").remove()
+				})
+				renderResultValid(clone)
+			}
+	    	
+	    }
+	})
+})
+
 formFindAll.on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
@@ -220,9 +248,10 @@ $("#formOpeTeachAdminUpd").on("click",(event) => {
 		success: function(result){
 			if (result.valid) {
 				var clone = getClone("#consulQueryUserUpdate")
+				$("#cancelUpdateUser",clone).click(()=>{
+					$("#formUpdateUser").remove()
+				})
 				renderResultTeachAdmin(clone)
-				console.log(typeof result)
-				console.log(result)
 			}
 
 	    }

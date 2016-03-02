@@ -144,6 +144,14 @@ router.get("/admin-users",(req,res)=>{
 	res.render("adminUsers")
 })
 
+router.get("/admin-childrens",(req,res)=>{
+	res.render("adminChildrens")
+})
+
+router.get("/valid-step",(req,res)=>{
+	res.render("validStep")
+})
+
 router.post("/find-all",(req,res)=>{
 	var data = req.body
 	console.log(data)
@@ -245,6 +253,19 @@ router.post("/delete-teachadmin",(req,res)=>{
 	})
 })
 
+router.post("/valid-step",(req,res)=>{
+	data = req.body
+
+	models.children.findOne({idChildren : data.idChildren},(err,children) => {
+  		if (err) return res.send(err);
+  		if(children){
+			res.json(children);
+		}else{
+			res.json({msg:"Children not found"});
+		}
+	})
+})
+
 router.post("/update-teachAdmin",(req,res)=>{
 	data = req.body
 
@@ -260,6 +281,10 @@ router.post("/update-teachAdmin",(req,res)=>{
 
 router.get("/reports",(req,res)=>{
 	res.render("report")
+})
+
+router.get("/backup",(req,res)=>{
+	res.render("backup")
 })
 
 //Exportar una variable de js mediante NodeJS

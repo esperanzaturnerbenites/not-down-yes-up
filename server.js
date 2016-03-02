@@ -87,7 +87,7 @@ mongoose.connect('mongodb://localhost/centerestimulation')
 app.use("/users",userURLUsers)
 app.use("/estimulation", ensureAuth, userURLEstimulation)
 app.use("/admin", ensureAuth, userURLAdmin)
-app.use("/reports", userURLReports)
+app.use("/reports", ensureAuth, userURLReports)
 
 //definir carpeta para vistas
 app.set('views', __dirname + '/views')
