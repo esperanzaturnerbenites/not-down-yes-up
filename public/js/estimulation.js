@@ -1,7 +1,8 @@
-const formAddChildAct = $("#formAddChildAct")
+const formAddChildAct = $("#formAddChildAct"),
+	formValidChildren = $("#formValidChildren")
 
 var showChildrensCont = $("#showChildrensCont"),
-	activityChildrens = $("#activityChildrens")
+	activityChildrens = $("#activityChildrens"),
 	showValidAct = $("#showValidAct")
 
 function getClone(selector){
@@ -40,6 +41,7 @@ formAddChildAct.on("submit",(event) => {
 				data.append(pId)
 
 				$("#cancelAddChildren",clone).click(()=>{
+					$("#formValidChildren").remove()
 					$("#formInicAct").remove()
 					$("#nameChild").remove()
 					$("#nameChild1").remove()
@@ -75,52 +77,33 @@ $("#validActClic").on("click",(event) => {
 
 			var label = $("<label>",{html : "Identificación Niñ@: "})
 			input = $("<input>",{html : result.idChildren})
+				.prop("type", "number")
 				.attr({id:"idChildren"})
 				.prop("readonly", true)
+				.prop("name", "idChildren")
 				.val(result.idChildren)
 			
 			$("#buttonCancelValidAct",clone).click(()=>{
 				$("#formValidChildren").remove()
 			})
+			
+			$("#buttonValidAct",clone).click(()=>{
+				$.ajax({
+					url: "/estimulation/valid-activity-complete",
+					async : false, 
+					data : {actGeneral : ($("#formValidChildren")).serialize(), 
+						step : $("#step").serialize(),
+						activity : $("#activity").serialize()},
+					type : "POST",
+					success: function(activity){
+						console.log(activity)
+					}
+				})
+			})
+
 			data.append(label)
 			data.append(input)
 			renderResultValid(clone)
 		}
 	})
 })
-
-$("#buttonValidAct").on("click",(event) => {
-	event.preventDefault()
-
-	$.ajax({
-		url: "/estimulation/found-children",
-		async : false, 
-		data : $("#formValidChildren").serialize(),
-		type : "POST",
-		success: function(result){
-			var clone = getClone("#consulQueryChildrenValid")
-			
-			$("#buttonCancelValidAct",clone).click(()=>{
-				$("#formValidChildren").remove()
-			})
-			renderResultValid(clone)
-		}
-	})
-})
-
-$("#buttonValidAct").on("click",(event) => {
-	event.preventDefault()
-
-	$.ajax({
-		url: "/estimulation/valid-activity-complete",
-		async : false, 
-		data : $("#formValidChildren").serialize(),
-		type : "POST",
-		success: function(result){
-			$("#buttonCancelValidAct",clone).click(()=>{
-				$("#formValidChildren").remove()
-			})
-		}
-	})
-})
-

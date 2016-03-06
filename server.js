@@ -115,6 +115,7 @@ app.post("/authenticate",
 	(req, res) => {
 		if(req.user.typeUser == 0) return res.redirect("/admin/menu-admin")
 		if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
+		if(req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
 })
 
 //Valida si se encuentra autenticado

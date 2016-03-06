@@ -1,28 +1,42 @@
 template#consulQueryChildrenValid
 
-  form#formValidChildren
-    fieldset.validStep
-      legend Validar Etapa
-      article#dataNameChild
-      
-      article
-        label Etapa
-        select#step(name='step')
-          option(value='0', selected='') Etapa 1
-          option(value='1') Etapa 2
-          option(value='2') Etapa 3
-          option(value='3') Etapa 4
-      
-      article
-        label Actividad 1
-        input#act1(type='text', name='act1', value='Completada', readonly)
-      
-      article
-        label Actividad 2
-        input#act2(type='text', name='act2', value='Completada', readonly)
+	form#formValidChildren
+		fieldset.validStep
+			legend Validar Etapa
+			article#dataNameChild
+			
+			article
+				label Etapa
+				select#step(name='step')
+					option(value='0', selected='') Etapa 1
+					option(value='1') Etapa 2
+					option(value='2') Etapa 3
+					option(value='3') Etapa 4
+			
+			article
+				h3 Actividad 1
+			article
+				label Estado:
+				input#actStatus1(type='text', name='actStatus1', value='Completada', readonly)
+			article
+				label Puntaje:
+				input#actScore1(type='number', name='actScore1', value='10', readonly)
+			
+			article
+				h3 Actividad 2
+			article
+				label Estado:
+				input#actStatus2(type='text', name='actStatus2', value='Completada', readonly)
+			article
+				label Puntaje:
+				input#actScore2(type='number', name='actScore2', value='10', readonly)
 
-      button
-        span Validar
+			article
+				textarea#observationStep(name='observationStep' placeholder='Observaciones...' required)
 
-      button#cancelValidStep(type='button')
-        span Cancelar
+
+			button
+				span Validar
+
+			button#cancelValidStep(type='button')
+				span Cancelar

@@ -18,20 +18,25 @@ router.post("/found-children",(req,res)=>{
 })
 
 router.post("/valid-activity-complete",(req,res)=>{
-	var data = req.body
+	dataGenAct = querystring.parse(req.body.actGeneral),
+	dataStep = querystring.parse(req.body.step),
+	dataActivity = querystring.parse(req.body.activity)
 
-	models.adminuser.findOne({userUser : data.userUser}, (err,user) => {
-		if (err) res.send(err)
-		if(user){
-			data.idUser = user._id
-			models.children.findOne({idChildren : data.idChildren}, (err,children) => {
-				if (err) res.send(err)
-				if(children){
-					data.idChildren = children._id
-					res.json(children)
-				} else{res.json({"msg":"Children not found"})}
+	console.log(dataGenAct)
+
+	models.adminuser.findOne({userUser : dataGenAct.userUser}, (err,user) => {
+		if (err) return res.send(err)
+		if(!user) return res.json({"msg":"User not found"})
+			dataGenAct.idUser = user.id
+			models.children.findOne({idChildren : dataGenAct.idChildren}, (err,children) => {
+				if (err) return res.send(err)
+				if(!children) return res.json({"msg":"Children not found"})
+					dataGenAct.idChildren = children._id
+					models.activityhistory.create(dataGenAct, function (err, activity) {
+						if (err) return res.send(err);
+						return res.json({message:"Activity Add Complete", activity : activity})
+					})
 			})
-		}else{res.json({"msg":"User not found"})}
 	})
 
 })
@@ -56,60 +61,36 @@ router.get("/steps",(req,res)=>{
 	res.render("steps")
 })
 
-router.get("/steps/step1",(req,res)=>{
-	var step = 1
-	res.render("step1", step)//Revisar porque tengo mucho sueño, y depronto termino dañandolo...
-})
+router.get("/steps/:step",(req,res)=>{
+	const numberStep = parseInt(req.params.step)
+	console.dir(numberStep)
+	var step = {}
 
-router.get("/steps/step2",(req,res)=>{
-	res.render("step2")
-})
+	models.step.findOne({step:numberStep}, (err, stepDB) => {
+		step = stepDB
+		models.activity.find({step:numberStep}, (err, activities) => {
+			step.activities = activities
+			res.render("stepDetail",{step:step})
+		})
+	})
 
-router.get("/steps/step3",(req,res)=>{
-	res.render("step3")
-})
 
-router.get("/steps/step4",(req,res)=>{
-	res.render("step4")
-})
-
-router.get("/steps/step1-act1",(req,res)=>{
-	res.render("step1Act1", {user :req.user})
-})
-
-router.get("/steps/step1-act2",(req,res)=>{
-	res.render("step1Act2")
-})
-
-router.get("/steps/step2-act1",(req,res)=>{
-	res.render("step2Act1")
-})
-
-router.get("/steps/step2-act2",(req,res)=>{
-	res.render("step2Act2")
-})
-
-router.get("/steps/step3-act1",(req,res)=>{
-	res.render("step3Act1")
-})
-
-router.get("/steps/step3-act2",(req,res)=>{
-	res.render("step3Act2")
-})
-
-router.get("/steps/step4-act1",(req,res)=>{
-	res.render("step4Act1")
-})
-
-router.get("/steps/step4-act2",(req,res)=>{
-	res.render("step4Act2")
 })
 
 router.get("/steps/:step/:activity",(req,res)=>{
-	const step = req.params.step,
-	activity = req.params.activity
-	console.log(activity)
-	res.render("step4Act2")
+	const numberStep = parseInt(req.params.step),
+		numberActivity = parseInt(req.params.activity)
+	var activity = {}
+
+	models.activity.findOne({step : numberStep, activity : numberActivity}, (err, activityDB) => {
+		console.log(err)
+		activity = activityDB
+
+		models.step.findOne({step : activityDB.step}, (err, stepDB) => {
+			activity.step = stepDB
+			res.render("activity",{activity:activity, user:req.user})
+		})
+	})
 })
 
 //Exportar una variable de js mediante NodeJS

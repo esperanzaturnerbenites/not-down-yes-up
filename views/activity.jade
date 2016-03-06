@@ -7,21 +7,21 @@ block desc
 	section.activity
 		p 
 			span ETAPA 
-			span#step 1 
+			span #{activity.step} 
 			span - ACTIVIDAD 
-			span#activity 1
-		h3 Reconocimiento de Emociones
+			span #{activity.activity} 
+		h3 #{activity.name} 
 		button#RestarActClic
 			span Reiniciar Actividad
 		button#validActClic(disabled)
 			span Validar Actividad
+		audio#audio(src='#{activity.audio}')
 
 	section#showValidAct.validAct
 	include templatesQuery/validActivity.jade
 
 	section.actDesc
-		p
-			|Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis rem non eum rerum sint deserunt esse vel nisi vero dolore, architecto, maxime repellendus distinctio vitae est suscipit voluptates quia corporis.  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum, voluptate, beatae. Nobis id ut, iste fugit in, distinctio est voluptate incidunt modi voluptatibus cumque, laudantium architecto corporis repellendus adipisci alias?
+		p #{activity.description}
 
 block activity
 	section#activityChildrens.actContent

@@ -10,7 +10,7 @@ template#consulQueryChildrenValid
 			
 			article
 				label Resultado Sistema 
-				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='Completada', max, readonly)
+				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
 			
 			article
 				label Puntuación Docente 
@@ -24,7 +24,7 @@ template#consulQueryChildrenValid
 
 			article
 				label Apoyo Máximo 
-				select#resultAct(name='resultAct')
+				select#backingMaxActivity(name='backingMaxActivity')
 					option(value='0', selected='') No Requiere
 					option(value='1') L: Logrado
 					option(value='2') LP: Logro Parcialmente Obtenido
@@ -32,7 +32,7 @@ template#consulQueryChildrenValid
 			
 			article
 				label Apoyo Mínimo 
-				select#resultAct(name='resultAct')
+				select#backingMinActivity(name='backingMinActivity')
 					option(value='0', selected='') No Requiere
 					option(value='1') L: Logrado
 					option(value='2') LP: Logro Parcialmente Obtenido
@@ -40,7 +40,7 @@ template#consulQueryChildrenValid
 			
 			article
 				label D. Funcional 
-				select#resultAct(name='resultAct')
+				select#backingDFunctionActivity(name='backingDFunctionActivity')
 					option(value='0', selected='') No Requiere
 					option(value='1') L: Logrado
 					option(value='2') LP: Logro Parcialmente Obtenido

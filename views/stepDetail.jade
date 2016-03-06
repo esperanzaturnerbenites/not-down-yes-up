@@ -1,0 +1,28 @@
+doctype html
+html(lang='es')
+  head
+    meta(charset='UTF-8')
+    title Centro de Estimulación - Actividades Etapa 1 .:Undefine:.
+    link(rel='stylesheet', href='/css/normalize.css')
+    link(rel='stylesheet', href='/css/style.css')
+  body.backgroundF
+    section.container
+      section.centerEstimulation
+        h2.exit
+          a(href='/estimulation/steps') VOLVER
+      section.step
+        p #{step.name}
+        p 
+          span Validar Etapa
+      section.stepDesc
+        p #{step.description}
+      section.logoCorpAct
+        a(href="www.corporacionsindromededown.org")
+          img(src="/img/LogoCorpSD.png", alt="")
+      section.stepAct.act
+        for activity in step.activities
+          article.act1
+            a(href='#{activity.url}')
+              img(src='#{activity.img}', alt='')
+            p
+              b #{activity.name}

@@ -23,6 +23,14 @@ const userSchema = new Mongoose.Schema({
 	centerUser: {type:String, default:""}
 }),
 
+adminuserSchema = new Mongoose.Schema({
+	userUser: {type:String, default:""},
+	passUser: {type:String, default:""},
+	typeUser: {type:String, default:""},
+	dateUser: {type:Date, default:Date.now},
+	idUser: {type:Schema.Types.ObjectId, ref: "user"}
+}),
+
 childrenSchema = new Mongoose.Schema({
 	idChildren: {type:Number, required:true},
 	nameChildren: {type:String, default:""},
@@ -49,15 +57,6 @@ childrenSchema = new Mongoose.Schema({
 	dateStart: {type:Date, default:Date.now},
 	dateEnd: {type:Date, default:Date.now}
 }),
-
-adminuserSchema = new Mongoose.Schema({
-	userUser: {type:String, default:""},
-	passUser: {type:String, default:""},
-	typeUser: {type:String, default:""},
-	dateUser: {type:Date, default:Date.now},
-	idUser: {type:Schema.Types.ObjectId, ref: "user"}
-}),
-
 
 momSchema = new Mongoose.Schema({
 	idMom: {type:Number, required:true},
@@ -109,29 +108,55 @@ careSchema = new Mongoose.Schema({
 }),
 
 activityhistorySchema = new Mongoose.Schema({
-	Activity: {type:Number, default:0},
 	statusActivity: {type:String, default:"Pendiente"},
 	scoreSystemActivity: {type:Number, default:0},
 	scoreTeachActivity: {type:Number, default:0},
-	backingMaxActivity:{type:String, default:""},
-	backingMinActivity:{type:String, default:""},
-	backingDFunctionActivity:{type:String, default:""},
+	backingMaxActivity:{type:Number, default:0},
+	backingMinActivity:{type:Number, default:0},
+	backingDFunctionActivity:{type:Number, default:0},
 	observationActivity: {type:String, default:"Validado"},
-	step: {type:Number, default:0},
-	statusStep: {type:String, default:"Pendiente"},
-	scoreStep: {type:Number, default:0},//******************Calcular
-	observationStep: {type:String, default:"Sin Validar"},
-	dateActivity: {type:Date, default:Date.now},
+	date: {type:Date, default:Date.now},
+	idActivity: {type:Schema.Types.ObjectId, ref: "activity"},
 	idUser: {type:Schema.Types.ObjectId, ref: "user"},
 	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
+}),
+
+stephistorySchema = new Mongoose.Schema({
+	statusStep: {type:String, default:"Pendiente"},
+	scoreStep: {type:Number, default:0},//**********Calcular solo cuando se valide la etapa.
+	observationStep: {type:String, default:"Sin Validar"},
+	date: {type:Date, default:Date.now},
+	idStep: {type:Schema.Types.ObjectId, ref: "step"},
+	idUser: {type:Schema.Types.ObjectId, ref: "user"},
+	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
+}),
+
+activitySchema = new Mongoose.Schema({
+	activity: {type:Number},
+	name: {type:String, default:""},
+	description: {type:String, default:""},
+	guides: [],
+	img: {type:String, default:""},
+	audio: {type:String, default:""},
+	url: {type:String, default:""},
+	step: {type:Number}
+}),
+
+stepSchema = new Mongoose.Schema({
+	step: {type:Number},
+	name: {type:String, default:""},
+	description: {type:String, default:""}
 })
 
 module.exports = {
-	user : Mongoose.model('user', userSchema),
-	mom : Mongoose.model('mom', momSchema),
-	dad : Mongoose.model('dad', dadSchema),
-	care : Mongoose.model('care', careSchema),
-	children : Mongoose.model('children', childrenSchema),
-	adminuser : Mongoose.model('adminUser', adminuserSchema),
-	activityhistory : Mongoose.model('activityhistory', activityhistorySchema)
+	user: Mongoose.model('user', userSchema),
+	adminuser: Mongoose.model('adminuser', adminuserSchema),
+	children: Mongoose.model('children', childrenSchema),
+	mom: Mongoose.model('mom', momSchema),
+	dad: Mongoose.model('dad', dadSchema),
+	care: Mongoose.model('care', careSchema),
+	activityhistory: Mongoose.model('activityhistory', activityhistorySchema),
+	stephistory: Mongoose.model('stephistory', stephistorySchema),
+	activity: Mongoose.model('activity', activitySchema),
+	step: Mongoose.model('step', stepSchema)
 };

@@ -2,15 +2,18 @@ template#consulQueryActivityChild
     
 	article#nameChild
 		p
-			b DESCRIPCIÓN ACTIVIDAD 1
-		span
-			| 1. Paso1 ...2... 3...
+			b DESCRIPCIÓN ACTIVIDAD #{activity.activity}
+		for guide in activity.guides
+			p #{guide}
+
 	article#nameChild1.actCentral
 		p
 			b ACTIVIDAD A REALIZAR
-		a(href='#')
-			img(src='', alt='IMG')
+		img#imgAct(src='#{activity.img}', alt='IMG')
 	article#nameChild2
 		p
 			b RESULTADO
 		img(src='/img/espera.png', alt='')
+
+	script
+		$("#imgAct").click(() => $("#audio").trigger("play"))
