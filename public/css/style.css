@@ -254,6 +254,10 @@ option{
 	background-color:#e6f1bf;
 }
 
+.img img{
+	width:20%;
+}
+
 .exit{
 	width:10%;
 	max-width:10%;
@@ -612,14 +616,23 @@ option{
 	color:#191E09;
 }
 
-.more p{
-	margin:2% auto;
-	width:20%;
+.more button{
+	margin:8px auto;
+	width:30%;
 	border-radius:5px;
 	font-size:1.1rem;
 	text-align:center;
 	padding:5px;
 	background-color:#CCDD91;
+}
+
+.more img{
+	width:20px;
+	height:20px;
+}
+
+.contActivities button{
+	margin:0 auto;
 }
 
 .contActivities p{
@@ -717,7 +730,7 @@ option{
 	padding:10px;
 	width:90%;
 	margin:0 auto;
-	text-align:justify;
+	text-align:center;
 	font-size:1rem;
 }
 

@@ -36,13 +36,13 @@ function addChildren(){
 			care : $(".care").serialize()},
 		type : "POST",
 		success: function(result){
-	        console.log(result)
-	        $("#formAddChildren")
-	        .trigger("reset")
-	        .off("submit")
-	        .addClass("hide")
-	        $("#validChildrenformOpeChildrenUpd").prop("readonly", false)
-	    }
+			console.log(result)
+			$("#formAddChildren")
+			.trigger("reset")
+			.off("submit")
+			.addClass("hide")
+			$("#validChildrenformOpeChildrenUpd").prop("readonly", false)
+		}
 	});
 }
 
@@ -56,14 +56,14 @@ function addUser(){
 				userAdmin : $(".userAdmin").serialize()},
 			type : "POST",
 			success: function(result){
-		        console.log(result);
-		        $("#formAddUser")
-		        .trigger("reset")
-		        .off("submit")
-		        .addClass("hide")
-       			$("#validUser").prop("readonly", false)
+				console.log(result);
+				$("#formAddUser")
+				.trigger("reset")
+				.off("submit")
+				.addClass("hide")
+				$("#validUser").prop("readonly", false)
 
-		    }
+			}
 		});
 	}else console.log({msg:"Password not equals"});
 }
@@ -89,20 +89,20 @@ formValidUser.on("submit",(event) => {
 		success: function(result){
 			console.log(typeof result)
 			console.log(result)
-       		if (result.valid) {
-       			$("#formAddUser")
-       			.removeClass("hide")
-       			.on("submit",addUser)
+			if (result.valid) {
+				$("#formAddUser")
+				.removeClass("hide")
+				.on("submit",addUser)
 				$("#idUser").val($("#validUser").val())
 				$("#validUser").prop("readonly", true)
-       		}else{
+			}else{
 				$("#formAddUser")
 				.addClass("hide")
 				.off("submit",addUser)
 				$("#validUser").prop("readonly", false)
-       	}
+		}
 
-	    }
+		}
 	});
 })
 
@@ -117,19 +117,19 @@ formValidChildren.on("submit",(event) => {
 		success: function(result){
 			console.log(typeof result)
 			console.log(result)
-       		if (result.valid) {
-       			$("#formAddChildren")
-       			.removeClass("hide")
-       			.on("submit",addChildren)
-       			$("#idChildren").val($("#validChildren").val())
-       			$("#validChildren").prop("readonly", true)
-       		}else{
+			if (result.valid) {
+				$("#formAddChildren")
+				.removeClass("hide")
+				.on("submit",addChildren)
+				$("#idChildren").val($("#validChildren").val())
+				$("#validChildren").prop("readonly", true)
+			}else{
 				$("#formAddChildren")
 				.addClass("hide")
 				.off("submit",addChildren)
 				$("#validChildren").prop("readonly", false)
-       		}
-	    }
+			}
+		}
 	});
 })
 
@@ -141,8 +141,8 @@ formNewUser.on("submit",(event) => {
 		data : $("#formNewUser").serialize(),
 		type : "POST",
 		success: function(result){
-			  	console.log(result);
-	    }
+				console.log(result);
+		}
 	});
 })
 
@@ -166,8 +166,8 @@ $("#formValidChildrenValid").on("click",(event) => {
 				})
 				renderResultValid(clone)
 			}
-	    	
-	    }
+			
+		}
 	})
 })
 
@@ -193,7 +193,7 @@ formFindAll.on("submit",(event) => {
 				data.append(tr)
 			}
 			renderResults(clone)
-	    }
+		}
 	})
 })
 
@@ -206,8 +206,8 @@ formUpdatePass.on("submit",(event) => {
 			data : $("#formUpdatePass").serialize(),
 			type : "POST",
 			success: function(result){
-	        console.log(result);
-		    }
+			console.log(result);
+			}
 		});
 	}else console.log({msg:"Password not equals"}); 
 })
@@ -220,8 +220,8 @@ formOpeUser.on("submit.formOpeUserDel",(event) => {
 		data : $("#formOpeUser").serialize(),
 		type : "POST",
 		success: function(result){
-        console.log(result);
-	    }
+		console.log(result);
+		}
 	});
 })
 
@@ -233,8 +233,8 @@ $("#formOpeTeachAdminDel").on("click",(event) => {
 		data : $("#formOpeTeachAdmin").serialize(),
 		type : "POST",
 		success: function(result){
-        console.log(result);
-	    }
+		console.log(result);
+		}
 	});
 })
 
@@ -254,7 +254,7 @@ $("#formOpeTeachAdminUpd").on("click",(event) => {
 				renderResultTeachAdmin(clone)
 			}
 
-	    }
+		}
 	});
 })
 
@@ -266,8 +266,8 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 		data : $("#formOpeChildren").serialize(),
 		type : "POST",
 		success: function(result){
-        console.log(result);
-	    }
+		console.log(result);
+		}
 	});
 })
 

@@ -17,15 +17,7 @@ html(lang='es')
           a(href="www.corporacionsindromededown.org")
             img(src="/img/LogoCorpSD.png", alt="")
         section.stepAct
-          article.step1
-            a(href='/estimulation/steps/step1')
-              img(src='/img/1.png')
-          article.step2
-            a(href='/estimulation/steps/step2')
-              img(src='/img/2.png')
-          article.step3
-            a(href='/estimulation/steps/step3')
-              img(src='/img/3.png')
-          article.step4
-            a(href='/estimulation/steps/step4')
-              img(src='/img/4.png')
+          for step in steps
+            article(class='#{step.styleStep}')
+              a(href='#{step.urlStep}')
+                img(src='#{step.imgStep}')

@@ -1,0 +1,37 @@
+template#consulQueryDataActAll
+	section.continue.continueHistoryAct
+		article
+			h3 HISTORIAL DE ACTIVIDADES
+			section.consulTable
+				table
+					thead
+						tr
+							th ETAPA
+							th ESTADO
+					tbody.more
+						tr
+							th
+								button#consulStep1(type='submit')
+									img(src="/img/check.png" alt=".::")
+									span Etapa 1
+							td#consulStatusStep1 Estado
+						tr
+							th
+								button#consulStep2(type='submit')
+									img(src="/img/check.png" alt=".::")
+									span Etapa 2
+							td#consulStatusStep2 Estado
+						tr
+							th
+								button#consulStep3(type='submit')
+									img(src="/img/check.png" alt=".::")
+									span Etapa 3
+							td#consulStatusStep3 Estado
+						tr
+							th
+								button#consulStep4(type='submit')
+									img(src="/img/check.png" alt=".::")
+									span Etapa 4
+							td#consulStatusStep4 Estado
+	section#resultStep.continue
+	include dataStepDetail.jade

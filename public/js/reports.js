@@ -20,21 +20,13 @@ $("#consulG").change(() => {
 
 				for (children of childrens){
 					var tr = $("<tr>").append(
-						$("<td>",{html : children.nameChildren + children.lastnameChildren }),
+						$("<td>",{html : children.nameChildren + " " + children.lastnameChildren }),
 						$("<td>",{html : children.ageChildren })
 					)
 					data.append(tr)
 				}
 				renderResults(clone)
 			}
-			
-	    }
+		}
 	})
-})
-
-$("#consulChildren").submit(() => {
-
-})
-$("#consulAvanced").submit(() => {
-
 })

@@ -39,8 +39,8 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false,
   store: new MongoStore({
-    mongooseConnection: mongoose.connection
-    })
+	mongooseConnection: mongoose.connection
+	})
 }))
 
 //inicializacion de passport
@@ -58,8 +58,8 @@ passport.use(new LocalStrategy( (username, password, done) => {
 			done(null, false, { message: 'Unknown user'})	
 		}else if (password === user.passUser) {
 				if (username === user.userUser && password === user.passUser) {
-		    		return done(null,user)
-		 		}
+					return done(null,user)
+				}
 			} else done(null, false, { message: 'Unknown password'})	
 		})
 }))
@@ -70,14 +70,14 @@ app.get('/logout', (req, res) => {
   res.redirect('/users/login')
 })
 passport.serializeUser(function(user, done) {
-    done(null, user); 
+	done(null, user); 
    // where is this user.id going? Are we supposed to access this anywhere?
 });
 
 //Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
 	models.adminuser.findOne({_id:user._id},(err,user) => {
-        done(err, user)	
+		done(err, user)	
 	})
 })
 
@@ -121,7 +121,7 @@ app.post("/authenticate",
 //Valida si se encuentra autenticado
 function ensureAuth (req, res, next) {
   if (req.isAuthenticated()) {
-    return next() }
+	return next() }
   res.redirect('/users/login')
 }
 

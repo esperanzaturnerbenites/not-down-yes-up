@@ -11,18 +11,18 @@ html(lang='es')
         h2.exit
           a(href='/estimulation/steps') VOLVER
       section.step
-        p #{step.name}
+        p #{step.nameStep}
         p 
-          span Validar Etapa
+          span ETAPA #{step.stepStep}
       section.stepDesc
-        p #{step.description}
+        p #{step.descriptionStep}
       section.logoCorpAct
         a(href="www.corporacionsindromededown.org")
           img(src="/img/LogoCorpSD.png", alt="")
       section.stepAct.act
         for activity in step.activities
-          article.act1
-            a(href='#{activity.url}')
-              img(src='#{activity.img}', alt='')
+          article(class='#{activity.styleActivity}')
+            a(href='#{activity.urlActivity}')
+              img(src='#{activity.imgNumActivity}', alt='')
             p
-              b #{activity.name}
+              b #{activity.nameActivity}

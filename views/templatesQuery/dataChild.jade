@@ -1,0 +1,88 @@
+template#consulQueryDataChild
+	section.continue.continueViewMore
+			article.consulName
+				p
+					span
+						b NOMBRE: 
+					span #{childrenAct.nameChildren} #{childrenAct.lastnameChildren}
+				p
+					img#consulRImg(src='#{childrenAct.imgChildren}', alt='Foto')
+			article.consulData
+				p
+					span
+						b Número de Identificación: 
+					span #{childrenAct.idChildren}
+				p
+					span
+						b Sexo: 
+						if (childrenAct.genderChildren == 0)
+							- var gender = "Niña"
+						if (childrenAct.genderChildren == 1)
+							- var gender = "Niño"
+					span #{gender}
+				p
+					span
+						b Fecha Nacimiento: 
+					span #{childrenAct.birthdateChildren}
+				p
+					span
+						b Edad: 
+					span #{childrenAct.ageChildren} meses
+				p
+					span
+						b Vive con: 
+						if (childrenAct.liveSon == 0)
+							- var liveson = "Ambos Padres"
+						if (childrenAct.liveSon == 1)
+							- var liveson = "Mamá" 
+						if (childrenAct.liveSon == 2)
+							- var liveson = "Papá" 
+						if (childrenAct.liveSon == 3)
+							- var liveson = "Otro Cuidador" 
+					span #{liveson}
+				p
+					span
+						b Mamá: 
+					span #{childrenAct.mom.nameMom} #{childrenAct.mom.lastnameMom}
+				p
+					span
+						b Papá: 
+					span #{childrenAct.dad.nameDad} #{childrenAct.dad.lastnameDad}
+				p
+					span
+						b Cuidador: 
+					span #{childrenAct.care.nameCare} #{childrenAct.care.lastnameCare}
+				p
+					span
+						b Dirección: 
+					span #{childrenAct.addressChildren}
+				p
+					span
+						b Teléfono: 
+					if (childrenAct.liveSon == 0)
+						- var tel = childrenAct.mom.celMom
+					if (childrenAct.liveSon == 1)
+						- var tel = childrenAct.mom.celMom
+					if (childrenAct.liveSon == 2)
+						- var tel = childrenAct.dad.celDad
+					if (childrenAct.liveSon == 3)
+						- var tel = childrenAct.care.celCare
+					span #{tel}
+			article.consulStatus
+				p
+					span
+						b Fecha de Ingreso: 
+					span #{childrenAct.dateStart}
+				p
+					span
+						b Estado Actual: 
+					span #{childrenAct.statusChildren}
+				p
+					span
+						b % Etapa: 
+					span#consulRStep EtapaQuery
+					span#consulRPercentajeStep PorcentajeQuery
+				p
+					span
+						b % General: 
+					span#consulRPercentaje PorcentajeQuery

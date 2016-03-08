@@ -2,26 +2,29 @@ extends templates/templateEstimulation.jade
 block title
 	title Centro de stimulación - Nombre Actividad
 block a-exit
-	a(href='/estimulation/steps/step1') VOLVER
+	p(onclick="history.back()") VOLVER
+
 block desc
 	section.activity
+		input(type="hidden" value="#{activity.activityActivity}" id="numberActivity")
+		input(type="hidden" value="#{activity.stepActivity}" id="numberStep")
 		p 
 			span ETAPA 
-			span #{activity.step} 
+			span #{activity.stepActivity} 
 			span - ACTIVIDAD 
-			span #{activity.activity} 
-		h3 #{activity.name} 
-		button#RestarActClic
+			span #{activity.activityActivity} 
+		h3 #{activity.nameActivity} 
+		button#restarActClic(type='button')
 			span Reiniciar Actividad
 		button#validActClic(disabled)
 			span Validar Actividad
-		audio#audio(src='#{activity.audio}')
+		audio#audio(src='#{activity.audioActivity}')
 
 	section#showValidAct.validAct
 	include templatesQuery/validActivity.jade
 
 	section.actDesc
-		p #{activity.description}
+		p #{activity.descriptionActivity}
 
 block activity
 	section#activityChildrens.actContent

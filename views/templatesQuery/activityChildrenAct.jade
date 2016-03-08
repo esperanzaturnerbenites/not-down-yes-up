@@ -1,15 +1,14 @@
 template#consulQueryActivityChild
-    
 	article#nameChild
 		p
-			b DESCRIPCIÓN ACTIVIDAD #{activity.activity}
-		for guide in activity.guides
+			b DESCRIPCIÓN ACTIVIDAD #{activity.activityActivity}
+		for guide in activity.guidesActivity
 			p #{guide}
 
 	article#nameChild1.actCentral
 		p
 			b ACTIVIDAD A REALIZAR
-		img#imgAct(src='#{activity.img}', alt='IMG')
+		img#imgAct(src='#{activity.imgActActivity}', alt='IMG')
 	article#nameChild2
 		p
 			b RESULTADO

@@ -1,87 +1,80 @@
 extends templates/template.jade
 block title
-  title Continuar Actividad en ¡No Down, Yes Up!
-block exit
-  h2.exit
-    a(href='/estimulation/menu-teacher') VOLVER
+	title Continuar Actividad en ¡No Down, Yes Up!
 block content
-  section.continue
-    form
-      fieldset.data.validChildren
-        legend ¿Con cuál niñ@ nos divertiremos hoy?
-        input#validIdChildrenContinue(type='number', name='validIdChildrenContinue', min='1111', placeholder='Número Identificación', required='')
-  section.continue.continueProgress
-    article.continueData
-      section.date
-        h3 Datos Niñ@
-        p
-          span
-            b Nombre:
-          span#continueName Nombre
-        p
-          span
-            b Edad
-          span#continueAge Edad
-      section.img
-        p
-          img#continueImg(src='', alt='Foto')
-      section.more
-        p
-          span
-            a#continueViewMore(href='/estimulation/continue/continue-detail-one') Ver Más
-    article.activities
-      h3 Progreso
-      table#progress
-        thead
-          tr
-            th ACTIVIDADES
-            th ESTADO
-        tbody
-          tr
-            td
-              a#continueAct3(href='/estimulation/continue/continue-detail-one') TrasAntepenúltima Actividad
-            td Estado
-          tr
-            td
-              a#continueAct2(href='/estimulation/continue/continue-detail-one') Antepenúltima Actividad
-            td Estado
-          tr
-            td
-              a#continueAct1(href='/estimulation/continue/continue-detail-one') Última Actividad
-            td Estado
-      section.more
-        p
-          a#continueActAll(href='/estimulation/continue/continue-detail-one') Ver Todo
-    article.continueLogros
-      h3 Últimos Logros Alcanzados
-      table#continueLogros
-        tbody
-          tr
-            th Etapa
-            td#continueNumStep Número Etapa
-          tr
-            th Actividades Completadas
-            td#continueNumComp Número de Actividades
-            td
-              a#continueLinkAllAtcComp(href='/estimulation/continue/continue-detail-one') Ver
-          tr
-            th Actividades Pendientes
-            td#continueNumPend Número de Actividades
-            td
-              a#continueLinkAllActPend(href='/estimulation/continue/continue-detail-one') Ver
-    article.contActivities
-      h3 Continuar Actividades
-      section.continueAct
-        p
-          span
-            b
-              a#continueContUltAct(href='#')
-                img(src='/img/check.png', alt='.::')
-                | Continuar con la Última Actividad Pendiente
-      section.continueNewAct
-        p
-          span
-            b
-              a#continueNewAct(href='/estimulation/steps')
-                img(src='/img/check.png', alt='.::')
-                | Iniciar Una Nueva Actividad
+	section#buttons
+		form
+			fieldset.consul.consulButtons
+				legend Imprimir/Exportar
+				button(type='button')
+					span Imprimir
+				button(type='button')
+					span Exportar PDF
+	section.continue.continueProgress
+		article.continueData
+			section.date
+				h3 Datos Niñ@
+				p
+					span
+						b Nombre: 
+					span #{childrenAct.nameChildren} #{childrenAct.lastnameChildren}
+				p
+					span
+						b Edad: 
+					span #{childrenAct.ageChildren} meses
+			section.img
+				p
+					img(src='#{childrenAct.imgChildren}', alt='Foto')
+			section.more
+				button#continueViewMore(type='button')
+					span Ver Más
+		article.activities
+			h3 Progreso
+			table#progress
+				thead
+					tr
+						th ACTIVIDAD
+						th ETAPA
+						th ESTADO
+				tbody
+					for acts in childrenAct.activities
+						if (acts.statusActivity == 0)
+							- var statusA = "Pendiente"
+						else if (acts.statusActivity == 1)
+							- var statusA = "Completada"
+						tr
+							td #{acts.idActivity.activityActivity}. #{acts.idActivity.nameActivity}
+							td #{acts.idActivity.stepActivity}
+							td #{statusA}
+			section.more
+				button#continueActAll(type='button')
+					span Ver Todo
+		article.continueLogros
+			h3 Últimos Logros Alcanzados
+			table#continueLogros
+				tbody
+					tr
+						th Etapa
+							td #{childrenAct.activities[0].idActivity.stepActivity}
+					tr
+						th Actividades Completadas
+						td#continueNumComp Número de Actividades
+					tr
+						th Actividades Pendientes
+						td#continueNumPend Número de Actividades
+			section.more
+				button#continueStepAll(type='button')
+					span Ver Todo
+		article.contActivities
+			h3 Continuar Actividades
+			section.continueAct
+				a#continueContUltAct(href='#')
+					p
+						span
+							b
+								img(src='/img/check.png', alt='.::')
+								| Continuar con la Última Actividad Pendiente
+	section#results.continue
+	include templatesQuery/dataChild.jade
+	include templatesQuery/dataActAll.jade
+	include templatesQuery/dataActOne.jade

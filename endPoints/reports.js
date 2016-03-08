@@ -10,7 +10,7 @@ router.use(bodyParser.urlencoded())
 router.post("/general",(req,res)=>{
 	var data = []
 	models.children.find({},(err,childrens) =>{
-		models.activityhistory.populate(childrens, {path: "_id/idChildren"},function(err, childrens){
+		models.activityhistory.populate(childrens, {path: "_id"},function(err, activities){
 			if (err) return res.send(err)
 			res.json(childrens)
 		})

@@ -18,26 +18,39 @@ router.post("/found-children",(req,res)=>{
 })
 
 router.post("/valid-activity-complete",(req,res)=>{
-	dataGenAct = querystring.parse(req.body.actGeneral),
-	dataStep = querystring.parse(req.body.step),
-	dataActivity = querystring.parse(req.body.activity)
+	data = querystring.parse(req.body.actGeneral)
+	numberActivity = req.body.activityActivity
+	numberStep = req.body.stepActivity
+	console.log(numberActivity + " *************** " + numberStep)
 
-	console.log(dataGenAct)
-
-	models.adminuser.findOne({userUser : dataGenAct.userUser}, (err,user) => {
+	models.user.findOne({_id : req.user.idUser}, (err,user) => {
 		if (err) return res.send(err)
 		if(!user) return res.json({"msg":"User not found"})
-			dataGenAct.idUser = user.id
-			models.children.findOne({idChildren : dataGenAct.idChildren}, (err,children) => {
+			data.idUser = user._id
+			data.nameUser = user.nameUser
+			data.lastnameUser = user.lastnameUser
+			console.log("nameUser "+data.nameUser)
+
+			models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 				if (err) return res.send(err)
 				if(!children) return res.json({"msg":"Children not found"})
-					dataGenAct.idChildren = children._id
-					models.activityhistory.create(dataGenAct, function (err, activity) {
-						if (err) return res.send(err);
-						return res.json({message:"Activity Add Complete", activity : activity})
+					data.idChildren = children._id
+
+					models.activity.findOne({activityActivity : numberActivity , stepActivity : numberStep}, (err,activityF) => {
+						if (err) return res.send(err)
+						if(!activityF) return res.json({"msg":"Activity not found"})
+							else {
+							data.idActivity = activityF._id
+							//console.log(data)
+							models.activityhistory.create(data, function (err, activity) {
+								if (err) return res.send(err);
+								return res.json({message:"Valid - Activity Add Complete", activity : activity})
+							})
+						}	
 					})
 			})
 	})
+	
 
 })
 
@@ -57,24 +70,62 @@ router.get("/continue/continue-detail-one",(req,res)=>{
 	res.render("continueDetailOne")
 })
 
+router.get("/infoChildren/:id",(req,res)=>{
+	const idChildren = parseInt(req.params.id)
+	var dataChildren = {}
+
+	models.children.findOne({idChildren: idChildren}, (err, children) => {
+		dataChildren = children
+
+		models.mom.findOne({idChildren: children._id}, (err, mom) => {
+			dataChildren.mom = mom
+
+			models.dad.findOne({idChildren: children._id}, (err, dad) => {
+				dataChildren.dad = dad
+
+				models.care.findOne({idChildren: children._id}, (err, care) => {
+					dataChildren.care = care
+
+					models.activityhistory.find({idChildren: dataChildren._id})
+					.sort({date:-1})
+					.limit(10)
+					.populate('idActivity idUser')
+					.exec((err, activities) => {
+						dataChildren.activities = activities
+						//console.log(dataChildren.activities)
+						//console.log(dataChildren)
+						res.render("continueOne",{childrenAct:dataChildren})
+					
+					})
+				})
+			})
+		})
+
+	})
+
+})
+
 router.get("/steps",(req,res)=>{
-	res.render("steps")
+	var step = {}
+
+	models.step.find({}, (err, stepDB) => {
+		step = stepDB
+		//console.dir(step)
+		res.render("stepMenu",{steps:step})
+	})
 })
 
 router.get("/steps/:step",(req,res)=>{
 	const numberStep = parseInt(req.params.step)
-	console.dir(numberStep)
 	var step = {}
 
-	models.step.findOne({step:numberStep}, (err, stepDB) => {
+	models.step.findOne({stepStep:numberStep}, (err, stepDB) => {
 		step = stepDB
-		models.activity.find({step:numberStep}, (err, activities) => {
+		models.activity.find({stepActivity:numberStep}, (err, activities) => {
 			step.activities = activities
 			res.render("stepDetail",{step:step})
 		})
 	})
-
-
 })
 
 router.get("/steps/:step/:activity",(req,res)=>{
@@ -82,11 +133,11 @@ router.get("/steps/:step/:activity",(req,res)=>{
 		numberActivity = parseInt(req.params.activity)
 	var activity = {}
 
-	models.activity.findOne({step : numberStep, activity : numberActivity}, (err, activityDB) => {
-		console.log(err)
+	models.activity.findOne({stepActivity : numberStep, activityActivity : numberActivity}, (err, activityDB) => {
 		activity = activityDB
+		//console.log(activityDB.stepActivity)
 
-		models.step.findOne({step : activityDB.step}, (err, stepDB) => {
+		models.step.findOne({step : activityDB.stepActivity}, (err, stepDB) => {
 			activity.step = stepDB
 			res.render("activity",{activity:activity, user:req.user})
 		})

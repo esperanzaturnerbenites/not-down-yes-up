@@ -132,20 +132,25 @@ stephistorySchema = new Mongoose.Schema({
 }),
 
 activitySchema = new Mongoose.Schema({
-	activity: {type:Number},
-	name: {type:String, default:""},
-	description: {type:String, default:""},
-	guides: [],
-	img: {type:String, default:""},
-	audio: {type:String, default:""},
-	url: {type:String, default:""},
-	step: {type:Number}
+	activityActivity: {type:Number},
+	nameActivity: {type:String},
+	descriptionActivity: {type:String},
+	guidesActivity: [],
+	imgActActivity: {type:String},
+	imgNumActivity: {type:String},
+	audioActivity: {type:String},
+	urlActivity: {type:String},
+	styleActivity: {type:String},
+	stepActivity: {type:Number}
 }),
 
 stepSchema = new Mongoose.Schema({
-	step: {type:Number},
-	name: {type:String, default:""},
-	description: {type:String, default:""}
+	stepStep: {type:Number},
+	nameStep: {type:String},
+	descriptionStep: {type:String},
+	imgStep: {type:String},
+	styleStep: {type:String},
+	urlStep: {type:String}
 })
 
 module.exports = {
