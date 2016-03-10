@@ -68,6 +68,19 @@ template#consulQueryDataChild
 					if (childrenAct.liveSon == 3)
 						- var tel = childrenAct.care.celCare
 					span #{tel}
+			article.consulData
+				p
+					span
+						b Condiciones de Salud: 
+					span #{childrenAct.healthChildren}
+				p
+					span
+						b Habilidades: 
+					span #{childrenAct.abilityChildren}
+				p
+					span
+						b Debilidades: 
+					span #{childrenAct.debilityChildren}
 			article.consulStatus
 				p
 					span

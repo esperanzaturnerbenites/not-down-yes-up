@@ -1032,6 +1032,8 @@ article.actCentral{
 }
 
 .validStep article{
+	margin:0 auto;
+	width:75%;
 	padding:5px;
 }
 

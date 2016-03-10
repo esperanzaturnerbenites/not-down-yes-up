@@ -68,12 +68,13 @@ block content
 		article.contActivities
 			h3 Continuar Actividades
 			section.continueAct
-				a#continueContUltAct(href='#')
-					p
-						span
-							b
-								img(src='/img/check.png', alt='.::')
-								| Continuar con la Última Actividad Pendiente
+				p
+					span
+						b
+							img(src='/img/check.png', alt='.:.')
+							| Última Actividad Pendiente:
+				p
+					span Nombre Actividad
 	section#results.continue
 	include templatesQuery/dataChild.jade
 	include templatesQuery/dataActAll.jade

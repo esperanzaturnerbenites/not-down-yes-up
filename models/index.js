@@ -123,7 +123,7 @@ activityhistorySchema = new Mongoose.Schema({
 
 stephistorySchema = new Mongoose.Schema({
 	statusStep: {type:String, default:"Pendiente"},
-	scoreStep: {type:Number, default:0},//**********Calcular solo cuando se valide la etapa.
+	scoreStep: {type:Number, default:0},
 	observationStep: {type:String, default:"Sin Validar"},
 	date: {type:Date, default:Date.now},
 	idStep: {type:Schema.Types.ObjectId, ref: "step"},

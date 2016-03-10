@@ -14,6 +14,7 @@ router.post("/found-children",(req,res)=>{
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if (err) res.send(err)
 		if(children){ res.json(children)} else{res.json({"msg":"Children not found"})}
+		console.log(children)
 	})
 })
 
@@ -50,8 +51,6 @@ router.post("/valid-activity-complete",(req,res)=>{
 					})
 			})
 	})
-	
-
 })
 
 router.get("/menu-teacher",(req,res)=>{

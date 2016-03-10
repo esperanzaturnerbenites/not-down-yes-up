@@ -17,6 +17,8 @@ router.post("/register-children/",(req,res)=>{
 	dataMom = querystring.parse(req.body.mom),
 	dataDad = querystring.parse(req.body.dad),
 	dataCare = querystring.parse(req.body.care)
+	console.log(dataChildren)
+	dataChildren.birthdateChildren = new Date(dataChildren.birthdateChildren)
 
 	/*dataChildren.idMom = dataMom.idMom
 	dataChildren.idDad = dataDad.idDad
@@ -253,16 +255,79 @@ router.post("/delete-teachadmin",(req,res)=>{
 	})
 })
 
+router.post("/show-valid-step",(req,res)=>{
+	var data = req.body,
+		children = {},
+		step = {},
+		act1 = {},
+		act2 = {}
+
+
+	models.children.findOne({idChildren : data.idChildren},(err,childrenO) => {
+		if (err) return res.send(err);
+		if (!childrenO) return res.json({msg : "Children not Found"})
+		children = childrenO
+
+		models.step.findOne({stepStep : data.step},(err,step) => {
+			if (err) return res.send(err);
+			if (!step) return res.json({msg : "Step not Found"})
+			step = step
+			
+			models.activity.findOne({activityActivity : 1, stepActivity : data.step},(err,act1) => {
+				if (err) return res.send(err);
+				if (!act1) return res.json({msg : "Act1 not Found"})
+
+				models.activity.findOne({activityActivity : 2, stepActivity : data.step},(err,act2) => {
+					if (err) return res.send(err);
+					if (!act2) return res.json({msg : "Act2 not Found"})
+
+					models.activityhistory.findOne({idChildren : childrenO._id, idActivity : act1._id})
+					.sort({date : -1})
+					.limit(1)
+					.populate('idActivity idUser')
+					.exec((err, acthis1) => {
+						if (err) return res.send(err);
+						if (!acthis1) return res.json({msg : "Acthis1 not Found"})
+						//console.log(acthis1)
+						act1 = acthis1
+
+						models.activityhistory.findOne({idChildren : childrenO._id, idActivity : act2._id})
+						.sort({date : -1})
+						.limit(1)
+						.populate('idActivity idUser')
+						.exec((err, acthis2) => {
+							if (err) return res.send(err);
+							if (!acthis2) return res.json({msg : "Acthis2 not Found"})
+
+							act2 = acthis2
+
+							if(act2){
+								res.json({message: "Children Found", children : children, step : step, act1 : act1, act2 : act2});
+							}else{
+								res.json({msg:"Children not found"});
+							}
+						})
+					})
+				})
+			})
+		})
+
+	})
+})
+
 router.post("/valid-step",(req,res)=>{
 	data = req.body
+	data.idUser = req.user._id
+	console.log(data)
 
-	models.children.findOne({idChildren : data.idChildren},(err,children) => {
-  		if (err) return res.send(err);
-  		if(children){
-			res.json(children);
-		}else{
-			res.json({msg:"Children not found"});
-		}
+	models.stephistory.findOne({idChildren : data.idChildren, idStep : data.idStep},(err,stephis) => {
+		if (err) return res.send(err);
+		if (stephis) return res.json({msg : "Step valid exists"})
+
+			models.stephistory.create(data, function (err, step) {
+				if (err) return res.send(err);
+				if (step) return res.json({msg : "Step Valid Complete"})
+			})
 	})
 })
 
