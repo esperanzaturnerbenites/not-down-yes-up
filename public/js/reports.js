@@ -87,10 +87,21 @@ $("#buttonConsulIdChildren").click((event) => {
 		type : "POST",
 		success: function(result){
 			var children = result.children,
+				mom = result.mom,
+				dad = result.dad,
+				care = result.care,
 				activities = result.activities
+
+			function telChildren(liveson){
+				if (liveson == 0) return mom.telMom
+				if (liveson == 1) return mom.telMom
+				if (liveson == 2) return dad.telDad
+				if (liveson == 3) return care.telCare
+			}
 
 			var clone = getClone("#consulQueryChildren"),
 				dataChild1 = $(clone.querySelector("#dataChild1"))
+				dataChild2 = $(clone.querySelector("#dataChild2"))
 
 			var p1 = $("<p>").append(
 					$("<b>", {html : "Nombre: "}),
@@ -106,9 +117,28 @@ $("#buttonConsulIdChildren").click((event) => {
 					$("<span>", {html : children.birthdateChildren})),
 				p5 = $("<p>").append(
 					$("<b>", {html : "Mamá: "}),
-					$("<span>", {html : children.mom.nameMom}))
+					$("<span>", {html : mom.nameMom + " " + mom.lastnameMom})),
+				p6 = $("<p>").append(
+					$("<b>", {html : "Papá: "}),
+					$("<span>", {html : dad.nameDad + " " + dad.lastnameDad})),
+				p7 = $("<p>").append(
+					$("<b>", {html : "Cuidador: "}),
+					$("<span>", {html : care.nameCare + " " + care.lastnameCare})),
+				p8 = $("<p>").append(
+					$("<b>", {html : "Dirección: "}),
+					$("<span>", {html : children.addressChildren})),
+				p9 = $("<p>").append(
+					$("<b>", {html : "Teléfono: "}),
+					$("<span>", {html : telChildren(children.liveSon)})),
+				p10 = $("<p>").append(
+					$("<b>", {html : "Fecha de Ingreso: "}),
+					$("<span>", {html : children.dateStart})),
+				p11 = $("<p>").append(
+					$("<b>", {html : "Estado Actual: "}),
+					$("<span>", {html : children.statusChildren}))
 
-				dataChild1.append(p1, p2, p3, p4, p5)
+				dataChild1.append(p1, p2, p3, p4, p5, p6, p7, p8, p9)
+				dataChild2.append(p10, p11)
 
 			renderResultsReport(clone)
 		}

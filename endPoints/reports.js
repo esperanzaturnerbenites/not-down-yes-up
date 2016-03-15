@@ -36,6 +36,9 @@ router.post("/general",(req,res)=>{
 router.post("/children",(req,res)=>{
 	var data = req.body,
 		dataChildren = {},
+		mom = {},
+		dad = {},
+		care = {},
 		activities = {}
 
 	console.log(data)
@@ -48,17 +51,17 @@ router.post("/children",(req,res)=>{
 		models.mom.findOne({idChildren : children._id}, (err, mom) => {
 			if (err) {res.json(err)}
 			if(!mom) {res.json({"msg":"Mom not found"})}
-			dataChildren.mom = mom
+			mom = mom
 
 			models.dad.findOne({idChildren : children._id}, (err, dad) => {
 				if (err) {res.json(err)}
 				if(!dad) {res.json({"msg":"Dad not found"})}
-				dataChildren.dad = dad
+				dad = dad
 
 				models.care.findOne({idChildren : children._id}, (err, care) => {
 					if (err) {res.json(err)}
 					if(!care) {res.json({"msg":"Care not found"})}
-					dataChildren.care = care
+					care = care
 
 					models.activityhistory.find({idChildren: dataChildren._id})
 					.sort({date:-1})
@@ -68,7 +71,7 @@ router.post("/children",(req,res)=>{
 
 						if (err) res.json({err:err})
 						if(!activities) {res.json({"msg":"Activities not found"})}
-						else{res.json({message : "Consult children Complete", children : dataChildren, activities : activities})}
+						else{res.json({message : "Consult children Complete", children : dataChildren, activities : activities, mom : mom, dad : dad, care :care})}
 					})
 				})
 			})

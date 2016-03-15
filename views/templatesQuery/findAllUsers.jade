@@ -1,16 +1,16 @@
 template#consulQueryUser
-  article.consul.consulQuery
-    p.consulTableP
-      h3 RESULTADOS
-    article.consulTable
-      table#consulUser
-        thead
-          tr
-            th USUARIO
-            th TIPO
-            th PERTENECE A:
-            th FECHA CREACIÓN
-        tbody#dataFindAll 
-      article
-        p.cancel
-           a(href='/admin/admin-users') Cancelar
+	article#articleFindAll.consul.consulQuery
+		p.consulTableP
+			h3 RESULTADOS
+		article.consulTable
+			table#consulUser
+				thead
+					tr
+						th USUARIO
+						th TIPO
+						th PERTENECE A:
+						th FECHA CREACIÓN
+				tbody#dataFindAll 
+			article
+				button#buttonCancelFindAll(type='button')
+					span Cancelar

@@ -5,109 +5,77 @@ Schema = Mongoose.Schema
 //Crear Esquemas
 const userSchema = new Mongoose.Schema({
 	idUser: {type:Number, required:true},
-	expeditionUser: {type:String, default:""},
-	nameUser: {type:String, default:""},
-	lastnameUser : {type:String, default:""},
-	ageUser: {type:Number,  default:0},
-	imgUser: {type:String, default:""},
-	telUser: {type:Number, default:0},
-	celUser: {type:Number, default:0},
-	emailUser: {type:String, default:""},
-	addressUser: {type:String, default:""},
-	districtUser: {type:String, default:""},
-	localityUser: {type:String, default:""},
-	departamentUser: {type:String, default:""},
-	studyUser: {type:String, default:""},
-	professionUser: {type:String, default:""},
-	experienceUser: {type:Number, default:0},
-	centerUser: {type:String, default:""}
+	expeditionUser: {type:String},
+	nameUser: {type:String},
+	lastnameUser : {type:String},
+	ageUser: {type:Number},
+	imgUser: {type:String},
+	telUser: {type:Number},
+	celUser: {type:Number},
+	emailUser: {type:String},
+	addressUser: {type:String},
+	districtUser: {type:String},
+	localityUser: {type:String},
+	departamentUser: {type:String},
+	studyUser: {type:String},
+	professionUser: {type:String},
+	experienceUser: {type:Number},
+	centerUser: {type:String}
 }),
 
 adminuserSchema = new Mongoose.Schema({
-	userUser: {type:String, default:""},
-	passUser: {type:String, default:""},
-	typeUser: {type:String, default:""},
+	userUser: {type:String},
+	passUser: {type:String},
+	typeUser: {type:String},
 	dateUser: {type:Date, default:Date.now},
-	idUser: {type:Schema.Types.ObjectId, ref: "user"}
+	idUser: {type:Number, ref: "user"}
 }),
 
 childrenSchema = new Mongoose.Schema({
 	idChildren: {type:Number, required:true},
-	nameChildren: {type:String, default:""},
-	lastnameChildren: {type:String, default:""},
-	imgChildren: {type:String, default:""},
-	birthdateChildren: {type:Date, default:Date.now},
-	birthplaceChildren: {type:String, default:""},
-	ageChildren: {type:Number, default:0},
-	genderChildren: {type:String, default:""},
-	liveSon: {type:String, default:""},
-	addressChildren: {type:String, default:""},
-	districtChildren: {type:String, default:""},
-	localityChildren: {type:String, default:""},
-	departamentChildren: {type:String, default:""},
-	levelhomeChildren: {type:String, default:""},
-	healthChildren: {type:String, default:""},
-	epsChildren: {type:String, default:""},
-	apbChildren: {type:String, default:""},
-	glassesChildren: {type:Number, default:""},
-	hearingaidChildren: {type:Number, default:""},
-	abilityChildren: {type:String, default:""},
-	debilityChildren: {type:String, default:""},
-	statusChildren: {type:String, default:"Registrado"},
-	dateStart: {type:Date, default:Date.now},
-	dateEnd: {type:Date, default:Date.now}
+	nameChildren: {type:String},
+	lastnameChildren: {type:String},
+	imgChildren: {type:String},
+	birthdateChildren: {type:Date},
+	birthplaceChildren: {type:String},
+	ageChildren: {type:Number},
+	genderChildren: {type:String},
+	liveSon: {type:String},
+	addressChildren: {type:String},
+	districtChildren: {type:String},
+	localityChildren: {type:String},
+	departamentChildren: {type:String},
+	levelhomeChildren: {type:String},
+	healthChildren: {type:String},
+	epsChildren: {type:String},
+	apbChildren: {type:String},
+	glassesChildren: {type:Number},
+	hearingaidChildren: {type:Number},
+	abilityChildren: {type:String},
+	debilityChildren: {type:String},
+	statusChildren: {type:String},
+	dateStart: {type:Date},
+	dateEnd: {type:Date}
 }),
 
-momSchema = new Mongoose.Schema({
-	idMom: {type:Number, required:true},
-	idExpeditionMom: {type:String, default:""},
-	nameMom: {type:String, default:""},
-	lastnameMom: {type:String, default:""},
-	birthdateMom: {type:Date, default:Date.now},
-	imgMom: {type:String, default:""},
-	telMom: {type:Number, default:0},
-	celMom: {type:Number, default:0},
-	emailMom: {type:String, default:""},
-	studyMom: {type:String, default:""},
-	professionMom: {type:String, default:""},
-	jobMom: {type:String, default:""},
-	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
+parentSchema = new Mongoose.Schema({
+	idParent: {type:Number, required:true},
+	idExpeditionParent: {type:String},
+	nameParent: {type:String},
+	lastnameParent: {type:String},
+	birthdateParent: {type:Date},
+	imgParent: {type:String},
+	telParent: {type:Number},
+	celParent: {type:Number},
+	emailParent: {type:String},
+	studyParent: {type:String},
+	professionParent: {type:String},
+	jobParent: {type:String},
+	relationshipParent: {type:Number},
+	idChildren: [{type:Number, ref: "children"}]
 }),
 
-dadSchema = new Mongoose.Schema({
-	idDad: {type:Number, required:true},
-	idExpeditionDad : {type:String, default:""},
-	nameDad: {type:String, default:""},
-	lastnameDad: {type:String, default:""},
-	birthdateDad: {type:Date, default:Date.now},
-	imgDad: {type:String, default:""},
-	telDad: {type:Number, default:0},
-	celDad: {type:Number, default:0},
-	emailDad: {type:String, default:""},
-	studyDad: {type:String, default:""},
-	professionDad: {type:String, default:""},
-	jobDad: {type:String, default:""},
-	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
-}),
-
-careSchema = new Mongoose.Schema({
-	idCare: {type:Number, required:true},
-	idExpeditionCare : {type:String, default:""},
-	nameCare: {type:String, default:""},
-	lastnameCare: {type:String, default:""},
-	birthdateCare: {type:Date, default:Date.now},
-	relationshipCare: {type:String, default:""},
-	imgCare: {type:String, default:""},
-	telCare: {type:Number, default:0},
-	celCare: {type:Number, default:0},
-	emailCare: {type:String, default:""},
-	studyCare: {type:String, default:""},
-	professionCare: {type:String, default:""},
-	jobCare: {type:String, default:""},
-	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
-}),
-
-activityhistorySchema = new Mongoose.Schema({
+activityvalidSchema = new Mongoose.Schema({
 	statusActivity: {type:String, default:"Pendiente"},
 	scoreSystemActivity: {type:Number, default:0},
 	scoreTeachActivity: {type:Number, default:0},
@@ -116,19 +84,30 @@ activityhistorySchema = new Mongoose.Schema({
 	backingDFunctionActivity:{type:Number, default:0},
 	observationActivity: {type:String, default:"Validado"},
 	date: {type:Date, default:Date.now},
-	idActivity: {type:Schema.Types.ObjectId, ref: "activity"},
-	idUser: {type:Schema.Types.ObjectId, ref: "user"},
-	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
+	idActivity: {type:Number, ref: "activity"},
+	idUser: {type:Number, ref: "user"},
+	idChildren: {type:Number, ref: "children"}
 }),
 
-stephistorySchema = new Mongoose.Schema({
+activityhistorySchema = new Mongoose.Schema({
+	statusActivity: {type:String, default:"Pendiente"},
+	scoreSystemActivity: {type:Number, default:0},
+	scoreTeachActivity: {type:Number, default:0},
+	observationActivity: {type:String, default:"Validado"},
+	date: {type:Date, default:Date.now},
+	idActivity: {type:Number, ref: "activity"},
+	idUser: {type:Number, ref: "user"},
+	idChildren: {type:Number, ref: "children"}
+}),
+
+stepvalidSchema = new Mongoose.Schema({
 	statusStep: {type:String, default:"Pendiente"},
 	scoreStep: {type:Number, default:0},
 	observationStep: {type:String, default:"Sin Validar"},
 	date: {type:Date, default:Date.now},
-	idStep: {type:Schema.Types.ObjectId, ref: "step"},
-	idUser: {type:Schema.Types.ObjectId, ref: "user"},
-	idChildren: {type:Schema.Types.ObjectId, ref: "children"}
+	idStep: {type:Number, ref: "step"},
+	idUser: {type:Number, ref: "user"},
+	idChildren: {type:Number, ref: "children"}
 }),
 
 activitySchema = new Mongoose.Schema({
@@ -153,15 +132,57 @@ stepSchema = new Mongoose.Schema({
 	urlStep: {type:String}
 })
 
-module.exports = {
+
+var models = {
 	user: Mongoose.model('user', userSchema),
 	adminuser: Mongoose.model('adminuser', adminuserSchema),
 	children: Mongoose.model('children', childrenSchema),
-	mom: Mongoose.model('mom', momSchema),
-	dad: Mongoose.model('dad', dadSchema),
-	care: Mongoose.model('care', careSchema),
+	parent: Mongoose.model('parent', parentSchema),
+	activityvalid: Mongoose.model('activityvalid', activityvalidSchema),
 	activityhistory: Mongoose.model('activityhistory', activityhistorySchema),
-	stephistory: Mongoose.model('stephistory', stephistorySchema),
+	stepvalid: Mongoose.model('stepvalid', stepvalidSchema),
 	activity: Mongoose.model('activity', activitySchema),
 	step: Mongoose.model('step', stepSchema)
-};
+}
+
+userSchema.pre('save',(next) => {
+	models.user.findOne({idUser : this.idUser}, (err, user) => {
+		if (err) return res.json({err: err})
+		if (user) next(new Error("User Exists"))
+		else next()
+	})
+})
+
+adminuserSchema.pre('save',(next) => {
+	models.adminuser.findOne({userUser : this.userUser}, (err, user) => {
+		if (err) return res.json({err: err})
+		if (user) next(new Error("Useradmin Exists"))
+		else next()
+	})
+})
+
+adminuserSchema.pre('remove',(next) => {
+	models.adminuser.findOne({userUser : "Developer"}, (err, user) => {
+		if (err) return res.json({err: err})
+		if (user) next(new Error("Useradmin not delete"))
+		else next()
+	})
+})
+
+childrenSchema.pre('save',(next) => {
+	models.children.findOne({idChildren : this.idChildren}, (err, children) => {
+		if (err) return res.json({err: err})
+		if (children) next(new Error("Children Exists"))
+		else next()
+	})
+})
+
+parentSchema.pre('save',(next) => {
+	models.parent.findOne({idParent : this.idParent}, (err, parent) => {
+		if (err) return res.json({err: err})
+		if (parent) next(new Error("Parent Exists"))
+		else next()
+	})
+})
+
+module.exports = models

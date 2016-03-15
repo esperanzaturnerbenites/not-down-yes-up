@@ -45,20 +45,23 @@ function addChildren(){
 			dad : $.param($(".dad").serializeArray()),
 			care : $.param($(".care").serializeArray())}
 
-	$.ajax({
-		url: "/admin/register-children",
-		async : false, 
-		data : data,
-		type : "POST",
-		success: function(result){
-			console.log(result)
-			$("#formAddChildren")
-			.trigger("reset")
-			.off("submit")
-			.addClass("hide")
-			$("#validChildrenformOpeChildrenUpd").prop("readonly", false)
-		}
-	});
+	if($(".idMom").val() == $(".idDad").val() || $(".idMom").val() == $(".idCare").val() || $(".idDad").val() == $(".idCare").val()){
+		console.log({msg:"idParents equals"})
+	}else{
+		$.ajax({
+			url: "/admin/register-children",
+			async : false, 
+			data : data,
+			type : "POST",
+			success: function(result){
+				$("#formAddChildren")
+				.trigger("reset")
+				.off("submit")
+				.addClass("hide")
+				$("#validChildren").prop("readonly", false).val("")
+			}
+		})
+	}
 }
 
 function addUser(){
@@ -104,7 +107,7 @@ formValidUser.on("submit",(event) => {
 		success: function(result){
 			console.log(typeof result)
 			console.log(result)
-			if (result.valid) {
+			if(result.valid) {
 				$("#formAddUser")
 				.removeClass("hide")
 				.on("submit",addUser)
@@ -132,7 +135,7 @@ formValidChildren.on("submit",(event) => {
 		success: function(result){
 			console.log(typeof result)
 			console.log(result)
-			if (result.valid) {
+			if(result.valid) {
 				$("#formAddChildren")
 				.removeClass("hide")
 				.on("submit",addChildren)
@@ -150,15 +153,23 @@ formValidChildren.on("submit",(event) => {
 
 formNewUser.on("submit",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/register-newuser",
-		async : false, 
-		data : $("#formNewUser").serialize(),
-		type : "POST",
-		success: function(result){
-				console.log(result);
-		}
-	});
+
+	if($("#passUser").val() == $("#newPassConfirmUser").val()){
+		$.ajax({
+			url: "/admin/register-newuser",
+			async : false, 
+			data : $("#formNewUser").serialize(),
+			type : "POST",
+			success: function(result){
+				$("#idUser").val("")
+				$("#userUser").val("")
+				$("#passUser").val("")
+				$("#newPassConfirmUser").val("")
+			}
+		})
+	}else{
+		console.log({msg:"pass not equals"})
+	}
 })
 
 $("#formValidChildrenValid").on("click",(event) => {
@@ -173,7 +184,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 			step = result.step
 			act1 = result.act1
 			act2 = result.act2
-			if(children.idChildren != null){
+			if(children){
 				$("#idChildren").prop("readonly", true)
 
 				var clone = getClone("#consulQueryChildrenValid")
@@ -244,7 +255,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 
 				$("#validStep",clone).click(()=>{
 						event.preventDefault()
-						if (act1.statusActivity == 1 && act2.statusActivity == 1){
+						if(act1.statusActivity == 1 && act2.statusActivity == 1){
 							$.ajax({
 								url: "/admin/valid-step",
 								async : false, 
@@ -262,7 +273,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 				})
 
 				renderResultValid(clone)
-			}
+			}else console.log("Not consult complete")
 			
 		}
 	})
@@ -288,6 +299,10 @@ formFindAll.on("submit",(event) => {
 					$("<td>",{html : adminuser.dateUser })
 				)
 				data.append(tr)
+
+				$("#buttonCancelFindAll",clone).click(()=>{
+					$("#articleFindAll").remove()
+				})
 			}
 			renderResults(clone)
 		}
@@ -303,10 +318,12 @@ formUpdatePass.on("submit",(event) => {
 			data : $("#formUpdatePass").serialize(),
 			type : "POST",
 			success: function(result){
-			console.log(result);
+				$("#adminIdUser").val("")
+				$("#adminPassUser").val("")
+				$("#adminPassConfirmUser").val("")
 			}
-		});
-	}else console.log({msg:"Password not equals"}); 
+		})
+	}else console.log({msg:"Password not equals"})
 })
 
 formOpeUser.on("submit.formOpeUserDel",(event) => {
@@ -317,7 +334,7 @@ formOpeUser.on("submit.formOpeUserDel",(event) => {
 		data : $("#formOpeUser").serialize(),
 		type : "POST",
 		success: function(result){
-		console.log(result);
+			$("#adminOpeIdUser").val("")
 		}
 	});
 })
@@ -330,7 +347,7 @@ $("#formOpeTeachAdminDel").on("click",(event) => {
 		data : $("#formOpeTeachAdmin").serialize(),
 		type : "POST",
 		success: function(result){
-		console.log(result);
+			$("#adminOpeTeachAdmin").val("")
 		}
 	});
 })
@@ -343,7 +360,7 @@ $("#formOpeTeachAdminUpd").on("click",(event) => {
 		data : $("#formOpeTeachAdmin").serialize(),
 		type : "POST",
 		success: function(result){
-			if (result.valid) {
+			if(result.valid) {
 				var clone = getClone("#consulQueryUserUpdate")
 				$("#cancelUpdateUser",clone).click(()=>{
 					$("#formUpdateUser").remove()

@@ -434,6 +434,10 @@ option{
 	background-color:#EAB016;
 }
 
+.menuPrincipalNew a{
+	color:#9C4700;
+}
+
 .menuPrincipalAdmin a{
 	color:#18274D;
 }

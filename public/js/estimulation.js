@@ -27,7 +27,7 @@ formAddChildAct.on("submit",(event) => {
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(childrens){
-			if (childrens.nameChildren != null) {
+			if(childrens.nameChildren != null) {
 				console.log(childrens.nameChildren)
 				var clone = getClone("#consulQueryAddChild"),
 					cloneAct = getClone("#consulQueryActivityChild")
@@ -60,20 +60,20 @@ formAddChildAct.on("submit",(event) => {
 					$("#nameChild2").remove()
 					$("#idChildren").prop("readonly", false)
 					$("#idChildren").val("")
-					$("#validActClic").prop("disabled", true)
+					$("#validActClicDef").prop("disabled", true)
 				})
 				renderResults(clone)
 				renderResultAct(cloneAct)
 
 				$("#idChildren").prop("readonly", true)
-				$("#validActClic").prop("disabled", false)
+				$("#validActClicDef").prop("disabled", false)
 
 			}
 		}
 	})
 })
 
-$("#validActClic").on("click",(event) => {
+$("#validActClicDef").on("click",(event) => {
 	event.preventDefault()
 
 	$.ajax({
@@ -117,7 +117,7 @@ $("#validActClic").on("click",(event) => {
 				$("#formValidChildren").remove()
 				$("#idChildren").val("")
 				$("#idChildren").prop("readonly", false)
-				$("#validActClic").prop("disabled", true)
+				$("#validActClicDef").prop("disabled", true)
 			})
 
 			data.append(label)
@@ -135,7 +135,7 @@ $("#restarActClic").click(()=>{
 	$("#formValidChildren").remove()
 	$("#idChildren").val("")
 	$("#idChildren").prop("readonly", false)
-	$("#validActClic").prop("disabled", true)
+	$("#validActClicDef").prop("disabled", true)
 })
 
 $("#continueViewMore").click((event) => {

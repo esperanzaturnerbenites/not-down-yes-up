@@ -12,7 +12,7 @@ router.post("/found-children",(req,res)=>{
 	var data = req.body
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
-		if (err) res.send(err)
+		if(err) res.json({err:err})
 		if(children){ res.json(children)} else{res.json({"msg":"Children not found"})}
 		console.log(children)
 	})
@@ -25,7 +25,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 	console.log(numberActivity + " *************** " + numberStep)
 
 	models.user.findOne({_id : req.user.idUser}, (err,user) => {
-		if (err) return res.send(err)
+		if(err) return res.json({err:err})
 		if(!user) return res.json({"msg":"User not found"})
 			data.idUser = user._id
 			data.nameUser = user.nameUser
@@ -33,18 +33,18 @@ router.post("/valid-activity-complete",(req,res)=>{
 			console.log("nameUser "+data.nameUser)
 
 			models.children.findOne({idChildren : data.idChildren}, (err,children) => {
-				if (err) return res.send(err)
+				if(err) return res.json({err:err})
 				if(!children) return res.json({"msg":"Children not found"})
 					data.idChildren = children._id
 
 					models.activity.findOne({activityActivity : numberActivity , stepActivity : numberStep}, (err,activityF) => {
-						if (err) return res.send(err)
+						if(err) return res.json({err:err})
 						if(!activityF) return res.json({"msg":"Activity not found"})
 							else {
 							data.idActivity = activityF._id
 							//console.log(data)
 							models.activityhistory.create(data, function (err, activity) {
-								if (err) return res.send(err);
+								if(err) return res.json({err:err});
 								return res.json({message:"Valid - Activity Add Complete", activity : activity})
 							})
 						}	
@@ -68,40 +68,35 @@ router.get("/continue-group",(req,res)=>{
 router.get("/continue/continue-detail-one",(req,res)=>{
 	res.render("continueDetailOne")
 })
-
+//Consultas del info children - no carga ni muestra error ****************************************
 router.get("/infoChildren/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}
 
 	models.children.findOne({idChildren: idChildren}, (err, children) => {
+		if(err) return res.json({err:err})
+		if(!children) return res.json({"msg":"Children not found"})
 		dataChildren = children
 
-		models.mom.findOne({idChildren: children._id}, (err, mom) => {
-			dataChildren.mom = mom
+		models.parent.findOne({idChildren: {$in : children.idChildren}}, (err, parents) => {
+			if(err) return res.json({err:err})
+			if(!parents) return res.json({"msg":"Parents not found"})
+			dataChildren.parents = parents
 
-			models.dad.findOne({idChildren: children._id}, (err, dad) => {
-				dataChildren.dad = dad
-
-				models.care.findOne({idChildren: children._id}, (err, care) => {
-					dataChildren.care = care
-
-					models.activityhistory.find({idChildren: dataChildren._id})
-					.sort({date:-1})
-					.limit(10)
-					.populate('idActivity idUser')
-					.exec((err, activities) => {
-						dataChildren.activities = activities
-						//console.log(dataChildren.activities)
-						//console.log(dataChildren)
-						res.render("continueOne",{childrenAct:dataChildren})
-					
-					})
-				})
+			models.activityhistory.find({idChildren: dataChildren.idChildren})
+			.sort({date:-1})
+			.limit(10)
+			.populate('idActivity idUser')
+			.exec((err, activities) => {
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Activities not found"})
+				dataChildren.activities = activities
+				//console.log(dataChildren.activities)
+				//console.log(dataChildren)
+				res.render("continueOne",{childrenAct:dataChildren})
 			})
 		})
-
 	})
-
 })
 
 router.get("/steps",(req,res)=>{
