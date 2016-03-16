@@ -28,7 +28,7 @@ adminuserSchema = new Mongoose.Schema({
 	passUser: {type:String},
 	typeUser: {type:String},
 	dateUser: {type:Date, default:Date.now},
-	idUser: {type:Number, ref: "user"}
+	idUser: {type:Schema.ObjectId, ref: "user"}
 }),
 
 childrenSchema = new Mongoose.Schema({
@@ -72,7 +72,7 @@ parentSchema = new Mongoose.Schema({
 	professionParent: {type:String},
 	jobParent: {type:String},
 	relationshipParent: {type:Number},
-	idChildren: [{type:Number, ref: "children"}]
+	idChildren: [{type:Schema.ObjectId, ref: "children"}]
 }),
 
 activityvalidSchema = new Mongoose.Schema({
@@ -84,9 +84,10 @@ activityvalidSchema = new Mongoose.Schema({
 	backingDFunctionActivity:{type:Number, default:0},
 	observationActivity: {type:String, default:"Validado"},
 	date: {type:Date, default:Date.now},
-	idActivity: {type:Number, ref: "activity"},
-	idUser: {type:Number, ref: "user"},
-	idChildren: {type:Number, ref: "children"}
+	idActivity: {type:Schema.ObjectId, ref: "activity"},
+	idStep: {type:Schema.ObjectId, ref: "step"},
+	idUser: {type:Schema.ObjectId, ref: "user"},
+	idChildren: {type:Schema.ObjectId, ref: "children"}
 }),
 
 activityhistorySchema = new Mongoose.Schema({
@@ -95,9 +96,10 @@ activityhistorySchema = new Mongoose.Schema({
 	scoreTeachActivity: {type:Number, default:0},
 	observationActivity: {type:String, default:"Validado"},
 	date: {type:Date, default:Date.now},
-	idActivity: {type:Number, ref: "activity"},
-	idUser: {type:Number, ref: "user"},
-	idChildren: {type:Number, ref: "children"}
+	idActivity: {type:Schema.ObjectId, ref: "activity"},
+	idStep: {type:Schema.ObjectId, ref: "step"},
+	idUser: {type:Schema.ObjectId, ref: "user"},
+	idChildren: {type:Schema.ObjectId, ref: "children"}
 }),
 
 stepvalidSchema = new Mongoose.Schema({
@@ -105,9 +107,9 @@ stepvalidSchema = new Mongoose.Schema({
 	scoreStep: {type:Number, default:0},
 	observationStep: {type:String, default:"Sin Validar"},
 	date: {type:Date, default:Date.now},
-	idStep: {type:Number, ref: "step"},
-	idUser: {type:Number, ref: "user"},
-	idChildren: {type:Number, ref: "children"}
+	idStep: {type:Schema.ObjectId, ref: "step"},
+	idUser: {type:Schema.ObjectId, ref: "user"},
+	idChildren: {type:Schema.ObjectId, ref: "children"}
 }),
 
 activitySchema = new Mongoose.Schema({

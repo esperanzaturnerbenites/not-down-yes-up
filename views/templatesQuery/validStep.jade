@@ -4,6 +4,10 @@ template#consulQueryChildrenValid
 		fieldset.validStep
 			legend Validar Etapa
 			article#dataNameChild
+
+			article
+				p
+					span #{activities[0].idChildren.nameChildren + " " + activities[0].idChildren.lastnameChildren}
 			
 			article.validStep
 				textarea#observationStep(name='observationStep' placeholder='Observaciones...' required)

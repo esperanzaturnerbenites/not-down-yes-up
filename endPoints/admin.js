@@ -32,9 +32,9 @@ router.post("/register-children/",(req,res)=>{
 					{idParent : dataDad.idParent},
 					{idParent : dataCare.idParent}
 				]
-			dataMom.idChildren = children.idChildren
-			dataDad.idChildren = children.idChildren
-			dataCare.idChildren = children.idChildren
+			dataMom.idChildren = children._id
+			dataDad.idChildren = children._id
+			dataCare.idChildren = children._id
 
 			models.parent.find(
 				{$or : queryParents},
@@ -55,7 +55,7 @@ router.post("/register-children/",(req,res)=>{
 					models.parent.where({$or : queryParents})
 					.setOptions({ multi: true })
 					.update(
-						{$push : {idChildren : children.idChildren}},
+						{$push : {idChildren : children._id}},
 						(err, parentDad) => {
 							if(err) return res.json({err:err})
 							res.json({msg : "create children and update parent"})
@@ -83,8 +83,8 @@ router.post("/valid-children",(req,res)=>{
 	data = req.body
 
 	models.children.findOne({idChildren : data.validChildren},(err,exists) => {
-  		if(err) return res.json({err:err});
-  		if(exists) res.json({valid:false, msg:"Children exists",statusCode:0})
+		if(err) return res.json({err:err});
+		if(exists) res.json({valid:false, msg:"Children exists",statusCode:0})
 		else res.json({valid:true, msg:"",statusCode:1})
 	})
 })
@@ -100,7 +100,7 @@ router.all("/register-user",(req,res)=>{
 
 		models.user.create(dataUser, function (err, user) {
 			if(err) return res.json({err:err});
-			dataUserAdmin.idUser = user.idUser
+			dataUserAdmin.idUser = user._id
 
 			models.adminuser.create(dataUserAdmin, function (err, adminuser) {
 				if(err) return res.json({err:err});
@@ -114,8 +114,8 @@ router.post("/valid-user",(req,res)=>{
 	data = req.body
 
 	models.user.findOne({idUser : data.validUser},(err,exists) => {
-  		if(err) return res.json({err:err});
-  		if(exists){
+		if(err) return res.json({err:err});
+		if(exists){
 			 res.json({valid:false, msg:"User exists",statusCode:0});
 		}else{
 			 res.json({valid:true, msg:"",statusCode:1});
@@ -130,16 +130,14 @@ router.post("/register-newuser",(req,res)=>{
 
 	if(data.passUser == data.newPassConfirmUser){
 		models.user.findOne({idUser : data.idUser},(err,user) => {
-			if(err) return res.json({err:err});
-			if(user){
-				data.idUser = user.idUser
-				models.adminuser.create(data, function (err, adminuser) {
-					if(err) return res.json({err:err});
-					return res.json({message:"Useradmin Add Complete"})
-				})
-			}else{
-				return res.json({msg:"User not Found"});
-			}
+			if(err) return res.json({err:err})
+
+			if(!user) return res.json({msg:"User not Found"});
+			data.idUser = user._id
+			models.adminuser.create(data, function (err, adminuser) {
+				if(err) return res.json({err:err});
+				return res.json({message:"Useradmin Add Complete"})
+			})
 		})
 	}else return res.json({msg:"Password not equals"});
 })
@@ -160,21 +158,16 @@ router.post("/find-all",(req,res)=>{
 	var data = req.body
 	console.log(data)
 	if(data.typeUser == "2"){
-		models.adminuser.find({typeUser : {$ne : "2"}}, (err,users) =>{
-			models.user.find({idUser: users._id}, (err,usersU) =>{
-				if(err) return res.json({err:err})
-				users.userUser = usersU.userUser
-				res.json(users)
-				
-			})
+		models.adminuser.find({typeUser : {$ne : "2"}})
+		.populate('idUser')
+		.exec((err,users) =>{
+			res.json(users)
 		})
 	}else{
-		models.adminuser.find({typeUser : data.typeUser}, (err,users) =>{
-			models.user.find({idUser: users._id}, (err,usersU) =>{
-				if(err) return res.json({err:err})
-				users.userUser = usersU.userUser
-				res.json(users)
-			})
+		models.adminuser.find({typeUser : data.typeUser})
+		.populate('idUser')
+		.exec((err,users) =>{
+			res.json(users)
 		})
 	}
 })
@@ -226,8 +219,8 @@ router.post("/delete-users",(req,res)=>{
 			if(err) return res.json({err:res})
 			if(userD){
 				models.adminuser.remove({userUser:data.adminOpeIdUser},(err) => {
-				  	if(err) return res.json({err:err});
-				  	return res.json({msg:"User Delete Complete"})
+					if(err) return res.json({err:err});
+					return res.json({msg:"User Delete Complete"})
 				})
 			}else return res.json({msg:"User not Found"});
 		})
@@ -237,14 +230,14 @@ router.post("/delete-users",(req,res)=>{
 router.post("/delete-teachadmin",(req,res)=>{
 	data = req.body
 
-	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,exists) => {
+	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,user) => {
 		if(err) return res.json({err:err});
-		if(exists){
+		if(user){
 
 			models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
 				if(err) return res.json({err:err})
 
-				models.adminuser.remove({idUser : data.adminOpeTeachAdmin},(err) => {
+				models.adminuser.remove({idUser : user._id},(err) => {
 					if(err) return res.json({err:err});
 					return res.json({msg:"User(TeachAdmin) Delete Complete"})
 				})
@@ -253,62 +246,23 @@ router.post("/delete-teachadmin",(req,res)=>{
 	})
 })
 
+//Si borro el usuario Aqui aparece como null
 router.post("/show-valid-step",(req,res)=>{
-	var data = req.body,
-		children = {},
-		step = {},
-		act1 = {},
-		act2 = {}
+	var data = req.body
 
+	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
+		if(err) return res.json({err:err})
+		if(!children) return res.json({msg:"Children not found"})
 
-	models.children.findOne({idChildren : data.idChildren},(err,childrenO) => {
-		if(err) return res.json({err:err});
-		if(!childrenO) return res.json({msg : "Children not Found"})
-		children = childrenO
+		models.step.findOne({stepStep : data.step}, (err,stepFind) => {
+			if(err) return res.json({err:err})
+			if(!stepFind) return res.json({msg:"Step not found"})
 
-		models.step.findOne({stepStep : data.step},(err,step) => {
-			if(err) return res.json({err:err});
-			if(!step) return res.json({msg : "Step not Found"})
-			step = step
-			
-			models.activity.findOne({activityActivity : 1, stepActivity : data.step},(err,act1) => {
-				if(err) return res.json({err:err});
-				if(!act1) return res.json({msg : "Act1 not Found"})
-
-				models.activity.findOne({activityActivity : 2, stepActivity : data.step},(err,act2) => {
-					if(err) return res.json({err:err});
-					if(!act2) return res.json({msg : "Act2 not Found"})
-
-					models.activityhistory
-					.findOne({idChildren : childrenO.idChildren, idActivity : act1.activityActivity})
-					.sort({date : -1})
-					.limit(1)
-					.populate('idActivity idUser')
-					.exec((err, acthis1) => {
-						if(err) return res.json({err:err});
-						if(!acthis1) return res.json({msg : "Acthis1 not Found"})
-						//console.log(acthis1)
-						act1 = acthis1
-
-						models.activityhistory
-						.findOne({idChildren : childrenO.idChildren, idActivity : act2.activityActivity})
-						.sort({date : -1})
-						.limit(1)
-						.populate('idActivity idUser')
-						.exec((err, acthis2) => {
-							if(err) return res.json({err:err});
-							if(!acthis2) return res.json({msg : "Acthis2 not Found"})
-
-							act2 = acthis2
-
-							if(act2){
-								res.json({message: "Children Found", children : children, step : step, act1 : act1, act2 : act2});
-							}else{
-								res.json({msg:"Children not found"});
-							}
-						})
-					})
-				})
+			models.activityvalid.find({idChildren : children._id, idStep : stepFind._id})
+			.populate('idActivity idUser idChildren')
+			.exec((err, activitiesvalid) => {
+				if (err) return res.json({err: err})
+				return res.json({msg:"Activities found", activitiesvalid:activitiesvalid})
 			})
 		})
 	})
@@ -316,17 +270,29 @@ router.post("/show-valid-step",(req,res)=>{
 
 router.post("/valid-step",(req,res)=>{
 	data = req.body
-	data.idUser = req.user.idUser
+	data.idUser = req.user._id
 	console.log(data)
 
-	models.stephistory.findOne({idChildren : data.idChildren, idStep : data.idStep},(err,stephis) => {
-		if(err) return res.json({err:err});
-		if(stephis) return res.json({msg : "Step valid exists"})
+	models.children.findOne({idChildren : data.idChildren},(err,children) => {
+		if(err) return res.json({err:err})
+		data.idChildren = children._id
 
-			models.stephistory.create(data, function (err, step) {
+		models.step.findOne({stepStep : data.idStep},(err,step) => {
+			if(err) return res.json({err:err})
+			data.idStep = step._id
+
+			models.stepvalid
+			.findOne({idChildren : children._id, idStep : step._id},
+			(err,stephis) => {
 				if(err) return res.json({err:err});
-				if(step) return res.json({msg : "Step Valid Complete"})
+				if(stephis) return res.json({msg : "Step valid exists"})
+
+				models.stepvalid.create(data, function (err, step) {
+					if(err) return res.json({err:err});
+					if(step) return res.json({msg : "Step Valid Complete"})
+				})
 			})
+		})
 	})
 })
 

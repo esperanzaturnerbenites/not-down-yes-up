@@ -23,7 +23,8 @@ block desc
 		audio#audio(src='#{activity.audioActivity}')
 
 	section#showValidAct.validAct
-	include templatesQuery/validActivity.jade
+	include templatesQuery/validActivityDef.jade
+	include templatesQuery/validActivityParcial.jade
 
 	section.actDesc
 		p #{activity.descriptionActivity}

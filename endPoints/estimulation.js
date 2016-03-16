@@ -18,38 +18,78 @@ router.post("/found-children",(req,res)=>{
 	})
 })
 
+router.post("/valid-activity-parcial",(req,res)=>{
+	data = querystring.parse(req.body.actGeneral)
+	numberActivity = req.body.activityActivity
+	numberStep = req.body.stepActivity
+	user = req.user
+
+	data.idUser = user._id
+	data.nameUser = user.nameUser
+	data.lastnameUser = user.lastnameUser
+	console.log(numberActivity + " *************** " + numberStep)
+
+	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
+		if(err) return res.json({err:err})
+		data.idChildren = children._id
+
+		models.step.findOne({stepStep : numberStep}, (err,step) => {
+			if(err) return res.json({err:err})
+			data.idStep = step._id
+
+			models.activity
+			.findOne({activityActivity : numberActivity , stepActivity : numberStep},
+			(err,activityF) => {
+				if(err) return res.json({err:err})
+				if(!activityF) return res.json({"msg":"Activity not found"})
+					else {
+					data.idActivity = activityF._id
+					//console.log(data)
+
+					models.activityhistory.create(data, function (err, activity) {
+						if(err) return res.json({err:err});
+						return res.json({message:"Parcial - Activity Add Complete", activity : activity})
+					})
+				}
+			})
+		})
+	})
+})
+
 router.post("/valid-activity-complete",(req,res)=>{
 	data = querystring.parse(req.body.actGeneral)
 	numberActivity = req.body.activityActivity
 	numberStep = req.body.stepActivity
+	user = req.user
+
+	data.idUser = user._id
+	data.nameUser = user.nameUser
+	data.lastnameUser = user.lastnameUser
 	console.log(numberActivity + " *************** " + numberStep)
 
-	models.user.findOne({_id : req.user.idUser}, (err,user) => {
+	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
-		if(!user) return res.json({"msg":"User not found"})
-			data.idUser = user._id
-			data.nameUser = user.nameUser
-			data.lastnameUser = user.lastnameUser
-			console.log("nameUser "+data.nameUser)
+		data.idChildren = children._id
 
-			models.children.findOne({idChildren : data.idChildren}, (err,children) => {
+		models.step.findOne({stepStep : numberStep}, (err,step) => {
+			if(err) return res.json({err:err})
+			data.idStep = step._id
+
+			models.activity
+			.findOne({activityActivity : numberActivity , stepActivity : numberStep},
+			(err,activityF) => {
 				if(err) return res.json({err:err})
-				if(!children) return res.json({"msg":"Children not found"})
-					data.idChildren = children._id
-
-					models.activity.findOne({activityActivity : numberActivity , stepActivity : numberStep}, (err,activityF) => {
-						if(err) return res.json({err:err})
-						if(!activityF) return res.json({"msg":"Activity not found"})
-							else {
-							data.idActivity = activityF._id
-							//console.log(data)
-							models.activityhistory.create(data, function (err, activity) {
-								if(err) return res.json({err:err});
-								return res.json({message:"Valid - Activity Add Complete", activity : activity})
-							})
-						}	
+				if(!activityF) return res.json({"msg":"Activity not found"})
+					else {
+					data.idActivity = activityF._id
+					//console.log(data)
+					models.activityvalid.create(data, function (err, activity) {
+						if(err) return res.json({err:err});
+						return res.json({message:"Valid - Activity Add Complete", activity : activity})
 					})
+				}
 			})
+		})
 	})
 })
 
@@ -78,12 +118,14 @@ router.get("/infoChildren/:id",(req,res)=>{
 		if(!children) return res.json({"msg":"Children not found"})
 		dataChildren = children
 
-		models.parent.findOne({idChildren: {$in : children.idChildren}}, (err, parents) => {
+		models.parent.findOne({idChildren: {$in : children._id}})
+		.exec((err, parents) => {
 			if(err) return res.json({err:err})
 			if(!parents) return res.json({"msg":"Parents not found"})
 			dataChildren.parents = parents
 
-			models.activityhistory.find({idChildren: dataChildren.idChildren})
+			//Esto debe ser un agregate*********************************************************
+			models.activityhistory.find({idChildren: children._id})
 			.sort({date:-1})
 			.limit(10)
 			.populate('idActivity idUser')

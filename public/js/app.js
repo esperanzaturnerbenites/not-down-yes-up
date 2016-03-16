@@ -180,24 +180,25 @@ $("#formValidChildrenValid").on("click",(event) => {
 		type : "POST",
 		data : formOpeValidChildren.serializeArray(),
 		success: function(result){
-			children = result.children
-			step = result.step
-			act1 = result.act1
-			act2 = result.act2
-			if(children){
+			console.log(result)
+
+
+			activities = result.activitiesvalid
+			if(activities){
 				$("#idChildren").prop("readonly", true)
 
 				var clone = getClone("#consulQueryChildrenValid")
 				var data = $(clone.querySelector("#dataNameChild"))
-				var scoreStep = (act1.scoreTeachActivity + act2.scoreTeachActivity)/2
+
+				//var scoreStep = (act1.scoreTeachActivity + act2.scoreTeachActivity)/2
 
 				var p = $("<p>").append(
 						span = $("<span>",{html : "Niñ@: "}),
-						b = $("<b>", {html : children.nameChildren + " " + children.lastnameChildren})),
+						b = $("<b>", {html : activities[0].idChildren.nameChildren + " " + activities[0].idChildren.lastnameChildren})),
 					p1 = $("<p>").append(
-						b = $("<b>",{html : "ETAPA: " + act1.idActivity.stepActivity})),
+						b = $("<b>",{html : "ETAPA: " + activities[0].idActivity.stepActivity})),
 					a = $("<article>").append(
-						h3 = $("<h2>",{html : "ACTIVIDAD 1: " + act1.idActivity.nameActivity})),
+						h3 = $("<h2>",{html : "ACTIVIDAD 1: " + activities[0].idActivity.nameActivity})),
 					a2 = $("<article>").append(
 						label = $("<label>",{html : "Estado: " }),
 						input = $("<input>")
@@ -205,7 +206,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 						.attr({id:"actStatus1"})
 						.prop("readonly", true)
 						.prop("name", "actStatus1")
-						.val(funcStatusAct(act1.statusActivity))),
+						.val(funcStatusAct(activities[0].statusActivity))),
 					a3 = $("<article>").append(
 						label = $("<label>",{html : "Puntaje: " }),
 						input = $("<input>")
@@ -213,9 +214,9 @@ $("#formValidChildrenValid").on("click",(event) => {
 						.attr({id:"actScore1"})
 						.prop("readonly", true)
 						.prop("name", "actScore1")
-						.val(act1.scoreTeachActivity)),
+						.val(activities[0].scoreTeachActivity)),
 					a4 = $("<article>").append(
-						h3 = $("<h2>",{html : "ACTIVIDAD 2: " + act2.idActivity.nameActivity})),
+						h3 = $("<h2>",{html : "ACTIVIDAD 2: " + activities[0].idActivity.nameActivity})),
 					a5 = $("<article>").append(
 						label = $("<label>",{html : "Estado: " }),
 						input = $("<input>")
@@ -223,7 +224,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 						.attr({id:"actStatus2"})
 						.prop("readonly", true)
 						.prop("name", "actStatus2")
-						.val(funcStatusAct(act2.statusActivity))),
+						.val(funcStatusAct(activities[0].statusActivity))),
 					a6 = $("<article>").append(
 						label = $("<label>",{html : "Puntaje: " }),
 						input = $("<input>")
@@ -231,7 +232,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 						.attr({id:"actScore2"})
 						.prop("readonly", true)
 						.prop("name", "actScore2")
-						.val(act2.scoreTeachActivity)),
+						.val(activities[0].scoreTeachActivity)),
 					a7 = $("<article>").append(
 						label = $("<label>",{html : "Puntaje Etapa: " }),
 						input = $("<input>")
@@ -239,7 +240,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 						.attr({id:"scoreStep"})
 						.prop("readonly", true)
 						.prop("name", "scoreStep")
-						.val(scoreStep))
+						.val("scoreStep"))
 
 				data.append(p, p1, a, a2, a3, a4, a5, a6, a7)
 
@@ -251,11 +252,11 @@ $("#formValidChildrenValid").on("click",(event) => {
 
 				var statusStep = "Completada",
 					idStep = step._id,
-					idChildren = children._id
+					idChildren = activities[0].idChildren._id
 
 				$("#validStep",clone).click(()=>{
 						event.preventDefault()
-						if(act1.statusActivity == 1 && act2.statusActivity == 1){
+						if(activities[0].statusActivity == 1 && activities[1].statusActivity == 1){
 							$.ajax({
 								url: "/admin/valid-step",
 								async : false, 
@@ -274,7 +275,6 @@ $("#formValidChildrenValid").on("click",(event) => {
 
 				renderResultValid(clone)
 			}else console.log("Not consult complete")
-			
 		}
 	})
 })
@@ -295,7 +295,7 @@ formFindAll.on("submit",(event) => {
 				var tr = $("<tr>").append(
 					$("<td>",{html : adminuser.userUser }),
 					$("<td>",{html : typeUserFind(adminuser.typeUser)}),
-					$("<td>",{html : adminuser.userUser }),
+					$("<td>",{html : adminuser.idUser.nameUser + " " + adminuser.idUser.lastnameUser}),
 					$("<td>",{html : adminuser.dateUser })
 				)
 				data.append(tr)

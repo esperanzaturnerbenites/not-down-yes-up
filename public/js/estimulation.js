@@ -67,8 +67,64 @@ formAddChildAct.on("submit",(event) => {
 
 				$("#idChildren").prop("readonly", true)
 				$("#validActClicDef").prop("disabled", false)
+				$("#validActClic").prop("disabled", false)
 
 			}
+		}
+	})
+})
+
+$("#validActClic").on("click",(event) => {
+	event.preventDefault()
+
+	$.ajax({
+		url: "/estimulation/found-children",
+		async : false, 
+		data : $("#formAddChildAct").serialize(),
+		type : "POST",
+		success: function(result){
+			var clone = getClone("#consulQueryChildrenValidParcial")
+
+			var data = $(clone.querySelector("#dataNameChildParcial"))
+
+			var label = $("<label>",{html : "Identificación Niñ@: "})
+			input = $("<input>",{html : result.idChildren})
+				.prop("type", "number")
+				.attr({id:"idChildren"})
+				.prop("readonly", true)
+				.prop("name", "idChildren")
+				.val(result.idChildren)
+			
+			$("#buttonCancelValidActParcial",clone).click(()=>{
+				$("#formValidChildrenParcial").remove()
+			})
+			
+			$("#buttonValidActParcial",clone).click(()=>{
+				$.ajax({
+					url: "/estimulation/valid-activity-parcial",
+					async : false, 
+					data : {actGeneral : ($("#formValidChildrenParcial")).serialize(), 
+							stepActivity : $("#numberStep").val(),
+							activityActivity : $("#numberActivity").val()},
+					type : "POST",
+					success: function(activity){
+						console.log(activity)
+					}
+				})
+				$("#formInicAct").remove()
+				$("#nameChild").remove()
+				$("#nameChild1").remove()
+				$("#nameChild2").remove()
+				$("#formValidChildrenParcial").remove()
+				$("#idChildren").val("")
+				$("#idChildren").prop("readonly", false)
+				$("#validActClicDef").prop("disabled", true)
+				$("#validActClic").prop("disabled", true)
+			})
+
+			data.append(label)
+			data.append(input)
+			renderResultValid(clone)
 		}
 	})
 })
@@ -118,6 +174,7 @@ $("#validActClicDef").on("click",(event) => {
 				$("#idChildren").val("")
 				$("#idChildren").prop("readonly", false)
 				$("#validActClicDef").prop("disabled", true)
+				$("#validActClic").prop("disabled", true)
 			})
 
 			data.append(label)
