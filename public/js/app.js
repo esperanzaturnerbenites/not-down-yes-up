@@ -172,6 +172,7 @@ formNewUser.on("submit",(event) => {
 	}
 })
 
+//Revisar valid step
 $("#formValidChildrenValid").on("click",(event) => {
 	event.preventDefault()
 	$.ajax({
@@ -182,67 +183,54 @@ $("#formValidChildrenValid").on("click",(event) => {
 		success: function(result){
 			console.log(result)
 
+			var clone = getClone("#consulQueryChildrenValid"),
+				data = $(clone.querySelector("#dataNameChild")),
+				activities = result.activitiesvalid
 
-			activities = result.activitiesvalid
-			if(activities){
+			if(activities.length == 2){
+				clone.querySelector("#nameChildren").innerHTML = "Niñ@: " + result.children.nameChildren + " " + result.children.lastnameChildren
+				clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
+
+				var num = 0,
+					scoreS = 0
+
+				for (activity of activities){
+					num++
+					scoreS += activity.scoreTeachActivity
+					var a = $("<article>").append(
+							h3 = $("<h2>",{html : "ACTIVIDAD " + num + ": " + activity.idActivity.nameActivity})),
+						a2 = $("<article>").append(
+							label = $("<label>",{html : "Estado: " }),
+							input = $("<input>")
+							.prop("type", "text")
+							.attr({id:"actStatus" + num})
+							.prop("readonly", true)
+							.prop("name", "actStatus" + num)
+							.val(funcStatusAct(activity.statusActivity))),
+						a3 = $("<article>").append(
+							label = $("<label>",{html : "Puntaje: " }),
+							input = $("<input>")
+							.prop("type", "number")
+							.attr({id:"actScore" + num})
+							.prop("readonly", true)
+							.prop("name", "actScore" + num)
+							.val(activity.scoreTeachActivity))
+					data.append(a, a2, a3)
+
+
+					/*var infoActivity = clone.querySelector("#infoActivity")
+					infoActivity.querySelector("#nameActivity1").innerHTML = "Actividad 1: " + activities[0].idActivity.nameActivity
+					infoActivity.querySelector("#actStatus1").value = funcStatusAct(activities[0].statusActivity)
+					infoActivity.querySelector("#actScore1").value = activities[0].scoreTeachActivity
+					infoActivity.querySelector("#nameActivity2").innerHTML = "Actividad 1: " + activities[1].idActivity.nameActivity
+					infoActivity.querySelector("#actStatus2").value = funcStatusAct(activities[1].statusActivity)
+					infoActivity.querySelector("#actScore2").value = activities[1].scoreTeachActivity
+					*/
+				}
+
+				clone.querySelector("#scoreStep").value = scoreS/num
+
 				$("#idChildren").prop("readonly", true)
-
-				var clone = getClone("#consulQueryChildrenValid")
-				var data = $(clone.querySelector("#dataNameChild"))
-
-				//var scoreStep = (act1.scoreTeachActivity + act2.scoreTeachActivity)/2
-
-				var p = $("<p>").append(
-						span = $("<span>",{html : "Niñ@: "}),
-						b = $("<b>", {html : activities[0].idChildren.nameChildren + " " + activities[0].idChildren.lastnameChildren})),
-					p1 = $("<p>").append(
-						b = $("<b>",{html : "ETAPA: " + activities[0].idActivity.stepActivity})),
-					a = $("<article>").append(
-						h3 = $("<h2>",{html : "ACTIVIDAD 1: " + activities[0].idActivity.nameActivity})),
-					a2 = $("<article>").append(
-						label = $("<label>",{html : "Estado: " }),
-						input = $("<input>")
-						.prop("type", "text")
-						.attr({id:"actStatus1"})
-						.prop("readonly", true)
-						.prop("name", "actStatus1")
-						.val(funcStatusAct(activities[0].statusActivity))),
-					a3 = $("<article>").append(
-						label = $("<label>",{html : "Puntaje: " }),
-						input = $("<input>")
-						.prop("type", "number")
-						.attr({id:"actScore1"})
-						.prop("readonly", true)
-						.prop("name", "actScore1")
-						.val(activities[0].scoreTeachActivity)),
-					a4 = $("<article>").append(
-						h3 = $("<h2>",{html : "ACTIVIDAD 2: " + activities[0].idActivity.nameActivity})),
-					a5 = $("<article>").append(
-						label = $("<label>",{html : "Estado: " }),
-						input = $("<input>")
-						.prop("type", "text")
-						.attr({id:"actStatus2"})
-						.prop("readonly", true)
-						.prop("name", "actStatus2")
-						.val(funcStatusAct(activities[0].statusActivity))),
-					a6 = $("<article>").append(
-						label = $("<label>",{html : "Puntaje: " }),
-						input = $("<input>")
-						.prop("type", "number")
-						.attr({id:"actScore2"})
-						.prop("readonly", true)
-						.prop("name", "actScore2")
-						.val(activities[0].scoreTeachActivity)),
-					a7 = $("<article>").append(
-						label = $("<label>",{html : "Puntaje Etapa: " }),
-						input = $("<input>")
-						.prop("type", "number")
-						.attr({id:"scoreStep"})
-						.prop("readonly", true)
-						.prop("name", "scoreStep")
-						.val("scoreStep"))
-
-				data.append(p, p1, a, a2, a3, a4, a5, a6, a7)
 
 				$("#cancelValidStep",clone).click(()=>{
 					$("#formValidChildren").remove()
@@ -251,8 +239,8 @@ $("#formValidChildrenValid").on("click",(event) => {
 				})
 
 				var statusStep = "Completada",
-					idStep = step._id,
-					idChildren = activities[0].idChildren._id
+					idStep = result.step._id,
+					idChildren = result.children.idChildren
 
 				$("#validStep",clone).click(()=>{
 						event.preventDefault()
@@ -267,14 +255,16 @@ $("#formValidChildrenValid").on("click",(event) => {
 										idChildren : idChildren,
 										statusStep : statusStep},
 								success: function(result){
-
+									$("#formValidChildren").remove()
+									$("#idChildren").val("")
+									$("#idChildren").prop("readonly", false)
 								}
 							})
 						}else console.log("Not activities complete")//return ({msg : "Not activities complete"})
 				})
 
 				renderResultValid(clone)
-			}else console.log("Not consult complete")
+			}else console.log("Not consult complete - Imcompletes Activities")
 		}
 	})
 })

@@ -262,7 +262,7 @@ router.post("/show-valid-step",(req,res)=>{
 			.populate('idActivity idUser idChildren')
 			.exec((err, activitiesvalid) => {
 				if (err) return res.json({err: err})
-				return res.json({msg:"Activities found", activitiesvalid:activitiesvalid})
+				return res.json({msg:"Activities found", activitiesvalid:activitiesvalid, children:children, step:stepFind})
 			})
 		})
 	})
@@ -277,7 +277,7 @@ router.post("/valid-step",(req,res)=>{
 		if(err) return res.json({err:err})
 		data.idChildren = children._id
 
-		models.step.findOne({stepStep : data.idStep},(err,step) => {
+		models.step.findOne({_id : data.idStep},(err,step) => {
 			if(err) return res.json({err:err})
 			data.idStep = step._id
 

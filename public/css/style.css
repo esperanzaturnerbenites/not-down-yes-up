@@ -1041,6 +1041,11 @@ article.actCentral{
 	padding:5px;
 }
 
+.validStep p{
+	font-size:1.2rem;
+	margin:0;
+}
+
 .showChildrens p{
 	padding:0;
 	margin:auto 0;
