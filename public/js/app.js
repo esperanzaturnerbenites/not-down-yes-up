@@ -39,11 +39,20 @@ function addChildren(){
 
 	var dataChildren = $(".children").serializeArray()
 	dataChildren.push({name:'birthdateChildren', value:$("#birthdateChildren").val()})
+	dataChildren.push({name:"imgChildren", value:$("#imgChildren").val()})
+
+	var mom = $(".mom").serializeArray()
+	mom.push({name:"imgMom", value:$("#imgMom").val()})
+	var dad = $(".dad").serializeArray()
+	dad.push({name:"imgDad", value:$("#imgDad").val()})
+	var care = $(".care").serializeArray()
+	care.push({name:"imgCare", value:$("#imgCare").val()})
 
 	var data = {children : $.param(dataChildren),
-			mom : $.param($(".mom").serializeArray()),
-			dad : $.param($(".dad").serializeArray()),
-			care : $.param($(".care").serializeArray())}
+			mom : $.param(mom),
+			dad : $.param(dad),
+			care : $.param(care)
+		}
 
 	if($(".idMom").val() == $(".idDad").val() || $(".idMom").val() == $(".idCare").val() || $(".idDad").val() == $(".idCare").val()){
 		console.log({msg:"idParents equals"})
@@ -51,8 +60,10 @@ function addChildren(){
 		$.ajax({
 			url: "/admin/register-children",
 			async : false, 
-			data : data,
+			data : new FormData($("#formAddChildren")[0]),
 			type : "POST",
+			//contentType: 'multipart/form-data',
+			processData: false,
 			success: function(result){
 				$("#formAddChildren")
 				.trigger("reset")
@@ -281,7 +292,7 @@ formFindAll.on("submit",(event) => {
 			var data = $(clone.querySelector("#dataFindAll"))
 
 			for (adminuser of users){
-				console.log(users)
+				//console.log(users)
 				var tr = $("<tr>").append(
 					$("<td>",{html : adminuser.userUser }),
 					$("<td>",{html : typeUserFind(adminuser.typeUser)}),

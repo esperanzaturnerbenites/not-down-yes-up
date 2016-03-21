@@ -1,15 +1,24 @@
 extends templates/template.jade
 block title
-  title ¡Not Down, Yes Up!
+	title ¡Not Down, Yes Up!
 block content
-  nav.menuPrincipal
-    ul
-      li
-        a(href='/users/login') INGRESA
-  article.infoapp
-    header
-      h2 BIENVENID@
-    p
-      | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime iste atque quisquam natus aut, eius ipsum consectetur illum alias illo nihil distinctio libero, dolore aliquid placeat, ducimus quam rem vitae?
-      | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur veniam voluptates id dolorem nostrum soluta neque saepe adipisci, quod a odit doloribus recusandae, maiores assumenda vitae cum labore, facere.
-  section.backgroundFooter
+	nav.menuPrincipal
+		if (user) 
+			ul
+				li
+					a(href='/admin/menu-admin') Administracón
+				li
+					a(href='/estimulation/menu-teacher') Estimulación
+				li
+					a(href='/logout') Salir
+		else
+			ul
+				li
+					a(href='/users/login') INGRESA
+	article.infoapp
+		header
+			h2 BIENVENID@
+		p
+			| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime iste atque quisquam natus aut, eius ipsum consectetur illum alias illo nihil distinctio libero, dolore aliquid placeat, ducimus quam rem vitae?
+			| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem consectetur veniam voluptates id dolorem nostrum soluta neque saepe adipisci, quod a odit doloribus recusandae, maiores assumenda vitae cum labore, facere.
+	section.backgroundFooter

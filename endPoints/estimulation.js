@@ -8,13 +8,40 @@ ObjectId = mongoose.Types.ObjectId
 
 router.use(bodyParser.urlencoded())
 
+router.post("/found-step",(req,res)=>{
+	var data = req.body
+
+	models.stepvalid.find({_id : data.idChildren})
+	.populate('idStep')
+	.exec((err, steps) => {
+		if(err) return res.json({err:err})
+		console.log(steps)
+		if(steps) return res.json({steps : steps})
+	})
+})
+
+router.post("/consul-step",(req,res)=>{
+	var data = req.body
+
+	models.step.findOne({stepStep : data.step}, (err, stepFind) => {
+		models.activityhistory.find({idChildren : data.idChildren, idStep : stepFind._id})
+		.sort({date:-1})
+		.populate('idActivity idUser')
+		.exec((err, activities) => {
+			if(err) return res.json({err:err})
+			if(activities) return res.json({activities : activities})
+		})
+		
+	})
+
+})
 router.post("/found-children",(req,res)=>{
 	var data = req.body
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) res.json({err:err})
 		if(children){ res.json(children)} else{res.json({"msg":"Children not found"})}
-		console.log(children)
+		//console.log(children)
 	})
 })
 
@@ -27,7 +54,7 @@ router.post("/valid-activity-parcial",(req,res)=>{
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
-	console.log(numberActivity + " *************** " + numberStep)
+	//console.log(numberActivity + " *************** " + numberStep)
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
@@ -65,7 +92,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
-	console.log(numberActivity + " *************** " + numberStep)
+	//console.log(numberActivity + " *************** " + numberStep)
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
@@ -108,7 +135,7 @@ router.get("/continue-group",(req,res)=>{
 router.get("/continue/continue-detail-one",(req,res)=>{
 	res.render("continueDetailOne")
 })
-//Consultas del info children - no carga ni muestra error ****************************************
+
 router.get("/infoChildren/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}
@@ -118,24 +145,31 @@ router.get("/infoChildren/:id",(req,res)=>{
 		if(!children) return res.json({"msg":"Children not found"})
 		dataChildren = children
 
-		models.parent.findOne({idChildren: {$in : children._id}})
+		models.parent.find({idChildren : {$in : [children._id]}})
+		.sort({relationshipParent:1})
 		.exec((err, parents) => {
 			if(err) return res.json({err:err})
 			if(!parents) return res.json({"msg":"Parents not found"})
 			dataChildren.parents = parents
 
-			//Esto debe ser un agregate*********************************************************
 			models.activityhistory.find({idChildren: children._id})
 			.sort({date:-1})
 			.limit(10)
-			.populate('idActivity idUser')
+			.populate('idActivity idStep idUser')
 			.exec((err, activities) => {
 				if(err) return res.json({err:err})
 				if(!activities) return res.json({msg:"Activities not found"})
 				dataChildren.activities = activities
-				//console.log(dataChildren.activities)
+
+				models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
+				.populate('idActivity')
+				.exec((err, actsvalid) => {
+				dataChildren.actsvalid = actsvalid
+				//console.log(activities)
+				//console.log("aqui " + dataChildren.actsvalid)
 				//console.log(dataChildren)
 				res.render("continueOne",{childrenAct:dataChildren})
+				})
 			})
 		})
 	})

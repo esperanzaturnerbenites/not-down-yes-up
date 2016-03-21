@@ -12,6 +12,7 @@ block content
 					span Exportar PDF
 	section.continue.continueProgress
 		article.continueData
+			input#idChildren(type="hidden" value="#{childrenAct._id}") 
 			section.date
 				h3 Datos Niñ@
 				p
@@ -29,9 +30,9 @@ block content
 				button#continueViewMore(type='button')
 					span Ver Más
 		article.activities
-			h3 Progreso
+			h3 Historial de Progreso
 			table#progress
-				thead
+				thead 
 					tr
 						th ACTIVIDAD
 						th ETAPA
@@ -51,6 +52,17 @@ block content
 					span Ver Todo
 		article.continueLogros
 			h3 Últimos Logros Alcanzados
+
+			if (childrenAct.actsvalid[0].statusActivity == 0 && childrenAct.actsvalid[1].statusActivity == 0)
+				- var complete = 0
+				- var nocomplete = 2
+			else if (childrenAct.actsvalid[0].statusActivity == 1 && childrenAct.actsvalid[1].statusActivity == 1)
+				- var complete = 2
+				- var nocomplete = 0
+			else
+				- var complete = 1
+				- var nocomplete = 1
+
 			table#continueLogros
 				tbody
 					tr
@@ -58,23 +70,31 @@ block content
 							td #{childrenAct.activities[0].idActivity.stepActivity}
 					tr
 						th Actividades Completadas
-						td#continueNumComp Número de Actividades
+						td#continueNumComp #{complete}
 					tr
 						th Actividades Pendientes
-						td#continueNumPend Número de Actividades
+						td#continueNumPend #{nocomplete}
 			section.more
 				button#continueStepAll(type='button')
 					span Ver Todo
 		article.contActivities
-			h3 Continuar Actividades
+			h3 Última Actividad Realizada:
 			section.continueAct
 				p
-					span
-						b
-							img(src='/img/check.png', alt='.:.')
-							| Última Actividad Pendiente:
+					b
+						img(src='/img/check.png', alt='.:.')
+						span  N° #{childrenAct.activities[0].idActivity.activityActivity}: 
+						span #{childrenAct.activities[0].idActivity.nameActivity}
 				p
-					span Nombre Actividad
+					b
+						span ETAPA: #{childrenAct.activities[0].idStep.stepStep}
+				p
+					b Estado: 
+					if (childrenAct.activities[0].statusActivity == 0)
+						- var statusA2 = "Pendiente"
+					else if (childrenAct.activities[0].statusActivity == 1)
+						- var statusA2 = "Completada"
+					span #{statusA2}
 	section#results.continue
 	include templatesQuery/dataChild.jade
 	include templatesQuery/dataActAll.jade

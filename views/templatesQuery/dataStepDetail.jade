@@ -3,25 +3,17 @@ template#consulQueryDataStepDetail
 		article.consulName
 			p
 				span
-					b ETAPA
-				span#consulRStep
-					b #{childrenAct.nameChildren}
+					b ETAPA #{childrenAct.activities[0].idStep.stepStep}
 		article.consulTable
 			table
 				thead
 					tr
+						th INGRESO
 						th ACTIVIDAD
-						th INGRESOS
 						th ESTADO
-						th %
+						th PUNT DOCENTE
+						th PUNT SISTEMA
 						th OBSERVACIONES
-						th ÚLT. INGRESO
-				tbody
-					tr
-						td
-							a#continueDetailAct(href='#') XXXXX
-						td XXXXX
-						td XXXXX
-						td XXXXX
-						td XXXXX
-						td XXXXX
+						th DOCENTE
+						th FECHA
+				tbody#actsStepDetail

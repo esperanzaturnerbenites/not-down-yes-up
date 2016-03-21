@@ -4,7 +4,7 @@ template#consulQueryDataActOne
 			p
 				span
 					b ETAPA 
-				span #{childrenAct.activities[0].idActivity.stepActivity}
+				span #{childrenAct.actsvalid[0].idActivity.stepActivity}
 		article.consulTable
 			table
 				thead
@@ -16,7 +16,7 @@ template#consulQueryDataActOne
 						th DOCENTE
 						th FECHA
 				tbody
-					for acts in childrenAct.activities
+					for acts in childrenAct.actsvalid
 						if (acts.statusActivity == 0)
 							- var status = "Pendiente"
 						if (acts.statusActivity == 1)
@@ -26,5 +26,5 @@ template#consulQueryDataActOne
 							td #{acts.scoreTeachActivity}
 							td #{status}
 							td #{acts.observationActivity}
-							td #{acts.idUser.nameUser} #{acts.idUser.lastnameUser}
+							td #{acts}
 							td #{acts.date}

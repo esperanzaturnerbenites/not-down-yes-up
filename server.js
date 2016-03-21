@@ -1,15 +1,11 @@
 //Definir un modulo de express
 const express = require('express'),
-//Definir el modulo http de nodeJS
-http = require('http'),
 //Crear aplicacion express
 app = express(),
 //Requerir mongous
 mongoose = require('mongoose'),
 models = require('./models'),
 
-//Crear un servidor http basado en la app de Express
-server = http.createServer(app),
 //modulo para parse peticiones
 bodyParser = require('body-parser'),
 favicon = require('express-favicon'),
@@ -53,7 +49,7 @@ app.use(passport.session())
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
 		if (err) return done(null, false, { message: err})
-		console.log(user)
+		//console.log(user)
 		if (!user){
 			done(null, false, { message: 'Unknown user'})	
 		}else if (password === user.passUser) {
@@ -84,10 +80,15 @@ passport.deserializeUser(function(user, done) {
 /*conectarse a una db. si no se especifica el puerto ,el se conecta al default*/
 mongoose.connect('mongodb://localhost/centerestimulation')
 
+app.use((req,res,next) => {
+	res.locals.user = req.user
+	next()
+})
+
 app.use("/users",userURLUsers)
-app.use("/estimulation", ensureAuth, userURLEstimulation)
-app.use("/admin", ensureAuth, userURLAdmin)
-app.use("/reports", ensureAuth, userURLReports)
+app.use("/estimulation", requiredType([1]), userURLEstimulation)
+app.use("/admin", requiredType([0,2]), userURLAdmin)
+app.use("/reports", requiredType([0,2]), userURLReports)
 
 //definir carpeta para vistas
 app.set('views', __dirname + '/views')
@@ -113,21 +114,26 @@ app.get("/",(req,res)=>{
 app.post("/authenticate", 
 	passport.authenticate('local',{failureRedirect: 'users/login'}), 
 	(req, res) => {
-		if(req.user.typeUser == 0) return res.redirect("/admin/menu-admin")
+		if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
 		if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
-		if(req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
 })
 
 //Valida si se encuentra autenticado
-function ensureAuth (req, res, next) {
-  if (req.isAuthenticated()) {
-	return next() }
-  res.redirect('/users/login')
+function requiredType (types){
+	return function ensureAuth (req, res, next) {
+		//console.log(req.user)
+		if (req.isAuthenticated()){
+			if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+			return res.redirect('/')
+		}else{
+			res.redirect('/users/login')
+		}
+	}
 }
 
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku
-server.listen(process.env.PORT || 8000, ()=>{
+app.listen(process.env.PORT || 8000, ()=>{
 	console.log("Server ON")	
 })
 

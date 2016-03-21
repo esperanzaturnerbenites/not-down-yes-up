@@ -6,6 +6,10 @@ block exit
 		a(href='/admin/menu-admin') VOLVER
 block content
 	p #{context}
+	form(enctype='multipart/form-data' action="/admin/upload/" method="POST")
+		input(type="file" name="file")
+		input(type="submit")
+
 	section.register
 		h3 Niñ@s Nuev@s
 		article
@@ -18,7 +22,7 @@ block content
 						button(type='submit')
 							span Iniciar Registro
 				
-			form#formAddChildren.hide
+			form#formAddChildren.hide(enctype='multipart/form-data')
 				fieldset.children
 					legend Niñ@
 					section.data

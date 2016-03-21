@@ -53,9 +53,9 @@ childrenSchema = new Mongoose.Schema({
 	hearingaidChildren: {type:Number},
 	abilityChildren: {type:String},
 	debilityChildren: {type:String},
-	statusChildren: {type:String},
-	dateStart: {type:Date},
-	dateEnd: {type:Date}
+	statusChildren: {type:String, default:"Registrado"},
+	dateStart: {type:Date, default:Date.now},
+	dateEnd: {type:Date, default:Date.now}
 }),
 
 parentSchema = new Mongoose.Schema({
@@ -79,10 +79,10 @@ activityvalidSchema = new Mongoose.Schema({
 	statusActivity: {type:String, default:"Pendiente"},
 	scoreSystemActivity: {type:Number, default:0},
 	scoreTeachActivity: {type:Number, default:0},
-	backingMaxActivity:{type:Number, default:0},
-	backingMinActivity:{type:Number, default:0},
-	backingDFunctionActivity:{type:Number, default:0},
-	observationActivity: {type:String, default:"Validado"},
+	backingMaxActivity:{type:Number, default:null},
+	backingMinActivity:{type:Number, default:null},
+	backingDFunctionActivity:{type:Number, default:null},
+	observationActivity: {type:String, default:"Sin Validar"},
 	date: {type:Date, default:Date.now},
 	idActivity: {type:Schema.ObjectId, ref: "activity"},
 	idStep: {type:Schema.ObjectId, ref: "step"},
@@ -94,19 +94,9 @@ activityhistorySchema = new Mongoose.Schema({
 	statusActivity: {type:String, default:"Pendiente"},
 	scoreSystemActivity: {type:Number, default:0},
 	scoreTeachActivity: {type:Number, default:0},
-	observationActivity: {type:String, default:"Validado"},
+	observationActivity: {type:String, default:"Sin Validar"},
 	date: {type:Date, default:Date.now},
 	idActivity: {type:Schema.ObjectId, ref: "activity"},
-	idStep: {type:Schema.ObjectId, ref: "step"},
-	idUser: {type:Schema.ObjectId, ref: "user"},
-	idChildren: {type:Schema.ObjectId, ref: "children"}
-}),
-
-stepvalidSchema = new Mongoose.Schema({
-	statusStep: {type:String, default:"Pendiente"},
-	scoreStep: {type:Number, default:0},
-	observationStep: {type:String, default:"Sin Validar"},
-	date: {type:Date, default:Date.now},
 	idStep: {type:Schema.ObjectId, ref: "step"},
 	idUser: {type:Schema.ObjectId, ref: "user"},
 	idChildren: {type:Schema.ObjectId, ref: "children"}
@@ -123,6 +113,16 @@ activitySchema = new Mongoose.Schema({
 	urlActivity: {type:String},
 	styleActivity: {type:String},
 	stepActivity: {type:Number}
+}),
+
+stepvalidSchema = new Mongoose.Schema({
+	statusStep: {type:String, default:"Pendiente"},
+	scoreStep: {type:Number, default:0},
+	observationStep: {type:String, default:"Sin Validar"},
+	date: {type:Date, default:Date.now},
+	idStep: {type:Schema.ObjectId, ref: "step"},
+	idUser: {type:Schema.ObjectId, ref: "user"},
+	idChildren: {type:Schema.ObjectId, ref: "children"}
 }),
 
 stepSchema = new Mongoose.Schema({

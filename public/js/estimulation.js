@@ -4,7 +4,8 @@ const formAddChildAct = $("#formAddChildAct"),
 var showChildrensCont = $("#showChildrensCont"),
 	activityChildrens = $("#activityChildrens"),
 	showValidAct = $("#showValidAct"),
-	results = $("#results")
+	results = $("#results"),
+	resultStep = null
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -18,6 +19,15 @@ function renderResultValid(node){showValidAct.html(""); showValidAct.append(node
 function renderResultDataResult(node){results.html(""); results.append(node)}
 function renderResultDataStep(node){resultStep.html(""); resultStep.append(node)}
 
+function funcStatusAct(status){
+	var statusText = ""
+	if(status == 0)
+		statusText = "Pendiente"
+	if(status == 1)
+		statusText = "Completado"
+	return statusText
+}
+
 formAddChildAct.on("submit",(event) => {
 	event.preventDefault()
 
@@ -28,7 +38,7 @@ formAddChildAct.on("submit",(event) => {
 		type : "POST",
 		success: function(childrens){
 			if(childrens.nameChildren != null) {
-				console.log(childrens.nameChildren)
+				//console.log(childrens.nameChildren)
 				var clone = getClone("#consulQueryAddChild"),
 					cloneAct = getClone("#consulQueryActivityChild")
 				var data = $(clone.querySelector("#showChildrens")),
@@ -108,7 +118,7 @@ $("#validActClic").on("click",(event) => {
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
 					success: function(activity){
-						console.log(activity)
+						//console.log(activity)
 					}
 				})
 				$("#formInicAct").remove()
@@ -163,7 +173,7 @@ $("#validActClicDef").on("click",(event) => {
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
 					success: function(activity){
-						console.log(activity)
+						//console.log(activity)
 					}
 				})
 				$("#formInicAct").remove()
@@ -207,10 +217,53 @@ $("#continueStepAll").click((event) => {
 
 $("#continueActAll").click((event) => {
 	var clone = getClone("#consulQueryDataActAll")
-	renderResultDataResult(clone)
-})
+	var steps = $("[data-step]",clone)
 
-$("#consulStep1").click((event) => {
-	var clone = getClone("#consulQueryDataStepDetail")
-	renderResultDataStep(clone)
+	$.ajax({
+		url: "/estimulation/found-step",
+		async : false, 
+		data : {idChildren : $("#idChildren").val()},
+		type : "POST",
+		success: function(result){
+			steps.on("click" ,(e) => {
+				e.stopPropagation() 
+				$.ajax({
+					url: "/estimulation/consul-step",
+					async : false, 
+					data : {step : e.currentTarget.dataset.step,
+							idChildren : $("#idChildren").val()},
+					type : "POST",
+					success: function(result){
+						var clone = getClone("#consulQueryDataStepDetail"),
+							data = $(clone.querySelector("#actsStepDetail")),
+							num = Array.from(result.activities).length
+
+						//console.log(Array.from(result.activities).length)
+						
+						resultStep = $("#resultStep")
+
+						for (activity of Array.from(result.activities)){
+							//console.log(1)
+							var tr = $("<tr>").append(
+								$("<td>",{html : num}),
+								$("<td>",{html : activity.idActivity.nameActivity}),
+								$("<td>",{html : funcStatusAct(activity.statusActivity)}),
+								$("<td>",{html : activity.scoreTeachActivity}),
+								$("<td>",{html : activity.scoreSystemActivity}),
+								$("<td>",{html : activity.observationActivity}),
+								$("<td>",{html : "usuario Arreglar ******" /*activity.idUser.nameUser + " " + activity.idUser.lastnameUser*/}),
+								$("<td>",{html : activity.date})
+							)
+							$(data).append(tr)
+							//console.log(data)
+							num = num - 1
+						}
+						renderResultDataStep(clone)
+					}
+				})
+			})
+		}
+	})
+
+	renderResultDataResult(clone)
 })

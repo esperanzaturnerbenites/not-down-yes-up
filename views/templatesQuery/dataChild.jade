@@ -7,7 +7,6 @@ template#consulQueryDataChild
 					span #{childrenAct.nameChildren} #{childrenAct.lastnameChildren}
 				p
 					img#consulRImg(src='#{childrenAct.imgChildren}', alt='Foto')
-			article.consulData
 				p
 					span
 						b Número de Identificación: 
@@ -22,12 +21,17 @@ template#consulQueryDataChild
 					span #{gender}
 				p
 					span
+						b Edad: 
+					span #{childrenAct.ageChildren} meses
+				p
+					span
 						b Fecha Nacimiento: 
 					span #{childrenAct.birthdateChildren}
 				p
 					span
-						b Edad: 
-					span #{childrenAct.ageChildren} meses
+						b Lugar de Nacimiento: 
+					span #{childrenAct.birthplaceChildren}
+			article.consulData
 				p
 					span
 						b Vive con: 
@@ -43,32 +47,44 @@ template#consulQueryDataChild
 				p
 					span
 						b Mamá: 
-					span #{childrenAct.mom.nameMom} #{childrenAct.mom.lastnameMom}
+					span #{childrenAct.parents[0].nameParent} #{childrenAct.parents[0].lastnameParent}
 				p
 					span
 						b Papá: 
-					span #{childrenAct.dad.nameDad} #{childrenAct.dad.lastnameDad}
+					span #{childrenAct.parents[0].nameParent} #{childrenAct.parents[0].lastnameParent}
 				p
 					span
 						b Cuidador: 
-					span #{childrenAct.care.nameCare} #{childrenAct.care.lastnameCare}
+					span #{childrenAct.parents[0].nameParent} #{childrenAct.parents[0].lastnameParent}
 				p
 					span
 						b Dirección: 
-					span #{childrenAct.addressChildren}
+					span #{childrenAct.addressChildren} #{childrenAct.districtChildren} #{childrenAct.localityChildren} #{childrenAct.departamentChildren} 
 				p
 					span
 						b Teléfono: 
 					if (childrenAct.liveSon == 0)
-						- var tel = childrenAct.mom.celMom
+						- var tel = childrenAct.parents[0].celParent
 					if (childrenAct.liveSon == 1)
-						- var tel = childrenAct.mom.celMom
+						- var tel = childrenAct.parents[0].celParent
 					if (childrenAct.liveSon == 2)
-						- var tel = childrenAct.dad.celDad
+						- var tel = childrenAct.parents[1].celParent
 					if (childrenAct.liveSon == 3)
-						- var tel = childrenAct.care.celCare
+						- var tel = childrenAct.parents[2].celParent
 					span #{tel}
+				p
+					span
+						b Estrato Casa: 
+					span #{childrenAct.levelhomeChildren}
 			article.consulData
+				p
+					span
+						b EPS: 
+					span #{childrenAct.epsChildren}
+				p
+					span
+						b APB: 
+					span #{childrenAct.apbChildren}
 				p
 					span
 						b Condiciones de Salud: 
@@ -81,7 +97,22 @@ template#consulQueryDataChild
 					span
 						b Debilidades: 
 					span #{childrenAct.debilityChildren}
-			article.consulStatus
+				p
+					span
+						b Usa Gafas: 
+					if (childrenAct.glassesChildren == 0)
+						- var glass = "No"
+					else
+						- var glass = "Si"
+					span #{glass}
+				p
+					span
+						b Usa Audífonos: 
+					if (childrenAct.hearingaidChildren == 0)
+						- var hearing = "No"
+					else
+						- var hearing = "Si"
+					span #{hearing}
 				p
 					span
 						b Fecha de Ingreso: 
@@ -90,12 +121,3 @@ template#consulQueryDataChild
 					span
 						b Estado Actual: 
 					span #{childrenAct.statusChildren}
-				p
-					span
-						b % Etapa: 
-					span#consulRStep EtapaQuery
-					span#consulRPercentajeStep PorcentajeQuery
-				p
-					span
-						b % General: 
-					span#consulRPercentaje PorcentajeQuery

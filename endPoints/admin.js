@@ -1,18 +1,25 @@
 var express = require("express"),
-models = require('./../models'),
-mongoose = require("mongoose"),
-router = express.Router(),
-bodyParser = require('body-parser'),
-querystring = require('querystring'),
-ObjectId = mongoose.Types.ObjectId
+	models = require('./../models'),
+	mongoose = require("mongoose"),
+	router = express.Router(),
+	bodyParser = require('body-parser'),
+	querystring = require('querystring'),
+	ObjectId = mongoose.Types.ObjectId,
+	multer = require('multer'),
+	upload = multer({ dest: 'public/img/users' })
 
-router.use(bodyParser.urlencoded())
+router.use(bodyParser.json())
 
 router.get("/menu-admin",(req,res)=>{
 	res.render("menuAdmin",{user :req.user})
 })
 
-router.post("/register-children/",(req,res)=>{
+router.post("/upload",upload.any(),(req,res)=>{
+	res.json(req.files)
+})
+
+//Revisar Step Valid Add**********************************************************
+router.post("/register-children/",upload.any(),(req,res)=>{
 	dataChildren = querystring.parse(req.body.children),
 	dataMom = querystring.parse(req.body.mom),
 	dataDad = querystring.parse(req.body.dad),
@@ -59,9 +66,22 @@ router.post("/register-children/",(req,res)=>{
 						(err, parentDad) => {
 							if(err) return res.json({err:err})
 							res.json({msg : "create children and update parent"})
-					}
-				)
+					})
 				}
+			})
+			//Revisar Step Valid Add**********************************************************
+			models.step.find({}, (err, steps) => {
+				if(err) return res.json({err:err})
+				if(!steps) return res.json({msg:"Not steps"})
+
+				for(step of steps){
+					models.stepvalid.crate({idStep:step._id, idUser:req.user._id, idChildren:children._id}, (err, stepValid) => {
+						if(err) return res.json({err:err})
+						if(stepValid) return res.json({msg:"Step valid add"})
+					})
+					
+				}
+				
 			})
 			
 		}else return res.json({msg:"Children not found"})
