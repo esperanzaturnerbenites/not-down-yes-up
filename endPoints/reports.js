@@ -8,7 +8,7 @@ passport = require('passport'),
 ObjectId = mongoose.Types.ObjectId
 
 
-router.use(bodyParser.urlencoded())
+router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/general",(req,res)=>{
 	var step = {}

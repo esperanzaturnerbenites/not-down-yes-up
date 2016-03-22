@@ -1,4 +1,4 @@
-const formAddChildAct = $("#formAddChildAct"),
+var formAddChildAct = $("#formAddChildAct"),
 	formValidChildren = $("#formValidChildren")
 
 var showChildrensCont = $("#showChildrensCont"),

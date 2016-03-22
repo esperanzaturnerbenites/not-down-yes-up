@@ -5,7 +5,7 @@ bodyParser = require('body-parser'),
 passport = require('passport')
 
 
-router.use(bodyParser.urlencoded())
+router.use(bodyParser.urlencoded({extended:false}))
 
 router.get("/login",(req,res)=>{
 	res.render("login")

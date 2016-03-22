@@ -6,7 +6,7 @@ bodyParser = require('body-parser'),
 querystring = require('querystring'),
 ObjectId = mongoose.Types.ObjectId
 
-router.use(bodyParser.urlencoded())
+router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/found-step",(req,res)=>{
 	var data = req.body

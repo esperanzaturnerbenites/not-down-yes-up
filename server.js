@@ -1,41 +1,41 @@
 //Definir un modulo de express
-const express = require('express'),
-//Crear aplicacion express
-app = express(),
-//Requerir mongous
-mongoose = require('mongoose'),
-models = require('./models'),
+const express = require("express"),
+	//Crear aplicacion express
+	app = express(),
+	//Requerir mongous
+	mongoose = require("mongoose"),
+	models = require("./models"),
 
-//modulo para parse peticiones
-bodyParser = require('body-parser'),
-favicon = require('express-favicon'),
-//Requrir modulos para manejo de sesiones
-cookieParser = require('cookie-parser'),
-expressSession = require('express-session'),
-passport = require('passport'),
-LocalStrategy = require('passport-local').Strategy,
-//Definir el modulo jade
-jade = require('jade'),
-connect = require('connect'),
-MongoStore = require('connect-mongo')(expressSession)
+	//modulo para parse peticiones
+	bodyParser = require("body-parser"),
+	favicon = require("express-favicon"),
+	//Requrir modulos para manejo de sesiones
+	cookieParser = require("cookie-parser"),
+	expressSession = require("express-session"),
+	passport = require("passport"),
+	LocalStrategy = require("passport-local").Strategy,
+	//Definir el modulo jade
+	jade = require("jade"),
+	connect = require("connect"),
+	MongoStore = require("connect-mongo")(expressSession),
 
-//Definicion de Rutas
-userURLUsers = require('./endPoints/users'),
-userURLEstimulation = require('./endPoints/estimulation'),
-userURLAdmin = require('./endPoints/admin'),
-userURLReports = require('./endPoints/reports')
+	//Definicion de Rutas
+	userURLUsers = require("./endPoints/users"),
+	userURLEstimulation = require("./endPoints/estimulation"),
+	userURLAdmin = require("./endPoints/admin"),
+	userURLReports = require("./endPoints/reports")
 
 //Parceador de cookies
 app.use(cookieParser())
-app.use(favicon(__dirname + '/public/img/favicon.png'))
+app.use(favicon(__dirname + "/public/img/favicon.png"))
 
 //Cofiguracion de la session
 app.use(expressSession({
-  secret: 'SinLimites28*',
-  resave: false,
-  saveUninitialized: false,
-  store: new MongoStore({
-	mongooseConnection: mongoose.connection
+	secret: "SinLimites28*",
+	resave: false,
+	saveUninitialized: false,
+	store: new MongoStore({
+		mongooseConnection: mongoose.connection
 	})
 }))
 
@@ -51,24 +51,24 @@ passport.use(new LocalStrategy( (username, password, done) => {
 		if (err) return done(null, false, { message: err})
 		//console.log(user)
 		if (!user){
-			done(null, false, { message: 'Unknown user'})	
+			done(null, false, { message: "Unknown user"})	
 		}else if (password === user.passUser) {
-				if (username === user.userUser && password === user.passUser) {
-					return done(null,user)
-				}
-			} else done(null, false, { message: 'Unknown password'})	
-		})
+			if (username === user.userUser && password === user.passUser) {
+				return done(null,user)
+			}
+		} else done(null, false, { message: "Unknown password"})	
+	})
 }))
 
 //Deslogueo
-app.get('/logout', (req, res) => {
-  req.logout()
-  res.redirect('/users/login')
+app.get("/logout", (req, res) => {
+	req.logout()
+	res.redirect("/users/login")
 })
 passport.serializeUser(function(user, done) {
-	done(null, user); 
-   // where is this user.id going? Are we supposed to access this anywhere?
-});
+	done(null, user) 
+	// where is this user.id going? Are we supposed to access this anywhere?
+})
 
 //Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
@@ -78,7 +78,7 @@ passport.deserializeUser(function(user, done) {
 })
 
 /*conectarse a una db. si no se especifica el puerto ,el se conecta al default*/
-mongoose.connect('mongodb://localhost/centerestimulation')
+mongoose.connect("mongodb://localhost/centerestimulation")
 
 app.use((req,res,next) => {
 	res.locals.user = req.user
@@ -91,19 +91,19 @@ app.use("/admin", requiredType([0,2]), userURLAdmin)
 app.use("/reports", requiredType([0,2]), userURLReports)
 
 //definir carpeta para vistas
-app.set('views', __dirname + '/views')
+app.set("views", __dirname + "/views")
 
 //ruta estaticos
-app.use(express.static('public'))
+app.use(express.static("public"))
 
 // parse application/x-www-form-urlencoded 
-app.use(bodyParser.urlencoded())
+app.use(bodyParser.urlencoded({extended:false}))
  
 // parse application/json 
 app.use(bodyParser.json())
 
 //Definir motor de vistas
-app.set('view engine', 'jade')
+app.set("view engine", "jade")
 
 //Definición de rutas (URL)
 app.get("/",(req,res)=>{
@@ -112,11 +112,11 @@ app.get("/",(req,res)=>{
 
 //Redireccionamiento tras la autenticacion
 app.post("/authenticate", 
-	passport.authenticate('local',{failureRedirect: 'users/login'}), 
+	passport.authenticate("local",{failureRedirect: "users/login"}), 
 	(req, res) => {
 		if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
 		if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
-})
+	})
 
 //Valida si se encuentra autenticado
 function requiredType (types){
@@ -124,9 +124,9 @@ function requiredType (types){
 		//console.log(req.user)
 		if (req.isAuthenticated()){
 			if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-			return res.redirect('/')
+			return res.redirect("/")
 		}else{
-			res.redirect('/users/login')
+			res.redirect("/users/login")
 		}
 	}
 }
@@ -134,6 +134,6 @@ function requiredType (types){
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku
 app.listen(process.env.PORT || 8000, ()=>{
-	console.log("Server ON")	
+	console.log("Server ON")
 })
 

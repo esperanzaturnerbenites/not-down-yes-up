@@ -6,9 +6,6 @@ block exit
 		a(href='/admin/menu-admin') VOLVER
 block content
 	p #{context}
-	form(enctype='multipart/form-data' action="/admin/upload/" method="POST")
-		input(type="file" name="file")
-		input(type="submit")
 
 	section.register
 		h3 Niñ@s Nuev@s
@@ -22,18 +19,18 @@ block content
 						button(type='submit')
 							span Iniciar Registro
 				
-			form#formAddChildren.hide(enctype='multipart/form-data')
+			form#formAddChildren.hide(enctype='multipart/form-data' action="/admin/register-children" method="POST")
 				fieldset.children
 					legend Niñ@
 					section.data
 						fieldset
 							legend Personal
-							input#idChildren(type='number', name='idChildren', readonly)
+							input.idChildren#idChildren(type='number', name='idChildren', readonly)
 							input#nameChildren(type='text', name='nameChildren', placeholder='Nombres Niñ@', required='')
 							input#lastnameChildren(type='text', name='lastnameChildren', placeholder='Apellidos Niñ@', required='')
 							article.img
 								span Foto
-								input#imgChildren(type='file', name='imgChildren', accept='image/*')
+								input#imgChildren(type='file', name='imgChildren', accept='image/*' required)
 							label(for='birthdateChildren') Fecha de Nacimiento
 							input#birthdateChildren(type='date', required='')
 							// <input-datetime></input-datetime>
@@ -99,7 +96,7 @@ block content
 								// <input-datetime></input-datetime>
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgParent', accept='image/*')
+								input#imgParent(type='file', name='imgParent', accept='image/*' required)
 						fieldset
 							legend Contacto
 							article
@@ -139,7 +136,7 @@ block content
 								// <input-datetime></input-datetime>
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgParent', accept='image/*')
+								input#imgParent(type='file', name='imgParent', accept='image/*' required)
 						fieldset
 							legend Contacto
 							article
@@ -177,10 +174,10 @@ block content
 								label(for='birthdateParent') Fecha de Nacimiento
 								input#birthdateParent(type='date')
 								// <input-datetime></input-datetime>
-							input#relationshipParent(type='text', name='relationshipParent', placeholder='Parentesco', required='')
+							//input#relationshipParent(type='text', name='relationshipParent', placeholder='Parentesco', required='')
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgParent', accept='image/*')
+								input#imgParent(type='file', name='imgParent', accept='image/*' required)
 						fieldset
 							legend Contacto
 							article
