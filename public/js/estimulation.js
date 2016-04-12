@@ -1,3 +1,40 @@
+function NotificationC (){
+	var contenedorPrincipal = document.body
+
+	var createMessage = function (data){
+		var contenedorMSG = document.createElement("article")
+		contenedorMSG.classList.add("contenedorMensaje")
+		var mensaje = document.createElement("p")
+		mensaje.innerHTML= data.msg
+		contenedorMSG.classList.add("MSG")
+		var icon = document.createElement("img")
+
+		contenedorMSG.appendChild(icon)
+		contenedorMSG.appendChild(mensaje)
+
+		if (data.type == 0) icon.src = "/img/notifications/correcto.png"
+		else if(data.type == 1) icon.src = "/img/notifications/incorrecto.png"
+		else if(data.type == 2) icon.src = "/img/notifications/informacion.png"
+
+		icon.classList.add("contenedorIcon")
+		mensaje.classList.add("contenedorMensaje")
+
+		return contenedorMSG
+	}
+
+	this.show = function (data){
+		var contenedorMSG = createMessage(data),
+			top = window.window.scrollY,
+			time = data.time || 3000
+
+		contenedorMSG.setAttribute("style", "top:" + top + "px")
+		contenedorPrincipal.appendChild(contenedorMSG)
+		setTimeout(this.hide.bind(this), time)
+	}
+	this.hide = function (){
+		contenedorPrincipal.removeChild(contenedorPrincipal.lastChild)
+	}
+}
 var formAddChildAct = $("#formAddChildAct"),
 	formValidChildren = $("#formValidChildren")
 
@@ -7,10 +44,11 @@ var showChildrensCont = $("#showChildrensCont"),
 	results = $("#results"),
 	resultStep = null
 
+var notification = new NotificationC()
+
 function getClone(selector){
 	var t = document.querySelector(selector)
-	clone = document.importNode(t.content,true)
-	return clone
+	return document.importNode(t.content,true)
 }
 
 function renderResults(node){showChildrensCont.html(""); showChildrensCont.append(node)}
@@ -37,6 +75,7 @@ formAddChildAct.on("submit",(event) => {
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(childrens){
+			if (childrens.err) return notification.show({msg:childrens.err.message, type:1})
 			if(childrens.nameChildren != null) {
 				//console.log(childrens.nameChildren)
 				var clone = getClone("#consulQueryAddChild"),
@@ -45,19 +84,19 @@ formAddChildAct.on("submit",(event) => {
 					dataAct = $(clone.querySelector("#activityChildrens"))
 
 				var pName = $("<p>").attr({id:childrens.idChildren}).append(
-					span = $("<span>",{html : "Identificación: " + childrens.idChildren})
-				),
-				pId = $("<p>").attr({id:childrens.idChildren}).append(
-					span = $("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
-				),
-				button = $("<button>")
-					.attr("id","infoChildren")
-					.attr("type","button")
-					.click(() => {
-						window.open("/estimulation/infoChildren/" + $("#idChildren").val())
-					})
-					.append($("<span>", {html : "Info: " + childrens.nameChildren})
-				)
+						span = $("<span>",{html : "Identificación: " + childrens.idChildren})
+					),
+					pId = $("<p>").attr({id:childrens.idChildren}).append(
+						span = $("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
+					),
+					button = $("<button>")
+						.attr("id","infoChildren")
+						.attr("type","button")
+						.click(() => {
+							window.open("/estimulation/infoChildren/" + $("#idChildren").val())
+						})
+						.append($("<span>", {html : "Info: " + childrens.nameChildren})
+					)
 				data.append(pName)
 				data.append(pId)
 				data.append(button)
@@ -93,6 +132,7 @@ $("#validActClic").on("click",(event) => {
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
 			var clone = getClone("#consulQueryChildrenValidParcial")
 
 			var data = $(clone.querySelector("#dataNameChildParcial"))
@@ -118,6 +158,8 @@ $("#validActClic").on("click",(event) => {
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
 					success: function(activity){
+						if (activity.err) return notification.show({msg:activity.err.message, type:1})
+						notification.show({msg:activity.msg, type:activity.statusCode})
 						//console.log(activity)
 					}
 				})
@@ -148,6 +190,7 @@ $("#validActClicDef").on("click",(event) => {
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(result){
+
 			var clone = getClone("#consulQueryChildrenValid")
 
 			var data = $(clone.querySelector("#dataNameChild"))
@@ -167,12 +210,14 @@ $("#validActClicDef").on("click",(event) => {
 			$("#buttonValidAct",clone).click(()=>{
 				$.ajax({
 					url: "/estimulation/valid-activity-complete",
-					async : false, 
+					async : false,
 					data : {actGeneral : ($("#formValidChildren")).serialize(), 
 							stepActivity : $("#numberStep").val(),
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
 					success: function(activity){
+						if (activity.err) return notification.show({msg:activity.err.message, type:1})
+						notification.show({msg:activity.msg, type:activity.statusCode})
 						//console.log(activity)
 					}
 				})

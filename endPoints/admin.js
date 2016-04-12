@@ -43,7 +43,99 @@ router.post("/upload",upload.any(),(req,res)=>{
 				})
 })
 
-router.post("/register-children",upload.any(),(req,res)=>{
+//router.post("/register-children",upload.any(),(req,res)=>{
+router.get("/register-children",(req,res)=>{
+	res.render("registerChildren")
+})
+	
+var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
+	var promises = []
+	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
+		return res.json({err:{message : "¡Números de identificación iguales"}})
+	}else{
+		models.children.create(dataChildren, function (err, children) {
+			if(err) return res.json({err:err})
+			if(children){
+
+				var queryParents = [
+						{idParent : dataMom.idParent},
+						{idParent : dataDad.idParent},
+						{idParent : dataCare.idParent}
+				]
+
+				dataMom.idChildren = children._id
+				dataDad.idChildren = children._id
+				dataCare.idChildren = children._id
+
+				models.parent.find(
+					{$or : queryParents},
+					function (err, parentsFind) {
+						if(err) return res.json({err:err})
+
+						models.step.find({}, (err, steps) => {
+							if(err) return res.json({err:err})
+							if(!steps.length) return res.json({msg:"Not steps"})
+
+							for(var step in steps){
+								promises.push(models.stepvalid.create({idStep:step._id, idUser:req.user._id, idChildren:children._id}))
+							}
+							Q.all(promises).then(function (result) {
+								if(!parentsFind.length){
+									models.parent.create([dataMom, dataDad, dataCare],(err, parentsCreate) => {
+										if(err) return res.json({err:err})
+										res.redirect("/admin/menu-admin")
+									})
+								}else{
+									models.parent.where({$or : queryParents})
+									.setOptions({ multi: true })
+									.update(
+										{$push : {idChildren : children._id}},
+										(err, parentDad) => {
+											if(err) return res.json({err:err})
+											res.redirect("/admin/menu-admin")
+										})
+								}
+							})
+						})
+
+
+					})
+			}else return res.json({msg:"Children not found"})
+		})
+	}
+}
+
+var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
+	models.children.findOneAndUpdate(
+		{idChildren : dataChildren.idChildren},
+		{"$set": dataChildren},
+		(err,children) => {
+			if(err) return res.json({err:err})
+
+			models.parent.update(
+				{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 0}]},
+				{"$set": dataMom}
+			).exec(err => {
+				if(err) return res.json({err:err})
+				models.parent.update(
+					{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 1}]},
+					{"$set": dataDad}
+				).exec(err => {
+					if(err) return res.json({err:err})
+					models.parent.update(
+						{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 2}]},
+						{"$set": dataCare}
+					).exec(err => {
+						if(err) return res.json({err:err})
+						return res.json({msg:"niño actualizado con éxito!", statusCode : 0})
+					})
+				})
+			})
+		})
+}
+
+router.post(["/update-children","/register-children"],
+	(req,res)=>{
 	console.log("init")
 	var data = req.body,
 		dataChildren = {
@@ -62,7 +154,7 @@ router.post("/register-children",upload.any(),(req,res)=>{
 			healthChildren : data.healthChildren,
 			hearingaidChildren : data.hearingaidChildren,
 			idChildren : data.idChildren,
-			imgChildren : req.files[0].filename,
+			//imgChildren : req.files[0].filename,
 			lastnameChildren : data.lastnameChildren,
 			levelhomeChildren : data.levelhomeChildren,
 			liveSon : data.liveSon,
@@ -75,7 +167,7 @@ router.post("/register-children",upload.any(),(req,res)=>{
 			emailParent : data.emailParent[0],
 			idExpeditionParent : data.idExpeditionParent[0],
 			idParent : data.idParent[0],
-			imgParent : req.files[1].filename,
+			//imgParent : req.files[1].filename,
 			jobParent : data.jobParent[0],
 			lastnameParent : data.lastnameParent[0],
 			nameParent : data.nameParent[0],
@@ -89,7 +181,7 @@ router.post("/register-children",upload.any(),(req,res)=>{
 			emailParent : data.emailParent[1],
 			idExpeditionParent : data.idExpeditionParent[1],
 			idParent : data.idParent[1],
-			imgParent : req.files[2].filename,
+			//imgParent : req.files[2].filename,
 			jobParent : data.jobParent[1],
 			lastnameParent : data.lastnameParent[1],
 			nameParent : data.nameParent[1],
@@ -103,73 +195,44 @@ router.post("/register-children",upload.any(),(req,res)=>{
 			emailParent : data.emailParent[2],
 			idExpeditionParent : data.idExpeditionParent[2],
 			idParent : data.idParent[2],
-			imgParent : req.files[3].filename,
+			//imgParent : req.files[3].filename,
 			lastnameParent : data.lastnameParent[2],
 			nameParent : data.nameParent[2],
 			relationshipParent : 2,
 			telParent : data.telParent[2]
-		},
-		promises = []
-
-	models.children.create(dataChildren, function (err, children) {
-		if(err) return res.json({err:err})
-		if(children){
-
-			var queryParents = [
-					{idParent : dataMom.idParent},
-					{idParent : dataDad.idParent},
-					{idParent : dataCare.idParent}
-			]
-
-			dataMom.idChildren = children._id
-			dataDad.idChildren = children._id
-			dataCare.idChildren = children._id
-
-			models.parent.find(
-				{$or : queryParents},
-				function (err, parentsFind) {
-					if(err) return res.json({err:err})
-
-					models.step.find({}, (err, steps) => {
-						if(err) return res.json({err:err})
-						if(!steps.length) return res.json({msg:"Not steps"})
-
-						for(var step in steps){
-							promises.push(models.stepvalid.create({idStep:step._id, idUser:req.user._id, idChildren:children._id}))
-						}
-						Q.all(promises).then(function (result) {
-							if(!parentsFind.length){
-								models.parent.create([dataMom, dataDad, dataCare],(err, parentsCreate) => {
-									if(err) return res.json({err:err})
-									res.redirect("/admin/menu-admin")
-								})
-							}else{
-								models.parent.where({$or : queryParents})
-								.setOptions({ multi: true })
-								.update(
-									{$push : {idChildren : children._id}},
-									(err, parentDad) => {
-										if(err) return res.json({err:err})
-										res.redirect("/admin/menu-admin")
-									})
-							}
-						})
-					})
-
-
-				})
-		}else return res.json({msg:"Children not found"})
-	})
+		}
+	if(eval(data.editingChildren)){
+		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}else{
+		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}
 })
 
-router.get("/register-children/:id?",(req,res)=>{
-	var context = {}
-	if(req.params.id){
-		var id = req.params.id
-		context = models.children.findOne({idChildren:id}).lean()
-		console.log(context)
-	}
-	res.render("registerChildren",context)	
+router.get("/register-children/:id",(req,res)=>{
+	var id = req.params.id
+	models.children.findOne({idChildren:id}).exec((err,childrenSearch) =>{
+		if (err) return {err : err}
+		models.parent.find(
+			{idChildren : {"$in" : [childrenSearch._id]}},
+			(err, parents) => {
+				var mom = parents.find(parent => {return parent.relationshipParent == 0}),
+					dad = parents.find(parent => {return parent.relationshipParent == 1}),
+					cure = parents.find(parent => {return parent.relationshipParent == 2})
+				res.render("registerChildren",
+					{
+						data: {
+							children : childrenSearch,
+							parents : {
+								mom : mom,
+								dad : dad,
+								cure : cure
+							}
+						}
+					}
+				)
+			}
+		)
+	})
 })
 
 router.post("/valid-children",(req,res)=>{
@@ -211,6 +274,29 @@ router.all("/register-user",(req,res)=>{
 		}else return res.json({err:{message:"¡Contraseña no coincide!"}})
 	}
 })
+
+router.get("/register-user/:id",(req,res)=>{
+	var id = req.params.id
+	models.user.findOne({idUser:id}).exec((err,userSearch) =>{
+		if (err) return {err : err}
+		res.render("registerUserRol",{data: userSearch})
+	})
+})
+
+router.post("/update-user",(req,res)=>{
+	
+	var dataUser = querystring.parse(req.body.userAdd)
+
+	models.user.update(
+		{idUser : dataUser.idUser},
+		{"$set": dataUser}
+		,(err) => {
+			if(err) return res.json({err:err})
+			return res.json({msg:"¡Usuario actualizado con éxito!", statusCode : 0})
+
+		})
+})
+
 
 router.post("/valid-user",(req,res)=>{
 	var data = req.body
@@ -273,12 +359,14 @@ router.post("/find-all",(req,res)=>{
 		models.adminuser.find({typeUser : {$ne : "2"}})
 		.populate("idUser")
 		.exec((err,users) =>{
+			if(err) return res.json({err:err})
 			res.json(users)
 		})
 	}else{
 		models.adminuser.find({typeUser : data.typeUser})
 		.populate("idUser")
 		.exec((err,users) =>{
+			if(err) return res.json({err:err})
 			res.json(users)
 		})
 	}
@@ -303,21 +391,36 @@ router.post("/update-pass",(req,res)=>{
 
 //Delete children --- Metodo Agregate **********************************************
 router.post("/delete-childrens",(req,res)=>{
-	data = req.body
+	var data = req.body
 
 	models.children.findOne({idChildren : data.adminOpeChildren},(err,children) => {
 		if(err) return res.json({err:err})
 		if(children){
 			models.children.remove({idChildren : data.adminOpeChildren},(err) => {
 				if(err) return res.json({err:err})
-				models.parent.find({idChildren : {$in : children.idChildren}})
-				models.parent.remove({idChildren : children.idChildren},(err) => {
-					if(err) return res.json({err:err})
-					return res.json({msg:"Children Delete Complete"})
-				})
+				models.parent.find(
+					{idChildren : {$in : [children._id]}},
+					(err, parents) => {
+						if (err) return res.json({err:err})
+						var promises = []
+						parents.forEach(parent => {
+							if(parent.idChildren.length == 1){
+								promises.push(models.parent.remove({idParent: parent.idParent}))
+							}else{
+								promises.push(models.parent.where({idParent: parent.idParent})
+									.setOptions({ multi: true })
+									.update(
+										{$pull: {idChildren: children._id } }
+								))
+							}
+						})
+						Q.all(promises).then(function () {
+							return res.json({msg:"¡Niñ@ eliminado con éxito!", statusCode : 2})
+						})
+					})
 			})
 		}else{
-			return res.json({msg:"Children not Found"})
+			return res.json({msg:"¡Niñ@ no existe!", statusCode : 1})
 		}
 	})
 })

@@ -1,10 +1,10 @@
 var express = require("express"),
-models = require('./../models'),
-mongoose = require("mongoose"),
-router = express.Router(),
-bodyParser = require('body-parser'),
-querystring = require('querystring'),
-ObjectId = mongoose.Types.ObjectId
+	models = require("./../models"),
+	mongoose = require("mongoose"),
+	router = express.Router(),
+	bodyParser = require("body-parser"),
+	querystring = require("querystring"),
+	ObjectId = mongoose.Types.ObjectId
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -40,16 +40,16 @@ router.post("/found-children",(req,res)=>{
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) res.json({err:err})
-		if(children){ res.json(children)} else{res.json({"msg":"Children not found"})}
+		if(children){ res.json(children)} else{res.json({err: {message:"¡Niñ@ no existe!"}})}
 		//console.log(children)
 	})
 })
 
 router.post("/valid-activity-parcial",(req,res)=>{
-	data = querystring.parse(req.body.actGeneral)
-	numberActivity = req.body.activityActivity
-	numberStep = req.body.stepActivity
-	user = req.user
+	var data = querystring.parse(req.body.actGeneral),
+		numberActivity = req.body.activityActivity,
+		numberStep = req.body.stepActivity,
+		user = req.user
 
 	data.idUser = user._id
 	data.nameUser = user.nameUser
@@ -68,14 +68,14 @@ router.post("/valid-activity-parcial",(req,res)=>{
 			.findOne({activityActivity : numberActivity , stepActivity : numberStep},
 			(err,activityF) => {
 				if(err) return res.json({err:err})
-				if(!activityF) return res.json({"msg":"Activity not found"})
-					else {
+				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
+				else {
 					data.idActivity = activityF._id
 					//console.log(data)
 
 					models.activityhistory.create(data, function (err, activity) {
-						if(err) return res.json({err:err});
-						return res.json({message:"Parcial - Activity Add Complete", activity : activity})
+						if(err) return res.json({err:err})
+						return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
 					})
 				}
 			})
@@ -84,10 +84,10 @@ router.post("/valid-activity-parcial",(req,res)=>{
 })
 
 router.post("/valid-activity-complete",(req,res)=>{
-	data = querystring.parse(req.body.actGeneral)
-	numberActivity = req.body.activityActivity
-	numberStep = req.body.stepActivity
-	user = req.user
+	var data = querystring.parse(req.body.actGeneral),
+		numberActivity = req.body.activityActivity,
+		numberStep = req.body.stepActivity,
+		user = req.user
 
 	data.idUser = user._id
 	data.nameUser = user.nameUser
@@ -106,13 +106,28 @@ router.post("/valid-activity-complete",(req,res)=>{
 			.findOne({activityActivity : numberActivity , stepActivity : numberStep},
 			(err,activityF) => {
 				if(err) return res.json({err:err})
-				if(!activityF) return res.json({"msg":"Activity not found"})
-					else {
+				if(!activityF) return res.json({err:{message:"¡actividad no encontrada!"}})
+				else {
 					data.idActivity = activityF._id
 					//console.log(data)
-					models.activityvalid.create(data, function (err, activity) {
-						if(err) return res.json({err:err});
-						return res.json({message:"Valid - Activity Add Complete", activity : activity})
+					models.activityvalid
+					.findOne({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
+					(err,actvalidFind) =>{
+						if(err) return res.json({err:err})
+						//console.log(actvalidFind)
+						if(!actvalidFind){
+							models.activityvalid.create(data, function (err, activity) {
+								if(err) return res.json({err:err})
+								return res.json({msg:"¡Validación Semestral Exitosa CREATE!", statusCode:0, activity : activity})
+							})
+						} else{
+							models.activityvalid
+							.update(data, {idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
+							(err,doc) => {
+								if(err) return res.json({err:err})
+								if(doc) return res.json({msg:"¡Validación Semestral Exitosa UPDATE!", statusCode:0, activity : doc})
+							})
+						}
 					})
 				}
 			})
@@ -164,11 +179,11 @@ router.get("/infoChildren/:id",(req,res)=>{
 				models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
 				.populate('idActivity')
 				.exec((err, actsvalid) => {
-				dataChildren.actsvalid = actsvalid
-				//console.log(activities)
-				//console.log("aqui " + dataChildren.actsvalid)
-				//console.log(dataChildren)
-				res.render("continueOne",{childrenAct:dataChildren})
+					dataChildren.actsvalid = actsvalid
+					//console.log(activities)
+					//console.log("aqui " + dataChildren.actsvalid)
+					//console.log(dataChildren)
+					res.render("continueOne",{childrenAct:dataChildren})
 				})
 			})
 		})

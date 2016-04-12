@@ -1,0 +1,4 @@
+{"_id":{"$oid":"570aa826400d7c333cf2ac56"},"stepStep":1.0,"nameStep":"EMOCIONES","descriptionStep":"Reconocimiento de emociones.","imgStep":"/img/1.png","styleStep":"step1","urlStep":"/estimulation/steps/1"}
+{"_id":{"$oid":"570aa831400d7c333cf2ac57"},"stepStep":2.0,"nameStep":"SENTIMIENTOS","descriptionStep":"Reconocimiento de sentimientos.","imgStep":"/img/2.png","styleStep":"step2","urlStep":"/estimulation/steps/2"}
+{"_id":{"$oid":"570aa837400d7c333cf2ac58"},"stepStep":3.0,"nameStep":"PENSAMIENTOS","descriptionStep":"Reconocimiento de pensamientos.","imgStep":"/img/3.png","styleStep":"step3","urlStep":"/estimulation/steps/3"}
+{"_id":{"$oid":"570aa83c400d7c333cf2ac59"},"stepStep":4.0,"nameStep":"ROSTROS","descriptionStep":"Reconocimiento de rostros.","imgStep":"/img/4.png","styleStep":"step4","urlStep":"/estimulation/steps/4"}

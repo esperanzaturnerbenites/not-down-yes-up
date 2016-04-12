@@ -2,22 +2,22 @@ function NotificationC (){
 	var contenedorPrincipal = document.body
 
 	var createMessage = function (data){
-		var contenedorMSG = document.createElement('article')
-		contenedorMSG.classList.add('contenedorMensaje')
-		var mensaje = document.createElement('p')
+		var contenedorMSG = document.createElement("article")
+		contenedorMSG.classList.add("contenedorMensaje")
+		var mensaje = document.createElement("p")
 		mensaje.innerHTML= data.msg
-		contenedorMSG.classList.add('MSG')
-		var icon = document.createElement('img')
+		contenedorMSG.classList.add("MSG")
+		var icon = document.createElement("img")
 
 		contenedorMSG.appendChild(icon)
 		contenedorMSG.appendChild(mensaje)
 
-		if (data.type == 0) icon.src = '/img/notifications/correcto.png'
-		else if(data.type == 1) icon.src = '/img/notifications/incorrecto.png'
-		else if(data.type == 2) icon.src = '/img/notifications/informacion.png'
+		if (data.type == 0) icon.src = "/img/notifications/correcto.png"
+		else if(data.type == 1) icon.src = "/img/notifications/incorrecto.png"
+		else if(data.type == 2) icon.src = "/img/notifications/informacion.png"
 
-		icon.classList.add('contenedorIcon')
-		mensaje.classList.add('contenedorMensaje')
+		icon.classList.add("contenedorIcon")
+		mensaje.classList.add("contenedorMensaje")
 
 		return contenedorMSG
 	}
@@ -27,7 +27,7 @@ function NotificationC (){
 			top = window.window.scrollY,
 			time = data.time || 3000
 
-		contenedorMSG.setAttribute('style', 'top:' + top + 'px')
+		contenedorMSG.setAttribute("style", "top:" + top + "px")
 		contenedorPrincipal.appendChild(contenedorMSG)
 		setTimeout(this.hide.bind(this), time)
 	}
@@ -85,49 +85,24 @@ function funcStatusAct(status){
 }
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
-var addChildren = () => {
+function addUser(event){
 	event.preventDefault()
-
-	var dataChildren = $(".children").serializeArray()
-	dataChildren.push({name:"birthdateChildren", value:$("#birthdateChildren").val()})
-	dataChildren.push({name:"imgChildren", value:$("#imgChildren").val()})
-
-	var mom = $(".mom").serializeArray()
-	mom.push({name:"imgMom", value:$("#imgMom").val()})
-	var dad = $(".dad").serializeArray()
-	dad.push({name:"imgDad", value:$("#imgDad").val()})
-	var care = $(".care").serializeArray()
-	care.push({name:"imgCare", value:$("#imgCare").val()})
-
-	var data = {children : $.param(dataChildren),
-			mom : $.param(mom),
-			dad : $.param(dad),
-			care : $.param(care)
-		}
-
-	if($(".idMom").val() == $(".idDad").val() || $(".idMom").val() == $(".idCare").val() || $(".idDad").val() == $(".idCare").val()){
-		console.log({msg:"idParents equals"})
+	var action = $("button[type='submit']",this).data("action")
+	if(action == "create"){
+		var url = "/admin/register-user",
+			data = {userAdd : $(".userAdd").serialize(),userAdmin : $(".userAdmin").serialize()}
 	}else{
-		var formData = new FormData($(this)[0])
-
-		$.post($(this).attr("action"), formData, function(data) {
-			alert(data)
-		})
-
-		return false
+		var url = "/admin/update-user",
+			data = {userAdd : $(".userAdd").serialize()}
 	}
-}
 
-function addUser(){
-	event.preventDefault()
 
 	if($("#passUser").val() == $("#passConfirmUser").val()){
 
 		$.ajax({
-			url: "/admin/register-user",
+			url: url,
 			async : false, 
-			data : {userAdd : $(".userAdd").serialize(),
-				userAdmin : $(".userAdmin").serialize()},
+			data : data,
 			type : "POST",
 			success: function(result){
 				if (result.err) return notification.show({msg:result.err.message, type:1})
@@ -140,6 +115,7 @@ function addUser(){
 				notification.show({msg:result.msg, type:result.statusCode})
 			}
 		})
+
 	}else{
 		var msg = "¡Contraseña no coincide!",
 			type = 1
@@ -147,42 +123,61 @@ function addUser(){
 	}
 }
 
-function typeUserFind(type, res){
+function typeUserFind(type){
+	var typeU = ""
 	if(type == "0"){
-		var typeU = "Administrador"
+		typeU = "Administrador"
 		return typeU
 	}else if(type == "1"){
-		var typeU = "Docente"
+		typeU = "Docente"
 		return typeU
 	}
 }
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
-formValidUser.on("submit",(event) => {
-	event.preventDefault()
-	$.ajax({
-		url: "/admin/valid-user",
-		async : false, 
-		data : $("#formValidUser").serialize(),
-		type : "POST",
-		success: function(result){
-			if(result.valid) {
-				$("#formAddUser")
-				.removeClass("hide")
-				.on("submit",addUser)
-				$("#idUser").val($("#validUser").val())
-				$("#validUser").prop("readonly", true)
-			}else{
-				$("#formAddUser")
-				.addClass("hide")
-				.off("submit",addUser)
-				$("#validUser").prop("readonly", false)
-				notification.show({msg:result.msg, type:result.statusCode})
-		}
+if(eval($("#editingChildren").val())){
+	/*Edicion de niñ@s*/
+	$("#formAddChildren").attr("action","/admin/update-children")
+}else{
+	/*Creacion de niñ@s*/
+	$("#formAddChildren").attr("action","/admin/register-children")
+}
 
-		}
+if(eval($("#editingUser").val())){
+	/*Edicion de usuarios*/
+	$("#formAddUser")
+	.removeClass("hide")
+	.on("submit",addUser)
+	$("#idUser").val($("#validUser").val())
+	$("#validUser").prop("readonly", true)
+}else{
+	/*Creacion de Usuarios*/
+	formValidUser.on("submit",(event) => {
+		event.preventDefault()
+		$.ajax({
+			url: "/admin/valid-user",
+			async : false, 
+			data : $("#formValidUser").serialize(),
+			type : "POST",
+			success: function(result){
+				if(result.valid) {
+					$("#formAddUser")
+					.removeClass("hide")
+					.on("submit",addUser)
+					$("#idUser").val($("#validUser").val())
+					$("#validUser").prop("readonly", true)
+				}else{
+					$("#formAddUser")
+					.addClass("hide")
+					.off("submit",addUser)
+					$("#validUser").prop("readonly", false)
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+
+			}
+		})
 	})
-})
+}
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
 formValidChildren.on("submit",(event) => {
@@ -193,6 +188,7 @@ formValidChildren.on("submit",(event) => {
 		data : $("#formValidChildren").serialize(),
 		type : "POST",
 		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
 			if(result.valid) {
 				$("#formAddChildren")
 				.removeClass("hide")
@@ -339,10 +335,12 @@ formFindAll.on("submit",(event) => {
 		type : "POST",
 		data : formFindAll.serializeArray(),
 		success: function(users){
+			if(users.err) return notification.show({msg:users.err.message, type:1})
+			if(!users.length) return notification.show({msg:"No hay usuarios", type:1})
 			var clone = getClone("#consulQueryUser")
 			var data = $(clone.querySelector("#dataFindAll"))
 
-			for (adminuser of users){
+			for (var adminuser of users){
 				//console.log(users)
 				var tr = $("<tr>").append(
 					$("<td>",{html : adminuser.userUser }),
@@ -416,22 +414,7 @@ $("#formOpeTeachAdminDel").on("click",(event) => {
 
 $("#formOpeTeachAdminUpd").on("click",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/update-teachAdmin",
-		async : false, 
-		data : $("#formOpeTeachAdmin").serialize(),
-		type : "POST",
-		success: function(result){
-			if(result.valid) {
-				var clone = getClone("#consulQueryUserUpdate")
-				$("#cancelUpdateUser",clone).click(()=>{
-					$("#formUpdateUser").remove()
-				})
-				renderResultTeachAdmin(clone)
-			}
-
-		}
-	})
+	window.open("/admin/register-user/" + $("#adminOpeTeachAdmin").val())
 })
 
 $("#formOpeChildrenDel").on("click.",(event) => {
@@ -442,7 +425,9 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 		data : $("#formOpeChildren").serialize(),
 		type : "POST",
 		success: function(result){
-		console.log(result)
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			//console.log(result)
 		}
 	})
 })
