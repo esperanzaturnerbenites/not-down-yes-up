@@ -262,7 +262,7 @@ $("#continueStepAll").click((event) => {
 
 $("#continueActAll").click((event) => {
 	var clone = getClone("#consulQueryDataActAll")
-	var steps = $("[data-step]",clone)
+	var steps = $("#consulStep[data-step]",clone)
 
 	$.ajax({
 		url: "/estimulation/found-step",
@@ -272,6 +272,7 @@ $("#continueActAll").click((event) => {
 		success: function(result){
 			steps.on("click" ,(e) => {
 				e.stopPropagation() 
+				alert("aqui")
 				$.ajax({
 					url: "/estimulation/consul-step",
 					async : false, 
@@ -296,7 +297,7 @@ $("#continueActAll").click((event) => {
 								$("<td>",{html : activity.scoreTeachActivity}),
 								$("<td>",{html : activity.scoreSystemActivity}),
 								$("<td>",{html : activity.observationActivity}),
-								$("<td>",{html : "usuario Arreglar ******" /*activity.idUser.nameUser + " " + activity.idUser.lastnameUser*/}),
+								$("<td>",{html : activity.idTeacher.nameUser}),
 								$("<td>",{html : activity.date})
 							)
 							$(data).append(tr)

@@ -15,7 +15,6 @@ router.post("/found-step",(req,res)=>{
 	.populate('idStep')
 	.exec((err, steps) => {
 		if(err) return res.json({err:err})
-		console.log(steps)
 		if(steps) return res.json({steps : steps})
 	})
 })
@@ -26,7 +25,7 @@ router.post("/consul-step",(req,res)=>{
 	models.step.findOne({stepStep : data.step}, (err, stepFind) => {
 		models.activityhistory.find({idChildren : data.idChildren, idStep : stepFind._id})
 		.sort({date:-1})
-		.populate('idActivity idUser')
+		.populate('idActivity idUser idTeacher')
 		.exec((err, activities) => {
 			if(err) return res.json({err:err})
 			if(activities) return res.json({activities : activities})
@@ -41,7 +40,6 @@ router.post("/found-children",(req,res)=>{
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) res.json({err:err})
 		if(children){ res.json(children)} else{res.json({err: {message:"¡Niñ@ no existe!"}})}
-		//console.log(children)
 	})
 })
 
@@ -54,7 +52,6 @@ router.post("/valid-activity-parcial",(req,res)=>{
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
-	//console.log(numberActivity + " *************** " + numberStep)
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
@@ -71,11 +68,15 @@ router.post("/valid-activity-parcial",(req,res)=>{
 				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
 				else {
 					data.idActivity = activityF._id
-					//console.log(data)
 
-					models.activityhistory.create(data, function (err, activity) {
+					models.user.findOne({_id : req.user.idUser},(err,userF) => {
 						if(err) return res.json({err:err})
-						return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
+						data.idTeacher = userF._id
+
+						models.activityhistory.create(data, function (err, activity) {
+							if(err) return res.json({err:err})
+							return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
+						})
 					})
 				}
 			})
@@ -92,7 +93,6 @@ router.post("/valid-activity-complete",(req,res)=>{
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
-	//console.log(numberActivity + " *************** " + numberStep)
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
@@ -109,12 +109,10 @@ router.post("/valid-activity-complete",(req,res)=>{
 				if(!activityF) return res.json({err:{message:"¡actividad no encontrada!"}})
 				else {
 					data.idActivity = activityF._id
-					//console.log(data)
 					models.activityvalid
 					.findOne({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
 					(err,actvalidFind) =>{
 						if(err) return res.json({err:err})
-						//console.log(actvalidFind)
 						if(!actvalidFind){
 							models.activityvalid.create(data, function (err, activity) {
 								if(err) return res.json({err:err})
@@ -173,18 +171,16 @@ router.get("/infoChildren/:id",(req,res)=>{
 			.populate('idActivity idStep idUser')
 			.exec((err, activities) => {
 				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Activities not found"})
-				dataChildren.activities = activities
+				if(activities.length){
+					dataChildren.activities = activities
 
-				models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
-				.populate('idActivity')
-				.exec((err, actsvalid) => {
-					dataChildren.actsvalid = actsvalid
-					//console.log(activities)
-					//console.log("aqui " + dataChildren.actsvalid)
-					//console.log(dataChildren)
-					res.render("continueOne",{childrenAct:dataChildren})
-				})
+					models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
+					.populate('idActivity')
+					.exec((err, actsvalid) => {
+						dataChildren.actsvalid = actsvalid
+						return res.render("continueOne",{childrenAct:dataChildren})
+					})
+				}else {return res.render("continueOne",{childrenAct:dataChildren})}
 			})
 		})
 	})
@@ -220,7 +216,6 @@ router.get("/steps/:step/:activity",(req,res)=>{
 
 	models.activity.findOne({stepActivity : numberStep, activityActivity : numberActivity}, (err, activityDB) => {
 		activity = activityDB
-		//console.log(activityDB.stepActivity)
 
 		models.step.findOne({step : activityDB.stepActivity}, (err, stepDB) => {
 			activity.step = stepDB

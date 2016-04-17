@@ -5,38 +5,38 @@ block exit
 	h2.exit
 		a(href='/admin/menu-admin') VOLVER
 block content
-	- if (data)
+	-if (data)
 		-var mom = data.parents.mom
 		-var dad = data.parents.dad
 		-var cure = data.parents.cure
-		- var edit = true
-		- var idChildren = data.children.idChildren
-		- var nameChildren = data.children.nameChildren
-		- var lastnameChildren = data.children.lastnameChildren
-		- var imgChildren = data.children.imgChildren
-		- var birthplaceChildren = data.children.birthplaceChildren
-		- var ageChildren = data.children.ageChildren
-		- var genderChildren = data.children.genderChildren
-		- var liveSon = data.children.liveSon
-		- var addressChildren = data.children.addressChildren
-		- var districtChildren = data.children.districtChildren
-		- var localityChildren = data.children.localityChildren
-		- var municipalityChildren = data.children.municipalityChildren
-		- var departamentChildren = data.children.departamentChildren
-		- var levelhomeChildren = data.children.levelhomeChildren
-		- var healthChildren = data.children.healthChildren
-		- var epsChildren = data.children.epsChildren
-		- var apbChildren = data.children.apbChildren
-		- var glassesChildren = data.children.glassesChildren
-		- var hearingaidChildren = data.children.hearingaidChildren
-		- var abilityChildren = data.children.abilityChildren
-		- var debilityChildren = data.children.debilityChildren
-	- else
-		- var edit = false
+		-var edit = true
+		-var idChildren = data.children.idChildren
+		-var nameChildren = data.children.nameChildren
+		-var lastnameChildren = data.children.lastnameChildren
+		-var imgChildren = data.children.imgChildren
+		-var birthplaceChildren = data.children.birthplaceChildren
+		-var ageChildren = data.children.ageChildren
+		-var genderChildren = data.children.genderChildren
+		-var liveSon = data.children.liveSon
+		-var addressChildren = data.children.addressChildren
+		-var districtChildren = data.children.districtChildren
+		-var localityChildren = data.children.localityChildren
+		-var municipalityChildren = data.children.municipalityChildren
+		-var departamentChildren = data.children.departamentChildren
+		-var levelhomeChildren = data.children.levelhomeChildren
+		-var healthChildren = data.children.healthChildren
+		-var epsChildren = data.children.epsChildren
+		-var apbChildren = data.children.apbChildren
+		-var glassesChildren = data.children.glassesChildren
+		-var hearingaidChildren = data.children.hearingaidChildren
+		-var abilityChildren = data.children.abilityChildren
+		-var debilityChildren = data.children.debilityChildren
+	-else
+		-var edit = false
 		-var mom = {}
 		-var dad = {}
 		-var cure = {}
-		- var classForm = "hide"
+		-var classForm = "hide"
 	section.register
 		h3 Niñ@s Nuev@s
 		article
@@ -93,7 +93,7 @@ block content
 							article
 								input#epsChildren(type='text', name='epsChildren' value="#{epsChildren}", placeholder='EPS del niñ@', required='')
 							article
-								label(for='apbChildren') APB - Organización que cobija al niñ@ (Policia, Ejercito, Sanidad Naval, Fuerza Aérea, Ecopetrol, ETB): 
+								label(for='apbChildren') APB -Organización que cobija al niñ@ (Policia, Ejercito, Sanidad Naval, Fuerza Aérea, Ecopetrol, ETB): 
 								input#apbChildren(type='text', name='apbChildren' value="#{apbChildren}", placeholder='APB del niño')
 							article
 								label(for='glassesChildren')  ¿Usa Gafas:?

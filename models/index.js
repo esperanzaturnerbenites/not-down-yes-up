@@ -99,6 +99,7 @@ const userSchema = new Mongoose.Schema({
 		idActivity: {type:Schema.ObjectId, ref: "activity"},
 		idStep: {type:Schema.ObjectId, ref: "step"},
 		idUser: {type:Schema.ObjectId, ref: "user"},
+		idTeacher: {type:Schema.ObjectId, ref: "user"},
 		idChildren: {type:Schema.ObjectId, ref: "children"}
 	}),
 

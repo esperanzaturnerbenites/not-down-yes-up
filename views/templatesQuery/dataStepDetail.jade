@@ -1,9 +1,10 @@
-template#consulQueryDataStepDetail
+template#consulQueryDataStepDetail 
 	section.continue.continueProgressLogros
 		article.consulName
 			p
 				span
-					b ETAPA #{childrenAct.activities[0].idStep.stepStep}
+					if childrenAct.activities
+						b ETAPA #{childrenAct.activities[0].idStep.stepStep}
 		article.consulTable
 			table
 				thead

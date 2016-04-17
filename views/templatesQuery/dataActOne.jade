@@ -1,30 +1,35 @@
 template#consulQueryDataActOne
 	section.continue.continueDetailAct-consulStatusStep
-		article.consulName
-			p
-				span
-					b ETAPA 
-				span #{childrenAct.actsvalid[0].idActivity.stepActivity}
-		article.consulTable
-			table
-				thead
-					tr
-						th ACTIVIDAD
-						th PUNTAJE
-						th ESTADO
-						th OBSERVACIONES
-						th DOCENTE
-						th FECHA
-				tbody
-					for acts in childrenAct.actsvalid
-						if (acts.statusActivity == 0)
-							- var status = "Pendiente"
-						if (acts.statusActivity == 1)
-							- var status = "Completado"
+		if childrenAct.actsvalid
+			if childrenAct.actsvalid.length
+				article.consulName
+					p
+						span
+							b ETAPA 
+							span #{childrenAct.actsvalid[0].idActivity.stepActivity}
+				article.consulTable
+				table
+					thead
 						tr
-							td #{acts.idActivity.nameActivity}
-							td #{acts.scoreTeachActivity}
-							td #{status}
-							td #{acts.observationActivity}
-							td #{acts}
-							td #{acts.date}
+							th ACTIVIDAD
+							th PUNTAJE
+							th ESTADO
+							th OBSERVACIONES
+							th DOCENTE
+							th FECHA
+					tbody
+						for acts in childrenAct.actsvalid
+							if (acts.statusActivity == 0)
+								- var status = "Pendiente"
+							if (acts.statusActivity == 1)
+								- var status = "Completado"
+							tr
+								td #{acts.idActivity.nameActivity}
+								td #{acts.scoreTeachActivity}
+								td #{status}
+								td #{acts.observationActivity}
+								td #{acts}
+								td #{acts.date}
+		else
+			h2 No se encontraron actividades completadas
+			
