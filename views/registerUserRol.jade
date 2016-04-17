@@ -2,7 +2,7 @@ extends templates/template.jade
 block title
   title Nuevo Usuario en ¡No Down, Yes Up!
 block exit
-  h2.exit 
+  h2.exit
     a(href='/admin/menu-admin') VOLVER
 block content
   - if (data)
@@ -68,7 +68,7 @@ block content
                 input#nameUser(type='text', name='nameUser', value="#{nameUser}" placeholder='Nombres', required='')
                 input#lastnameUser(type='text', name='lastnameUser', value="#{lastnameUser}" placeholder='Apellidos', required='')
               article
-                label(for='ageUser') Edad: 
+                label(for='ageUser') Edad:
                 input#ageUser(type='number', name='ageUser', value="#{ageUser}" min='18', max='99', placeholder='Edad' required)
               article.img
                 span Foto
@@ -88,7 +88,7 @@ block content
             fieldset
               legend Profesión
               article
-                label(for='studyUser') Nivel de Estudios: 
+                label(for='studyUser') Nivel de Estudios:
                 select#studyUser(name='studyUser')
                   option(value='0', selected) Básica Primaria
                   option(value='1') Básica Secundaria
@@ -100,17 +100,17 @@ block content
                   option(value='7') Maestría
                   option(value='8') Doctorado
               input#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
-              label(for='experienceUser') Experiencia en meses: 
+              label(for='experienceUser') Experiencia en meses:
               input#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
               article
               input#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
-        
+
         fieldset.userAdmin.data.user
           legend Confirmar Registro
           section
-           w if !edit
+            if !edit
               article
-                  label(for='typeUser') Tipo de usuario: 
+                  label(for='typeUser') Tipo de usuario:
                   select#typeUser(name='typeUser')
                     option(value='0', selected) Administrador
                     option(value='1') Docente

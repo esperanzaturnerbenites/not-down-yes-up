@@ -57,6 +57,18 @@ function renderResultValid(node){showValidAct.html(""); showValidAct.append(node
 function renderResultDataResult(node){results.html(""); results.append(node)}
 function renderResultDataStep(node){resultStep.html(""); resultStep.append(node)}
 
+function initActivityArduino(){
+	$.ajax({
+		url: "/estimulation/arduino/init",
+		async : true,
+		type : "POST",
+		data : {numberPin : $("#numberPin").val()},
+		success: response => {
+			console.log(response)
+		}
+	})
+}
+
 function funcStatusAct(status){
 	var statusText = ""
 	if(status == 0)
@@ -71,13 +83,15 @@ formAddChildAct.on("submit",(event) => {
 
 	$.ajax({
 		url: "/estimulation/found-children",
-		async : false, 
+		async : false,
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(childrens){
 			if (childrens.err) return notification.show({msg:childrens.err.message, type:1})
 			if(childrens.nameChildren != null) {
-				//console.log(childrens.nameChildren)
+
+				initActivityArduino()
+
 				var clone = getClone("#consulQueryAddChild"),
 					cloneAct = getClone("#consulQueryActivityChild")
 				var data = $(clone.querySelector("#showChildrens")),
@@ -128,7 +142,7 @@ $("#validActClic").on("click",(event) => {
 
 	$.ajax({
 		url: "/estimulation/found-children",
-		async : false, 
+		async : false,
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(result){
@@ -144,16 +158,16 @@ $("#validActClic").on("click",(event) => {
 				.prop("readonly", true)
 				.prop("name", "idChildren")
 				.val(result.idChildren)
-			
+
 			$("#buttonCancelValidActParcial",clone).click(()=>{
 				$("#formValidChildrenParcial").remove()
 			})
-			
+
 			$("#buttonValidActParcial",clone).click(()=>{
 				$.ajax({
 					url: "/estimulation/valid-activity-parcial",
-					async : false, 
-					data : {actGeneral : ($("#formValidChildrenParcial")).serialize(), 
+					async : false,
+					data : {actGeneral : ($("#formValidChildrenParcial")).serialize(),
 							stepActivity : $("#numberStep").val(),
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
@@ -186,7 +200,7 @@ $("#validActClicDef").on("click",(event) => {
 
 	$.ajax({
 		url: "/estimulation/found-children",
-		async : false, 
+		async : false,
 		data : $("#formAddChildAct").serialize(),
 		type : "POST",
 		success: function(result){
@@ -202,16 +216,16 @@ $("#validActClicDef").on("click",(event) => {
 				.prop("readonly", true)
 				.prop("name", "idChildren")
 				.val(result.idChildren)
-			
+
 			$("#buttonCancelValidAct",clone).click(()=>{
 				$("#formValidChildren").remove()
 			})
-			
+
 			$("#buttonValidAct",clone).click(()=>{
 				$.ajax({
 					url: "/estimulation/valid-activity-complete",
 					async : false,
-					data : {actGeneral : ($("#formValidChildren")).serialize(), 
+					data : {actGeneral : ($("#formValidChildren")).serialize(),
 							stepActivity : $("#numberStep").val(),
 							activityActivity : $("#numberActivity").val()},
 					type : "POST",
@@ -266,16 +280,16 @@ $("#continueActAll").click((event) => {
 
 	$.ajax({
 		url: "/estimulation/found-step",
-		async : false, 
+		async : false,
 		data : {idChildren : $("#idChildren").val()},
 		type : "POST",
 		success: function(result){
 			steps.on("click" ,(e) => {
-				e.stopPropagation() 
+				e.stopPropagation()
 				alert("aqui")
 				$.ajax({
 					url: "/estimulation/consul-step",
-					async : false, 
+					async : false,
 					data : {step : e.currentTarget.dataset.step,
 							idChildren : $("#idChildren").val()},
 					type : "POST",
@@ -285,7 +299,7 @@ $("#continueActAll").click((event) => {
 							num = Array.from(result.activities).length
 
 						//console.log(Array.from(result.activities).length)
-						
+
 						resultStep = $("#resultStep")
 
 						for (activity of Array.from(result.activities)){

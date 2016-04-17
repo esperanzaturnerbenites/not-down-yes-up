@@ -6,6 +6,7 @@ var express = require("express"),
 	querystring = require("querystring"),
 	ObjectId = mongoose.Types.ObjectId
 
+
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/found-step",(req,res)=>{
@@ -30,7 +31,7 @@ router.post("/consul-step",(req,res)=>{
 			if(err) return res.json({err:err})
 			if(activities) return res.json({activities : activities})
 		})
-		
+
 	})
 
 })
@@ -223,6 +224,62 @@ router.get("/steps/:step/:activity",(req,res)=>{
 		})
 	})
 })
+
+var five = require("johnny-five"),
+	board,
+	led,
+	button0,
+	button1,
+	button2,
+	button3
+
+board = new five.Board()
+
+board.on("ready", function() {
+	button0 = new five.Button("A0"),
+	button1 = new five.Button("A1"),
+	button2 = new five.Button("A2"),
+	button3 = new five.Button("A3"),
+	led = new five.Led(13)
+})
+
+
+function validatePress(button,data){
+
+	led.toggle()
+	console.log("press")
+	var numberPin = button.pin,
+		numberPinCorrect = parseInt(data.numberPin) || 54
+
+	console.log("number pin " + numberPin)
+	if(numberPin == numberPinCorrect){
+		console.log({msg: "Correcto"})
+	}else{
+		console.log({msg: "Incorrecto"})
+	}
+}
+
+router.post("/arduino/init",(req,res)=>{
+	var data = req.body
+	console.log(data)
+	if(board.isReady){
+		button0.on("press", () => {
+			validatePress(button0,data)
+		})
+		button1.on("press", () => {
+			validatePress(button1,data)
+		})
+		button2.on("press", () => {
+			validatePress(button2,data)
+		})
+		button3.on("press", () => {
+			validatePress(button3,data)
+		})
+		res.json({msg: "Actividad Iniciada"})
+	}
+})
+
+
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router
