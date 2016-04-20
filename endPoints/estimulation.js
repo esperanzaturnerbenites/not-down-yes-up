@@ -6,7 +6,6 @@ var express = require("express"),
 	querystring = require("querystring"),
 	ObjectId = mongoose.Types.ObjectId
 
-
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/found-step",(req,res)=>{
@@ -33,8 +32,8 @@ router.post("/consul-step",(req,res)=>{
 		})
 
 	})
-
 })
+
 router.post("/found-children",(req,res)=>{
 	var data = req.body
 
@@ -107,24 +106,25 @@ router.post("/valid-activity-complete",(req,res)=>{
 			.findOne({activityActivity : numberActivity , stepActivity : numberStep},
 			(err,activityF) => {
 				if(err) return res.json({err:err})
-				if(!activityF) return res.json({err:{message:"¡actividad no encontrada!"}})
+				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
 				else {
 					data.idActivity = activityF._id
+
 					models.activityvalid
 					.findOne({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
 					(err,actvalidFind) =>{
 						if(err) return res.json({err:err})
-						if(!actvalidFind){
-							models.activityvalid.create(data, function (err, activity) {
-								if(err) return res.json({err:err})
-								return res.json({msg:"¡Validación Semestral Exitosa CREATE!", statusCode:0, activity : activity})
-							})
-						} else{
+						if(actvalidFind){
 							models.activityvalid
-							.update(data, {idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
+							.update(data, {idChildren : actvalidFind.idChildren, idStep : actvalidFind.idStep, idActivity : actvalidFind.idActivity},
 							(err,doc) => {
 								if(err) return res.json({err:err})
 								if(doc) return res.json({msg:"¡Validación Semestral Exitosa UPDATE!", statusCode:0, activity : doc})
+							})
+						} else{
+							models.activityvalid.create(data, function (err, activity) {
+								if(err) return res.json({err:err})
+								return res.json({msg:"¡Validación Semestral Exitosa CREATE!", statusCode:0, activity : activity})
 							})
 						}
 					})
@@ -169,16 +169,18 @@ router.get("/infoChildren/:id",(req,res)=>{
 			models.activityhistory.find({idChildren: children._id})
 			.sort({date:-1})
 			.limit(10)
-			.populate('idActivity idStep idUser')
+			.populate("idActivity idStep idUser")
 			.exec((err, activities) => {
 				if(err) return res.json({err:err})
 				if(activities.length){
 					dataChildren.activities = activities
 
 					models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
-					.populate('idActivity')
+					.populate("idActivity")
 					.exec((err, actsvalid) => {
+						if(err) return res.json({err:err})
 						dataChildren.actsvalid = actsvalid
+						console.log(dataChildren.actsvalid[0].statusActivity)
 						return res.render("continueOne",{childrenAct:dataChildren})
 					})
 				}else {return res.render("continueOne",{childrenAct:dataChildren})}
@@ -224,7 +226,7 @@ router.get("/steps/:step/:activity",(req,res)=>{
 		})
 	})
 })
-
+/*
 var five = require("johnny-five"),
 	board,
 	led,
@@ -232,17 +234,6 @@ var five = require("johnny-five"),
 	button1,
 	button2,
 	button3
-
-board = new five.Board()
-
-board.on("ready", function() {
-	button0 = new five.Button("A0"),
-	button1 = new five.Button("A1"),
-	button2 = new five.Button("A2"),
-	button3 = new five.Button("A3"),
-	led = new five.Led(13)
-})
-
 
 function validatePress(button,data){
 
@@ -261,6 +252,14 @@ function validatePress(button,data){
 
 router.post("/arduino/init",(req,res)=>{
 	var data = req.body
+	board = new five.Board()
+	board.on("ready", function() {
+		button0 = new five.Button("A0"),
+		button1 = new five.Button("A1"),
+		button2 = new five.Button("A2"),
+		button3 = new five.Button("A3"),
+		led = new five.Led(13)
+	})
 	console.log(data)
 	if(board.isReady){
 		button0.on("press", () => {
@@ -277,7 +276,7 @@ router.post("/arduino/init",(req,res)=>{
 		})
 		res.json({msg: "Actividad Iniciada"})
 	}
-})
+})*/
 
 
 

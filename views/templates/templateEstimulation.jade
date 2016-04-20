@@ -18,9 +18,9 @@ html(lang='es')
 					fieldset
 						legend ¿Con cuál niñ@ nos divertiremos ahora?
 						input#idChildren(type='number', name='idChildren', min='1111', placeholder='Identificación Niño', required='')
-						article
-							label(for="numberPin") Configuración Pin
-							input#numberPin(type='number', name='numberPin', min='1', max='4' required='')
+						article.pin
+							label(for="numberPin") Configuración Pin: 
+							input#numberPin(type='number', name='numberPin', min='1', max='4' placeholder='Pin' required='')
 						article
 							button(type='submit')
 								span Iniciar Actividad

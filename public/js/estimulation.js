@@ -35,6 +35,7 @@ function NotificationC (){
 		contenedorPrincipal.removeChild(contenedorPrincipal.lastChild)
 	}
 }
+
 var formAddChildAct = $("#formAddChildAct"),
 	formValidChildren = $("#formValidChildren")
 
@@ -123,7 +124,10 @@ formAddChildAct.on("submit",(event) => {
 					$("#nameChild2").remove()
 					$("#idChildren").prop("readonly", false)
 					$("#idChildren").val("")
+					$("#numberPin").prop("readonly", false)
+					$("#numberPin").val("")
 					$("#validActClicDef").prop("disabled", true)
+					$("#validActClic").prop("disabled", true)
 				})
 				renderResults(clone)
 				renderResultAct(cloneAct)
@@ -151,13 +155,13 @@ $("#validActClic").on("click",(event) => {
 
 			var data = $(clone.querySelector("#dataNameChildParcial"))
 
-			var label = $("<label>",{html : "Identificación Niñ@: "})
-			input = $("<input>",{html : result.idChildren})
-				.prop("type", "number")
-				.attr({id:"idChildren"})
-				.prop("readonly", true)
-				.prop("name", "idChildren")
-				.val(result.idChildren)
+			var label = $("<label>",{html : "Identificación Niñ@: "}),
+				input = $("<input>",{html : result.idChildren})
+						.prop("type", "number")
+						.attr({id:"idChildren"})
+						.prop("readonly", true)
+						.prop("name", "idChildren")
+						.val(result.idChildren)
 
 			$("#buttonCancelValidActParcial",clone).click(()=>{
 				$("#formValidChildrenParcial").remove()
@@ -184,6 +188,8 @@ $("#validActClic").on("click",(event) => {
 				$("#formValidChildrenParcial").remove()
 				$("#idChildren").val("")
 				$("#idChildren").prop("readonly", false)
+				$("#numberPin").val("")
+				$("#numberPin").prop("readonly", false)
 				$("#validActClicDef").prop("disabled", true)
 				$("#validActClic").prop("disabled", true)
 			})
@@ -205,12 +211,12 @@ $("#validActClicDef").on("click",(event) => {
 		type : "POST",
 		success: function(result){
 
-			var clone = getClone("#consulQueryChildrenValid")
+			var clone = getClone("#consulQueryChildrenValid"),
 
-			var data = $(clone.querySelector("#dataNameChild"))
+				data = $(clone.querySelector("#dataNameChild")),
 
-			var label = $("<label>",{html : "Identificación Niñ@: "})
-			input = $("<input>",{html : result.idChildren})
+				label = $("<label>",{html : "Identificación Niñ@: "}),
+				input = $("<input>",{html : result.idChildren})
 				.prop("type", "number")
 				.attr({id:"idChildren"})
 				.prop("readonly", true)
@@ -242,6 +248,8 @@ $("#validActClicDef").on("click",(event) => {
 				$("#formValidChildren").remove()
 				$("#idChildren").val("")
 				$("#idChildren").prop("readonly", false)
+				$("#numberPin").val("")
+				$("#numberPin").prop("readonly", false)
 				$("#validActClicDef").prop("disabled", true)
 				$("#validActClic").prop("disabled", true)
 			})
@@ -261,10 +269,16 @@ $("#restarActClic").click(()=>{
 	$("#formValidChildren").remove()
 	$("#idChildren").val("")
 	$("#idChildren").prop("readonly", false)
+	$("#numberPin").val("")
+	$("#numberPin").prop("readonly", false)
 	$("#validActClicDef").prop("disabled", true)
+	$("#validActClic").prop("disabled", true)
 })
 
 $("#continueViewMore").click((event) => {
+	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
+		type = 0
+	notification.show({msg:msg, type:type})
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)
 })

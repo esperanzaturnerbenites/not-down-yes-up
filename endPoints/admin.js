@@ -49,10 +49,12 @@ router.get("/register-children",(req,res)=>{
 })
 	
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
+	console.log("create")
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		return res.json({err:{message : "¡Números de identificación iguales"}})
 	}else{
+	console.log("bien")
 		models.children.create(dataChildren, function (err, children) {
 			if(err) return res.json({err:err})
 			if(children){
@@ -67,34 +69,65 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 				dataDad.idChildren = children._id
 				dataCare.idChildren = children._id
 
+				var arrayParents = [dataMom, dataDad, dataCare]
+
 				models.parent.find(
 					{$or : queryParents},
 					function (err, parentsFind) {
+							console.log(!parentsFind.length)
 						if(err) return res.json({err:err})
 
 						models.step.find({}, (err, steps) => {
 							if(err) return res.json({err:err})
 							if(!steps.length) return res.json({msg:"Not steps"})
 
-							for(var step in steps){
-								promises.push(models.stepvalid.create({idStep:step._id, idUser:req.user._id, idChildren:children._id}))
+							for(var stepDB of steps){
+								console.log(stepDB)
+								promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
 							}
 							Q.all(promises).then(function (result) {
 								if(!parentsFind.length){
-									models.parent.create([dataMom, dataDad, dataCare],(err, parentsCreate) => {
+									models.parent.create(arrayParents,(err, parentsCreate) => {
 										if(err) return res.json({err:err})
 										res.redirect("/admin/menu-admin")
 									})
 								}else{
+										
+									var relation = parentsFind.map(parent => {parent.relationshipParent})
+
+									var parentsNoExist = arrayParents.filter(parent => {
+										if(relation.indexOf(parent.relationshipParent) < 0){
+											return parent
+										}
 									models.parent.where({$or : queryParents})
 									.setOptions({ multi: true })
 									.update(
-										{$push : {idChildren : children._id}},
+										{
+											$push : {
+												idChildren : children._id,
+												relationshipParent : parent.relationshipParent
+											}
+										},
 										(err, parentDad) => {
 											if(err) return res.json({err:err})
-											res.redirect("/admin/menu-admin")
+											if(parentsNoExist.length){
+												models.parent.create(parentsNoExist,(err, parentsCreate) => {
+													if(err) return res.json({err:err})
+													res.redirect("/admin/menu-admin")
+												})
+											}else{
+												res.redirect("/admin/menu-admin")
+											}
+
+
+
 										})
+
+									})
+									console.log(parentsNoExist)
 								}
+							}).catch(err => {
+								console.log(err)
 							})
 						})
 
@@ -201,12 +234,12 @@ router.post(["/update-children","/register-children"],
 			relationshipParent : 2,
 			telParent : data.telParent[2]
 		}
-	if(eval(data.editingChildren)){
-		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-	}else{
-		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-	}
-})
+		if(eval(data.editingChildren)){
+			updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+		}else{
+			createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+		}
+	})
 
 router.get("/register-children/:id",(req,res)=>{
 	var id = req.params.id
@@ -296,7 +329,6 @@ router.post("/update-user",(req,res)=>{
 
 		})
 })
-
 
 router.post("/valid-user",(req,res)=>{
 	var data = req.body

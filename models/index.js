@@ -71,7 +71,7 @@ const userSchema = new Mongoose.Schema({
 		studyParent: {type:String},
 		professionParent: {type:String},
 		jobParent: {type:String},
-		relationshipParent: {type:Number},
+		relationshipParent: [{type:Number}],
 		idChildren: [{type:Schema.ObjectId, ref: "children"}]
 	}),
 
@@ -121,9 +121,9 @@ const userSchema = new Mongoose.Schema({
 		scoreStep: {type:Number, default:0},
 		observationStep: {type:String, default:"Sin Validar"},
 		date: {type:Date, default:Date.now},
-		idStep: {type:Schema.ObjectId, ref: "step"},
-		idUser: {type:Schema.ObjectId, ref: "user"},
-		idChildren: {type:Schema.ObjectId, ref: "children"}
+		idStep: {type:Schema.ObjectId, ref: "step", required:true},
+		idUser: {type:Schema.ObjectId, ref: "user", required:true},
+		idChildren: {type:Schema.ObjectId, ref: "children", required:true}
 	}),
 
 	stepSchema = new Mongoose.Schema({

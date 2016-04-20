@@ -1,6 +1,6 @@
 extends templates/template.jade
 block title
-	title Continuar Actividad en ¡No Down, Yes Up!
+	title Progreso de #{childrenAct.nameChildren} #{childrenAct.lastnameChildren}
 block content
 	section#buttons
 		form
@@ -30,24 +30,24 @@ block content
 				button#continueViewMore(type='button')
 					span Ver Más
 		article.activities
-			h3 Historial de Progreso
-			if activities
+			h3 Historial de Actividades (Progreso)
+			if childrenAct.activities
 				table#progress
-				thead 
-					tr
-						th ACTIVIDAD
-						th ETAPA
-						th ESTADO
-				tbody
-					for acts in childrenAct.activities
-						if (acts.statusActivity == 0)
-							- var statusA = "Pendiente"
-						else if (acts.statusActivity == 1)
-							- var statusA = "Completada"
+					thead 
 						tr
-							td #{acts.idActivity.activityActivity}. #{acts.idActivity.nameActivity}
-							td #{acts.idActivity.stepActivity}
-							td #{statusA}
+							th ACTIVIDAD
+							th ETAPA
+							th ESTADO
+					tbody
+						for acts in childrenAct.activities
+							if (acts.statusActivity == 0)
+								- var statusA = "Pendiente"
+							else if (acts.statusActivity == 1)
+								- var statusA = "Completada"
+							tr
+								td #{acts.idActivity.activityActivity}. #{acts.idActivity.nameActivity}
+								td #{acts.idActivity.stepActivity}
+								td #{statusA}
 			else 
 				h2 No se encontraron actividades
 			section.more
@@ -55,9 +55,10 @@ block content
 					span Ver Todo
 		article.continueLogros
 			h3 Últimos Logros Alcanzados
+			h2 (Actividades Validadas)
 
 			if childrenAct.actsvalid
-				if childrenAct.actsvalid.length
+				if (childrenAct.actsvalid.length > 1)
 					if (childrenAct.actsvalid[0].statusActivity == 0 && childrenAct.actsvalid[1].statusActivity == 0)
 						- var complete = 0
 						- var nocomplete = 2
@@ -67,8 +68,15 @@ block content
 					else
 						- var complete = 1
 						- var nocomplete = 1
+				else if (childrenAct.actsvalid.length = 1)
+					if (childrenAct.actsvalid[0].statusActivity == 0)
+						- var complete = 0
+						- var nocomplete = 2
+					else
+						- var complete = 1
+						- var nocomplete = 1
 
-					table#continueLogros
+				table#continueLogros
 					tbody
 						tr
 							th Etapa
@@ -87,7 +95,7 @@ block content
 				button#continueStepAll(type='button')
 					span Ver Todo
 		article.contActivities
-			h3 Última Actividad Realizada:
+			h3 Última actividad accedida:
 
 			if childrenAct.activities
 				section.continueAct
