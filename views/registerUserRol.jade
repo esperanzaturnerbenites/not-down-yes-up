@@ -1,129 +1,132 @@
 extends templates/template.jade
 block title
-  title Nuevo Usuario en ¡No Down, Yes Up!
+	title Nuevo Usuario en ¡No Down, Yes Up!
 block exit
-  h2.exit
-    a(href='/admin/menu-admin') VOLVER
+	h2.exit
+		a(href='/admin/menu-admin') VOLVER
 block content
-  - if (data)
-    - var edit = true
-    - var idUser = data.idUser
-    - var expeditionUser = data.expeditionUser
-    - var nameUser = data.nameUser
-    - var lastnameUser = data.lastnameUser
-    - var ageUser = data.ageUser
-    - var telUser = data.telUser
-    - var celUser = data.celUser
-    - var emailUser = data.emailUser
-    - var addressUser = data.addressUser
-    - var districtUser = data.districtUser
-    - var localityUser = data.localityUser
-    - var municipalityUser = data.municipalityUser
-    - var departamentUser = data.departamentUser
-    - var professionUser = data.professionUser
-    - var experienceUser = data.experienceUser
-    - var centerUser = data.centerUser
-  - else
-    - var classForm = "hide"
-    - var edit = false
-    - var idUser = ''
-    - var expeditionUser = ''
-    - var nameUser = ''
-    - var lastnameUser = ''
-    - var ageUser = ''
-    - var telUser = ''
-    - var celUser = ''
-    - var emailUser = ''
-    - var addressUser = ''
-    - var districtUser = ''
-    - var localityUser = ''
-    - var municipalityUser = ''
-    - var departamentUser = ''
-    - var professionUser = ''
-    - var experienceUser = ''
-    - var centerUser = ''
-  section.register
-    h3 Nuevo Usuario
+	- if (data)
+		- var edit = true
+		- var classFormValid = "hide"
+		- var idUser = data.idUser
+		- var expeditionUser = data.expeditionUser
+		- var nameUser = data.nameUser
+		- var lastnameUser = data.lastnameUser
+		- var ageUser = data.ageUser
+		- var telUser = data.telUser
+		- var celUser = data.celUser
+		- var emailUser = data.emailUser
+		- var addressUser = data.addressUser
+		- var districtUser = data.districtUser
+		- var localityUser = data.localityUser
+		- var municipalityUser = data.municipalityUser
+		- var departamentUser = data.departamentUser
+		- var professionUser = data.professionUser
+		- var experienceUser = data.experienceUser
+		- var centerUser = data.centerUser
+	- else
+		- var edit = false
+		- var classForm = "hide"
+		- var classFormValid = "show"
+		- var idUser = ''
+		- var expeditionUser = ''
+		- var nameUser = ''
+		- var lastnameUser = ''
+		- var ageUser = ''
+		- var telUser = ''
+		- var celUser = ''
+		- var emailUser = ''
+		- var addressUser = ''
+		- var districtUser = ''
+		- var localityUser = ''
+		- var municipalityUser = ''
+		- var departamentUser = ''
+		- var professionUser = ''
+		- var experienceUser = ''
+		- var centerUser = ''
+	
+	section.register
+		h3(class="#{classFormValid}") Nuevo Usuario
 
-    article
-      form#formValidUser
-        input(type="hidden" value="#{edit}" id="editingUser")
-        fieldset.data.validChildren
-          legend Digita la cédula
-          article
-            input#validUser(type='number', value="#{idUser}" name='validUser', min='1111', placeholder='Cédula', required='')
-          article
-            button(type='submit')
-              span Iniciar Registro
-      form#formAddUser(class="{#classForm}")
-        fieldset.userAdd
-          legend Nuevo Usuario
-          section.data
-            fieldset
-              legend Personal
-              article
-                input#idUser(type='number', name='idUser', value="#{idUser}" readonly)
-                input#expeditionUser(type='text', name='expeditionUser', value="#{expeditionUser}" placeholder='Lugar de Expedición', required)
-              article
-                input#nameUser(type='text', name='nameUser', value="#{nameUser}" placeholder='Nombres', required='')
-                input#lastnameUser(type='text', name='lastnameUser', value="#{lastnameUser}" placeholder='Apellidos', required='')
-              article
-                label(for='ageUser') Edad:
-                input#ageUser(type='number', name='ageUser', value="#{ageUser}" min='18', max='99', placeholder='Edad' required)
-              article.img
-                span Foto
-                input#imgUser(type='file', name='imgUser', accept='image/*' required)
-            fieldset
-              legend Contacto
-              article
-                input#telUser(type='number', name='telUser',value="#{telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-                input#celUser(type='number', name='celUser',value="#{celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
-                input#emailUser(type='email', name='emailUser',value="#{emailUser}" placeholder='correo-usuario@abc.com', required)
-              article
-                input#addressUser(type='text', name='addressUser',value="#{addressUser}" placeholder='Dirección', required='')
-                input#districtUser(type='text', name='districtUser',value="#{districtUser}" placeholder='Barrio', required='')
-                input#localityUser(type='text', name='localityUser',value="#{localityUser}" placeholder='Localidad')
-                input#districtUser(type='text', name='municipalityUser',value="#{municipalityUser}" placeholder='Ciudad/Municipio', required='')
-                input#departamentUser(type='text', name='departamentUser',value="#{departamentUser}" placeholder='Departamento', required='')
-            fieldset
-              legend Profesión
-              article
-                label(for='studyUser') Nivel de Estudios:
-                select#studyUser(name='studyUser')
-                  option(value='0', selected) Básica Primaria
-                  option(value='1') Básica Secundaria
-                  option(value='2') Bachiller
-                  option(value='3') Técnico Profesional
-                  option(value='4') Tecnólogo
-                  option(value='5') Profesional
-                  option(value='6') Especialización
-                  option(value='7') Maestría
-                  option(value='8') Doctorado
-              input#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
-              label(for='experienceUser') Experiencia en meses:
-              input#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
-              article
-              input#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
+		article
+			form#formValidUser(class="#{classFormValid}")
+				input(type="hidden" value="#{edit}" id="editingUser")
+				fieldset.data.validChildren
+					legend Digita la cédula
+					article
+						input#validUser(type='number', value="#{idUser}" name='validUser', min='1111', placeholder='Cédula', required='')
+					article
+						button(type='submit')
+							span Iniciar Registro
+			form#formAddUser(class="#{classForm}")
+				fieldset.userAdd
+					legend Nuevo Usuario
+					section.data
+						fieldset
+							legend Personal
+							article
+								input#idUser(type='number', name='idUser', value="#{idUser}" readonly)
+								input#expeditionUser(type='text', name='expeditionUser', value="#{expeditionUser}" placeholder='Lugar de Expedición', required)
+							article
+								input#nameUser(type='text', name='nameUser', value="#{nameUser}" placeholder='Nombres', required='')
+								input#lastnameUser(type='text', name='lastnameUser', value="#{lastnameUser}" placeholder='Apellidos', required='')
+							article
+								label(for='ageUser') Edad:
+								input#ageUser(type='number', name='ageUser', value="#{ageUser}" min='18', max='99', placeholder='Edad' required)
+							article.img
+								span Foto
+								input#imgUser(type='file', name='imgUser', accept='image/*')
+						fieldset
+							legend Contacto
+							article
+								input#telUser(type='number', name='telUser',value="#{telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+								input#celUser(type='number', name='celUser',value="#{celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
+								input#emailUser(type='email', name='emailUser',value="#{emailUser}" placeholder='correo-usuario@abc.com', required)
+							article
+								input#addressUser(type='text', name='addressUser',value="#{addressUser}" placeholder='Dirección', required='')
+								input#districtUser(type='text', name='districtUser',value="#{districtUser}" placeholder='Barrio', required='')
+								input#localityUser(type='text', name='localityUser',value="#{localityUser}" placeholder='Localidad')
+								input#districtUser(type='text', name='municipalityUser',value="#{municipalityUser}" placeholder='Ciudad/Municipio', required='')
+								input#departamentUser(type='text', name='departamentUser',value="#{departamentUser}" placeholder='Departamento', required='')
+						fieldset
+							legend Profesión
+							article
+								label(for='studyUser') Nivel de Estudios:
+								select#studyUser(name='studyUser')
+									option(value='0', selected) Básica Primaria
+									option(value='1') Básica Secundaria
+									option(value='2') Bachiller
+									option(value='3') Técnico Profesional
+									option(value='4') Tecnólogo
+									option(value='5') Profesional
+									option(value='6') Especialización
+									option(value='7') Maestría
+									option(value='8') Doctorado
+							input#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
+							label(for='experienceUser') Experiencia en meses:
+							input#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
+							article
+							input#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
 
-        fieldset.userAdmin.data.user
-          legend Confirmar Registro
-          section
-            if !edit
-              article
-                  label(for='typeUser') Tipo de usuario:
-                  select#typeUser(name='typeUser')
-                    option(value='0', selected) Administrador
-                    option(value='1') Docente
-              input#userUser(type='text', name='userUser', placeholder='Usuario', required)
-              input#passUser(type='password',  name='passUser', placeholder='Contraseña', required)
-              input#passConfirmUser(type='password', name='passConfirmUser', placeholder='Repite Contraseña', required)
-              button(type='submit' data-action="create")
-                span Registrar
-            else
-              button(type='submit' data-action="edit")
-                span Actualizar
-            button(type='reset')
-              span Limpiar
-            p.cancel
-              a(href='/admin/menu-admin') Cancelar
-  script(src="/js/app.js")
+				fieldset.userAdmin.data.user
+					legend Confirmar Registro
+					section
+						if !edit
+							article
+									label(for='typeUser') Tipo de usuario:
+									select#typeUser(name='typeUser')
+										option(value='0', selected) Administrador
+										option(value='1') Docente
+							input#userUser(type='text', name='userUser', placeholder='Usuario', required)
+							input#passUser(type='password',  name='passUser', placeholder='Contraseña', required)
+							input#passConfirmUser(type='password', name='passConfirmUser', placeholder='Repite Contraseña', required)
+							button(type='submit' data-action="create")
+								span Registrar
+						else
+							button(type='submit' data-action="edit")
+								span Actualizar
+						button(type='reset')
+							span Limpiar
+						p.cancel
+							a(href='/admin/menu-admin') Cancelar
+	script(src="/js/app.js")

@@ -248,11 +248,12 @@ $("#formValidChildrenValid").on("click",(event) => {
 			if(activities.length == 2){
 				clone.querySelector("#nameChildren").innerHTML = "Niñ@: " + result.children.nameChildren + " " + result.children.lastnameChildren
 				clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
+				clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
 
 				var num = 0,
 					scoreS = 0
 
-				for (activity of activities){
+				for (var activity of activities){
 					num++
 					scoreS += activity.scoreTeachActivity
 					var a = $("<article>").append(
@@ -286,7 +287,14 @@ $("#formValidChildrenValid").on("click",(event) => {
 					*/
 				}
 
-				clone.querySelector("#scoreStep").value = scoreS/num
+				var scoreStepValid = scoreS/num
+				clone.querySelector("#scoreStep").value = scoreStepValid
+
+				if(scoreStepValid >= 6){
+					clone.querySelector("#statusStep").value = "Completada"
+				}else{
+					clone.querySelector("#statusStep").value = "No Completada"
+				}
 
 				$("#idChildren").prop("readonly", true)
 
@@ -296,29 +304,30 @@ $("#formValidChildrenValid").on("click",(event) => {
 					$("#idChildren").prop("readonly", false)
 				})
 
-				var statusStep = "Completada",
-					idStep = result.step._id,
+				var idStep = result.step._id,
 					idChildren = result.children.idChildren
 
 				$("#validStep",clone).click(()=>{
-						event.preventDefault()
-						if(activities[0].statusActivity == 1 && activities[1].statusActivity == 1){
-							$.ajax({
-								url: "/admin/valid-step",
-								async : false, 
-								type : "POST",
-								data : {observationStep : $("#observationStep").val(),
-										scoreStep : $("#scoreStep").val(),
-										idStep : idStep,
-										idChildren : idChildren,
-										statusStep : statusStep},
-								success: function(result){
-									$("#formValidChildren").remove()
-									$("#idChildren").val("")
-									$("#idChildren").prop("readonly", false)
-								}
-							})
-						}else console.log("Not activities complete")//return ({msg : "Not activities complete"})
+					event.preventDefault()
+					if(activities.length == 2){
+						$.ajax({
+							url: "/admin/valid-step",
+							async : false, 
+							type : "POST",
+							data : {observationStep : $("#observationStep").val(),
+									scoreStep : $("#scoreStep").val(),
+									idStep : idStep,
+									idChildren : idChildren,
+									statusStep :  $("#statusStep").val()},
+							success: function(result){
+								if(result.err) return notification.show({msg:result.err.message, type:1})
+								$("#formValidChildren").remove()
+								$("#idChildren").val("")
+								$("#idChildren").prop("readonly", false)
+								notification.show({msg:result.msg, type:result.statusCode})
+							}
+						})
+					}
 				})
 
 				renderResultValid(clone)
@@ -435,5 +444,5 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 $("#formOpeChildrenUpd").on("click",(event) => {
 	event.preventDefault()
 	var params = $("#adminOpeChildren").val()
-	window.open("/admin/register-children/" + params)	
+	window.open("/admin/register-children/" + params)
 })

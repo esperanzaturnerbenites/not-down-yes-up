@@ -25,7 +25,7 @@ router.post("/consul-step",(req,res)=>{
 	models.step.findOne({stepStep : data.step}, (err, stepFind) => {
 		models.activityhistory.find({idChildren : data.idChildren, idStep : stepFind._id})
 		.sort({date:-1})
-		.populate('idActivity idUser idTeacher')
+		.populate("idActivity idUser")
 		.exec((err, activities) => {
 			if(err) return res.json({err:err})
 			if(activities) return res.json({activities : activities})
@@ -66,19 +66,17 @@ router.post("/valid-activity-parcial",(req,res)=>{
 			(err,activityF) => {
 				if(err) return res.json({err:err})
 				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
-				else {
-					data.idActivity = activityF._id
+				data.idActivity = activityF._id
 
-					models.user.findOne({_id : req.user.idUser},(err,userF) => {
+				models.user.findOne({_id : req.user.idUser},(err,userF) => {
+					if(err) return res.json({err:err})
+					if(userF){data.idUser = userF._id} else{data.idUser = "Profesor Eliminado"}
+
+					models.activityhistory.create(data, function (err, activity) {
 						if(err) return res.json({err:err})
-						data.idTeacher = userF._id
-
-						models.activityhistory.create(data, function (err, activity) {
-							if(err) return res.json({err:err})
-							return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
-						})
+						return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
 					})
-				}
+				})
 			})
 		})
 	})
@@ -90,6 +88,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
+	console.log(user._id)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
@@ -110,23 +109,39 @@ router.post("/valid-activity-complete",(req,res)=>{
 				else {
 					data.idActivity = activityF._id
 
-					models.activityvalid
-					.findOne({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
-					(err,actvalidFind) =>{
+					models.activityhistory.find({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity}, (err,acthis) => {
 						if(err) return res.json({err:err})
-						if(actvalidFind){
-							models.activityvalid
-							.update(data, {idChildren : actvalidFind.idChildren, idStep : actvalidFind.idStep, idActivity : actvalidFind.idActivity},
-							(err,doc) => {
-								if(err) return res.json({err:err})
-								if(doc) return res.json({msg:"¡Validación Semestral Exitosa UPDATE!", statusCode:0, activity : doc})
-							})
-						} else{
-							models.activityvalid.create(data, function (err, activity) {
-								if(err) return res.json({err:err})
-								return res.json({msg:"¡Validación Semestral Exitosa CREATE!", statusCode:0, activity : activity})
-							})
+						if(!acthis) return res.json({err:{message:"¡Niñ@ no ha sido validado anteriormente en esta actividad!"}})
+						
+						var activitiesvalid = 0
+
+						for(var actsh in acthis){
+							if(actsh.statusActivity == 1)
+								activitiesvalid++
 						}
+
+						if((data.statusActivity == 1 && activitiesvalid >= 3) || data.statusActivity == 0){
+							models.activityvalid
+							.findOne({idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
+							(err,actvalidFind) =>{
+								if(err) return res.json({err:err})
+								if(actvalidFind){
+									//PREGUNTAR SI QUIERE HACER EL UPDATE
+									models.activityvalid.update(
+										{idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
+										{"$set": data},
+										(err,doc) => {
+											if(err) return res.json({err:err})
+											if(doc) return res.json({msg:"¡Validación Semestral Exitosa (Actualización)!", statusCode:0, activity : doc})
+										})
+								} else{
+									models.activityvalid.create(data, function (err,activity) {
+										if(err) return res.json({err:err})
+										return res.json({msg:"¡Validación Semestral Exitosa (Primera vez)!", statusCode:0, activity : activity})
+									})
+								}
+							})
+						}else return res.json({err:{message:"¡Niñ@ no cumple con las condiciones necesarias para validar éxitosamente esta actividad!"}})
 					})
 				}
 			})
@@ -176,11 +191,11 @@ router.get("/infoChildren/:id",(req,res)=>{
 					dataChildren.activities = activities
 
 					models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
-					.populate("idActivity")
+					.populate("idActivity idStep idUser")
 					.exec((err, actsvalid) => {
 						if(err) return res.json({err:err})
 						dataChildren.actsvalid = actsvalid
-						console.log(dataChildren.actsvalid[0].statusActivity)
+						//console.log(dataChildren.actsvalid[0].statusActivity)
 						return res.render("continueOne",{childrenAct:dataChildren})
 					})
 				}else {return res.render("continueOne",{childrenAct:dataChildren})}

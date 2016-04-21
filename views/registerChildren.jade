@@ -6,10 +6,11 @@ block exit
 		a(href='/admin/menu-admin') VOLVER
 block content
 	-if (data)
+		-var edit = true
+		-var classFormValid = "hide"
 		-var mom = data.parents.mom
 		-var dad = data.parents.dad
 		-var cure = data.parents.cure
-		-var edit = true
 		-var idChildren = data.children.idChildren
 		-var nameChildren = data.children.nameChildren
 		-var lastnameChildren = data.children.lastnameChildren
@@ -37,10 +38,42 @@ block content
 		-var dad = {}
 		-var cure = {}
 		-var classForm = "hide"
+		-var classFormValid = "show"
+		-var idChildren = ''
+		-var nameChildren = ''
+		-var lastnameChildren = ''
+		-var imgChildren = ''
+		-var ageChildren = ''
+		-var genderChildren = ''
+		-var liveSon = ''
+		-var addressChildren = ''
+		-var districtChildren = ''
+		-var localityChildren = ''
+		-var municipalityChildren = ''
+		-var departamentChildren = ''
+		-var levelhomeChildren = ''
+		-var healthChildren = ''
+		-var epsChildren = ''
+		-var apbChildren = ''
+		-var glassesChildren = ''
+		-var hearingaidChildren = ''
+		-var abilityChildren = ''
+		-var debilityChildren = ''
+		-var birthplaceChildren = ''
+		-var idParent = ''
+		-var idExpeditionParent = ''
+		-var nameParent = ''
+		-var lastnameParent = ''
+		-var imgParent = ''
+		-var birthplaceParent = ''
+		-var professionParent = ''
+		-var jobParent = ''
+		-var emailParent = ''
+	
 	section.register
-		h3 Niñ@s Nuev@s
+		h3(class="#{classFormValid}") Niñ@s Nuev@s
 		article
-			form#formValidChildren
+			form#formValidChildren(class="#{classFormValid}")
 				fieldset.data.validChildren
 					legend ¡Maravilloso! ¿Qué niñ@ conoceremos hoy?
 					article

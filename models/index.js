@@ -86,7 +86,7 @@ const userSchema = new Mongoose.Schema({
 		date: {type:Date, default:Date.now},
 		idActivity: {type:Schema.ObjectId, ref: "activity"},
 		idStep: {type:Schema.ObjectId, ref: "step"},
-		idUser: {type:Schema.ObjectId, ref: "user"},
+		idUser: {type:Schema.ObjectId, ref: "adminuser"},
 		idChildren: {type:Schema.ObjectId, ref: "children"}
 	}),
 
@@ -98,8 +98,7 @@ const userSchema = new Mongoose.Schema({
 		date: {type:Date, default:Date.now},
 		idActivity: {type:Schema.ObjectId, ref: "activity"},
 		idStep: {type:Schema.ObjectId, ref: "step"},
-		idUser: {type:Schema.ObjectId, ref: "user"},
-		idTeacher: {type:Schema.ObjectId, ref: "user"},
+		idUser: {type:Schema.ObjectId, ref: "adminuser"},
 		idChildren: {type:Schema.ObjectId, ref: "children"}
 	}),
 
@@ -117,12 +116,12 @@ const userSchema = new Mongoose.Schema({
 	}),
 
 	stepvalidSchema = new Mongoose.Schema({
-		statusStep: {type:String, default:"Pendiente"},
+		statusStep: {type:String, default:"No Completada"},
 		scoreStep: {type:Number, default:0},
 		observationStep: {type:String, default:"Sin Validar"},
 		date: {type:Date, default:Date.now},
 		idStep: {type:Schema.ObjectId, ref: "step", required:true},
-		idUser: {type:Schema.ObjectId, ref: "user", required:true},
+		idUser: {type:Schema.ObjectId, ref: "adminuser", required:true},
 		idChildren: {type:Schema.ObjectId, ref: "children", required:true}
 	}),
 

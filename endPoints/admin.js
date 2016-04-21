@@ -142,34 +142,33 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	models.children.findOneAndUpdate(
 		{idChildren : dataChildren.idChildren},
 		{"$set": dataChildren},
-		(err,children) => {
-			if(err) return res.json({err:err})
+	(err,children) => {
+		if(err) return res.json({err:err})
 
+		models.parent.update(
+			{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 0}]},
+			{"$set": dataMom}
+		).exec(err => {
+			if(err) return res.json({err:err})
 			models.parent.update(
-				{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 0}]},
-				{"$set": dataMom}
+				{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 1}]},
+				{"$set": dataDad}
 			).exec(err => {
 				if(err) return res.json({err:err})
 				models.parent.update(
-					{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 1}]},
-					{"$set": dataDad}
+					{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 2}]},
+					{"$set": dataCare}
 				).exec(err => {
 					if(err) return res.json({err:err})
-					models.parent.update(
-						{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 2}]},
-						{"$set": dataCare}
-					).exec(err => {
-						if(err) return res.json({err:err})
-						return res.json({msg:"niño actualizado con éxito!", statusCode : 0})
-					})
+					return res.json({msg:"niño actualizado con éxito!", statusCode : 0})
 				})
 			})
 		})
+	})
 }
 
-router.post(["/update-children","/register-children"],
-	(req,res)=>{
-	console.log("init")
+router.post(["/update-children","/register-children"],(req,res)=>{
+	//console.log("init")
 	var data = req.body,
 		dataChildren = {
 			abilityChildren : data.abilityChildren,
@@ -234,12 +233,12 @@ router.post(["/update-children","/register-children"],
 			relationshipParent : 2,
 			telParent : data.telParent[2]
 		}
-		if(eval(data.editingChildren)){
-			updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-		}else{
-			createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-		}
-	})
+	if(eval(data.editingChildren)){
+		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}else{
+		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}
+})
 
 router.get("/register-children/:id",(req,res)=>{
 	var id = req.params.id
@@ -516,9 +515,11 @@ router.post("/show-valid-step",(req,res)=>{
 })
 
 router.post("/valid-step",(req,res)=>{
-	data = req.body
+	var data = req.body
+
 	data.idUser = req.user._id
-	console.log(data)
+
+	//console.log(data)
 
 	models.children.findOne({idChildren : data.idChildren},(err,children) => {
 		if(err) return res.json({err:err})
@@ -532,12 +533,15 @@ router.post("/valid-step",(req,res)=>{
 			.findOne({idChildren : children._id, idStep : step._id},
 			(err,stephis) => {
 				if(err) return res.json({err:err})
-				if(stephis) return res.json({msg : "Step valid exists"})
-
-				models.stepvalid.create(data, function (err, step) {
-					if(err) return res.json({err:err})
-					if(step) return res.json({msg : "Step Valid Complete"})
-				})
+				if(stephis){
+					models.stepvalid.update(
+					{idChildren : children._id, idStep : step._id},
+					{"$set": 	data},
+					(err,doc) => {
+						if(err) return res.json({err:err})
+						if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})
+					})
+				}
 			})
 		})
 	})

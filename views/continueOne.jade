@@ -80,7 +80,7 @@ block content
 					tbody
 						tr
 							th Etapa
-								td #{childrenAct.activities[0].idActivity.stepActivity}
+							td #{childrenAct.activities[0].idActivity.stepActivity}
 						tr
 							th Actividades Completadas
 							td#continueNumComp #{complete}
@@ -114,6 +114,10 @@ block content
 						else if (childrenAct.activities[0].statusActivity == 1)
 							- var statusA2 = "Completada"
 						span #{statusA2}
+					p
+						b
+							span Fecha: 
+						span #{childrenAct.activities[0].date}
 			else 
 				h2 No se encontraron actividades completadas
 	section#results.continue
