@@ -1,75 +1,86 @@
 extends templates/template.jade
 block title
-  title Administración de Usuarios en ¡No Down, Yes Up!
+	title Administración de Usuarios en ¡No Down, Yes Up!
 block exit
-  h2.exit
-    a(href='/admin/menu-admin') VOLVER
+	h2.exit
+		a(href='/admin/menu-admin') VOLVER
 block content
-  section.register
-    h3 Administración de Usuarios
-    article.data
-            
-      form#formFindAll
-        fieldset
-          legend Ver Usuarios
-          article
-            select#typeUser(name='typeUser')
-              option(value='0', selected='') Administradores
-              option(value='1') Docentes
-              option(value='2') Todos
-            button(type='submit')
-              span Buscar
-            
-          article#showResults
-          include templatesQuery/findAllUsers.jade
-      
-      form#formNewUser
-        fieldset
-          legend Nuevo Usuario del Sistema
-          article
-            input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required='')
-            input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required='')
-          article
-            label(for='typeUser') Tipo de usuario: 
-            select#typeUser(name='typeUser')
-              option(value='0', selected) Administrador
-              option(value='1') Docente
-          article
-            input#passUser(type='password', name='passUser', placeholder='Contraseña', required='')
-            input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
-            button(type='submit')
-              span Crear
-      
-      form#formUpdatePass
-        fieldset
-          legend Actualizar Contraseña
-          article
-            input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required='')
-          article
-            input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
-            input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
-            button(type='submit')
-              span Actualizar
-      
-      form#formOpeUser
-        fieldset
-          legend Eliminar Usuario Sistema
-          section
-            input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
-            button#formOpeUserDel(type='submit')
-              span Eliminar
-      
-      form#formOpeTeachAdmin
-        fieldset
-          legend Docente/Administrador(s)
-          section
-            input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
-            button#formOpeTeachAdminUpd
-              span Actualizar
-            button#formOpeTeachAdminDel
-              span Eliminar
+	section.register
+		h3 Administración de Usuarios
+		article.data
+						
+			form#formFindAll
+				fieldset
+					legend Ver Usuarios
+					article
+						select#typeUser(name='typeUser')
+							option(value='0', selected='') Administradores
+							option(value='1') Docentes
+							option(value='2') Todos
+						button(type='submit')
+							span Buscar
+						
+					article#showResults
+					include templatesQuery/findAllUsers.jade
+			
+			form#formNewUser
+				fieldset
+					legend Nuevo Usuario del Sistema
+					article
+						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required='')
+						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required='')
+					article
+						label(for='typeUser') Tipo de usuario: 
+						select#typeUser(name='typeUser')
+							option(value='0', selected) Administrador
+							option(value='1') Docente
+					article
+						input#passUser(type='password', name='passUser', placeholder='Contraseña', required='')
+						input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
+						button(type='submit')
+							span Crear
+			
+			form#formUpdatePass
+				fieldset
+					legend Actualizar Contraseña
+					article
+						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required='')
+					article
+						input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
+						input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
+						button(type='submit')
+							span Actualizar
+			
+			form#formOpeUserStatus
+				fieldset
+					legend Actualizar Estado
+					section
+						input#adminStaIdUser(type='text', name='adminStaIdUser', placeholder='Usuario', required='')
+						select#statusUser(name='statusUser')
+							option(value='0', selected='') Inactivo
+							option(value='1') Activo
+						button#formOpeUserUpdSta(type='submit')
+							span Actualizar
+			
+			form#formOpeUser
+				fieldset
+					legend Eliminar Usuario Sistema
+					section
+						input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
+						button#formOpeUserDel(type='submit')
+							span Eliminar
+			
+			form#formOpeTeachAdmin
+				fieldset
+					legend Docente/Administrador(s)
+					section
+						input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
+						button#formOpeTeachAdminUpd
+							span Actualizar
+						button#formOpeTeachAdminDel
+							span Eliminar
 
-      article#showResultTeachAdmin
-      include templatesQuery/updateUser.jade
-      
-  script(src="/js/app.js")
+			article#showResultTeachAdmin
+			include templatesQuery/updateUser.jade
+			
+	script(src="/js/app.js")

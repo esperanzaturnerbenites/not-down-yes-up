@@ -49,6 +49,7 @@ router.post("/valid-activity-parcial",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
+	console.log(user)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
@@ -67,15 +68,9 @@ router.post("/valid-activity-parcial",(req,res)=>{
 				if(err) return res.json({err:err})
 				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
 				data.idActivity = activityF._id
-
-				models.user.findOne({_id : req.user.idUser},(err,userF) => {
+				models.activityhistory.create(data, function (err, activity) {
 					if(err) return res.json({err:err})
-					if(userF){data.idUser = userF._id} else{data.idUser = "Profesor Eliminado"}
-
-					models.activityhistory.create(data, function (err, activity) {
-						if(err) return res.json({err:err})
-						return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
-					})
+					return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
 				})
 			})
 		})

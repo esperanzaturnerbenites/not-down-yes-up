@@ -17,7 +17,7 @@ const userSchema = new Mongoose.Schema({
 		districtUser: {type:String},
 		localityUser: {type:String},
 		departamentUser: {type:String},
-		studyUser: {type:String},
+		studyUser: {type:Number},
 		professionUser: {type:String},
 		experienceUser: {type:Number},
 		centerUser: {type:String}
@@ -26,7 +26,8 @@ const userSchema = new Mongoose.Schema({
 	adminuserSchema = new Mongoose.Schema({
 		userUser: {type:String},
 		passUser: {type:String},
-		typeUser: {type:String},
+		typeUser: {type:Number},
+		statusUser: {type:Number},
 		dateUser: {type:Date, default:Date.now},
 		idUser: {type:Schema.ObjectId, ref: "user"}
 	}),
@@ -39,13 +40,13 @@ const userSchema = new Mongoose.Schema({
 		birthdateChildren: {type:Date},
 		birthplaceChildren: {type:String},
 		ageChildren: {type:Number},
-		genderChildren: {type:String},
-		liveSon: {type:String},
+		genderChildren: {type:Number},
+		liveSon: {type:Number},
 		addressChildren: {type:String},
 		districtChildren: {type:String},
 		localityChildren: {type:String},
 		departamentChildren: {type:String},
-		levelhomeChildren: {type:String},
+		levelhomeChildren: {type:Number},
 		healthChildren: {type:String},
 		epsChildren: {type:String},
 		apbChildren: {type:String},
@@ -53,7 +54,7 @@ const userSchema = new Mongoose.Schema({
 		hearingaidChildren: {type:Number},
 		abilityChildren: {type:String},
 		debilityChildren: {type:String},
-		statusChildren: {type:String, default:"Registrado"},
+		statusChildren: {type:Number, default:0},
 		dateStart: {type:Date, default:Date.now},
 		dateEnd: {type:Date, default:Date.now}
 	}),
@@ -76,7 +77,7 @@ const userSchema = new Mongoose.Schema({
 	}),
 
 	activityvalidSchema = new Mongoose.Schema({
-		statusActivity: {type:String, default:"Pendiente"},
+		statusActivity: {type:Number, default:0},
 		scoreSystemActivity: {type:Number, default:0},
 		scoreTeachActivity: {type:Number, default:0},
 		backingMaxActivity:{type:Number, default:null},
@@ -91,7 +92,7 @@ const userSchema = new Mongoose.Schema({
 	}),
 
 	activityhistorySchema = new Mongoose.Schema({
-		statusActivity: {type:String, default:"Pendiente"},
+		statusActivity: {type:Number, default:0},
 		scoreSystemActivity: {type:Number, default:0},
 		scoreTeachActivity: {type:Number, default:0},
 		observationActivity: {type:String, default:"Sin Validar"},

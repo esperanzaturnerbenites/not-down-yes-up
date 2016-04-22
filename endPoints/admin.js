@@ -293,6 +293,7 @@ router.all("/register-user",(req,res)=>{
 					models.user.create(dataUser, function (err, user) {
 						if(err) return res.json({err:err})
 						dataUserAdmin.idUser = user._id
+						dataUserAdmin.statusUser = 1
 						delete dataUserAdmin.passConfirmUser
 						console.log(dataUserAdmin)
 						
@@ -420,6 +421,23 @@ router.post("/update-pass",(req,res)=>{
 	}
 })
 
+router.post("/update-status",(req,res)=>{
+	var data = req.body
+	
+	if(data.adminStaIdUser == "Developer"){
+		return res.json({err:{message:"¡Estado no puede ser actualizado!"}})
+	}else{
+		models.adminuser.findOneAndUpdate(
+			{userUser : data.adminStaIdUser},
+			{$set:{statusUser:data.statusUser}},
+			(err,doc) => {
+				if(err) return res.json({err:err})
+				if(doc) return res.json({msg:"Estado actualizado con éxito!", statusCode:0, adminuser : doc})
+				if(!doc) return res.json({err:{message:"¡Usuario de logüeo no existe!"}})
+			})
+	}
+})
+
 //Delete children --- Metodo Agregate **********************************************
 router.post("/delete-childrens",(req,res)=>{
 	var data = req.body
@@ -463,11 +481,15 @@ router.post("/delete-users",(req,res)=>{
 		return res.json({err:{message:"¡Usuario no puede ser eliminado"}})
 	}else{
 		models.adminuser.findOne({userUser:data.adminOpeIdUser, _id:{$ne : req.user._id}},(err,userD) => {
-			if(err) return res.json({err:res})
+			if(err) return res.json({err:err})
 			if(userD){
-				models.adminuser.remove({userUser:data.adminOpeIdUser},(err) => {
+				models.activityhistory.find({idUser:userD._id},(err,acthis) =>{
 					if(err) return res.json({err:err})
-					return res.json({msg:"¡Usuario eiminado con éxito!", statusCode:0})
+					if(acthis || userD.typeUser == 0) return res.json({err:{message:"¡Usuario no puede ser eliminado, INACTÍVELO!"}})
+					models.adminuser.remove({userUser:data.adminOpeIdUser},(err) => {
+						if(err) return res.json({err:err})
+						return res.json({msg:"¡Usuario eiminado con éxito!", statusCode:0})
+					})
 				})
 			}else return res.json({err:{message:"¡Usuario no existe!"}})
 		})
@@ -480,14 +502,37 @@ router.post("/delete-teachadmin",(req,res)=>{
 	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,user) => {
 		if(err) return res.json({err:err})
 		if(user){
-			models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
-				if(err) return res.json({err:err})
+			models.adminuser.find({idUser:user._id},(err,adminU) => {
+				var userhis = [],
+					userteach = 0
 
-				models.adminuser.remove({idUser : user._id},(err) => {
-					if(err) return res.json({err:err})
-					return res.json({msg:"¡Usuario eliminado con éxito!", statusCode:0})
-				})
+				for(var admin of adminU){
+					if(admin.typeUser == 1){userteach++}
+					console.log("typeUser" + admin.typeUser)
+
+					models.activityhistory.find({idUser:admin._id},(err,acthisFind) => {
+						if(err) return res.json({err:err})
+						if(acthisFind){
+							userhis.push(admin._id)
+							console.log("id adminuser" + admin._id)
+						}
+					})
+				}
+				console.log("userhis" + userhis.length)
+				console.log("userteach|" + userteach)
+
+				if(userhis.length == 0 && userteach > 0){
+					models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
+						if(err) return res.json({err:err})
+
+						models.adminuser.remove({idUser : user._id},(err) => {
+							if(err) return res.json({err:err})
+							return res.json({msg:"¡Usuario eliminado con éxito!", statusCode:0})
+						})
+					})
+				}else return res.json({err:{message:"¡Usuario no puede ser eliminado, INACTÍVELO!"}})
 			})
+
 		}else return res.json({err:{message:"¡Usuario no existe!"}})
 	})
 })

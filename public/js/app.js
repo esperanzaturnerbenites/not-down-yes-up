@@ -40,6 +40,7 @@ function NotificationC (){
 const formValidChildren = $("#formValidChildren"),
 	formValidUser = $("#formValidUser"),
 	formUpdatePass = $("#formUpdatePass"),
+	formOpeUserStatus = $("#formOpeUserStatus"),
 	formOpeChildren = $("#formOpeChildren"),
 	formOpeUser = $("#formOpeUser"),
 	formNewUser = $("#formNewUser"),
@@ -389,6 +390,21 @@ formUpdatePass.on("submit",(event) => {
 		var msg = "¡Contraseña no coincide!"
 		notification.show({msg:msg, type:1})
 	}
+})
+
+formOpeUserStatus.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/update-status",
+		async : false, 
+		data : $("#formOpeUserStatus").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			$("#adminStaIdUser").val("")
+			notification.show({msg:result.msg, type:result.statusCode})
+		}
+	})
 })
 
 formOpeUser.on("submit.formOpeUserDel",(event) => {
