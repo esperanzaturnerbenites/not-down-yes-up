@@ -1,0 +1,90 @@
+extends templates/template.jade
+block title
+	title Info Usuario en ¡No Down, Yes Up!
+block content
+
+	section.register
+		h3 Info Usuario
+
+		article
+			section.continue.continueViewMore
+				article
+					p
+						b
+							span Identificación: 
+						span #{infoUser.user.idUser}
+					p
+						b
+							span Lugar de Expedición: 
+						span #{infoUser.user.expeditionUser}
+					p
+						b
+							span Nombres: 
+						span #{infoUser.user.nameUser}
+					p
+						b
+							span Apellidos: 
+						span #{infoUser.user.lastnameUser}
+				article
+					p
+						b
+							span Edad: 
+						span #{infoUser.user.ageUser}
+
+				////////Aqui voy con la info del usuario++++++++++++++++++++++++++++++++
+
+				article.img
+					span Foto
+					p
+						img(src='#{infoUser.user.imgUser}', alt='Foto')
+				article
+					p
+						span#telUser(type='number', name='telUser',value="#{telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+					p
+						span#celUser(type='number', name='celUser',value="#{celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
+					p
+						span#emailUser(type='email', name='emailUser',value="#{emailUser}" placeholder='correo-usuario@abc.com', required)
+				article
+					p
+						span#addressUser(type='text', name='addressUser',value="#{addressUser}" placeholder='Dirección', required='')
+					p
+						span#districtUser(type='text', name='districtUser',value="#{districtUser}" placeholder='Barrio', required='')
+					p
+						span#localityUser(type='text', name='localityUser',value="#{localityUser}" placeholder='Localidad')
+					p
+						span#districtUser(type='text', name='municipalityUser',value="#{municipalityUser}" placeholder='Ciudad/Municipio', required='')
+					p
+						span#departamentUser(type='text', name='departamentUser',value="#{departamentUser}" placeholder='Departamento', required='')
+				article
+					label(for='studyUser') Nivel de Estudios:
+					select#studyUser(name='studyUser')
+						option(value='0', selected) Básica Primaria
+						option(value='1') Básica Secundaria
+						option(value='2') Bachiller
+						option(value='3') Técnico Profesional
+						option(value='4') Tecnólogo
+						option(value='5') Profesional
+						option(value='6') Especialización
+						option(value='7') Maestría
+						option(value='8') Doctorado
+				p
+					span#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
+				label(for='experienceUser') Experiencia en meses:
+				p
+					span#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
+				article
+				p
+					span#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
+
+			section
+				article
+					label(for='typeUser') Tipo de usuario:
+					select#typeUser(name='typeUser')
+							option(value='0', selected) Administrador
+							option(value='1') Docente
+					p
+						span#userUser(type='text', name='userUser', placeholder='Usuario', required)
+					p
+						span#passUser(type='password',  name='passUser', placeholder='Contraseña', required)
+					p
+						span#passConfirmUser(type='password', name='passConfirmUser', placeholder='Repite Contraseña', required)

@@ -40,8 +40,8 @@ function NotificationC (){
 const formValidChildren = $("#formValidChildren"),
 	formValidUser = $("#formValidUser"),
 	formUpdatePass = $("#formUpdatePass"),
+	formOpeUserRol = $("#formOpeUserRol"),
 	formOpeUserStatus = $("#formOpeUserStatus"),
-	formOpeChildren = $("#formOpeChildren"),
 	formOpeUser = $("#formOpeUser"),
 	formNewUser = $("#formNewUser"),
 	formFindAll = $("#formFindAll"),
@@ -392,6 +392,21 @@ formUpdatePass.on("submit",(event) => {
 	}
 })
 
+formOpeUserRol.on("submit",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/update-rol",
+		async : false, 
+		data : $("#formOpeUserRol").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			$("#adminRolIdUser").val("")
+			notification.show({msg:result.msg, type:result.statusCode})
+		}
+	})
+})
+
 formOpeUserStatus.on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
@@ -435,6 +450,11 @@ $("#formOpeTeachAdminDel").on("click",(event) => {
 			notification.show({msg:result.msg, type:result.statusCode})
 		}
 	})
+})
+
+$("#formOpeTeachAdminInfo").on("click",(event) => {
+	event.preventDefault()
+	window.open("/admin/info-user/" + $("#adminOpeTeachAdmin").val())
 })
 
 $("#formOpeTeachAdminUpd").on("click",(event) => {

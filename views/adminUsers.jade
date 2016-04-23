@@ -51,6 +51,17 @@ block content
 						button(type='submit')
 							span Actualizar
 			
+			form#formOpeUserRol
+				fieldset
+					legend Actualizar Rol
+					section
+						input#adminRolIdUser(type='text', name='adminRolIdUser', placeholder='Usuario', required='')
+						select#rolUser(name='rolUser')
+							option(value='0', selected='') Administrador
+							option(value='1') Docente
+						button#formOpeUserUpdSta(type='submit')
+							span Actualizar
+			
 			form#formOpeUserStatus
 				fieldset
 					legend Actualizar Estado
@@ -75,6 +86,8 @@ block content
 					legend Docente/Administrador(s)
 					section
 						input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
+						button#formOpeTeachAdminInfo
+							span Ver Info
 						button#formOpeTeachAdminUpd
 							span Actualizar
 						button#formOpeTeachAdminDel

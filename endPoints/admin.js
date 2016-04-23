@@ -288,7 +288,7 @@ router.all("/register-user",(req,res)=>{
 
 			models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
 				if(err) return res.json({err:err})
-				if(adminFind) return res.json({err:{message:"¡Usuario de logüeo ya existe!"}})
+				if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
 				if(!adminFind){
 					models.user.create(dataUser, function (err, user) {
 						if(err) return res.json({err:err})
@@ -307,6 +307,31 @@ router.all("/register-user",(req,res)=>{
 		}else return res.json({err:{message:"¡Contraseña no coincide!"}})
 	}
 })
+
+router.get("/info-user/:id",(req,res)=>{
+	var id = req.params.id,
+		data = {}
+	models.user.findOne({idUser:id}).exec((err,userFind) =>{
+		if (err) return {err:err}
+		if(userFind){
+			data.user = userFind
+			models.adminuser.find({idUser:userFind._id},(err,adminU) =>{
+				if(err) return res.json({err:err})
+				if(adminU){
+					data.admin = adminU
+				}
+			})
+			models.activityhistory.find({idUser:userFind._id},(err,hisact) =>{
+				if(err) return res.json({err:err})
+				if(hisact){
+					data.childrens = hisact
+				}
+			})
+		}
+		res.render("infoUserRol",{infoUser: data})
+	})
+})
+
 
 router.get("/register-user/:id",(req,res)=>{
 	var id = req.params.id
@@ -421,10 +446,27 @@ router.post("/update-pass",(req,res)=>{
 	}
 })
 
+router.post("/update-rol",(req,res)=>{
+	var data = req.body
+	
+	if(data.adminRolIdUser == "Developer" || data.adminRolIdUser == req.user.userUser){
+		return res.json({err:{message:"Rol no puede ser actualizado!"}})
+	}else{
+		models.adminuser.findOneAndUpdate(
+			{userUser : data.adminRolIdUser},
+			{$set:{typeUser:data.rolUser}},
+			(err,doc) => {
+				if(err) return res.json({err:err})
+				if(doc) return res.json({msg:"Rol actualizado con éxito!", statusCode:0, adminuser : doc})
+				if(!doc) return res.json({err:{message:"¡Usuario de logueo no existe!"}})
+			})
+	}
+})
+
 router.post("/update-status",(req,res)=>{
 	var data = req.body
 	
-	if(data.adminStaIdUser == "Developer"){
+	if(data.adminStaIdUser == "Developer" || data.adminStaIdUser == req.user.userUser){
 		return res.json({err:{message:"¡Estado no puede ser actualizado!"}})
 	}else{
 		models.adminuser.findOneAndUpdate(

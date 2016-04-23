@@ -51,12 +51,13 @@ passport.use(new LocalStrategy( (username, password, done) => {
 		if (err) return done(null, false, { message: err})
 		//console.log(user)
 		if (!user){
-			done(null, false, { message: "Unknown user"})	
-		}else if (password === user.passUser) {
+			return done(null, false, { message: "Unknown user"})
+		}else if(user.statusUser != 1) {return done(null, false, { message: "User disabled"})}
+		else if (password === user.passUser) {
 			if (username === user.userUser && password === user.passUser) {
 				return done(null,user)
 			}
-		} else done(null, false, { message: "Unknown password"})	
+		} else done(null, false, { message: "Unknown password"})
 	})
 }))
 
@@ -73,7 +74,7 @@ passport.serializeUser(function(user, done) {
 //Desserializacion de usuario
 passport.deserializeUser(function(user, done) {
 	models.adminuser.findOne({_id:user._id},(err,user) => {
-		done(err, user)	
+		done(err, user)
 	})
 })
 
