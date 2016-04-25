@@ -4,11 +4,12 @@ block title
 block content
 
 	section.register
-		h3 Info Usuario
+		h3 Información del Usuario
 
 		article
 			section.continue.continueViewMore
 				article
+					h2 DATOS PERSONALES
 					p
 						b
 							span Identificación: 
@@ -25,66 +26,117 @@ block content
 						b
 							span Apellidos: 
 						span #{infoUser.user.lastnameUser}
-				article
 					p
 						b
 							span Edad: 
 						span #{infoUser.user.ageUser}
-
-				////////Aqui voy con la info del usuario++++++++++++++++++++++++++++++++
-
+				article
+					h2 DATOS DE CONTACTO
+					p
+						b
+							span Teléfono: 
+						span #{infoUser.user.telUser}
+					p
+						b
+							span Celular: 
+						span #{infoUser.user.celUser}
+					p
+						b
+							span Email: 
+						span #{infoUser.user.emailUser}
+					p
+						b
+							span Dirección: 
+						span #{infoUser.user.addressUser} #{infoUser.user.districtUser} #{infoUser.user.localityUser}
+					p
+						span #{infoUser.user.municipalityUser} #{infoUser.user.departamentUser}
 				article.img
-					span Foto
 					p
-						img(src='#{infoUser.user.imgUser}', alt='Foto')
+						span Foto
+						//img(src='#{infoUser.user.imgUser}', alt='Foto')
 				article
+					h2 DATOS PROFESIONALES
+					if (infoUser.user.studyUser == 0)
+						- var study = "Básica Primaria"
+					if (infoUser.user.studyUser == 1)
+						- var study = "Básica Secundaria"
+					if (infoUser.user.studyUser == 2)
+						- var study = "Bachiller"
+					if (infoUser.user.studyUser == 3)
+						- var study = "Técnico Profesional"
+					if (infoUser.user.studyUser == 4)
+						- var study = "Tecnólogo"
+					if (infoUser.user.studyUser == 5)
+						- var study = "Profesional"
+					if (infoUser.user.studyUser == 6)
+						- var study = "Especialización"
+					if (infoUser.user.studyUser == 7)
+						- var study = "Maestría"
+					if (infoUser.user.studyUser == 8)
+						- var study = "Doctorado"
 					p
-						span#telUser(type='number', name='telUser',value="#{telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+						b
+							span Nivel Educativo: 
+						span #{study}
 					p
-						span#celUser(type='number', name='celUser',value="#{celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
+						b
+							span Profesión: 
+						span #{infoUser.user.professionUser}
 					p
-						span#emailUser(type='email', name='emailUser',value="#{emailUser}" placeholder='correo-usuario@abc.com', required)
+						b
+							span Experiencia: 
+						span #{infoUser.user.experienceUser}
+					p
+						b
+							span Centro Zonal: 
+						span #{infoUser.user.centerUser}
 				article
-					p
-						span#addressUser(type='text', name='addressUser',value="#{addressUser}" placeholder='Dirección', required='')
-					p
-						span#districtUser(type='text', name='districtUser',value="#{districtUser}" placeholder='Barrio', required='')
-					p
-						span#localityUser(type='text', name='localityUser',value="#{localityUser}" placeholder='Localidad')
-					p
-						span#districtUser(type='text', name='municipalityUser',value="#{municipalityUser}" placeholder='Ciudad/Municipio', required='')
-					p
-						span#departamentUser(type='text', name='departamentUser',value="#{departamentUser}" placeholder='Departamento', required='')
-				article
-					label(for='studyUser') Nivel de Estudios:
-					select#studyUser(name='studyUser')
-						option(value='0', selected) Básica Primaria
-						option(value='1') Básica Secundaria
-						option(value='2') Bachiller
-						option(value='3') Técnico Profesional
-						option(value='4') Tecnólogo
-						option(value='5') Profesional
-						option(value='6') Especialización
-						option(value='7') Maestría
-						option(value='8') Doctorado
-				p
-					span#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
-				label(for='experienceUser') Experiencia en meses:
-				p
-					span#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
-				article
-				p
-					span#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
+					h2 USUARIOS ASIGNADOS
+					table
+						thead
+							tr
+								th N°
+								th USUARIO
+								th TIPO
+								th ESTADO
+						tbody
+							- var n = 0
+							- for (admins of infoUser.admin)
+								-if (admins.typeUser == 0)
+									- var type = "Administrador"
+								-if (admins.typeUser == 1)
+									- var type = "Docente"
+								-if (admins.statusUser == 0)
+									- var status = "Inactivo"
+								-if (admins.statusUser == 1)
+									- var status = "Activo"
+								- n++
 
-			section
+								tr
+									td #{n}
+									td #{admins.userUser}
+									td #{type}
+									td #{status}
 				article
-					label(for='typeUser') Tipo de usuario:
-					select#typeUser(name='typeUser')
-							option(value='0', selected) Administrador
-							option(value='1') Docente
-					p
-						span#userUser(type='text', name='userUser', placeholder='Usuario', required)
-					p
-						span#passUser(type='password',  name='passUser', placeholder='Contraseña', required)
-					p
-						span#passConfirmUser(type='password', name='passConfirmUser', placeholder='Repite Contraseña', required)
+					h2 NIÑOS ASIGNADOS
+					if (infoUser.children.length > 0)
+						table
+							thead
+								tr
+									th N
+									th ID
+									th NOMBRE
+									th ULT ACTIVIDAD
+							tbody
+
+								- var n = 0
+								- for (childrens of infoUser.children)
+									- n++
+
+									tr
+										td #{n}
+										td #{childrens.idChildren.idChildren}
+										td #{childrens.idChildren.nameChildren} #{childrens.idChildren.lastnameChildren}
+										td #{childrens.idActivity.nameActivity}
+					else
+						h2 No tiene niñ@s asignados.

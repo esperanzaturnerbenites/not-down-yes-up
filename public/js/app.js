@@ -482,3 +482,8 @@ $("#formOpeChildrenUpd").on("click",(event) => {
 	var params = $("#adminOpeChildren").val()
 	window.open("/admin/register-children/" + params)
 })
+
+$("#formOpeChildrenInfo").on("click",(event) => {
+	event.preventDefault()
+	window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+})

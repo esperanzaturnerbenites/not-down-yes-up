@@ -45,6 +45,7 @@ const userSchema = new Mongoose.Schema({
 		addressChildren: {type:String},
 		districtChildren: {type:String},
 		localityChildren: {type:String},
+		municipalityChildren: {type:String},
 		departamentChildren: {type:String},
 		levelhomeChildren: {type:Number},
 		healthChildren: {type:String},

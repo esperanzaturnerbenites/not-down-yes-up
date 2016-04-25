@@ -312,26 +312,45 @@ router.get("/info-user/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
 	models.user.findOne({idUser:id}).exec((err,userFind) =>{
-		if (err) return {err:err}
+		if (err) return res.json({err:err})
+		if (!userFind) return res.json({err:{message:"User not exist"}})
 		if(userFind){
 			data.user = userFind
 			models.adminuser.find({idUser:userFind._id},(err,adminU) =>{
 				if(err) return res.json({err:err})
-				if(adminU){
-					data.admin = adminU
-				}
-			})
-			models.activityhistory.find({idUser:userFind._id},(err,hisact) =>{
-				if(err) return res.json({err:err})
-				if(hisact){
-					data.childrens = hisact
-				}
+				if(!adminU) return res.json({msg:"No users asigned"})
+				data.admin = adminU
+				
+				models.activityhistory.find({idUser:userFind._id})
+				.populate("idChildren idActivity")
+				.sort({idChildren:1})
+				.exec((err,hisact) =>{
+					if(err) return res.json({err:err})
+					if(!hisact) return res.json({err:{message:"No tiene actividades"}})
+					if(hisact){
+						data.children = hisact
+						res.render("infoUserRol",{infoUser: data})
+					}
+				})
+
+				/*models.activityhistory.aggregate([
+					{$group:{_id:"idChildren"}}]),
+					function(err,doc){
+						console.log(data.admin)
+						models.activityhistory.populate(doc,{"path":"idChildren"},function(err,doc){
+							if(err) return res.json({err:err})
+							if(doc){
+								data.children = doc
+								res.render("infoUserRol",{infoUser: data})
+							}
+						})
+					}*/
+
+
 			})
 		}
-		res.render("infoUserRol",{infoUser: data})
 	})
 })
-
 
 router.get("/register-user/:id",(req,res)=>{
 	var id = req.params.id
@@ -404,6 +423,64 @@ router.get("/admin-users",(req,res)=>{
 router.get("/admin-childrens",(req,res)=>{
 	res.render("adminChildrens")
 })
+
+router.get("/info-children/:id",(req,res)=>{
+	var id = req.params.id,
+		data = {}
+	console.log(id)
+	models.children.findOne({idChildren:id},(err,childrenFind) =>{
+		if (err) return res.json({err:err})
+		if (!childrenFind) return res.json({err:{message:"Children not exist"}})
+		if(childrenFind){
+			data.child = childrenFind
+
+			models.parent.find({idChildren:childrenFind._id})
+			.sort({relationshipParent:1})
+			.exec((err,parentsFind)=>{
+				if(err) return res.json({err:err})
+				if(!parentsFind) return res.json({err:{message:"Not parents"}})
+				if(parentsFind){
+					data.parents = parentsFind
+				}
+				models.activityhistory.find({idChildren:childrenFind._id})
+				.sort({date:-1})
+				.populate("idActivity idUser idStep")
+				.exec((err,acthisChild) =>{
+					if(err) return res.json({err:err})
+					if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
+					data.historys = acthisChild
+					
+					models.activityvalid.find({idChildren:childrenFind._id})
+					.sort({date:-1})
+					.populate("idActivity idUser idStep")
+					.exec((err,actvalidChild) =>{
+						if(err) return res.json({err:err})
+						if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
+						if(actvalidChild){
+							data.valids = actvalidChild
+							res.render("infoChildren",{infoChildren: data})
+						}
+					})
+
+					/*models.activityhistory.aggregate([
+						{$group:{_id:"idChildren"}}]),
+						function(err,doc){
+							console.log(data.admin)
+							models.activityhistory.populate(doc,{"path":"idChildren"},function(err,doc){
+								if(err) return res.json({err:err})
+								if(doc){
+									data.children = doc
+									res.render("infoUserRol",{infoUser: data})
+								}
+							})
+						}*/
+				})
+			})
+
+		}
+	})
+})
+
 
 router.get("/valid-step",(req,res)=>{
 	res.render("validStep")
