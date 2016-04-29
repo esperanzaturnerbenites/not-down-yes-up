@@ -21,39 +21,62 @@ block content
 
 			form#consulChildren
 				fieldset.consul.consulChildren
-					legend Consultas por Nin@
-					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required='')
-					button#buttonConsulIdChildren.buttons(type='button')
+					legend Consulta por Nin@
+					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required=''	)
+					button#buttonConsulIdChildrenx.buttons(type='button')
 						span Confirmar Consulta
 
-			form#consulAge
+			form#ageConsul
 				fieldset.consul.consulAvanced
 					legend Consulta por Edades
 					article
-						label(for='ageConsul') Edad en Meses: 
+						label(for='consulAge') Edad en Meses: 
 						select#consulAge(name='consulAge')
-							option(value='Mayor Que' select) Mayor Que
-							option(value='Menor Que') Menor Que
-							option(value='Entre') Entre
-						label  Mes: 
+							option(value='0' select) Exacta
+							option(value='1') Mayor Que
+							option(value='2') Menor Que
+							option(value='3') Entre
+						label Mes: 
 						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', min='0', max='48', placeholder='Meses')
-						label  Mes:
-						input#consulIdConsulAvanced2(type='number', name='consulIdConsulAvanced2', min='0', max='48', placeholder='Meses')
+						label#consulIdConsulAvanced2Label.hide Mes:
+						input#consulIdConsulAvanced2.hide(type='number', name='consulIdConsulAvanced2', min='0', max='48', placeholder='Meses')
 					button.buttons#buttonReportAges(type='submit')
 						span Consultar
 
 			form#consulStep
 				fieldset.consul.consulAvanced
 					legend Consulta por Etapas
-					article
-						label(for='stepConsul') Etapa: 
-						select#consulStep(name='consulStep')
-							option(value='Etapa 1' select) Etapa 1
-							option(value='Etapa 2') Etapa 2
-							option(value='Etapa 3') Etapa 3
-							option(value='Etapa 4') Etapa 4
-					button.buttons#buttonReportSteps(type='submit')
-						span Consultar
+
+					if (reportData.steps)
+						article
+							label(for='stepConsul') Etapa: 
+							select#consulStep(name='consulStep')
+								-for (step of reportData.steps)
+									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+						button.buttons#buttonReportSteps(type='submit')
+							span Consultar
+					else
+						h2 No existen actividades
+
+			form#consulAct
+				fieldset.consul.consulAvanced
+					legend Consulta por Actividades
+
+					if (reportData.activities)
+						article
+							label(for='actConsul') Actividad: 
+							select#consulAct(name='consulAct')
+								-for (act of reportData.activities)
+									option(value=(act.activityActivity)) Actividad: #{act.activityActivity} - #{act.nameActivity}
+						article
+							label(for='actConsul') Etapa: 
+							select#consulActStep(name='consulActStep')
+								-for (step of reportData.steps)
+									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+						button.buttons#buttonReportSteps(type='submit')
+							span Consultar
+					else
+						h2 No existen actividades
 
 			form#consulIndicator
 				fieldset.consul.consulAvanced

@@ -6,8 +6,17 @@ block content
 	section.register
 		h3 Información del Niñ@
 
+		nav.menuInfoChild
+			article.menuPcplInfoChild
+				ul
+					li#menuInfoOpc1 DATOS BÁSICOS
+					li#menuInfoOpc2 DATOS FAMILIARES
+					li#menuInfoOpc3 ETAPAS
+					li#menuInfoOpc4 ACTIVIDADES VALIDADAS
+					li#menuInfoOpc5 HISTORIAL ACTIVIDADES
+
 		article
-			section.continue.continueViewMore
+			section#info1.hide.continue.continueViewMore
 				article
 					h2 DATOS PERSONALES
 					p
@@ -140,7 +149,8 @@ block content
 						b
 							span Debilidades: 
 						span #{infoChildren.child.debilityChildren}
-			section.continue.continueViewMore
+
+			section#info2.hide.continue.continueViewMore
 				article
 					h2 MAMÁ
 					p
@@ -321,8 +331,41 @@ block content
 						b
 							span Ocupación: 
 						span #{infoChildren.parents[2].jobParent}
-			section.continue.continueViewMore
-				h2 ACTIVIDADES VALIDADAS
+
+			section#info3.hide.continue.continueViewMore
+				h2 INFORMACIÓN DE ETAPAS
+				if (infoChildren.stepvalids.length > 0)
+					table
+						thead
+							tr
+								th N
+								th ETAPA
+								th ESTADO
+								th PUNTAJE
+								th OBSERVACIONES
+								th FECHA
+								th USUARIO
+						tbody
+							- var n = 0
+							- for (stepvalid of infoChildren.stepvalids)
+								-if (stepvalid.statusStep == 0)
+									- var statusValidS = "No Completada"
+								-if (stepvalid.statusStep == 1)
+									- var statusValidS = "Completada"
+								- n++
+								tr
+									td #{n}
+									td #{stepvalid.idStep.nameStep}
+									td #{statusValidS}
+									td #{stepvalid.scoreStep}
+									td #{stepvalid.observationStep}
+									td #{stepvalid.date}
+									td #{stepvalid.idUser}
+				else
+					h2 No tiene actividades.
+
+			section#info4.hide.continue.continueViewMore
+				h2 INFORMACIÓN DE ACTIVIDADES
 				if (infoChildren.valids.length > 0)
 					table
 						thead
@@ -356,7 +399,8 @@ block content
 									td #{valid.idUser}
 				else
 					h2 No tiene actividades.
-			section.continue.continueViewMore
+
+			section#info5.hide.continue.continueViewMore
 				h2 HISTORIAL DE ACTIVIDADES
 				if (infoChildren.historys.length > 0)
 					table
@@ -391,3 +435,5 @@ block content
 									td #{history.idUser}
 				else
 					h2 No tiene actividades.
+
+		script(src="/js/reports.js")

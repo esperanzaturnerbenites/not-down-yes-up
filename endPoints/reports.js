@@ -1,21 +1,31 @@
 var express = require("express"),
-models = require('./../models'),
-mongoose = require("mongoose"),
-router = express.Router(),
-bodyParser = require('body-parser'),
-querystring = require('querystring'),
-passport = require('passport'),
-ObjectId = mongoose.Types.ObjectId
+	models = require("./../models"),
+	mongoose = require("mongoose"),
+	router = express.Router(),
+	bodyParser = require("body-parser"),
+	querystring = require("querystring"),
+	passport = require("passport"),
+	ObjectId = mongoose.Types.ObjectId
 
 
 router.use(bodyParser.urlencoded({extended:false}))
+
+router.post("/found-childrens",(req,res)=>{
+	var data = req.body
+
+	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
+		if(err) return res.json({err:err})
+		if(children) return res.json(children)
+		return res.json({msg:"¡Niñ@ no existe!", statusCode:2})
+	})
+})
 
 router.post("/general",(req,res)=>{
 	var step = {}
 
 	models.activityhistory.find({})
 	.sort({idChildren : 1})
-	.populate('idChildren idUser idActivity')
+	.populate("idChildren idUser idActivity")
 	.exec((err,childrens) =>{
 		console.log("general - populate activityhistory "+childrens)
 		if (err) return res.json(err)
@@ -23,7 +33,7 @@ router.post("/general",(req,res)=>{
 
 		models.stephistory.find({})
 		.sort({idStep : 1})
-		.populate('idChildren')
+		.populate("idChildren")
 		.exec((err, stephis) => {
 			if (err) return res.json(err)
 			if (!stephis) return res.json({"msg":"Stephis not found"})
@@ -33,46 +43,53 @@ router.post("/general",(req,res)=>{
 	})
 })
 
-router.post("/children",(req,res)=>{
-	var data = req.body,
-		dataChildren = {},
-		mom = {},
-		dad = {},
-		care = {},
-		activities = {}
+router.get("/info-children/:id",(req,res)=>{
+	var id = req.params.id,
+		data = {}
 
-	console.log(data)
+	console.log(id)
 
-	models.children.findOne({idChildren : data.idChildren}, (err, children) => {
+	models.children.findOne({idChildren : id}, (err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {res.json({"msg":"Children not found"})}
-		dataChildren = children
+		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:2})}
+		data.child = children
 
-		models.mom.findOne({idChildren : children._id}, (err, mom) => {
+		models.parent.find({idChildren : children._id})
+		.sort({relationshipParent:1})
+		.exec((err, parents) => {
 			if (err) {res.json(err)}
-			if(!mom) {res.json({"msg":"Mom not found"})}
-			mom = mom
+			if(!parents) {res.json({"msg":"Parents not found"})}
+			data.parents = parents
 
-			models.dad.findOne({idChildren : children._id}, (err, dad) => {
-				if (err) {res.json(err)}
-				if(!dad) {res.json({"msg":"Dad not found"})}
-				dad = dad
+			models.activityhistory.find({idChildren: children._id})
+			.sort({date:-1})
+			.populate("idActivity idUser")
+			.exec((err, activitiesH) => {
+				if (err) return res.json({err:err})
+				if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
+				data.historys = activitiesH
 
-				models.care.findOne({idChildren : children._id}, (err, care) => {
-					if (err) {res.json(err)}
-					if(!care) {res.json({"msg":"Care not found"})}
-					care = care
-
-					models.activityhistory.find({idChildren: dataChildren._id})
-					.sort({date:-1})
-					.populate('idActivity idUser')
-					.exec((err, activities) => {
-						activities = activities
-
-						if (err) res.json({err:err})
-						if(!activities) {res.json({"msg":"Activities not found"})}
-						else{res.json({message : "Consult children Complete", children : dataChildren, activities : activities, mom : mom, dad : dad, care :care})}
-					})
+				models.activityvalid.find({idChildren: children._id})
+				.sort({date:-1})
+				.populate("idActivity idUser")
+				.exec((err, activitiesV) => {
+					if (err) return res.json({err:err})
+					if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
+					if(activitiesV) {
+						data.valids = activitiesV
+						models.stepvalid.find({idChildren:children._id})
+						.sort({date:-1})
+						.populate("idStep idUser")
+						.exec((err,stepvalidChild) =>{
+							if(err) return res.json({err:err})
+							if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+							if(stepvalidChild){
+								data.stepvalids = stepvalidChild
+								res.render("infoChildren",{infoChildren: data})
+								//return res.json({message : "¡Correcto!",statusCode:0, infoChildren : data})
+							}
+						})
+					}
 				})
 			})
 		})

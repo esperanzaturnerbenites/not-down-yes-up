@@ -240,99 +240,108 @@ $("#formValidChildrenValid").on("click",(event) => {
 		type : "POST",
 		data : formOpeValidChildren.serializeArray(),
 		success: function(result){
-			console.log(result)
+			if(result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
 
-			var clone = getClone("#consulQueryChildrenValid"),
-				data = $(clone.querySelector("#dataNameChild")),
-				activities = result.activitiesvalid
+			if(result){
+				var clone = getClone("#consulQueryChildrenValid"),
+					data = $(clone.querySelector("#dataNameChild")),
+					activities = result.activitiesvalid
 
-			if(activities.length == 2){
-				clone.querySelector("#nameChildren").innerHTML = "Niñ@: " + result.children.nameChildren + " " + result.children.lastnameChildren
-				clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
-				clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
+				if(activities.length == 2){
+					clone.querySelector("#nameChildren").innerHTML = "Niñ@: " + result.children.nameChildren + " " + result.children.lastnameChildren
+					clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
+					clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
 
-				var num = 0,
-					scoreS = 0
+					var num = 0,
+						scoreS = 0
 
-				for (var activity of activities){
-					num++
-					scoreS += activity.scoreTeachActivity
-					var a = $("<article>").append(
-							h3 = $("<h2>",{html : "ACTIVIDAD " + num + ": " + activity.idActivity.nameActivity})),
-						a2 = $("<article>").append(
-							label = $("<label>",{html : "Estado: " }),
-							input = $("<input>")
-							.prop("type", "text")
-							.attr({id:"actStatus" + num})
-							.prop("readonly", true)
-							.prop("name", "actStatus" + num)
-							.val(funcStatusAct(activity.statusActivity))),
-						a3 = $("<article>").append(
-							label = $("<label>",{html : "Puntaje: " }),
-							input = $("<input>")
-							.prop("type", "number")
-							.attr({id:"actScore" + num})
-							.prop("readonly", true)
-							.prop("name", "actScore" + num)
-							.val(activity.scoreTeachActivity))
-					data.append(a, a2, a3)
+					for (var activity of activities){
+						num++
+						scoreS += activity.scoreTeachActivity
+						var a = $("<article>").append(
+								h3 = $("<h2>",{html : "ACTIVIDAD " + num + ": " + activity.idActivity.nameActivity})),
+							a2 = $("<article>").append(
+								label = $("<label>",{html : "Estado: " }),
+								input = $("<input>")
+								.prop("type", "text")
+								.attr({id:"actStatus" + num})
+								.prop("readonly", true)
+								.prop("name", "actStatus" + num)
+								.val(funcStatusAct(activity.statusActivity))),
+							a3 = $("<article>").append(
+								label = $("<label>",{html : "Puntaje: " }),
+								input = $("<input>")
+								.prop("type", "number")
+								.attr({id:"actScore" + num})
+								.prop("readonly", true)
+								.prop("name", "actScore" + num)
+								.val(activity.scoreTeachActivity))
+						data.append(a, a2, a3)
 
 
-					/*var infoActivity = clone.querySelector("#infoActivity")
-					infoActivity.querySelector("#nameActivity1").innerHTML = "Actividad 1: " + activities[0].idActivity.nameActivity
-					infoActivity.querySelector("#actStatus1").value = funcStatusAct(activities[0].statusActivity)
-					infoActivity.querySelector("#actScore1").value = activities[0].scoreTeachActivity
-					infoActivity.querySelector("#nameActivity2").innerHTML = "Actividad 1: " + activities[1].idActivity.nameActivity
-					infoActivity.querySelector("#actStatus2").value = funcStatusAct(activities[1].statusActivity)
-					infoActivity.querySelector("#actScore2").value = activities[1].scoreTeachActivity
-					*/
-				}
-
-				var scoreStepValid = scoreS/num
-				clone.querySelector("#scoreStep").value = scoreStepValid
-
-				if(scoreStepValid >= 6){
-					clone.querySelector("#statusStep").value = "Completada"
-				}else{
-					clone.querySelector("#statusStep").value = "No Completada"
-				}
-
-				$("#idChildren").prop("readonly", true)
-
-				$("#cancelValidStep",clone).click(()=>{
-					$("#formValidChildren").remove()
-					$("#idChildren").val("")
-					$("#idChildren").prop("readonly", false)
-				})
-
-				var idStep = result.step._id,
-					idChildren = result.children.idChildren
-
-				$("#validStep",clone).click(()=>{
-					event.preventDefault()
-					if(activities.length == 2){
-						$.ajax({
-							url: "/admin/valid-step",
-							async : false, 
-							type : "POST",
-							data : {observationStep : $("#observationStep").val(),
-									scoreStep : $("#scoreStep").val(),
-									idStep : idStep,
-									idChildren : idChildren,
-									statusStep :  $("#statusStep").val()},
-							success: function(result){
-								if(result.err) return notification.show({msg:result.err.message, type:1})
-								$("#formValidChildren").remove()
-								$("#idChildren").val("")
-								$("#idChildren").prop("readonly", false)
-								notification.show({msg:result.msg, type:result.statusCode})
-							}
-						})
+						/*var infoActivity = clone.querySelector("#infoActivity")
+						infoActivity.querySelector("#nameActivity1").innerHTML = "Actividad 1: " + activities[0].idActivity.nameActivity
+						infoActivity.querySelector("#actStatus1").value = funcStatusAct(activities[0].statusActivity)
+						infoActivity.querySelector("#actScore1").value = activities[0].scoreTeachActivity
+						infoActivity.querySelector("#nameActivity2").innerHTML = "Actividad 1: " + activities[1].idActivity.nameActivity
+						infoActivity.querySelector("#actStatus2").value = funcStatusAct(activities[1].statusActivity)
+						infoActivity.querySelector("#actScore2").value = activities[1].scoreTeachActivity
+						*/
 					}
-				})
 
-				renderResultValid(clone)
-			}else console.log("Not consult complete - Imcompletes Activities")
+					var scoreStepValid = scoreS/num
+					clone.querySelector("#scoreStep").value = scoreStepValid
+
+					if(scoreStepValid >= 6){
+						clone.querySelector("#statusStep").value = "Completada"
+					}else{
+						clone.querySelector("#statusStep").value = "No Completada"
+					}
+
+					$("#idChildren").prop("readonly", true)
+
+					$("#cancelValidStep",clone).click(()=>{
+						$("#formValidChildren").remove()
+						$("#idChildren").val("")
+						$("#idChildren").prop("readonly", false)
+					})
+
+					var idStep = result.step._id,
+						idChildren = result.children.idChildren,
+						statStep = 0
+
+					if($("#statusStep").val() == "No Completada")
+						statStep = 0
+					else if($("#statusStep").val() == "Completada")
+						statStep = 1
+
+					$("#validStep",clone).click(()=>{
+						event.preventDefault()
+						if(activities.length == 2){
+							$.ajax({
+								url: "/admin/valid-step",
+								async : false, 
+								type : "POST",
+								data : {observationStep : $("#observationStep").val(),
+										scoreStep : $("#scoreStep").val(),
+										idStep : idStep,
+										idChildren : idChildren,
+										statusStep :  statStep},
+								success: function(result){
+									if(result.err) return notification.show({msg:result.err.message, type:1})
+									$("#formValidChildren").remove()
+									$("#idChildren").val("")
+									$("#idChildren").prop("readonly", false)
+									notification.show({msg:result.msg, type:result.statusCode})
+								}
+							})
+						}
+					})
+
+					renderResultValid(clone)
+				}else console.log("Not consult complete - Imcompletes Activities")
+			}
 		}
 	})
 })
@@ -454,12 +463,36 @@ $("#formOpeTeachAdminDel").on("click",(event) => {
 
 $("#formOpeTeachAdminInfo").on("click",(event) => {
 	event.preventDefault()
-	window.open("/admin/info-user/" + $("#adminOpeTeachAdmin").val())
+	$.ajax({
+		url: "/admin/found-users",
+		async : false, 
+		data : $("#adminOpeTeachAdmin").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/admin/info-user/" + $("#adminOpeTeachAdmin").val())
+			}
+		}
+	})
 })
 
 $("#formOpeTeachAdminUpd").on("click",(event) => {
 	event.preventDefault()
-	window.open("/admin/register-user/" + $("#adminOpeTeachAdmin").val())
+	$.ajax({
+		url: "/admin/found-users",
+		async : false, 
+		data : $("#adminOpeTeachAdmin").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/admin/register-user/" + $("#adminOpeTeachAdmin").val())
+			}
+		}
+	})
 })
 
 $("#formOpeChildrenDel").on("click.",(event) => {
@@ -479,11 +512,54 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 
 $("#formOpeChildrenUpd").on("click",(event) => {
 	event.preventDefault()
-	var params = $("#adminOpeChildren").val()
-	window.open("/admin/register-children/" + params)
+	var params = $("#adminInfoChildren").val()
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/found-childrens",
+		async : false, 
+		data : $("#adminInfoChildren").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/admin/register-children/" + params)
+			}
+			//console.log(result)
+		}
+	})
 })
 
 $("#formOpeChildrenInfo").on("click",(event) => {
 	event.preventDefault()
-	window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+	$.ajax({
+		url: "/admin/found-childrens",
+		async : false, 
+		data : $("#adminInfoChildren").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+			}
+		}
+	})
+})
+
+$("#formOpeChildrenInfo").on("click",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/found-childrens",
+		async : false, 
+		data : $("#adminInfoChildren").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+			}
+		}
+	})
 })

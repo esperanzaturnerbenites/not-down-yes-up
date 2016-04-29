@@ -341,4 +341,4 @@ $("#continueActAll").click((event) => {
 
 	renderResultDataResult(clone)
 })
-
+	

@@ -1,4 +1,44 @@
+function NotificationC (){
+	var contenedorPrincipal = document.body
+
+	var createMessage = function (data){
+		var contenedorMSG = document.createElement("article")
+		contenedorMSG.classList.add("contenedorMensaje")
+		var mensaje = document.createElement("p")
+		mensaje.innerHTML= data.msg
+		contenedorMSG.classList.add("MSG")
+		var icon = document.createElement("img")
+
+		contenedorMSG.appendChild(icon)
+		contenedorMSG.appendChild(mensaje)
+
+		if (data.type == 0) icon.src = "/img/notifications/correcto.png"
+		else if(data.type == 1) icon.src = "/img/notifications/incorrecto.png"
+		else if(data.type == 2) icon.src = "/img/notifications/informacion.png"
+
+		icon.classList.add("contenedorIcon")
+		mensaje.classList.add("contenedorMensaje")
+
+		return contenedorMSG
+	}
+
+	this.show = function (data){
+		var contenedorMSG = createMessage(data),
+			top = window.window.scrollY,
+			time = data.time || 3000
+
+		contenedorMSG.setAttribute("style", "top:" + top + "px")
+		contenedorPrincipal.appendChild(contenedorMSG)
+		setTimeout(this.hide.bind(this), time)
+	}
+	this.hide = function (){
+		contenedorPrincipal.removeChild(contenedorPrincipal.lastChild)
+	}
+}
+
 var showResultsReport = $("#showResultsReport")
+
+var notification = new NotificationC()
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -30,7 +70,7 @@ $("#consulG").change(() => {
 				var clone = getClone("#consulQueryGeneralAvanced"),
 					data = $(clone.querySelector("#data"))
 
-				for(children of childrens){
+				for(var children of childrens){
 					//Preguntar si el idChildren =! del idChidren anterior, despues de la 
 					//primera iteracion.
 					var tr = $("<tr>").append(
@@ -52,9 +92,9 @@ $("#consulG").change(() => {
 
 			}else if($("#consulG").val() == 1){
 				var clone = getClone("#consulQueryAgeStep"),
-				dataAgeStep = $(clone.querySelector("#dataAgeStep"))
+					dataAgeStep = $(clone.querySelector("#dataAgeStep"))
 
-				for(step of steps){
+				for(var step of steps){
 					//Preguntar etpas 1, 2, 3 o 4
 					var tr = $("<tr>").append(
 						$("<td>", {html : step.idChildren.nameChildren})
@@ -77,72 +117,130 @@ $("#consulG").change(() => {
 	})
 })
 
-$("#buttonConsulIdChildren").click((event) => {
+$("#consulAge").change(() => {
+	if($("#consulAge").val() >= 0 && $("#consulAge").val() < 3){
+		$("#consulIdConsulAvanced2Label").addClass("hide")
+		$("#consulIdConsulAvanced2").addClass("hide")
+	}else if($("#consulAge").val() == 3){
+		$("#consulIdConsulAvanced2Label").removeClass("hide")
+		$("#consulIdConsulAvanced2").removeClass("hide")
+	}
+	$.ajax({
+		url: "/reports/general",
+		async : false,
+		data : $("#ageConsul").serialize(),
+		type : "POST",
+		success: function(result){
+			var childrens = result.childrens,
+				steps = result.steps
+
+			if($("#consulAge").val() == 0){
+				var clone = getClone("#consulQueryGeneralAvanced"),
+					data = $(clone.querySelector("#data"))
+
+				for(var children of childrens){
+					//Preguntar si el idChildren =! del idChidren anterior, despues de la 
+					//primera iteracion.
+					var tr = $("<tr>").append(
+						$("<td>",{html : children.idChildren.idChildren}),
+						$("<td>",{html : children.idChildren.nameChildren + " " + children.idChildren.lastnameChildren}),
+						$("<td>",{html : children.idChildren.ageChildren}),
+						//Hacer un for y dentro de el
+						//preguntar si children.idChildren = step.idChildren
+						//y si step.stepStep = N° Step
+						$("<td>",{html : steps[0].statusStep}),
+						$("<td>",{html : steps[0].statusStep}),
+						$("<td>",{html : steps[0].statusStep}),
+						$("<td>",{html : steps[0].statusStep}),
+						$("<td>",{html : children.date})
+					)
+					data.append(tr)
+				}
+				renderResultsReport(clone)
+
+			}else if($("#consulAge").val() == 1){
+				var clone = getClone("#consulQueryAgeStep"),
+					dataAgeStep = $(clone.querySelector("#dataAgeStep"))
+
+				for(var step of steps){
+					//Preguntar etpas 1, 2, 3 o 4
+					var tr = $("<tr>").append(
+						$("<td>", {html : step.idChildren.nameChildren})
+					)
+					dataAgeStep.append(tr)
+				}
+				renderResultsReport(clone)
+
+			}else if($("#consulAge").val() == 2){
+				var clone = getClone("#consulQueryResults"),
+				dataResultStep1 = $(clone.querySelector("#dataResultStep1"))
+				dataResultStep2 = $(clone.querySelector("#dataResultStep2"))
+				dataResultStep3 = $(clone.querySelector("#dataResultStep3"))
+				dataResultStep4 = $(clone.querySelector("#dataResultStep4"))
+
+				renderResultsReport(clone)
+
+			}
+		}
+	})
+})
+
+$("#buttonConsulIdChildrenx").click((event) => {
 	event.preventDefault()
 
 	$.ajax({
-		url: "/reports/children",
+		url: "/reports/found-childrens",
 		async : false, 
-		data : $("#consulChildren").serialize(),
+		data : $("#idChildren").serialize(),
 		type : "POST",
 		success: function(result){
-			var children = result.children,
-				mom = result.mom,
-				dad = result.dad,
-				care = result.care,
-				activities = result.activities
-
-			function telChildren(liveson){
-				if (liveson == 0) return mom.telMom
-				if (liveson == 1) return mom.telMom
-				if (liveson == 2) return dad.telDad
-				if (liveson == 3) return care.telCare
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			if(result._id){
+				window.open("/reports/info-children/" + $("#idChildren").val())
 			}
-
-			var clone = getClone("#consulQueryChildren"),
-				dataChild1 = $(clone.querySelector("#dataChild1"))
-				dataChild2 = $(clone.querySelector("#dataChild2"))
-
-			var p1 = $("<p>").append(
-					$("<b>", {html : "Nombre: "}),
-					$("<span>", {html : children.nameChildren + " " + children.lastnameChildren})),
-				p2 = $("<p>").append(
-					$("<b>", {html : "N° Identificación: "}),
-					$("<span>", {html : children.idChildren })),
-				p3 = $("<p>").append(
-					$("<b>", {html : "Género: "}),
-					$("<span>", {html : genderChild(children.genderChildren)})),
-				p4 = $("<p>").append(
-					$("<b>", {html : "Nacimiento: "}),
-					$("<span>", {html : children.birthdateChildren})),
-				p5 = $("<p>").append(
-					$("<b>", {html : "Mamá: "}),
-					$("<span>", {html : mom.nameMom + " " + mom.lastnameMom})),
-				p6 = $("<p>").append(
-					$("<b>", {html : "Papá: "}),
-					$("<span>", {html : dad.nameDad + " " + dad.lastnameDad})),
-				p7 = $("<p>").append(
-					$("<b>", {html : "Cuidador: "}),
-					$("<span>", {html : care.nameCare + " " + care.lastnameCare})),
-				p8 = $("<p>").append(
-					$("<b>", {html : "Dirección: "}),
-					$("<span>", {html : children.addressChildren})),
-				p9 = $("<p>").append(
-					$("<b>", {html : "Teléfono: "}),
-					$("<span>", {html : telChildren(children.liveSon)})),
-				p10 = $("<p>").append(
-					$("<b>", {html : "Fecha de Ingreso: "}),
-					$("<span>", {html : children.dateStart})),
-				p11 = $("<p>").append(
-					$("<b>", {html : "Estado Actual: "}),
-					$("<span>", {html : children.statusChildren}))
-
-				dataChild1.append(p1, p2, p3, p4, p5, p6, p7, p8, p9)
-				dataChild2.append(p10, p11)
-
-			renderResultsReport(clone)
 		}
 	})
+})
+
+$("#menuInfoOpc1").on("click",() => {
+	$("#info1").removeClass("hide")
+	$("#info2").addClass("hide")
+	$("#info3").addClass("hide")
+	$("#info4").addClass("hide")
+	$("#info5").addClass("hide")
+})
+
+$("#menuInfoOpc2").on("click",() => {
+	$("#info1").addClass("hide")
+	$("#info2").removeClass("hide")
+	$("#info3").addClass("hide")
+	$("#info4").addClass("hide")
+	$("#info5").addClass("hide")
+})
+
+$("#menuInfoOpc3").on("click",() => {
+	$("#info1").addClass("hide")
+	$("#info2").addClass("hide")
+	$("#info3").removeClass("hide")
+	$("#info4").addClass("hide")
+	$("#info5").addClass("hide")
+})
+
+$("#menuInfoOpc4").on("click",() => {
+	$("#info1").addClass("hide")
+	$("#info2").addClass("hide")
+	$("#info3").addClass("hide")
+	$("#info4").removeClass("hide")
+	$("#info5").addClass("hide")
+})
+
+$("#menuInfoOpc5").on("click",() => {
+	$("#info1").addClass("hide")
+	$("#info2").addClass("hide")
+	$("#info3").addClass("hide")
+	$("#info4").addClass("hide")
+	$("#info5").removeClass("hide")
 })
 
 /*

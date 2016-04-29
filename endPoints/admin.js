@@ -12,6 +12,25 @@ var express = require("express"),
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:true}))
 
+router.post("/found-users",(req,res)=>{
+	var data = req.body
+
+	models.user.findOne({idUser : data.adminOpeTeachAdmin}, (err,user) => {
+		if(err) return res.json({err:err})
+		if(user) return res.json(user)
+		return res.json({msg:"¡Usuario no existe!", statusCode:2})
+	})
+})
+
+router.post("/found-childrens",(req,res)=>{
+	var data = req.body
+
+	models.children.findOne({idChildren : data.adminInfoChildren}, (err,children) => {
+		if(err) return res.json({err:err})
+		if(children) return res.json(children)
+		return res.json({msg:"¡Niñ@ no existe!", statusCode:2})
+	})
+})
 
 router.get("/menu-admin",(req,res)=>{
 	res.render("menuAdmin",{user :req.user})
@@ -400,7 +419,7 @@ router.post("/register-newuser",(req,res)=>{
 
 				models.user.findOne({idUser : data.idUser},(err,user) => {
 					if(err) return res.json({err:err})
-					if(!user) return res.json({err:{message:"¡Usuario no existe!"}})
+					if(!user) return res.json({msg:"¡Usuario no existe!", statusCode:2})
 					if(user){
 						data.idUser = user._id
 						models.adminuser.create(data, function (err, adminuser) {
@@ -427,7 +446,7 @@ router.get("/admin-childrens",(req,res)=>{
 router.get("/info-children/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
-	console.log(id)
+	//console.log(id)
 	models.children.findOne({idChildren:id},(err,childrenFind) =>{
 		if (err) return res.json({err:err})
 		if (!childrenFind) return res.json({err:{message:"Children not exist"}})
@@ -456,10 +475,19 @@ router.get("/info-children/:id",(req,res)=>{
 					.exec((err,actvalidChild) =>{
 						if(err) return res.json({err:err})
 						if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
-						if(actvalidChild){
-							data.valids = actvalidChild
-							res.render("infoChildren",{infoChildren: data})
-						}
+						if(actvalidChild){data.valids = actvalidChild}
+						
+						models.stepvalid.find({idChildren:childrenFind._id})
+						.sort({date:-1})
+						.populate("idStep idUser")
+						.exec((err,stepvalidChild) =>{
+							if(err) return res.json({err:err})
+							if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+							if(stepvalidChild){
+								data.stepvalids = stepvalidChild
+								res.render("infoChildren",{infoChildren: data})
+							}
+						})
 					})
 
 					/*models.activityhistory.aggregate([
@@ -480,7 +508,6 @@ router.get("/info-children/:id",(req,res)=>{
 		}
 	})
 })
-
 
 router.get("/valid-step",(req,res)=>{
 	res.render("validStep")
@@ -518,7 +545,7 @@ router.post("/update-pass",(req,res)=>{
 			(err,doc) => {
 				if(err) return res.json({err:err})
 				if(doc) return res.json({msg:"¡Contraseña actualizada con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({err:{message:"¡Usuario de logüeo no existe!"}})
+				if(!doc) return res.json({msg:"¡Usuario de logüeo no existe!", statusCode:2})
 			})
 	}
 })
@@ -535,7 +562,7 @@ router.post("/update-rol",(req,res)=>{
 			(err,doc) => {
 				if(err) return res.json({err:err})
 				if(doc) return res.json({msg:"Rol actualizado con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({err:{message:"¡Usuario de logueo no existe!"}})
+				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
 			})
 	}
 })
@@ -552,7 +579,7 @@ router.post("/update-status",(req,res)=>{
 			(err,doc) => {
 				if(err) return res.json({err:err})
 				if(doc) return res.json({msg:"Estado actualizado con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({err:{message:"¡Usuario de logüeo no existe!"}})
+				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
 			})
 	}
 })
@@ -588,7 +615,7 @@ router.post("/delete-childrens",(req,res)=>{
 					})
 			})
 		}else{
-			return res.json({msg:"¡Niñ@ no existe!", statusCode : 1})
+			return res.json({msg:"¡Niñ@ no existe!", statusCode : 2})
 		}
 	})
 })
@@ -610,7 +637,7 @@ router.post("/delete-users",(req,res)=>{
 						return res.json({msg:"¡Usuario eiminado con éxito!", statusCode:0})
 					})
 				})
-			}else return res.json({err:{message:"¡Usuario no existe!"}})
+			}else return res.json({msg:"¡Usuario no existe!",statusCode:2})
 		})
 	}
 })
@@ -652,7 +679,7 @@ router.post("/delete-teachadmin",(req,res)=>{
 				}else return res.json({err:{message:"¡Usuario no puede ser eliminado, INACTÍVELO!"}})
 			})
 
-		}else return res.json({err:{message:"¡Usuario no existe!"}})
+		}else return res.json({msg:"¡Usuario no existe!",statusCode:2})
 	})
 })
 
@@ -662,7 +689,7 @@ router.post("/show-valid-step",(req,res)=>{
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
-		if(!children) return res.json({msg:"Children not found"})
+		if(!children) return res.json({msg:"¡Niño no existe!", statusCode:2})
 
 		models.step.findOne({stepStep : data.step}, (err,stepFind) => {
 			if(err) return res.json({err:err})
@@ -672,7 +699,7 @@ router.post("/show-valid-step",(req,res)=>{
 			.populate("idActivity idUser idChildren")
 			.exec((err, activitiesvalid) => {
 				if (err) return res.json({err: err})
-				return res.json({msg:"Activities found", activitiesvalid:activitiesvalid, children:children, step:stepFind})
+				return res.json({msg:"¡Correcto!", statusCode:0, activitiesvalid:activitiesvalid, children:children, step:stepFind})
 			})
 		})
 	})
@@ -725,7 +752,26 @@ router.post("/update-teachAdmin",(req,res)=>{
 })
 
 router.get("/reports",(req,res)=>{
-	res.render("report")
+	var data = {}
+
+	models.step.find({},(err,steps)=>{
+		if(err) return res.json({err:err})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(steps){
+			data.steps = steps
+
+			models.activity.find({},(err,activities)=>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(activities){
+					data.activities = activities
+					res.render("report", {reportData:data})
+				}
+			})
+		}
+
+
+	})
 })
 
 router.get("/backup",(req,res)=>{

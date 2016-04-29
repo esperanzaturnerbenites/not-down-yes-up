@@ -1,19 +1,19 @@
 extends templates/template.jade
 block title
-  title Menú Principal .:¡No Down, Yes Up!:.
+	title Menú Principal .:¡No Down, Yes Up!:.
 block exit
-  h2.exit
-    a(href="/logout") SALIR
+	h2.exit
+		a(href="/logout") SALIR
 block content
-  nav.menuPrincipal
-    article.menuPrincipalTeach
-      ul
-        li
-          a(href='/estimulation/steps') INGRESAR AL CENTRO DE ESTIMULACIÓN
-  article.infoImp
-    header
-      if user.userUser
-        h2.userR #{user.userUser}
-    p
-      | Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
-  section.backgroundFooter
+	nav.menuPrincipal
+		article.menuPrincipalTeach
+			ul
+				li
+					a(href='/estimulation/steps') INGRESAR AL CENTRO DE ESTIMULACIÓN
+	article.infoImp
+		header
+			if user.userUser
+				h2.userR #{user.userUser}
+		p
+			| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
+	section.backgroundFooter
