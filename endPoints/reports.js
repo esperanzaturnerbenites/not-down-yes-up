@@ -20,8 +20,45 @@ router.post("/found-childrens",(req,res)=>{
 	})
 })
 
+router.post("/consul-step",(req,res)=>{
+	var data = req.body,
+		steps = {}
+
+	models.step.findOne({stepStep:data.consulStep},(err,step) => {
+		if(err) return res.json({err:err})
+		if(!step) return res.json({err:{message:"Not steps"}})
+		steps.step = step
+
+		models.stepvalid.find({idStep:step._id})
+		.sort({idChildren : 1})
+		.populate("idChildren idUser idStep")
+		.exec((err, stephis) => {
+			if (err) return res.json(err)
+			if (!stephis) return res.json({"msg":"Stephis not found"})
+			var idsChild = stephis.map(e => {return {idChildren:e.idChildren._id}})
+			steps.stepval = stephis
+
+			models.activityvalid.find({idStep:step._id, $or:idsChild})
+			.sort({idChildren : 1})
+			.exec((err,actsval) =>{
+				if (err) return res.json(err)
+				if(!actsval) return res.json({"msg":"actsval not found"})
+				steps.actsval = actsval
+
+				models.activity.count({stepActivity:step.stepStep},(err,numact) =>{
+					if(err) return res.json({err:err})
+					if(!numact) return res.json({err:{message:"Not Activities"}})
+					steps.numact = numact
+					console.log(numact)
+					return res.json({msg : "Consult Complete", steps :steps})
+				})
+			})
+		})
+	})
+})
+
 router.post("/general",(req,res)=>{
-	var step = {}
+	var steps = {}
 
 	models.activityhistory.find({})
 	.sort({idChildren : 1})

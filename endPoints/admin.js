@@ -727,7 +727,7 @@ router.post("/valid-step",(req,res)=>{
 				if(stephis){
 					models.stepvalid.update(
 					{idChildren : children._id, idStep : step._id},
-					{"$set": 	data},
+					{"$set": data},
 					(err,doc) => {
 						if(err) return res.json({err:err})
 						if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})

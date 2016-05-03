@@ -37,13 +37,13 @@ block content
 							option(value='2') Menor Que
 							option(value='3') Entre
 						label Mes: 
-						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', min='0', max='48', placeholder='Meses')
+						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', value='0', min='0', max='48', placeholder='Meses')
 						label#consulIdConsulAvanced2Label.hide Mes:
-						input#consulIdConsulAvanced2.hide(type='number', name='consulIdConsulAvanced2', min='0', max='48', placeholder='Meses')
+						input#consulIdConsulAvanced2.hide(type='number', name='consulIdConsulAvanced2', value='0', min='0', max='48', placeholder='Meses')
 					button.buttons#buttonReportAges(type='submit')
 						span Consultar
 
-			form#consulStep
+			form#formConsulStep
 				fieldset.consul.consulAvanced
 					legend Consulta por Etapas
 
@@ -64,15 +64,15 @@ block content
 
 					if (reportData.activities)
 						article
-							label(for='actConsul') Actividad: 
-							select#consulAct(name='consulAct')
-								-for (act of reportData.activities)
-									option(value=(act.activityActivity)) Actividad: #{act.activityActivity} - #{act.nameActivity}
-						article
 							label(for='actConsul') Etapa: 
 							select#consulActStep(name='consulActStep')
 								-for (step of reportData.steps)
 									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+						article
+							label(for='actConsul') Actividad: 
+							select#consulAct(name='consulAct')
+								-for (act of reportData.activities)
+									option(value=(act.activityActivity)) Actividad: #{act.activityActivity} - #{act.nameActivity}
 						button.buttons#buttonReportSteps(type='submit')
 							span Consultar
 					else

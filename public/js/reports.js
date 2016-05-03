@@ -46,7 +46,7 @@ function getClone(selector){
 	return clone = document.importNode(t.content,true)
 }
 
-function renderResultsReport(node){ showResultsReport.html(""); showResultsReport.append(node)}
+function renderResultStep(node){ showResultsReport.html(""); showResultsReport.append(node)}
 
 function genderChild(gender){
 	var genderText = ""
@@ -56,6 +56,49 @@ function genderChild(gender){
 		genderText = "Niño"
 	return genderText
 }
+
+$("#buttonReportSteps").on("click", () => {
+	event.preventDefault()
+	//No imprime lo que es porrque el clone no existe cuando se trae el result
+	$.ajax({
+		url: "/reports/consul-step",
+		async : false, 
+		type : "POST",
+		data : $("#consulStep").serialize(),
+		success: function(result){
+			var steps = result.steps.step,
+				actsV = result.steps.actsval,
+				contActs = actsV.length,
+				info = result.steps.stepval,
+				clone = getClone("#consulQueryResults"),
+				data = $(clone.querySelector("#resultStepTable")),
+				dataInfo = $(clone.querySelector("#actsVal"))
+
+			clone.querySelector("#numberStepResult").innerHTML = "ETAPA " + steps.stepStep
+			clone.querySelector("#nameStepResult").innerHTML = steps.nameStep
+			clone.querySelector("#descriptionStepResult").innerHTML = steps.descriptionStep
+			//console.log(result.stepStep)
+
+			console.log(contActs)
+
+			for(var a = 1; a <= result.steps.numact; a++){
+				var th = $("<th>",{html : "ACT " + a})
+				dataInfo.append(th)
+			}
+
+			for(var children of info){
+				if(actsV.length )
+				var tr = $("<tr>").append(
+						td = $("<td>",{html : children.idChildren.nameChildren + " " + children.idChildren.lastnameChildren}),
+						td = $("<td>",{html : children.idChildren.ageChildren}),
+						td = $("<td>",{html : children.statusStep}))
+				data.append(tr)
+			}
+			renderResultStep(clone)
+
+		}
+	})
+})
 
 $("#consulG").change(() => {
 	$.ajax({
@@ -104,7 +147,7 @@ $("#consulG").change(() => {
 				renderResultsReport(clone)
 
 			}else if($("#consulG").val() == 2){
-				var clone = getClone("#consulQueryResults"),
+				clone = getClone("#consulQueryResults")
 				dataResultStep1 = $(clone.querySelector("#dataResultStep1"))
 				dataResultStep2 = $(clone.querySelector("#dataResultStep2"))
 				dataResultStep3 = $(clone.querySelector("#dataResultStep3"))
