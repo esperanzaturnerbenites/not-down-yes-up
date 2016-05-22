@@ -7,7 +7,6 @@ var express = require("express"),
 	passport = require("passport"),
 	ObjectId = mongoose.Types.ObjectId
 
-
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/found-childrens",(req,res)=>{
@@ -57,25 +56,46 @@ router.post("/consul-step",(req,res)=>{
 	})
 })
 
+router.post("/consul-step-acts",(req,res)=>{
+	var data = req.body,
+		steps = {}
+
+	models.activity.find({stepActivity:data.stepStep},(err,stepActs) =>{
+		if(err) return res.json({err:err})
+		if(stepActs.length < 1) return res.json({err:{message:"Not Activities"}})
+		steps = stepActs
+		return res.json({msg : "Consult Complete", steps :steps})
+	})
+})
+
 router.post("/general",(req,res)=>{
-	var steps = {}
+	var info = {}
 
 	models.activityhistory.find({})
 	.sort({idChildren : 1})
 	.populate("idChildren idUser idActivity")
-	.exec((err,childrens) =>{
-		console.log("general - populate activityhistory "+childrens)
-		if (err) return res.json(err)
-		if(!childrens) return res.json({"msg":"Childrens not found"})
+	.exec((err,acthistory) =>{
+		if (err) return res.json({err:err})
+		if(!acthistory) return res.json({err:{"msg":"Childrens not found"}})
+		info.acthistory = acthistory
 
-		models.stephistory.find({})
-		.sort({idStep : 1})
-		.populate("idChildren")
-		.exec((err, stephis) => {
-			if (err) return res.json(err)
-			if (!stephis) return res.json({"msg":"Stephis not found"})
-			steps = stephis
-			return res.json({message : "Consult Complete", childrens : childrens, steps :steps})
+		models.activityvalid.find({})
+		.sort({idChildren : 1})
+		.populate("idChildren idUser idActivity")
+		.exec((err,actvalid) =>{
+			if (err) return res.json({err:err})
+			if(!actvalid) return res.json({err:{"message":"Childrens not found"}})
+			info.actvalid = actvalid
+
+			models.stepvalid.find({})
+			.sort({idStep : 1})
+			.populate("idChildren")
+			.exec((err, stepvalid) => {
+				if (err) return res.json({err:{message:err}})
+				if (!stepvalid) return res.json({"msg":"Stephis not found"})
+				info.stepvalid = stepvalid
+				return res.json({msg : "Consult Complete", statusCode : 0, info : info})
+			})
 		})
 	})
 })
@@ -100,7 +120,7 @@ router.get("/info-children/:id",(req,res)=>{
 
 			models.activityhistory.find({idChildren: children._id})
 			.sort({date:-1})
-			.populate("idActivity idUser")
+			.populate("idActivity idUser idStep")
 			.exec((err, activitiesH) => {
 				if (err) return res.json({err:err})
 				if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
@@ -108,7 +128,7 @@ router.get("/info-children/:id",(req,res)=>{
 
 				models.activityvalid.find({idChildren: children._id})
 				.sort({date:-1})
-				.populate("idActivity idUser")
+				.populate("idActivity idUser idStep")
 				.exec((err, activitiesV) => {
 					if (err) return res.json({err:err})
 					if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}

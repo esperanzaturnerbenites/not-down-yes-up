@@ -6,6 +6,13 @@ block exit
 		a(href="/logout") SALIR
 block content
 	nav.menuPrincipal
+		if (user.typeUser == 2)
+			article.menuPrincipalDev
+				ul
+					li
+						a(href='/admin/admin-steps') ETAPAS
+					li
+						a(href='/admin/admin-activities') ACTIVIDADES
 		article.menuPrincipalNew
 			ul
 				li
@@ -30,4 +37,4 @@ block content
 				h2.userR #{user.userUser}
 		p
 			| Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero iure quidem et esse veritatis, cum saepe consectetur neque laborum voluptate alias fuga sunt repellat ullam doloremque nisi, magnam, dicta mollitia.
-	section.backgroundFooter
+	//section.backgroundFooter

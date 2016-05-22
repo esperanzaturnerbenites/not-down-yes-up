@@ -37,15 +37,12 @@ function NotificationC (){
 }
 
 var formAddChildAct = $("#formAddChildAct"),
-	formValidChildren = $("#formValidChildren")
-
-var showChildrensCont = $("#showChildrensCont"),
+	showChildrensCont = $("#showChildrensCont"),
 	activityChildrens = $("#activityChildrens"),
 	showValidAct = $("#showValidAct"),
 	results = $("#results"),
-	resultStep = null
-
-var notification = new NotificationC()
+	resultStep = null,
+	notification = new NotificationC()
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -133,6 +130,7 @@ formAddChildAct.on("submit",(event) => {
 				renderResultAct(cloneAct)
 
 				$("#idChildren").prop("readonly", true)
+				$("#numberPin").prop("readonly", true)
 				$("#validActClicDef").prop("disabled", false)
 				$("#validActClic").prop("disabled", false)
 

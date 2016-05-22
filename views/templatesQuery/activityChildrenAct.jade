@@ -2,8 +2,12 @@ template#consulQueryActivityChild
 	article#nameChild
 		p
 			b DESCRIPCIÓN ACTIVIDAD #{activity.activityActivity}
+		-var n = 0
 		for guide in activity.guidesActivity
-			p #{guide}
+			-n++
+			p 
+				b #{n}: 
+				span #{guide}
 
 	article#nameChild1.actCentral
 		p

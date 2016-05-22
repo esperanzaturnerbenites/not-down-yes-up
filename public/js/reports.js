@@ -36,7 +36,8 @@ function NotificationC (){
 	}
 }
 
-var showResultsReport = $("#showResultsReport")
+var showResultsReport = $("#showResultsReport"),
+	consulAct = $("#consulAct")
 
 var notification = new NotificationC()
 
@@ -47,6 +48,7 @@ function getClone(selector){
 }
 
 function renderResultStep(node){ showResultsReport.html(""); showResultsReport.append(node)}
+function renderResultsReport(node){ showResultsReport.html(""); showResultsReport.append(node)}
 
 function genderChild(gender){
 	var genderText = ""
@@ -59,7 +61,6 @@ function genderChild(gender){
 
 $("#buttonReportSteps").on("click", () => {
 	event.preventDefault()
-	//No imprime lo que es porrque el clone no existe cuando se trae el result
 	$.ajax({
 		url: "/reports/consul-step",
 		async : false, 
@@ -106,28 +107,30 @@ $("#consulG").change(() => {
 		async : false, 
 		type : "POST",
 		success: function(result){
-			var childrens = result.childrens,
-				steps = result.steps
+			console.log(result)
+			var steps = result.info.stepvalid,
+				actsvalid = result.info.actvalid,
+				actshis = result.info.acthistory
 
 			if($("#consulG").val() == 0){
 				var clone = getClone("#consulQueryGeneralAvanced"),
 					data = $(clone.querySelector("#data"))
 
-				for(var children of childrens){
+				for(var step of steps){
 					//Preguntar si el idChildren =! del idChidren anterior, despues de la 
 					//primera iteracion.
 					var tr = $("<tr>").append(
-						$("<td>",{html : children.idChildren.idChildren}),
-						$("<td>",{html : children.idChildren.nameChildren + " " + children.idChildren.lastnameChildren}),
-						$("<td>",{html : children.idChildren.ageChildren}),
+						$("<td>",{html : step.idChildren.idChildren}),
+						$("<td>",{html : step.idChildren.nameChildren + " " + step.idChildren.lastnameChildren}),
+						$("<td>",{html : step.idChildren.ageChildren}),
 						//Hacer un for y dentro de el
-						//preguntar si children.idChildren = step.idChildren
+						//preguntar si step.idChildren = step.idChildren
 						//y si step.stepStep = N° Step
-						$("<td>",{html : steps[0].statusStep}),
-						$("<td>",{html : steps[0].statusStep}),
-						$("<td>",{html : steps[0].statusStep}),
-						$("<td>",{html : steps[0].statusStep}),
-						$("<td>",{html : children.date})
+						$("<td>",{html : step.statusStep}),
+						$("<td>",{html : step.statusStep}),
+						$("<td>",{html : step.statusStep}),
+						$("<td>",{html : step.statusStep}),
+						$("<td>",{html : step.date})
 					)
 					data.append(tr)
 				}
@@ -223,6 +226,28 @@ $("#consulAge").change(() => {
 
 				renderResultsReport(clone)
 
+			}
+		}
+	})
+})
+
+$("#consulActStep").change(() => {
+	var step = {stepStep:$("#consulActStep").val()}
+	$.ajax({
+		url: "/reports/consul-step-acts",
+		async : false,
+		data : step,
+		type : "POST",
+		success: function(result){
+			$("#consulAct").empty()
+			if(result.steps){
+				for(step of result.steps){
+					$("#consulAct").append(
+						$("<option>",{
+							html: "Actividad: " + step.activityActivity + " - " + step.nameActivity,
+							value: step.activityActivity})
+					)
+				}
 			}
 		}
 	})

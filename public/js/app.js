@@ -45,13 +45,13 @@ const formValidChildren = $("#formValidChildren"),
 	formOpeUser = $("#formOpeUser"),
 	formNewUser = $("#formNewUser"),
 	formFindAll = $("#formFindAll"),
-	formOpeValidChildren = $("#formOpeValidChildren"),
-	notification = new NotificationC()
+	formOpeValidChildren = $("#formOpeValidChildren")
 
 var showResults = $("#showResults"),
 	showResultTeachAdmin = $("#showResultTeachAdmin"),
 	showResultChildren = $("#showResultChildren"),
-	showResultValid = $("#showResultValid")
+	showResultValid = $("#showResultValid"),
+	notification = new NotificationC()
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -562,4 +562,84 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 			}
 		}
 	})
+})
+
+$("#stepActivityEdit").change(() => {
+	var step = {stepStep:$("#stepActivityEdit").val()}
+	$.ajax({
+		url: "/admin/consul-step-acts",
+		async : false,
+		data : step,
+		type : "POST",
+		success: function(result){
+			$("#activityActivityEdit").empty()
+			if(result.steps){
+				for(step of result.steps){
+					$("#activityActivityEdit").append(
+						$("<option>",{
+							html: "Actividad: " + step.activityActivity + " - " + step.nameActivity,
+							value: step.activityActivity})
+					)
+				}
+			}
+		}
+	})
+})
+
+$("#stepActivityDel").change(() => {
+	var step = {stepStep:$("#stepActivityDel").val()}
+	$.ajax({
+		url: "/admin/consul-step-acts",
+		async : false,
+		data : step,
+		type : "POST",
+		success: function(result){
+			$("#activityActivityDel").empty()
+			if(result.steps){
+				for(step of result.steps){
+					$("#activityActivityDel").append(
+						$("<option>",{
+							html: "Actividad: " + step.activityActivity + " - " + step.nameActivity,
+							value: step.activityActivity})
+					)
+				}
+			}
+		}
+	})
+})
+
+$("#clicAddAct").on("click",() => {
+	$("#add").removeClass("hide")
+	$("#edit").addClass("hide")
+	$("#delete").addClass("hide")
+})
+
+$("#clicEditAct").on("click",() => {
+	$("#add").addClass("hide")
+	$("#edit").removeClass("hide")
+	$("#delete").addClass("hide")
+})
+
+$("#clicDeleteAct").on("click",() => {
+	$("#add").addClass("hide")
+	$("#edit").addClass("hide")
+	$("#delete").removeClass("hide")
+})
+
+$("#clicAddStep").on("click",() => {
+	$("#addStep").removeClass("hide")
+	$("#editStep").addClass("hide")
+	$("#deleteStep").addClass("hide")
+})
+
+$("#clicEditStep").on("click",() => {
+	$("#addStep").addClass("hide")
+	$("#editStep").removeClass("hide")
+	$("#deleteStep").addClass("hide")
+})
+
+$("#clicDeleteStep").on("click",() => {
+	$("#addStep").addClass("hide")
+	$("#editStep").addClass("hide")
+	$("#deleteStep").removeClass("hide")
 })

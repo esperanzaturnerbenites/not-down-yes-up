@@ -36,6 +36,60 @@ router.get("/menu-admin",(req,res)=>{
 	res.render("menuAdmin",{user :req.user})
 })
 
+router.get("/admin-steps",(req,res)=>{
+	var data = {}
+
+	models.step.find({},(err,steps)=>{
+		if(err) return res.json({err:err})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(steps){
+			data.steps = steps
+
+			models.activity.find({stepActivity:1},(err,activities)=>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(activities){
+					data.activities = activities
+					res.render("adminSteps",{user :req.user, data:data})
+				}
+			})
+		}
+	})
+})
+
+router.get("/admin-activities",(req,res)=>{
+	var data = {}
+
+	models.step.find({},(err,steps)=>{
+		if(err) return res.json({err:err})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(steps){
+			data.steps = steps
+
+			models.activity.find({stepActivity:1},(err,activities)=>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(activities){
+					data.activities = activities
+					res.render("adminActs",{user :req.user, data:data})
+				}
+			})
+		}
+	})
+})
+
+router.post("/consul-step-acts",(req,res)=>{
+	var data = req.body,
+		steps = {}
+
+	models.activity.find({stepActivity:data.stepStep},(err,stepActs) =>{
+		if(err) return res.json({err:err})
+		if(stepActs.length < 1) return res.json({err:{message:"Not Activities"}})
+		steps = stepActs
+		return res.json({msg : "Consult Complete", steps :steps})
+	})
+})
+
 router.post("/upload",upload.any(),(req,res)=>{
 	/*
 				models.step.find({}, (err, steps) => {
@@ -73,15 +127,14 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		return res.json({err:{message : "¡Números de identificación iguales"}})
 	}else{
-	console.log("bien")
 		models.children.create(dataChildren, function (err, children) {
 			if(err) return res.json({err:err})
 			if(children){
 
 				var queryParents = [
-						{idParent : dataMom.idParent},
-						{idParent : dataDad.idParent},
-						{idParent : dataCare.idParent}
+					{idParent : dataMom.idParent},
+					{idParent : dataDad.idParent},
+					{idParent : dataCare.idParent}
 				]
 
 				dataMom.idChildren = children._id
@@ -93,7 +146,6 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 				models.parent.find(
 					{$or : queryParents},
 					function (err, parentsFind) {
-							console.log(!parentsFind.length)
 						if(err) return res.json({err:err})
 
 						models.step.find({}, (err, steps) => {
@@ -101,50 +153,47 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 							if(!steps.length) return res.json({msg:"Not steps"})
 
 							for(var stepDB of steps){
-								console.log(stepDB)
 								promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
 							}
 							Q.all(promises).then(function (result) {
 								if(!parentsFind.length){
 									models.parent.create(arrayParents,(err, parentsCreate) => {
 										if(err) return res.json({err:err})
-										res.redirect("/admin/menu-admin")
+										return res.redirect("/admin/menu-admin")
 									})
 								}else{
-										
-									var relation = parentsFind.map(parent => {parent.relationshipParent})
+									return res.json(parentsFind)
+								/*
+									var relation = parentsFind.map(parent => {return parent.relationshipParent})
 
 									var parentsNoExist = arrayParents.filter(parent => {
-										if(relation.indexOf(parent.relationshipParent) < 0){
-											return parent
-										}
-									models.parent.where({$or : queryParents})
-									.setOptions({ multi: true })
-									.update(
-										{
-											$push : {
-												idChildren : children._id,
-												relationshipParent : parent.relationshipParent
-											}
-										},
-										(err, parentDad) => {
-											if(err) return res.json({err:err})
-											if(parentsNoExist.length){
-												models.parent.create(parentsNoExist,(err, parentsCreate) => {
-													if(err) return res.json({err:err})
-													res.redirect("/admin/menu-admin")
-												})
-											}else{
-												res.redirect("/admin/menu-admin")
-											}
-
-
-
-										})
-
+										return relation.indexOf(parent.relationshipParent) < 0
 									})
 									console.log(parentsNoExist)
-								}
+									for (var parent of parentsNoExist){
+										models.parent.where({$or : queryParents})
+										.setOptions({ multi: true })
+										.update(
+											{
+												$push : {
+													idChildren : children._id,
+													relationshipParent : parent.relationshipParent
+												}
+											},
+											(err, parentDad) => {
+												if(err) return res.json({err:err})
+												if(parentsNoExist.length){
+													models.parent.create(parentsNoExist,(err, parentsCreate) => {
+														if(err) return res.json({err:err})
+														return res.redirect("/admin/menu-admin")
+													})
+												}else{
+													return res.redirect("/admin/menu-admin")
+												}
+											}
+										)
+									}
+								*/}
 							}).catch(err => {
 								console.log(err)
 							})
@@ -194,7 +243,7 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			addressChildren : data.addressChildren,
 			ageChildren : data.ageChildren,
 			apbChildren : data.apbChildren,
-			birthdateChildren : new Date(data.birthdateChildren),
+			birthdateChildren : new Date(data.birthdateChildren.split("-")),
 			birthplaceChildren : data.birthplaceChildren,
 			debilityChildren : data.debilityChildren,
 			departamentChildren : data.departamentChildren,
@@ -214,25 +263,27 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			nameChildren : data.nameChildren
 		},
 		dataMom = {
+			//imgParent : req.files[1].filename,
+			birthdateParent : new Date(data.birthdateParent[0].split("-")),
 			celParent : data.celParent[0],
 			emailParent : data.emailParent[0],
 			idExpeditionParent : data.idExpeditionParent[0],
 			idParent : data.idParent[0],
-			//imgParent : req.files[1].filename,
 			jobParent : data.jobParent[0],
 			lastnameParent : data.lastnameParent[0],
 			nameParent : data.nameParent[0],
 			professionParent : data.professionParent[0],
 			relationshipParent : 0,
 			studyParent : data.studyParent[0],
-			telParent : data.telParent[0]
+			telParent : data.telParent[0],
 		},
 		dataDad = {
+			//imgParent : req.files[2].filename,
+			birthdateParent : new Date(data.birthdateParent[1].split("-")),
 			celParent : data.celParent[1],
 			emailParent : data.emailParent[1],
 			idExpeditionParent : data.idExpeditionParent[1],
 			idParent : data.idParent[1],
-			//imgParent : req.files[2].filename,
 			jobParent : data.jobParent[1],
 			lastnameParent : data.lastnameParent[1],
 			nameParent : data.nameParent[1],
@@ -242,11 +293,12 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			telParent : data.telParent[1]
 		},
 		dataCare = {
+			//imgParent : req.files[3].filename,
+			birthdateParent : new Date(data.birthdateParent[2].split("-")),
 			celParent : data.celParent[2],
 			emailParent : data.emailParent[2],
 			idExpeditionParent : data.idExpeditionParent[2],
 			idParent : data.idParent[2],
-			//imgParent : req.files[3].filename,
 			lastnameParent : data.lastnameParent[2],
 			nameParent : data.nameParent[2],
 			relationshipParent : 2,
@@ -444,12 +496,13 @@ router.get("/admin-childrens",(req,res)=>{
 })
 
 router.get("/info-children/:id",(req,res)=>{
+	console.log("cualquer cosa")
 	var id = req.params.id,
 		data = {}
 	//console.log(id)
 	models.children.findOne({idChildren:id},(err,childrenFind) =>{
-		if (err) return res.json({err:err})
-		if (!childrenFind) return res.json({err:{message:"Children not exist"}})
+		if(err) return res.json({err:err})
+		if(!childrenFind) return res.json({err:{message:"Children not exist"}})
 		if(childrenFind){
 			data.child = childrenFind
 
@@ -458,24 +511,24 @@ router.get("/info-children/:id",(req,res)=>{
 			.exec((err,parentsFind)=>{
 				if(err) return res.json({err:err})
 				if(!parentsFind) return res.json({err:{message:"Not parents"}})
-				if(parentsFind){
-					data.parents = parentsFind
-				}
+				data.parents = parentsFind
+
 				models.activityhistory.find({idChildren:childrenFind._id})
 				.sort({date:-1})
-				.populate("idActivity idUser idStep")
+				.populate("idActivity idStep idUser")
 				.exec((err,acthisChild) =>{
 					if(err) return res.json({err:err})
 					if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
+					console.log(acthisChild)
 					data.historys = acthisChild
 					
 					models.activityvalid.find({idChildren:childrenFind._id})
 					.sort({date:-1})
-					.populate("idActivity idUser idStep")
+					.populate("idStep idActivity idUser")
 					.exec((err,actvalidChild) =>{
 						if(err) return res.json({err:err})
 						if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
-						if(actvalidChild){data.valids = actvalidChild}
+						data.valids = actvalidChild
 						
 						models.stepvalid.find({idChildren:childrenFind._id})
 						.sort({date:-1})
@@ -489,7 +542,6 @@ router.get("/info-children/:id",(req,res)=>{
 							}
 						})
 					})
-
 					/*models.activityhistory.aggregate([
 						{$group:{_id:"idChildren"}}]),
 						function(err,doc){
@@ -504,7 +556,6 @@ router.get("/info-children/:id",(req,res)=>{
 						}*/
 				})
 			})
-
 		}
 	})
 })
@@ -760,7 +811,7 @@ router.get("/reports",(req,res)=>{
 		if(steps){
 			data.steps = steps
 
-			models.activity.find({},(err,activities)=>{
+			models.activity.find({stepActivity:1},(err,activities)=>{
 				if(err) return res.json({err:err})
 				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
 				if(activities){
@@ -769,8 +820,6 @@ router.get("/reports",(req,res)=>{
 				}
 			})
 		}
-
-
 	})
 })
 

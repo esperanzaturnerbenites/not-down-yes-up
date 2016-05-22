@@ -1,0 +1,88 @@
+extends templates/template.jade
+block title
+	title Menú Principal .:¡No Down, Yes Up!:.
+block exit
+	h2.exit
+		a(href="/admin/menu-admin") VOLVER
+block content
+	nav.menuPrincipal.menuDev
+		article.menuDeveloper
+			ul
+				p.h1-2 ACTS
+				li#clicAddAct
+					img(src='/img/icons/add.png', alt='.:.')
+				li#clicEditAct
+					img(src='/img/icons/edit.png', alt='.:.')
+				li#clicDeleteAct
+					img(src='/img/icons/delete.png', alt='.:.')
+
+	section#add.actionDev.hide
+		article
+			form#addActs
+				fieldset
+					legend Agregar Actividad
+					article
+						label Número Actividad: 
+						input#activityActivity(type='number', name='activityActivity', min='1', max='50', required='')
+					article
+						input#nameActivity(type='text', name='nameActivity', placeholder='Nombre Actividad' required='')
+					article
+						textarea#descriptionActivity(name='descriptionActivity' placeholder='Descripción...' required)
+					article
+						label Etapa: 
+						select#stepActivity(name='stepActivity')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					fieldset
+						label PASOS:
+						article
+							input#guide(type='text', name='guide', placeholder='Paso 1' required='')
+						article
+							input#guide(type='text', name='guide', placeholder='Paso 2' required='')
+						article
+							input#guide(type='text', name='guide', placeholder='Paso 3')
+						article
+							input#guide(type='text', name='guide', placeholder='Paso 4')
+					article
+						button#addActivity
+							span Agregar
+	
+	section#edit.actionDev.hide
+		article
+			form#editActs
+				fieldset
+					legend Editar Actividad
+					article
+						label(for='stepActivityEdit') Etapa: 
+						select#stepActivityEdit(name='stepActivityEdit')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					article
+						label(for='activityActivityEdit') Actividades: 
+						select#activityActivityEdit(name='activityActivityEdit')
+							-for (act of data.activities)
+								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
+					article
+						button#editActivity
+							span Editar
+
+	section#delete.actionDev.hide
+		article
+			form#deleteActs
+				fieldset
+					legend Eliminar Actividad
+					article
+						label(for='stepActivityDel') Etapa: 
+						select#stepActivityDel(name='stepActivityDel')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					article
+						label Actividades: 
+						select#activityActivityDel(name='activityActivityDel')
+							-for (act of data.activities)
+								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
+					article
+						button#deleteActivity
+							span Eliminar
+
+	script(src="/js/app.js")

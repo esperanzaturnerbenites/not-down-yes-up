@@ -1,0 +1,62 @@
+extends templates/template.jade
+block title
+	title Menú Principal .:¡No Down, Yes Up!:.
+block exit
+	h2.exit
+		a(href="/admin/menu-admin") VOLVER
+block content
+	nav.menuPrincipal.menuDev
+		article.menuDeveloper
+			ul
+				p.h1-2 ETAPAS
+				li#clicAddStep
+					img(src='/img/icons/add.png', alt='.:.')
+				li#clicEditStep
+					img(src='/img/icons/edit.png', alt='.:.')
+				li#clicDeleteStep
+					img(src='/img/icons/delete.png', alt='.:.')
+
+	section#addStep.actionDev.hide
+		article
+			form#addSteps
+				fieldset
+					legend Agregar Etapa
+					article
+						label Número Etapa: 
+						input#stepStep(type='number', name='stepStep', min='1', max='50', required='')
+					article
+						input#nameStep(type='text', name='nameStep', placeholder='Nombre Etapa' required='')
+					article
+						textarea#descriptionStep(name='descriptionStep' placeholder='Descripción...' required)
+					article
+						button#addStep
+							span Agregar
+
+	section#editStep.actionDev.hide
+		article
+			form#editSteps
+				fieldset
+					legend Editar Etapa
+					article
+						label(for='stepEdit') Etapa: 
+						select#stepEdit(name='stepEdit')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					article
+						button#editActivity
+							span Editar
+
+	section#deleteStep.actionDev.hide
+		article
+			form#deleteSteps
+				fieldset
+					legend Eliminar Etapa
+					article
+						label(for='stepDel') Etapa: 
+						select#stepDel(name='stepDel')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					article
+						button#deleteActivity
+							span Eliminar
+	script(src="/js/app.js")

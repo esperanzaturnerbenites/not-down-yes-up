@@ -56,20 +56,23 @@ block content
 						button.buttons#buttonReportSteps(type='submit')
 							span Consultar
 					else
-						h2 No existen actividades
+						h2 No existen atapas
 
-			form#consulAct
+			form#formConsulActStepsReport
 				fieldset.consul.consulAvanced
 					legend Consulta por Actividades
 
-					if (reportData.activities)
+					if (reportData.steps.length > 0)
 						article
-							label(for='actConsul') Etapa: 
+							label(for='consulActStep') Etapa: 
 							select#consulActStep(name='consulActStep')
 								-for (step of reportData.steps)
 									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					else
+						h2 No existen etapas
+					if (reportData.activities.length > 0)
 						article
-							label(for='actConsul') Actividad: 
+							label(for='consulAct') Actividad: 
 							select#consulAct(name='consulAct')
 								-for (act of reportData.activities)
 									option(value=(act.activityActivity)) Actividad: #{act.activityActivity} - #{act.nameActivity}
