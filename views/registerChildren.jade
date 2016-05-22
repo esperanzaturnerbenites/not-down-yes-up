@@ -83,7 +83,7 @@ block content
 						button(type='submit')
 							span Iniciar Registro
 				
-			form#formAddChildren(class="#{classForm}" action="" method="POST")
+			form#formAddChildren(class="#{classForm}" action="" method="POST" enctype="multipart/form-data")
 				input(type="hidden" value="#{edit}" id="editingChildren" name="editingChildren")
 				fieldset.children
 					legend Niñ@
@@ -161,7 +161,7 @@ block content
 								// <input-datetime></input-datetime>
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgParent', value="#{mom.imgParent}" accept='image/*' )
+								input#imgParent(type='file', name='imgMon', value="#{mom.imgParent}" accept='image/*' )
 						fieldset
 							legend Contacto
 							article
@@ -201,7 +201,7 @@ block content
 								// <input-datetime></input-datetime>
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgParent', value="#{dad.imgParent}" accept='image/*' )
+								input#imgParent(type='file', name='imgDad', value="#{dad.imgParent}" accept='image/*' )
 						fieldset
 							legend Contacto
 							article
@@ -242,7 +242,7 @@ block content
 							//input#relationshipParent(type='text', name="relationshipParent", value="#{cure.relationshipParent}" placeholder='Parentesco', required='')
 							article.img
 								span Foto
-								input#imgParent(type='file', name="imgParent", value="#{cure.imgParent}" accept='image/*' )
+								input#imgParent(type='file', name="imgCure", value="#{cure.imgParent}" accept='image/*' )
 						fieldset
 							legend Contacto
 							article

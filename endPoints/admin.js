@@ -235,8 +235,19 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	})
 }
 
-router.post(["/update-children","/register-children"],(req,res)=>{
+router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 	//console.log("init")
+
+	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
+		fileMomfile = req.files.find(e => {return e.fieldname == "imgMom"}),
+		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
+		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
+	var defaultImage = "defaultUser.png",
+		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
+		imgMom =  fileMomfile ? fileMomfile.filename : defaultImage,
+		imgDad =  fileDad ? fileDad.filename : defaultImage,
+		imgCure =  fileCure ? fileCure.filename : defaultImage
+
 	var data = req.body,
 		dataChildren = {
 			abilityChildren : data.abilityChildren,
@@ -254,7 +265,7 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			healthChildren : data.healthChildren,
 			hearingaidChildren : data.hearingaidChildren,
 			idChildren : data.idChildren,
-			//imgChildren : req.files[0].filename,
+			imgChildren : imgChildren,
 			lastnameChildren : data.lastnameChildren,
 			levelhomeChildren : data.levelhomeChildren,
 			liveSon : data.liveSon,
@@ -263,7 +274,7 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			nameChildren : data.nameChildren
 		},
 		dataMom = {
-			//imgParent : req.files[1].filename,
+			imgParent : imgMom,
 			birthdateParent : new Date(data.birthdateParent[0].split("-")),
 			celParent : data.celParent[0],
 			emailParent : data.emailParent[0],
@@ -275,10 +286,10 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			professionParent : data.professionParent[0],
 			relationshipParent : 0,
 			studyParent : data.studyParent[0],
-			telParent : data.telParent[0],
+			telParent : data.telParent[0]
 		},
 		dataDad = {
-			//imgParent : req.files[2].filename,
+			imgParent : imgDad,
 			birthdateParent : new Date(data.birthdateParent[1].split("-")),
 			celParent : data.celParent[1],
 			emailParent : data.emailParent[1],
@@ -293,7 +304,7 @@ router.post(["/update-children","/register-children"],(req,res)=>{
 			telParent : data.telParent[1]
 		},
 		dataCare = {
-			//imgParent : req.files[3].filename,
+			imgParent : imgCure,
 			birthdateParent : new Date(data.birthdateParent[2].split("-")),
 			celParent : data.celParent[2],
 			emailParent : data.emailParent[2],

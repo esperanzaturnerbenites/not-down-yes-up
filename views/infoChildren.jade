@@ -82,7 +82,7 @@ block content
 				article.img
 					p
 						span Foto
-						//img(src='#{infoChildren.child.}', alt='Foto')
+						img(src='/img/users/#{infoChildren.child.imgChildren}', alt='Foto')
 				article
 					h2 DATOS DE CONTACTO
 					p
@@ -154,6 +154,8 @@ block content
 				article
 					h2 MAMÁ
 					p
+						img(src='/img/users/#{infoChildren.parents[0].imgParent}', alt='Foto')
+					p
 						b
 							span Mamá: 
 						span #{infoChildren.parents[0].nameParent} #{infoChildren.parents[0].lastnameParent}
@@ -214,6 +216,8 @@ block content
 				article
 					h2 PAPÁ
 					p
+						img(src='/img/users/#{infoChildren.parents[1].imgParent}', alt='Foto')
+					p
 						b
 							span Papá: 
 						span #{infoChildren.parents[1].nameParent} #{infoChildren.parents[1].lastnameParent}
@@ -273,6 +277,8 @@ block content
 						span #{infoChildren.parents[1].jobParent}
 				article
 					h2 CUIDADOR
+					p
+						img(src='/img/users/#{infoChildren.parents[2].imgParent}', alt='Foto')
 					p
 						b
 							span Cuidador: 
