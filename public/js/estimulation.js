@@ -340,3 +340,7 @@ $("#continueActAll").click((event) => {
 	renderResultDataResult(clone)
 })
 	
+var socket = io.connect("http://localhost:8000/");
+socket.on("response", function (data) {
+	console.log(data)
+})
