@@ -236,59 +236,43 @@ router.get("/steps/:step/:activity",(req,res)=>{
 		})
 	})
 })
-/*
-var five = require("johnny-five"),
-	board,
-	led,
-	button0,
-	button1,
-	button2,
-	button3
 
-function validatePress(button,data){
+function validatePress(button,data,req){
 
-	led.toggle()
-	console.log("press")
-	var numberPin = button.pin,
-		numberPinCorrect = parseInt(data.numberPin) || 54
+	var numberPin = button.custom.pin,
+		numberPinCorrect = parseInt(data.numberPin),
+		response = {}
 
 	console.log("number pin " + numberPin)
 	if(numberPin == numberPinCorrect){
-		console.log({msg: "Correcto"})
+		response.msg = "Correcto"
 	}else{
-		console.log({msg: "Incorrecto"})
+		response.msg = "Incorrecto"
 	}
+	req.io.sockets.emit("response", {reponse: response})
 }
 
 router.post("/arduino/init",(req,res)=>{
+	var five = require("johnny-five"),
+		board = new five.Board()
+
 	var data = req.body
-	board = new five.Board()
+
 	board.on("ready", function() {
-		button0 = new five.Button("A0"),
-		button1 = new five.Button("A1"),
-		button2 = new five.Button("A2"),
-		button3 = new five.Button("A3"),
-		led = new five.Led(13)
-	})
-	console.log(data)
-	if(board.isReady){
-		button0.on("press", () => {
-			validatePress(button0,data)
-		})
-		button1.on("press", () => {
-			validatePress(button1,data)
-		})
-		button2.on("press", () => {
-			validatePress(button2,data)
-		})
-		button3.on("press", () => {
-			validatePress(button3,data)
-		})
+
+		var button1 = new five.Button({pin :8, custom :{pin: 1}}),
+			button2 = new five.Button({pin :9, custom :{pin: 2}}),
+			button3 = new five.Button({pin :10, custom :{pin: 3}}),
+			button4 = new five.Button({pin :11, custom :{pin: 4}})
+			//,led = new five.Led(9)
+
+		button1.on("press", () => {validatePress(button1,data,req)})
+		button2.on("press", () => {validatePress(button2,data,req)})
+		button3.on("press", () => {validatePress(button3,data,req)})
+		button4.on("press", () => {validatePress(button4,data,req)})
 		res.json({msg: "Actividad Iniciada"})
-	}
-})*/
-
-
+	})
+})
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

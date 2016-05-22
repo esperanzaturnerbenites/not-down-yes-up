@@ -2,6 +2,8 @@
 const express = require("express"),
 	//Crear aplicacion express
 	app = express(),
+	server = require("http").Server(app),
+	io = require("socket.io")(server),
 	//Requerir mongous
 	mongoose = require("mongoose"),
 	models = require("./models"),
@@ -28,7 +30,10 @@ const express = require("express"),
 //Parceador de cookies
 app.use(cookieParser())
 app.use(favicon(__dirname + "/public/img/favicon.png"))
-
+app.use(function(req,res,next){
+	req.io = io
+	next()
+})
 //Cofiguracion de la session
 app.use(expressSession({
 	secret: "SinLimites28*",
@@ -134,7 +139,7 @@ function requiredType (types){
 
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku
-app.listen(process.env.PORT || 8000, ()=>{
+server.listen(process.env.PORT || 8000, ()=>{
 	console.log("Server ON")
 })
 
