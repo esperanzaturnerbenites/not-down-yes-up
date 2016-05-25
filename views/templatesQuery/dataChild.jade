@@ -6,8 +6,8 @@ template#consulQueryDataChild
 				span
 					b NOMBRE: 
 				span #{childrenAct.nameChildren} #{childrenAct.lastnameChildren}
-			p
-				img#consulRImg(src='#{childrenAct.imgChildren}', alt='Foto')
+			article.img
+				img#consulRImg(src='/img/users/#{childrenAct.imgChildren}', alt='Foto')
 			p
 				span
 					b Número de Identificación: 

@@ -288,7 +288,8 @@ option{
 }
 
 .img img{
-	width:20%;
+	border-radius:50%;
+	width:100%;
 }
 
 .exit{

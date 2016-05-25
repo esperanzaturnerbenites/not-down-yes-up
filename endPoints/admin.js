@@ -78,6 +78,27 @@ router.get("/admin-activities",(req,res)=>{
 	})
 })
 
+router.post("/found-steps-acts",(req,res)=>{
+	var data = req.body
+
+	models.step.findOne({stepStep:data.stepStep},(err,steps)=>{
+		if(err) return res.json({err:err})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(steps){
+			data.steps = steps
+
+			models.activity.findOne({stepActivity:1},(err,activities)=>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(activities){
+					data.activities = activities
+					res.json({data:data})
+				}
+			})
+		}
+	})
+})
+
 router.post("/consul-step-acts",(req,res)=>{
 	var data = req.body,
 		steps = {}
@@ -402,8 +423,28 @@ router.get("/info-user/:id",(req,res)=>{
 				if(err) return res.json({err:err})
 				if(!adminU) return res.json({msg:"No users asigned"})
 				data.admin = adminU
+
+				var adminuserTeacher = adminU.find(adminuser => {
+					return adminuser.typeUser == 1
+				})
+
+				models.activityhistory.aggregate([
+					{$match: {idUser:adminuserTeacher._id}},
+					{$group: {
+						_id: "$idChildren"
+					}}
+				], function (err, hisact) {
+					models.children.populate(hisact, {path: "_id"},(err, hisactP) => {
+						var childrens = hisactP.map(his => {
+							return his._id
+						})
+						childrens.sort(function(a, b){return a < b})
+						data.childrens = childrens
+						res.render("infoUserRol",{infoUser: data})
+					})
+				})
 				
-				models.activityhistory.find({idUser:userFind._id})
+				/*models.activityhistory.find({idUser:adminuserTeacher._id})
 				.populate("idChildren idActivity")
 				.sort({idChildren:1})
 				.exec((err,hisact) =>{
@@ -411,9 +452,13 @@ router.get("/info-user/:id",(req,res)=>{
 					if(!hisact) return res.json({err:{message:"No tiene actividades"}})
 					if(hisact){
 						data.children = hisact
+						data.childrens = hisact.map(his => {
+							return his.idChildren
+						})
+						console.log(data)
 						res.render("infoUserRol",{infoUser: data})
 					}
-				})
+				})*/
 
 				/*models.activityhistory.aggregate([
 					{$group:{_id:"idChildren"}}]),
@@ -607,7 +652,7 @@ router.post("/update-pass",(req,res)=>{
 			(err,doc) => {
 				if(err) return res.json({err:err})
 				if(doc) return res.json({msg:"¡Contraseña actualizada con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({msg:"¡Usuario de logüeo no existe!", statusCode:2})
+				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
 			})
 	}
 })
@@ -837,6 +882,73 @@ router.get("/reports",(req,res)=>{
 router.get("/backup",(req,res)=>{
 	res.render("backup")
 })
+
+router.post("/add-step",(req,res)=>{
+	var data = req.body
+
+	data.imgStep = "/img/imgacts/step/" + data.stepStep + ".png"
+	data.styleStep = "/step" + data.stepStep
+	data.urlStep = "/estimulation/steps/" + data.stepStep
+		
+	models.step.findOne({stepStep : data.stepStep}, (err, step) => {
+		if(err) return res.json({err:err})
+		if(step) return res.json({err:{message:"¡Etapa ya existe!, Etapa: " + step.stepStep + ": " + step.nameStep}})
+		models.step.create(data, function (err, stepC) {
+			if(err) return res.json({err:err})
+			if(stepC) return res.json({msg:"¡Etapa registrada con éxito!", statusCode:0})
+			
+		})
+	})
+})
+
+router.post("/save-edit-step",(req,res)=>{
+	var data = req.body
+
+	models.step.findOneAndUpdate(
+		{stepStep : data.stepStepEdit},
+		{$set:{nameStep:data.nameStep, descriptionStep:data.descriptionStep}
+		},
+		(err,doc) => {
+			if(err) return res.json({err:err})
+			if(doc) return res.json({msg:"¡Etapa actualizada con éxito!", statusCode:0})
+			if(!doc) return res.json({msg:"¡Etapa no existe!", statusCode:2})
+		})
+})
+
+router.post("/delete-step",(req,res)=>{
+	var data = req.body
+
+	models.step.findOne({stepStep:data.stepDel},(err,step) => {
+		if(err) return res.json({err:err})
+		if(step){
+			models.step.remove({stepStep:data.stepDel},(err) => {
+				if(err) return res.json({err:err})
+				return res.json({msg:"Etapa eliminada con éxito!", statusCode:0})
+			})
+		}else return res.json({msg:"¡Etapa no existe!",statusCode:2})
+	})
+})
+
+router.post("/add-activity",(req,res)=>{
+	var data = req.body
+
+	data.imgActActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
+	data.imgNumActivity = "/img/imgacts/act/act" + data.activityActivity + ".png"
+	data.audioActivity = "/audio/step" + data.stepActivity + "act" + data.activityActivity + ".mp3"
+	data.styleActivity = "act" + data.activityActivity
+	data.urlActivity = "/estimulation/steps/" + data.stepActivity + "/" + data.activityActivity
+		
+	models.activity.findOne({stepActivity : data.stepActivity, activityActivity:data.activityActivity}, (err, acts) => {
+		if(err) return res.json({err:err})
+		if(acts) return res.json({err:{message:"¡Actividad ya existe!, Actividad: " + acts.activityActivity + ": " + acts.nameActivity}})
+		models.activity.create(data, function (err, actC) {
+			if(err) return res.json({err:err})
+			if(actC) return res.json({msg:"¡Actividad registrada con éxito!", statusCode:0})
+			
+		})
+	})
+})
+
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

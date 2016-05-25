@@ -3,18 +3,19 @@ block title
 	title ¡Not Down, Yes Up!
 block content
 	nav.menuPrincipal
-		if (user) 
-			ul
-				li
-					a(href='/admin/menu-admin') Administracón
-				li
-					a(href='/estimulation/menu-teacher') Estimulación
-				li
-					a(href='/logout') Salir
-		else
-			ul
-				li
-					a(href='/users/login') INGRESA
+		article.menuPrincipalNew
+			if (user) 
+				ul
+					li
+						a(href='/admin/menu-admin') ADMINISTRACIÓN
+					li
+						a(href='/estimulation/menu-teacher') ESTIMULACIÓN
+					li
+						a(href='/logout') SALIR
+			else
+				ul
+					li
+						a(href='/users/login') INGRESA
 	article.infoapp
 		header
 			h2 BIENVENID@

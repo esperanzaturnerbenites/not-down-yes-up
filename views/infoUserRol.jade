@@ -119,24 +119,24 @@ block content
 									td #{status}
 				article
 					h2 NIÑOS ASIGNADOS
-					if (infoUser.children.length > 0)
+					if (infoUser.childrens.length > 0)
 						table
 							thead
 								tr
 									th N
 									th ID
 									th NOMBRE
-									th ULT ACTIVIDAD
+									//th ULT ACTIVIDAD
 							tbody
 
 								- var n = 0
-								- for (childrens of infoUser.children)
+								- for (children of infoUser.childrens)
 									- n++
 
 									tr
 										td #{n}
-										td #{childrens.idChildren.idChildren}
-										td #{childrens.idChildren.nameChildren} #{childrens.idChildren.lastnameChildren}
-										td #{childrens.idActivity.nameActivity}
+										td #{children.idChildren}
+										td #{children.nameChildren} #{children.lastnameChildren}
+										//td #{children.idActivity.nameActivity}
 					else
 						h2 No tiene niñ@s asignados.

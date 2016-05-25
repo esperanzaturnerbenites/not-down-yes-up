@@ -8,13 +8,46 @@ block content
 	nav.menuPrincipal.menuDev
 		article.menuDeveloper
 			ul
-				p.h1-2 ACTS
+				p.h1-2#clicShowAct ACTS
 				li#clicAddAct
 					img(src='/img/icons/add.png', alt='.:.')
 				li#clicEditAct
 					img(src='/img/icons/edit.png', alt='.:.')
 				li#clicDeleteAct
 					img(src='/img/icons/delete.png', alt='.:.')
+		
+	section#showAtc.actionDev
+		article
+			form#showAtcs
+				fieldset
+					legend Listado de Atividades
+					article
+						label Etapa: 
+						select#stepActivityList(name='stepActivityList')
+							-for (step of data.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					article
+						p
+						table
+							thead
+								tr
+									th N°
+									th NOMBRE
+									th DESCRIPCIÓN
+									th PASO 1
+									th PASO 2
+									th PASO 3
+									th PASO 4
+							tbody#actsList
+								-var n = 0
+								-for (act of data.activities)
+									-n++
+									tr
+										td #{n}
+										td #{act.nameActivity}
+										td #{act.descriptionActivity}
+										-for (var i = 0; i < 4; i++)
+											td #{act.guidesActivity[i]}
 
 	section#add.actionDev.hide
 		article
@@ -36,17 +69,17 @@ block content
 					fieldset
 						label PASOS:
 						article
-							input#guide(type='text', name='guide', placeholder='Paso 1' required='')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 1' required='')
 						article
-							input#guide(type='text', name='guide', placeholder='Paso 2' required='')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 2' required='')
 						article
-							input#guide(type='text', name='guide', placeholder='Paso 3')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 3')
 						article
-							input#guide(type='text', name='guide', placeholder='Paso 4')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 4')
 					article
-						button#addActivity
+						button#buttonAddActivity
 							span Agregar
-	
+
 	section#edit.actionDev.hide
 		article
 			form#editActs

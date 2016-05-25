@@ -166,30 +166,32 @@ $("#validActClic").on("click",(event) => {
 			})
 
 			$("#buttonValidActParcial",clone).click(()=>{
-				$.ajax({
-					url: "/estimulation/valid-activity-parcial",
-					async : false,
-					data : {actGeneral : ($("#formValidChildrenParcial")).serialize(),
-							stepActivity : $("#numberStep").val(),
-							activityActivity : $("#numberActivity").val()},
-					type : "POST",
-					success: function(activity){
-						if (activity.err) return notification.show({msg:activity.err.message, type:1})
-						notification.show({msg:activity.msg, type:activity.statusCode})
-						//console.log(activity)
-					}
-				})
-				$("#formInicAct").remove()
-				$("#nameChild").remove()
-				$("#nameChild1").remove()
-				$("#nameChild2").remove()
-				$("#formValidChildrenParcial").remove()
-				$("#idChildren").val("")
-				$("#idChildren").prop("readonly", false)
-				$("#numberPin").val("")
-				$("#numberPin").prop("readonly", false)
-				$("#validActClicDef").prop("disabled", true)
-				$("#validActClic").prop("disabled", true)
+				if(confirm("Validación parcial de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
+					$.ajax({
+						url: "/estimulation/valid-activity-parcial",
+						async : false,
+						data : {actGeneral : ($("#formValidChildrenParcial")).serialize(),
+								stepActivity : $("#numberStep").val(),
+								activityActivity : $("#numberActivity").val()},
+						type : "POST",
+						success: function(activity){
+							if (activity.err) return notification.show({msg:activity.err.message, type:1})
+							notification.show({msg:activity.msg, type:activity.statusCode})
+							//console.log(activity)
+						}
+					})
+					$("#formInicAct").remove()
+					$("#nameChild").remove()
+					$("#nameChild1").remove()
+					$("#nameChild2").remove()
+					$("#formValidChildrenParcial").remove()
+					$("#idChildren").val("")
+					$("#idChildren").prop("readonly", false)
+					$("#numberPin").val("")
+					$("#numberPin").prop("readonly", false)
+					$("#validActClicDef").prop("disabled", true)
+					$("#validActClic").prop("disabled", true)
+				}
 			})
 
 			data.append(label)
@@ -226,30 +228,32 @@ $("#validActClicDef").on("click",(event) => {
 			})
 
 			$("#buttonValidAct",clone).click(()=>{
-				$.ajax({
-					url: "/estimulation/valid-activity-complete",
-					async : false,
-					data : {actGeneral : ($("#formValidChildren")).serialize(),
-							stepActivity : $("#numberStep").val(),
-							activityActivity : $("#numberActivity").val()},
-					type : "POST",
-					success: function(activity){
-						if (activity.err) return notification.show({msg:activity.err.message, type:1})
-						notification.show({msg:activity.msg, type:activity.statusCode})
-						//console.log(activity)
-					}
-				})
-				$("#formInicAct").remove()
-				$("#nameChild").remove()
-				$("#nameChild1").remove()
-				$("#nameChild2").remove()
-				$("#formValidChildren").remove()
-				$("#idChildren").val("")
-				$("#idChildren").prop("readonly", false)
-				$("#numberPin").val("")
-				$("#numberPin").prop("readonly", false)
-				$("#validActClicDef").prop("disabled", true)
-				$("#validActClic").prop("disabled", true)
+				if(confirm("Validación DEFINITIVA de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
+					$.ajax({
+						url: "/estimulation/valid-activity-complete",
+						async : false,
+						data : {actGeneral : ($("#formValidChildren")).serialize(),
+								stepActivity : $("#numberStep").val(),
+								activityActivity : $("#numberActivity").val()},
+						type : "POST",
+						success: function(activity){
+							if (activity.err) return notification.show({msg:activity.err.message, type:1})
+							notification.show({msg:activity.msg, type:activity.statusCode})
+							//console.log(activity)
+						}
+					})
+					$("#formInicAct").remove()
+					$("#nameChild").remove()
+					$("#nameChild1").remove()
+					$("#nameChild2").remove()
+					$("#formValidChildren").remove()
+					$("#idChildren").val("")
+					$("#idChildren").prop("readonly", false)
+					$("#numberPin").val("")
+					$("#numberPin").prop("readonly", false)
+					$("#validActClicDef").prop("disabled", true)
+					$("#validActClic").prop("disabled", true)
+				}
 			})
 
 			data.append(label)
@@ -340,7 +344,4 @@ $("#continueActAll").click((event) => {
 	renderResultDataResult(clone)
 })
 	
-var socket = io.connect("http://localhost:8000/");
-socket.on("response", function (data) {
-	console.log(data)
-})
+

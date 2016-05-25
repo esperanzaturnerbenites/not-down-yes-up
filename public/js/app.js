@@ -59,13 +59,16 @@ function getClone(selector){
 	return document.importNode(t.content,true)
 }
 
-function renderResults(node){
-	showResults.html("")
-	showResults.append(node)
-}
+/*function renderResults(node){
+	console.log("hola")
+	console.log(cshowResults)
+	showResults.empty()
+	showResults.acppend(node)
+}*/
 function renderResultTeachAdmin(node){
-	showResultTeachAdmin.html("")
-	showResultTeachAdmin.append(node)
+	showResults.empty()
+	showResults.append(node)
+
 }
 function renderResultChildren(node){
 	showResultChildren.html("")
@@ -340,7 +343,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 					})
 
 					renderResultValid(clone)
-				}else console.log("Not consult complete - Imcompletes Activities")
+				}else notification.show({msg:"¡No cumple con las condiciones necesarias para ser validad@!", type:2})
 			}
 		}
 	})
@@ -373,7 +376,8 @@ formFindAll.on("submit",(event) => {
 					$("#articleFindAll").remove()
 				})
 			}
-			renderResults(clone)
+			renderResultTeachAdmin($(clone))
+			window.myvar = clone
 		}
 	})
 })
@@ -381,19 +385,21 @@ formFindAll.on("submit",(event) => {
 formUpdatePass.on("submit",(event) => {
 	event.preventDefault()
 	if($("#adminPassUser").val() == $("#adminPassConfirmUser").val()){
-		$.ajax({
-			url: "/admin/update-pass",
-			async : false, 
-			data : $("#formUpdatePass").serialize(),
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				$("#adminIdUser").val("")
-				$("#adminPassUser").val("")
-				$("#adminPassConfirmUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
+		if(confirm("Se actualizará contraseña a: " + $("#adminIdUser").val() +". ¿Desea continuar?")){
+			$.ajax({
+				url: "/admin/update-pass",
+				async : false, 
+				data : $("#formUpdatePass").serialize(),
+				type : "POST",
+				success: function(result){
+					if (result.err) return notification.show({msg:result.err.message, type:1})
+					$("#adminIdUser").val("")
+					$("#adminPassUser").val("")
+					$("#adminPassConfirmUser").val("")
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+			})
+		}
 	}else{
 		//console.log({msg:"Password not equals"})
 		var msg = "¡Contraseña no coincide!"
@@ -403,62 +409,77 @@ formUpdatePass.on("submit",(event) => {
 
 formOpeUserRol.on("submit",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/update-rol",
-		async : false, 
-		data : $("#formOpeUserRol").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			$("#adminRolIdUser").val("")
-			notification.show({msg:result.msg, type:result.statusCode})
-		}
-	})
+	if(confirm("Se actualizará rol a: " + $("#adminRolIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/update-rol",
+			async : false, 
+			data : $("#formOpeUserRol").serialize(),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminRolIdUser").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
 formOpeUserStatus.on("submit",(event) => {
+	var confirmSta
+
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/update-status",
-		async : false, 
-		data : $("#formOpeUserStatus").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			$("#adminStaIdUser").val("")
-			notification.show({msg:result.msg, type:result.statusCode})
-		}
-	})
+	if($("#statusUser").val() == 0)
+		confirmSta = "INACTIVARÁ"
+	else
+		confirmSta = "ACTIVARÁ"
+
+	if(confirm("Se " + confirmSta + ": " + $("#adminStaIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/update-status",
+			async : false, 
+			data : $("#formOpeUserStatus").serialize(),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminStaIdUser").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
 formOpeUser.on("submit.formOpeUserDel",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/delete-users",
-		async : false, 
-		data : $("#formOpeUser").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			$("#adminOpeIdUser").val("")
-			notification.show({msg:result.msg, type:result.statusCode})
-		}
-	})
+	if(confirm("Se borrará: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/delete-users",
+			async : false, 
+			data : $("#formOpeUser").serialize(),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminOpeIdUser").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
 $("#formOpeTeachAdminDel").on("click",(event) => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/delete-teachadmin",
-		async : false, 
-		data : $("#formOpeTeachAdmin").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			$("#adminOpeTeachAdmin").val("")
-			notification.show({msg:result.msg, type:result.statusCode})
-		}
-	})
+	if(confirm("Se borrará: " + $("#adminOpeTeachAdmin").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/delete-teachadmin",
+			async : false, 
+			data : $("#formOpeTeachAdmin").serialize(),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminOpeTeachAdmin").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
 $("#formOpeTeachAdminInfo").on("click",(event) => {
@@ -564,6 +585,62 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 	})
 })
 
+$("#clicShowAct").on("click",() => {
+	$("#showAtc").removeClass("hide")
+	$("#add").addClass("hide")
+	$("#edit").addClass("hide")
+	$("#delete").addClass("hide")
+})
+
+$("#clicAddAct").on("click",() => {
+	$("#showAtc").addClass("hide")
+	$("#add").removeClass("hide")
+	$("#edit").addClass("hide")
+	$("#delete").addClass("hide")
+})
+
+$("#clicEditAct").on("click",() => {
+	$("#showAtc").addClass("hide")
+	$("#add").addClass("hide")
+	$("#edit").removeClass("hide")
+	$("#delete").addClass("hide")
+})
+
+$("#clicDeleteAct").on("click",() => {
+	$("#showAtc").addClass("hide")
+	$("#add").addClass("hide")
+	$("#edit").addClass("hide")
+	$("#delete").removeClass("hide")
+})
+
+$("#clicShowStep").on("click",() => {
+	$("#showStep").removeClass("hide")
+	$("#addStep").addClass("hide")
+	$("#editStep").addClass("hide")
+	$("#deleteStep").addClass("hide")
+})
+
+$("#clicAddStep").on("click",() => {
+	$("#showStep").addClass("hide")
+	$("#addStep").removeClass("hide")
+	$("#editStep").addClass("hide")
+	$("#deleteStep").addClass("hide")
+})
+
+$("#clicEditStep").on("click",() => {
+	$("#showStep").addClass("hide")
+	$("#addStep").addClass("hide")
+	$("#editStep").removeClass("hide")
+	$("#deleteStep").addClass("hide")
+})
+
+$("#clicDeleteStep").on("click",() => {
+	$("#showStep").addClass("hide")
+	$("#addStep").addClass("hide")
+	$("#editStep").addClass("hide")
+	$("#deleteStep").removeClass("hide")
+})
+
 $("#stepActivityEdit").change(() => {
 	var step = {stepStep:$("#stepActivityEdit").val()}
 	$.ajax({
@@ -608,38 +685,144 @@ $("#stepActivityDel").change(() => {
 	})
 })
 
-$("#clicAddAct").on("click",() => {
-	$("#add").removeClass("hide")
-	$("#edit").addClass("hide")
-	$("#delete").addClass("hide")
+//Revisar Guides ******************************************************************************
+$("#stepActivityList").change(() => {
+	var step = {stepStep:$("#stepActivityList").val()}
+	$.ajax({
+		url: "/admin/consul-step-acts",
+		async : false,
+		data : step,
+		type : "POST",
+		success: function(result){
+			$("#actsList").empty()
+			if(result.steps){
+				for(step of result.steps){
+					$("#actsList").append(
+						$("<tr>").append(
+							$("<td>",{html: step.activityActivity}),
+							$("<td>",{html: step.nameActivity}),
+							$("<td>",{html: step.descriptionActivity}),
+							$("<td>",{html: step.guidesActivity})
+							)
+					)
+				}
+			}
+		}
+	})
 })
 
-$("#clicEditAct").on("click",() => {
-	$("#add").addClass("hide")
-	$("#edit").removeClass("hide")
-	$("#delete").addClass("hide")
+$("#buttonAddStep").on("click",() => {
+	event.preventDefault()
+	if(confirm("Se creará una nueva etapa. ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/add-step",
+			async : false,
+			data : $("#addSteps").serialize(),
+			type : "POST",
+			success: function(result){
+				$("#stepStep").val("")
+				$("#nameStep").val("")
+				$("#descriptionStep").val("")
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
-$("#clicDeleteAct").on("click",() => {
-	$("#add").addClass("hide")
-	$("#edit").addClass("hide")
-	$("#delete").removeClass("hide")
+$("#buttonEditStep").on("click",() => {
+	event.preventDefault()
+
+	var step = {stepStep:$("#stepStepEdit").val()}
+	$.ajax({
+		url: "/admin/found-steps-acts",
+		async : false,
+		data : step,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#nameStepEdit").empty()
+			$("#descriptionStepEdit").empty()
+			$("#saveStep").empty()
+			if(data.steps){
+				$("#nameStepEdit").append(
+					$("<input>",{
+						type:"text",
+						name:"nameStep",
+						id:"nameStep",
+						html:data.steps.nameStep,
+						value:data.steps.nameStep})
+				)
+				$("#descriptionStepEdit").append(
+					$("<textarea>",{
+						type:"text",
+						name:"descriptionStep",
+						id:"descriptionStep",
+						value: data.steps.descriptionStep,
+						html: data.steps.descriptionStep})
+				)
+				$("#saveStep").append(
+					$("<button>",{
+						type:"submit",
+						name:"butonSaveStep",
+						id:"butonSaveStep",
+						value: "Guardar",
+						html: "Guardar"})
+				)
+				$("#butonSaveStep").click(()=>{
+					event.preventDefault()
+					if(confirm("Se editará la etapa N° " + $("#stepStepEdit").val() + " ¿Desea continuar?")){
+						$.ajax({
+							url: "/admin/save-edit-step",
+							async : false,
+							data : $("#editSteps").serialize(),
+							type : "POST",
+							success: function(result){
+								$("#nameStepEdit").empty()
+								$("#descriptionStepEdit").empty()
+								$("#saveStep").empty()
+								if (result.err) return notification.show({msg:result.err.message, type:1})
+								notification.show({msg:result.msg, type:result.statusCode})
+							}
+						})
+					}
+				})
+			}
+		}
+	})
 })
 
-$("#clicAddStep").on("click",() => {
-	$("#addStep").removeClass("hide")
-	$("#editStep").addClass("hide")
-	$("#deleteStep").addClass("hide")
+$("#buttonDelActivity").on("click",() => {
+	event.preventDefault()
+	if(confirm("Se borrará la etapa N° " + $("#stepDel").val() + " ¿Desea continuar?")){
+		$.ajax({
+			url: "/admin/delete-step",
+			async : false,
+			data : $("#deleteSteps").serialize(),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
-
-$("#clicEditStep").on("click",() => {
-	$("#addStep").addClass("hide")
-	$("#editStep").removeClass("hide")
-	$("#deleteStep").addClass("hide")
-})
-
-$("#clicDeleteStep").on("click",() => {
-	$("#addStep").addClass("hide")
-	$("#editStep").addClass("hide")
-	$("#deleteStep").removeClass("hide")
+//vaciar guidesActivity***********************************************************************
+$("#buttonAddActivity").on("click",() => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/add-activity",
+		async : false,
+		data : $("#addActs").serialize(),
+		type : "POST",
+		success: function(result){
+			$("#activityActivity").val("")
+			$("#nameActivity").val("")
+			$("#descriptionActivity").val("")
+			$("#guidesActivity").val("")
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
+			
+		}
+	})
 })
