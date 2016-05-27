@@ -28,7 +28,7 @@ block content
 									th N°
 									th NOMBRE
 									th DESCRIPCIÓN
-							tbody
+							tbody#stepList
 								-for (step of data.steps)
 									tr
 										td #{step.stepStep}
@@ -79,6 +79,7 @@ block content
 							-for (step of data.steps)
 								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					article
-						button#buttonDelActivity
+						button#buttonDelStep
 							span Eliminar
+
 	script(src="/js/app.js")

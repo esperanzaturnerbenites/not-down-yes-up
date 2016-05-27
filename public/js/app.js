@@ -590,6 +590,38 @@ $("#clicShowAct").on("click",() => {
 	$("#add").addClass("hide")
 	$("#edit").addClass("hide")
 	$("#delete").addClass("hide")
+
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepActivityList").empty()
+			$("#actsList").empty()
+
+			for(var step of data.steps){
+				$("#stepActivityList").append(
+					$("<option>",{
+						html:step.stepStep + " - " + step.nameStep,
+						value:step.stepStep})
+				)
+			}
+			for(var stepList of data.activities){
+				var tr = $("<tr>",{id:"trAddGuide"}).append(
+						$("<td>",{html: stepList.activityActivity}),
+						$("<td>",{html: stepList.nameActivity}),
+						$("<td>",{html: stepList.descriptionActivity})
+						)
+				for(var guide of stepList.guidesActivity){
+					tr.append(
+						$("<td>",{html: guide})
+					)
+				}
+				$("#actsList").append(tr)
+			}
+		}
+	})
 })
 
 $("#clicAddAct").on("click",() => {
@@ -604,6 +636,31 @@ $("#clicEditAct").on("click",() => {
 	$("#add").addClass("hide")
 	$("#edit").removeClass("hide")
 	$("#delete").addClass("hide")
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepActivityEdit").empty()
+			$("#activityActivityEdit").empty()
+
+			for(var step of data.steps){
+				$("#stepActivityEdit").append(
+					$("<option>",{
+						html:step.stepStep + " - " + step.nameStep,
+						value:step.stepStep})
+				)
+			}
+			for(var act of data.activities){
+				$("#activityActivityEdit").append(
+					$("<option>",{
+						html:"Actividad: " + act.activityActivity + " - " + act.nameActivity,
+						value:act.activityActivity})
+				)
+			}
+		}
+	})
 })
 
 $("#clicDeleteAct").on("click",() => {
@@ -611,6 +668,31 @@ $("#clicDeleteAct").on("click",() => {
 	$("#add").addClass("hide")
 	$("#edit").addClass("hide")
 	$("#delete").removeClass("hide")
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepActivityDel").empty()
+			$("#activityActivityDel").empty()
+
+			for(var step of data.steps){
+				$("#stepActivityDel").append(
+					$("<option>",{
+						html:step.stepStep + " - " + step.nameStep,
+						value:step.stepStep})
+				)
+			}
+			for(var act of data.activities){
+				$("#activityActivityDel").append(
+					$("<option>",{
+						html:"Actividad: " + act.activityActivity + " - " + act.nameActivity,
+						value:act.activityActivity})
+				)
+			}
+		}
+	})
 })
 
 $("#clicShowStep").on("click",() => {
@@ -618,6 +700,26 @@ $("#clicShowStep").on("click",() => {
 	$("#addStep").addClass("hide")
 	$("#editStep").addClass("hide")
 	$("#deleteStep").addClass("hide")
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepList").empty()
+
+			for(var stepList of data.steps){
+				$("#stepList").append(
+					$("<tr>").append(
+						$("<td>",{html: stepList.stepStep}),
+						$("<td>",{html: stepList.nameStep}),
+						$("<td>",{html: stepList.descriptionStep})
+						//$("<td>",{html: stepList.guidesActivity})
+						)
+				)
+			}
+		}
+	})
 })
 
 $("#clicAddStep").on("click",() => {
@@ -632,6 +734,23 @@ $("#clicEditStep").on("click",() => {
 	$("#addStep").addClass("hide")
 	$("#editStep").removeClass("hide")
 	$("#deleteStep").addClass("hide")
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepStepEdit").empty()
+
+			for(var step of data.steps){
+				$("#stepStepEdit").append(
+					$("<option>",{
+						html:step.stepStep + " - " + step.nameStep,
+						value:step.stepStep})
+				)
+			}
+		}
+	})
 })
 
 $("#clicDeleteStep").on("click",() => {
@@ -639,6 +758,23 @@ $("#clicDeleteStep").on("click",() => {
 	$("#addStep").addClass("hide")
 	$("#editStep").addClass("hide")
 	$("#deleteStep").removeClass("hide")
+	$.ajax({
+		url: "/admin/found-all-step-activities",
+		async : false,
+		type : "POST",
+		success: function(result){
+			var data = result.data
+			$("#stepDel").empty()
+
+			for(var step of data.steps){
+				$("#stepDel").append(
+					$("<option>",{
+						html:step.stepStep + " - " + step.nameStep,
+						value:step.stepStep})
+				)
+			}
+		}
+	})
 })
 
 $("#stepActivityEdit").change(() => {
@@ -649,6 +785,10 @@ $("#stepActivityEdit").change(() => {
 		data : step,
 		type : "POST",
 		success: function(result){
+			$("#nameActivityEdit").empty()
+			$("#descriptionActivityEdit").empty()
+			$("#guideActivityEdit").empty()
+			$("#saveActivity").empty()
 			$("#activityActivityEdit").empty()
 			if(result.steps){
 				for(step of result.steps){
@@ -685,7 +825,6 @@ $("#stepActivityDel").change(() => {
 	})
 })
 
-//Revisar Guides ******************************************************************************
 $("#stepActivityList").change(() => {
 	var step = {stepStep:$("#stepActivityList").val()}
 	$.ajax({
@@ -697,14 +836,18 @@ $("#stepActivityList").change(() => {
 			$("#actsList").empty()
 			if(result.steps){
 				for(step of result.steps){
-					$("#actsList").append(
-						$("<tr>").append(
-							$("<td>",{html: step.activityActivity}),
-							$("<td>",{html: step.nameActivity}),
-							$("<td>",{html: step.descriptionActivity}),
-							$("<td>",{html: step.guidesActivity})
-							)
-					)
+					var tr =$("<tr>",{id:"trAddGuide"}).append(
+						$("<td>",{html: step.activityActivity}),
+						$("<td>",{html: step.nameActivity}),
+						$("<td>",{html: step.descriptionActivity})
+						//$("<td>",{html: step.guidesActivity})
+						)
+					for(var guide of step.guidesActivity){
+						tr.append(
+							$("<td>",{html: guide})
+						)
+					}
+					$("#actsList").append(tr)
 				}
 			}
 		}
@@ -792,9 +935,9 @@ $("#buttonEditStep").on("click",() => {
 	})
 })
 
-$("#buttonDelActivity").on("click",() => {
+$("#buttonDelStep").on("click",() => {
 	event.preventDefault()
-	if(confirm("Se borrará la etapa N° " + $("#stepDel").val() + " ¿Desea continuar?")){
+	if(confirm("Se borrará la etapa N° " + $("#stepDel").val() + ", junto con todas sus actividades ¿Desea continuar?")){
 		$.ajax({
 			url: "/admin/delete-step",
 			async : false,
@@ -807,7 +950,7 @@ $("#buttonDelActivity").on("click",() => {
 		})
 	}
 })
-//vaciar guidesActivity***********************************************************************
+
 $("#buttonAddActivity").on("click",() => {
 	event.preventDefault()
 	$.ajax({
@@ -816,13 +959,111 @@ $("#buttonAddActivity").on("click",() => {
 		data : $("#addActs").serialize(),
 		type : "POST",
 		success: function(result){
-			$("#activityActivity").val("")
-			$("#nameActivity").val("")
-			$("#descriptionActivity").val("")
-			$("#guidesActivity").val("")
+			$("#addActs").trigger("reset")
+			//$("[guidesActivity]").empty()
 			if (result.err) return notification.show({msg:result.err.message, type:1})
 			notification.show({msg:result.msg, type:result.statusCode})
+			//for(var i = (data.guidesActivity.length); i = 4; i++){
+				//data.guidesActivity = ""
+			//}
 			
 		}
 	})
+})
+
+$("#buttonEditAct").on("click",() => {
+	event.preventDefault()
+
+	if($("#activityActivityEdit").val()){
+		$.ajax({
+			url: "/admin/consul-acts",
+			async : false,
+			data : $("#editActs").serialize(),
+			type : "POST",
+			success: function(result){
+				var data = result.activities
+				$("#nameActivityEdit").empty()
+				$("#descriptionActivityEdit").empty()
+				$("#guideActivityEdit").empty()
+				$("#saveActivity").empty()
+				if(data){
+					$("#nameActivityEdit").append(
+						$("<input>",{
+							type:"text",
+							name:"nameActivity",
+							id:"nameActivity",
+							html:data.nameActivity,
+							value:data.nameActivity})
+					)
+					$("#descriptionActivityEdit").append(
+						$("<textarea>",{
+							type:"text",
+							name:"descriptionActivity",
+							id:"descriptionActivity",
+							value: data.descriptionActivity,
+							html: data.descriptionActivity})
+					)
+					for(var i = 0; i < 4; i++){
+						$("#guideActivityEdit").append(
+							$("<input>",{
+								type:"text",
+								name:"guideActivity",
+								id:"guideActivity",
+								value: data.guidesActivity[i],
+								html: data.guidesActivity[i]})
+						)
+					}
+					$("#saveActivity").append(
+						$("<button>",{
+							type:"submit",
+							name:"buttonSaveActivity",
+							id:"buttonSaveActivity",
+							value: "Guardar",
+							html: "Guardar"})
+					)
+					$("#buttonSaveActivity").click(()=>{
+						event.preventDefault()
+						if(confirm("Se editará la actividad N° " + $("#activityActivityEdit").val() + " ¿Desea continuar?")){
+							$.ajax({
+								url: "/admin/save-edit-activity",
+								async : false,
+								data : $("#editActs").serialize(),
+								type : "POST",
+								success: function(result){
+									$("#nameActivityEdit").empty()
+									$("#descriptionActivityEdit").empty()
+									$("#guideActivityEdit").empty()
+									$("#saveActivity").empty()
+									if (result.err) return notification.show({msg:result.err.message, type:1})
+									notification.show({msg:result.msg, type:result.statusCode})
+								}
+							})
+						}
+					})
+				}
+			}
+		})
+	}else{
+		notification.show({msg:"¡No hay actividades en esta etapa!", type:1})
+	}
+})
+
+$("#deleteActivity").on("click",() => {
+	event.preventDefault()
+	if($("#activityActivityEdit").val()){
+		if(confirm("Se borrará la actividad N° " + $("#activityActivityDel").val() + " ¿Desea continuar?")){
+			$.ajax({
+				url: "/admin/delete-activity",
+				async : false,
+				data : $("#deleteActs").serialize(),
+				type : "POST",
+				success: function(result){
+					if (result.err) return notification.show({msg:result.err.message, type:1})
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+			})
+		}
+	}else{
+		notification.show({msg:"¡No hay actividades en esta etapa!", type:1})
+	}
 })

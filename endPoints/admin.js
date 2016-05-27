@@ -39,13 +39,17 @@ router.get("/menu-admin",(req,res)=>{
 router.get("/admin-steps",(req,res)=>{
 	var data = {}
 
-	models.step.find({},(err,steps)=>{
+	models.step.find({})
+	.sort({stepStep:1})
+	.exec((err,steps)=>{
 		if(err) return res.json({err:err})
 		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
 		if(steps){
 			data.steps = steps
 
-			models.activity.find({stepActivity:1},(err,activities)=>{
+			models.activity.find({stepActivity:steps[0].stepStep})
+			.sort({activityActivity:1})
+			.exec((err,activities)=>{
 				if(err) return res.json({err:err})
 				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
 				if(activities){
@@ -60,18 +64,47 @@ router.get("/admin-steps",(req,res)=>{
 router.get("/admin-activities",(req,res)=>{
 	var data = {}
 
-	models.step.find({},(err,steps)=>{
+	models.step.find({})
+	.sort({stepStep:1})
+	.exec((err,steps)=>{
 		if(err) return res.json({err:err})
 		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
 		if(steps){
 			data.steps = steps
 
-			models.activity.find({stepActivity:1},(err,activities)=>{
+			models.activity.find({stepActivity:steps[0].stepStep})
+			.sort({activityActivity:1})
+			.exec((err,activities)=>{
 				if(err) return res.json({err:err})
 				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
 				if(activities){
 					data.activities = activities
 					res.render("adminActs",{user :req.user, data:data})
+				}
+			})
+		}
+	})
+})
+
+router.post("/found-all-step-activities",(req,res)=>{
+	var data = {}
+
+	models.step.find({})
+	.sort({stepStep:1})
+	.exec((err,steps)=>{
+		if(err) return res.json({err:err})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(steps){
+			data.steps = steps
+
+			models.activity.find({stepActivity:steps[0].stepStep})
+			.sort({activityActivity:1})
+			.exec((err,activities)=>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(activities){
+					data.activities = activities
+					res.json({data:data})
 				}
 			})
 		}
@@ -87,7 +120,9 @@ router.post("/found-steps-acts",(req,res)=>{
 		if(steps){
 			data.steps = steps
 
-			models.activity.findOne({stepActivity:1},(err,activities)=>{
+			models.activity.find({stepActivity:steps[0].stepStep})
+			.sort({activityActivity:1})
+			.exec((err,activities)=>{
 				if(err) return res.json({err:err})
 				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
 				if(activities){
@@ -103,11 +138,25 @@ router.post("/consul-step-acts",(req,res)=>{
 	var data = req.body,
 		steps = {}
 
-	models.activity.find({stepActivity:data.stepStep},(err,stepActs) =>{
+	models.activity.find({stepActivity:data.stepStep})
+	.sort({activityActivity:1})
+	.exec((err,stepActs) =>{
 		if(err) return res.json({err:err})
 		if(stepActs.length < 1) return res.json({err:{message:"Not Activities"}})
 		steps = stepActs
 		return res.json({msg : "Consult Complete", steps :steps})
+	})
+})
+
+router.post("/consul-acts",(req,res)=>{
+	var data = req.body,
+		activities = {}
+
+	models.activity.findOne({stepActivity:data.stepActivityEdit, activityActivity:data.activityActivityEdit},(err,acts) =>{
+		if(err) return res.json({err:err})
+		if(acts.length < 1) return res.json({err:{message:"Not Activities"}})
+		activities = acts
+		return res.json({msg : "Consult Complete", activities :activities})
 	})
 })
 
@@ -761,18 +810,14 @@ router.post("/delete-teachadmin",(req,res)=>{
 
 				for(var admin of adminU){
 					if(admin.typeUser == 1){userteach++}
-					console.log("typeUser" + admin.typeUser)
 
 					models.activityhistory.find({idUser:admin._id},(err,acthisFind) => {
 						if(err) return res.json({err:err})
 						if(acthisFind){
 							userhis.push(admin._id)
-							console.log("id adminuser" + admin._id)
 						}
 					})
 				}
-				console.log("userhis" + userhis.length)
-				console.log("userteach|" + userteach)
 
 				if(userhis.length == 0 && userteach > 0){
 					models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
@@ -790,7 +835,6 @@ router.post("/delete-teachadmin",(req,res)=>{
 	})
 })
 
-//Si borro el usuario Aqui aparece como null
 router.post("/show-valid-step",(req,res)=>{
 	var data = req.body
 
@@ -923,7 +967,10 @@ router.post("/delete-step",(req,res)=>{
 		if(step){
 			models.step.remove({stepStep:data.stepDel},(err) => {
 				if(err) return res.json({err:err})
-				return res.json({msg:"Etapa eliminada con éxito!", statusCode:0})
+				models.activity.remove({stepActivity:data.stepDel},(err) => {
+					if(err) return res.json({err:err})
+					return res.json({msg:"Etapa eliminada con éxito!", statusCode:0})
+				})
 			})
 		}else return res.json({msg:"¡Etapa no existe!",statusCode:2})
 	})
@@ -931,6 +978,10 @@ router.post("/delete-step",(req,res)=>{
 
 router.post("/add-activity",(req,res)=>{
 	var data = req.body
+
+	//for(var i = data.guidesActivity.length; i = 4; i++){
+		//data.guidesActivity = ""
+	//}
 
 	data.imgActActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
 	data.imgNumActivity = "/img/imgacts/act/act" + data.activityActivity + ".png"
@@ -948,6 +999,35 @@ router.post("/add-activity",(req,res)=>{
 		})
 	})
 })
+
+router.post("/save-edit-activity",(req,res)=>{
+	var data = req.body
+
+	models.activity.findOneAndUpdate(
+		{stepActivity : data.stepActivityEdit, activityActivity : data.activityActivityEdit},
+		{$set:{nameActivity:data.nameActivity, descriptionActivity:data.descriptionActivity, guidesActivity:data.guideActivity}
+		},
+		(err,doc) => {
+			if(err) return res.json({err:err})
+			if(doc) return res.json({msg:"¡Actividad actualizada con éxito!", statusCode:0})
+			if(!doc) return res.json({msg:"¡Actividad no existe!", statusCode:2})
+		})
+})
+
+router.post("/delete-activity",(req,res)=>{
+	var data = req.body
+
+	models.activity.findOne({stepActivity:data.stepActivityDel, activityActivity:data.activityActivityDel},(err,step) => {
+		if(err) return res.json({err:err})
+		if(step){
+			models.activity.remove({stepActivity:data.stepActivityDel, activityActivity:data.activityActivityDel},(err) => {
+				if(err) return res.json({err:err})
+				return res.json({msg:"¡Actividad eliminada con éxito!", statusCode:0})
+			})
+		}else return res.json({msg:"¡Actividad no existe!",statusCode:2})
+	})
+})
+
 
 
 //Exportar una variable de js mediante NodeJS

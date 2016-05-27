@@ -15,7 +15,7 @@ block content
 					img(src='/img/icons/edit.png', alt='.:.')
 				li#clicDeleteAct
 					img(src='/img/icons/delete.png', alt='.:.')
-		
+
 	section#showAtc.actionDev
 		article
 			form#showAtcs
@@ -39,11 +39,9 @@ block content
 									th PASO 3
 									th PASO 4
 							tbody#actsList
-								-var n = 0
 								-for (act of data.activities)
-									-n++
 									tr
-										td #{n}
+										td #{act.activityActivity}
 										td #{act.nameActivity}
 										td #{act.descriptionActivity}
 										-for (var i = 0; i < 4; i++)
@@ -96,8 +94,12 @@ block content
 							-for (act of data.activities)
 								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
 					article
-						button#editActivity
+						button#buttonEditAct
 							span Editar
+					article#nameActivityEdit
+					article#descriptionActivityEdit
+					article#guideActivityEdit
+					article#saveActivity
 
 	section#delete.actionDev.hide
 		article
