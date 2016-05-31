@@ -2,6 +2,14 @@
  *Code Esperanza Turner
  */
 
+@import url("https://fonts.googleapis.com/css?family=Pacifico");
+@import url("https://fonts.googleapis.com/css?family=Architects+Daughter");
+@import url("https://fonts.googleapis.com/css?family=Indie+Flower");
+@import url("https://fonts.googleapis.com/css?family=Handlee");
+@import url("https://fonts.googleapis.com/css?family=Fredoka+One");
+@import url("https://fonts.googleapis.com/css?family=Chewy");
+@import url("https://fonts.googleapis.com/css?family=Delius+Unicase:400,700");
+
 
 input:empty{
 	background-color:#e6f1bf;
@@ -822,6 +830,97 @@ option{
 	padding:5px;
 	margin:10px auto;
 }
+.numbers{
+	margin: 0;
+	font-family: 'Fredoka One', cursive;
+	//font-family: 'Delius Unicase', cursive;
+	//font-family: 'Chewy', cursive;
+	//font-family: 'Handlee', cursive;
+	//font-family: 'Architects Daughter', cursive;
+	//font-family: 'Indie Flower', cursive;
+	//font-family: 'Pacifico', cursive;
+	font-size: 10rem;
+	font-weight: bold;
+	-webkit-text-stroke-width: 3px;
+	//line-height:40%;
+
+}
+
+.numbersYellow{
+	-webkit-text-stroke-color: #e0f309;
+	-webkit-text-fill-color: #f29502;
+	text-shadow: 10px 7px #e0f309;
+}
+
+.numbersBlue{
+	-webkit-text-fill-color: #2062e6;
+	-webkit-text-stroke-color: #86B3E6;
+	text-shadow: 10px 7px #86B3E6;
+}
+
+.numbersGreen{
+	-webkit-text-fill-color: #97ed70;
+	-webkit-text-stroke-color: #02f213;
+	text-shadow: 10px 7px #02f213;
+}
+
+.numbersPurple{
+	-webkit-text-fill-color: #ac6aea;
+	-webkit-text-stroke-color: #b735f4;
+	text-shadow: 10px 7px #b735f4;
+}
+
+.numbersPink{
+	-webkit-text-fill-color: #f88c8c;
+	-webkit-text-stroke-color: #f94b4b;
+	text-shadow: 10px 7px #f94b4b;
+}
+
+.numbersOlive{
+	-webkit-text-fill-color: #fcf367;
+	-webkit-text-stroke-color: #969b01;
+	text-shadow: 10px 7px #969b01;
+}
+
+.backsYellow{
+	-webkit-box-shadow: inset 0 0 10px orange;
+	box-shadow:inset 0 0 10px orange;
+	background-color:#FFD2A7;
+}
+
+.backsBlue{
+	-webkit-box-shadow: inset 0 0 10px blue;
+	box-shadow:inset 0 0 10px blue;
+	background-color:#BADCEC;
+}
+
+.backsGreen{
+	-webkit-box-shadow: inset 0 0 10px green;
+	box-shadow:inset 0 0 10px green;
+	background-color:#CCF5C6;
+}
+
+.backsPurple{
+	-webkit-box-shadow: inset 0 0 10px purple;
+	box-shadow:inset 0 0 10px purple;
+	background-color:#E2BDE6;
+}
+.backsPink{
+	-webkit-box-shadow: inset 0 0 10px #B14949;
+	box-shadow:inset 0 0 10px #B14949;
+	background-color:#FFD9D9;
+}
+
+.backsOlive{
+	-webkit-box-shadow: inset 0 0 10px olive;
+	box-shadow:inset 0 0 10px olive;
+	background-color:#FFFBB7;
+}
+
+.actMenuDescription{
+	font-family: 'Fredoka One', cursive;
+	border-radius:20px;
+}
 
 .stepDesc{
 	background-color:#FFD2A7;
@@ -866,33 +965,9 @@ option{
 	margin:0 auto;
 }
 
-.step1{
-	-webkit-box-shadow: inset 0 0 10px orange;
-	box-shadow:inset 0 0 10px orange;
-	background-color:#FFD2A7;
+.stepAct a{
+	text-decoration:none;
 }
-
-
-.step2{
-	-webkit-box-shadow: inset 0 0 10px blue;
-	box-shadow:inset 0 0 10px blue;
-	background-color:#BADCEC;
-}
-
-
-.step3{
-	-webkit-box-shadow: inset 0 0 10px green;
-	box-shadow:inset 0 0 10px green;
-	background-color:#CCF5C6;
-}
-
-
-.step4{
-	-webkit-box-shadow: inset 0 0 10px purple;
-	box-shadow:inset 0 0 10px purple;
-	background-color:#E2BDE6;
-}
-
 
 .centerEstimulation{
 	background-color:#C7EE81;
@@ -1017,6 +1092,14 @@ article.actCentral{
 	width:50%;
 }
 
+input.actCentralI{
+	width:60%;
+	max-width:60%;
+	margin-top:20px;
+	background-color:#FFDBB0;
+	text-align:center;
+}
+
 .actContent img{
 	width:100%;
 	max-width:100%;
@@ -1068,48 +1151,8 @@ article.actCentral{
 
 .act article{
 	padding:0;
-	margin:0;
+	margin:20px;
 }
-
-.act1 p{
-	padding:5px;
-	border-radius:20px;
-	margin:5px auto;
-	width:75%;
-	background-color:#FFD2A7;
-	color:#FB1200;
-	font-size:1.5rem;
-	-webkit-box-shadow: inset 0 0 10px orange;
-	box-shadow:inset 0 0 10px orange;
-}
-
-.act2 p{
-	padding:5px;
-	border-radius:20px;
-	margin:5px auto;
-	width:75%;
-	background-color:#BADCEC;
-	color:blue;
-	font-size:1.5rem;
-	-webkit-box-shadow: inset 0 0 10px blue;
-	box-shadow:inset 0 0 10px blue;
-}
-
-.act1 img{
-	padding:0;
-	background-color:#FFD2A7;
-	-webkit-box-shadow: inset 0 0 10px orange;
-	box-shadow:inset 0 0 10px orange;
-}
-
-
-.act2 img{
-	padding:0;  
-	background-color:#BADCEC;
-	-webkit-box-shadow: inset 0 0 10px blue;
-	box-shadow:inset 0 0 10px blue;
-}
-
 
 .hide{
 	display: none !important;

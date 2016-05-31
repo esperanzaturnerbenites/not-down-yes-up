@@ -202,7 +202,9 @@ router.get("/infoChildren/:id",(req,res)=>{
 router.get("/steps",(req,res)=>{
 	var step = {}
 
-	models.step.find({}, (err, stepDB) => {
+	models.step.find({})
+	.sort({stepStep:1})
+	.exec((err, stepDB) => {
 		step = stepDB
 		//console.dir(step)
 		res.render("stepMenu",{steps:step})
@@ -215,7 +217,9 @@ router.get("/steps/:step",(req,res)=>{
 
 	models.step.findOne({stepStep:numberStep}, (err, stepDB) => {
 		step = stepDB
-		models.activity.find({stepActivity:numberStep}, (err, activities) => {
+		models.activity.find({stepActivity:numberStep})
+		.sort({activityActivity:1})
+		.exec((err, activities) => {
 			step.activities = activities
 			res.render("stepDetail",{step:step})
 		})

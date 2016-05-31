@@ -1,28 +1,50 @@
 doctype html
 html(lang='es')
-  head
-    meta(charset='UTF-8')
-    title Centro de Estimulación - Actividades Etapa 1 .:Undefine:.
-    link(rel='stylesheet', href='/css/normalize.css')
-    link(rel='stylesheet', href='/css/style.css')
-  body.backgroundF
-    section.container
-      section.centerEstimulation
-        h2.exit
-          a(href='/estimulation/steps') VOLVER
-      section.step
-        p #{step.nameStep}
-        p 
-          span ETAPA #{step.stepStep}
-      section.stepDesc
-        p #{step.descriptionStep}
-      section.logoCorpAct
-        a(href="www.corporacionsindromededown.org")
-          img(src="/img/LogoCorpSD.png", alt="")
-      section.stepAct.act
-        for activity in step.activities
-          article(class='#{activity.styleActivity}')
-            a(href='#{activity.urlActivity}')
-              img(src='#{activity.imgNumActivity}', alt='')
-            p
-              b #{activity.nameActivity}
+	head
+		meta(charset='UTF-8')
+		title Centro de Estimulación - Actividades Etapa 1 .:Undefine:.
+		link(rel='stylesheet', href='/css/normalize.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body.backgroundF
+		section.container
+			section.centerEstimulation
+				h2.exit
+					a(href='/estimulation/steps') VOLVER
+			section.step
+				p #{step.nameStep}
+				p 
+					span ETAPA #{step.stepStep}
+			section.stepDesc
+				p #{step.descriptionStep}
+			section.logoCorpAct
+				a(href="http://www.corporacionsindromededown.org" target="blank")
+					img(src="/img/LogoCorpSD.png", alt="")
+			section.stepAct.act
+				for activity in step.activities
+					-var backStyle = ""
+					-var numStyle = ""
+					-var select = Math.floor((Math.random() * 6) + 1)
+					//-if(step.stepStep % 2 == 0)
+					-if(select == 1)
+						-numStyle = "numbersYellow"
+						-backStyle = "backsYellow"
+					-if(select == 2)
+						-numStyle = "numbersBlue"
+						-backStyle = "backsBlue"
+					-if(select == 3)
+						-numStyle = "numbersGreen"
+						-backStyle = "backsGreen"
+					-if(select == 4)
+						-numStyle = "numbersPurple"
+						-backStyle = "backsPurple"
+					-if(select == 5)
+						-numStyle = "numbersPink"
+						-backStyle = "backsPink"
+					-if(select == 6)
+						-numStyle = "numbersOlive"
+						-backStyle = "backsOlive"
+					article(class='#{backStyle}')
+						a(href='#{activity.urlActivity}')
+								span.numbers(class = '#{numStyle}') #{activity.activityActivity}
+						p
+							b.actMenuDescription #{activity.nameActivity}

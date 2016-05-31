@@ -109,11 +109,9 @@ const userSchema = new Mongoose.Schema({
 		nameActivity: {type:String},
 		descriptionActivity: {type:String},
 		guidesActivity: [],
-		imgActActivity: {type:String},
-		imgNumActivity: {type:String},
+		imgActivity: {type:String},
 		audioActivity: {type:String},
 		urlActivity: {type:String},
-		styleActivity: {type:String},
 		stepActivity: {type:Number}
 	}),
 
@@ -131,8 +129,6 @@ const userSchema = new Mongoose.Schema({
 		stepStep: {type:Number},
 		nameStep: {type:String},
 		descriptionStep: {type:String},
-		imgStep: {type:String},
-		styleStep: {type:String},
 		urlStep: {type:String}
 	})
 

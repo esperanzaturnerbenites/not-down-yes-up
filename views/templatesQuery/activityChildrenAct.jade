@@ -17,6 +17,7 @@ template#consulQueryActivityChild
 		p
 			b RESULTADO
 		img(src='/img/espera.png', alt='')
+		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', value='0', readonly)
 
 	script
 		$("#imgAct").click(() => $("#audio").trigger("play"))

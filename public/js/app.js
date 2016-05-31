@@ -363,10 +363,16 @@ formFindAll.on("submit",(event) => {
 			var data = $(clone.querySelector("#dataFindAll"))
 
 			for (var adminuser of users){
+				var statusUserFind = ""
+				if(adminuser.statusUser == 0)
+					statusUserFind = "INACTIVO"
+				if(adminuser.statusUser == 1)
+					statusUserFind = "ACTIVO"
 				//console.log(users)
 				var tr = $("<tr>").append(
 					$("<td>",{html : adminuser.userUser }),
 					$("<td>",{html : typeUserFind(adminuser.typeUser)}),
+					$("<td>",{html : statusUserFind}),
 					$("<td>",{html : adminuser.idUser.nameUser + " " + adminuser.idUser.lastnameUser}),
 					$("<td>",{html : adminuser.dateUser })
 				)
@@ -568,7 +574,7 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 	})
 })
 
-$("#formOpeChildrenInfo").on("click",(event) => {
+/*$("#formOpeChildrenInfo").on("click",(event) => {
 	event.preventDefault()
 	$.ajax({
 		url: "/admin/found-childrens",
@@ -583,13 +589,18 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 			}
 		}
 	})
-})
+})*/
 
 $("#clicShowAct").on("click",() => {
 	$("#showAtc").removeClass("hide")
 	$("#add").addClass("hide")
 	$("#edit").addClass("hide")
 	$("#delete").addClass("hide")
+	$("#nameActivityEdit").empty()
+	$("#descriptionActivityEdit").empty()
+	$("#guideActivityEdit").empty()
+	$("#saveActivity").empty()
+	$("#activityActivityEdit").empty()
 
 	$.ajax({
 		url: "/admin/found-all-step-activities",
@@ -629,6 +640,11 @@ $("#clicAddAct").on("click",() => {
 	$("#add").removeClass("hide")
 	$("#edit").addClass("hide")
 	$("#delete").addClass("hide")
+	$("#nameActivityEdit").empty()
+	$("#descriptionActivityEdit").empty()
+	$("#guideActivityEdit").empty()
+	$("#saveActivity").empty()
+	$("#activityActivityEdit").empty()
 })
 
 $("#clicEditAct").on("click",() => {
@@ -636,6 +652,7 @@ $("#clicEditAct").on("click",() => {
 	$("#add").addClass("hide")
 	$("#edit").removeClass("hide")
 	$("#delete").addClass("hide")
+	
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,
@@ -668,6 +685,12 @@ $("#clicDeleteAct").on("click",() => {
 	$("#add").addClass("hide")
 	$("#edit").addClass("hide")
 	$("#delete").removeClass("hide")
+	$("#nameActivityEdit").empty()
+	$("#descriptionActivityEdit").empty()
+	$("#guideActivityEdit").empty()
+	$("#saveActivity").empty()
+	$("#activityActivityEdit").empty()
+
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,
@@ -960,13 +983,9 @@ $("#buttonAddActivity").on("click",() => {
 		type : "POST",
 		success: function(result){
 			$("#addActs").trigger("reset")
-			//$("[guidesActivity]").empty()
+			//$("[guidesActivity]").empty() - otra forma
 			if (result.err) return notification.show({msg:result.err.message, type:1})
 			notification.show({msg:result.msg, type:result.statusCode})
-			//for(var i = (data.guidesActivity.length); i = 4; i++){
-				//data.guidesActivity = ""
-			//}
-			
 		}
 	})
 })
@@ -1050,7 +1069,7 @@ $("#buttonEditAct").on("click",() => {
 
 $("#deleteActivity").on("click",() => {
 	event.preventDefault()
-	if($("#activityActivityEdit").val()){
+	if($("#activityActivityDel").val()){
 		if(confirm("Se borrará la actividad N° " + $("#activityActivityDel").val() + " ¿Desea continuar?")){
 			$.ajax({
 				url: "/admin/delete-activity",

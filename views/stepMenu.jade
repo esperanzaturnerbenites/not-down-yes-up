@@ -1,23 +1,45 @@
 doctype html
 html(lang='es')
-  head
-    meta(charset='UTF-8')
-    title Centro de Estimulación .:Undefine:.
-    link(rel='stylesheet', href='/css/normalize.css')
-    link(rel='stylesheet', href='/css/style.css')
-  body.backgroundF
-    section.container
-      section.centerEstimulation
-        p
-          span Centro de Estimulación
-        h2.exit
-          a(href='/estimulation/menu-teacher') TERMINAR
-      section
-        section.logoCorpAct
-          a(href="www.corporacionsindromededown.org")
-            img(src="/img/LogoCorpSD.png", alt="")
-        section.stepAct
-          for step in steps
-            article(class='#{step.styleStep}')
-              a(href='#{step.urlStep}')
-                img(src='#{step.imgStep}')
+	head
+		meta(charset='UTF-8')
+		title Centro de Estimulación .:Undefine:.
+		link(rel='stylesheet', href='/css/normalize.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body.backgroundF
+		section.container
+			section.centerEstimulation
+				p
+					span Centro de Estimulación
+				h2.exit
+					a(href='/estimulation/menu-teacher') TERMINAR
+			section
+				section.logoCorpAct
+					a(href="http://www.corporacionsindromededown.org" target="blank")
+						img(src="/img/LogoCorpSD.png", alt="")
+				section.stepAct
+					for step in steps
+						-var backStyle = ""
+						-var numStyle = ""
+						-var select = Math.floor((Math.random() * 6) + 1)
+						//-if(step.stepStep % 2 == 0)
+						-if(select == 1)
+							-numStyle = "numbersYellow"
+							-backStyle = "backsYellow"
+						-if(select == 2)
+							-numStyle = "numbersBlue"
+							-backStyle = "backsBlue"
+						-if(select == 3)
+							-numStyle = "numbersGreen"
+							-backStyle = "backsGreen"
+						-if(select == 4)
+							-numStyle = "numbersPurple"
+							-backStyle = "backsPurple"
+						-if(select == 5)
+							-numStyle = "numbersPink"
+							-backStyle = "backsPink"
+						-if(select == 6)
+							-numStyle = "numbersOlive"
+							-backStyle = "backsOlive"
+						article(class='#{backStyle}')
+							a(href='#{step.urlStep}')
+								span.numbers(class = '#{numStyle}') #{step.stepStep}

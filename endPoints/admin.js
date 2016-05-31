@@ -117,20 +117,19 @@ router.post("/found-steps-acts",(req,res)=>{
 	models.step.findOne({stepStep:data.stepStep},(err,steps)=>{
 		if(err) return res.json({err:err})
 		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
-		if(steps){
-			data.steps = steps
+		data.steps = steps
+		console.log(data)
 
-			models.activity.find({stepActivity:steps[0].stepStep})
-			.sort({activityActivity:1})
-			.exec((err,activities)=>{
-				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
-				if(activities){
-					data.activities = activities
-					res.json({data:data})
-				}
-			})
-		}
+		models.activity.find({stepActivity:steps.stepStep})
+		.sort({activityActivity:1})
+		.exec((err,activities)=>{
+			if(err) return res.json({err:err})
+			if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+			if(activities){
+				data.activities = activities
+				res.json({data:data})
+			}
+		})
 	})
 })
 
@@ -601,7 +600,7 @@ router.get("/admin-childrens",(req,res)=>{
 })
 
 router.get("/info-children/:id",(req,res)=>{
-	console.log("cualquer cosa")
+	//console.log("cualquer cosa")
 	var id = req.params.id,
 		data = {}
 	//console.log(id)
@@ -624,7 +623,7 @@ router.get("/info-children/:id",(req,res)=>{
 				.exec((err,acthisChild) =>{
 					if(err) return res.json({err:err})
 					if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
-					console.log(acthisChild)
+					//console.log(acthisChild)
 					data.historys = acthisChild
 					
 					models.activityvalid.find({idChildren:childrenFind._id})
@@ -930,8 +929,6 @@ router.get("/backup",(req,res)=>{
 router.post("/add-step",(req,res)=>{
 	var data = req.body
 
-	data.imgStep = "/img/imgacts/step/" + data.stepStep + ".png"
-	data.styleStep = "/step" + data.stepStep
 	data.urlStep = "/estimulation/steps/" + data.stepStep
 		
 	models.step.findOne({stepStep : data.stepStep}, (err, step) => {
@@ -979,14 +976,8 @@ router.post("/delete-step",(req,res)=>{
 router.post("/add-activity",(req,res)=>{
 	var data = req.body
 
-	//for(var i = data.guidesActivity.length; i = 4; i++){
-		//data.guidesActivity = ""
-	//}
-
-	data.imgActActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
-	data.imgNumActivity = "/img/imgacts/act/act" + data.activityActivity + ".png"
+	data.imgActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
 	data.audioActivity = "/audio/step" + data.stepActivity + "act" + data.activityActivity + ".mp3"
-	data.styleActivity = "act" + data.activityActivity
 	data.urlActivity = "/estimulation/steps/" + data.stepActivity + "/" + data.activityActivity
 		
 	models.activity.findOne({stepActivity : data.stepActivity, activityActivity:data.activityActivity}, (err, acts) => {
