@@ -1,9 +1,9 @@
 template#consulQueryActivityChild
 	article#nameChild
 		p
-			b DESCRIPCIÓN ACTIVIDAD #{activity.activityActivity}
+			b ¡LÉEME!
 		-var n = 0
-		for guide in activity.guidesActivity
+		for guide in activity.guidesChild
 			-n++
 			p 
 				b #{n}: 
@@ -11,13 +11,13 @@ template#consulQueryActivityChild
 
 	article#nameChild1.actCentral
 		p
-			b ACTIVIDAD A REALIZAR
-		img#imgAct(src='#{activity.imgActActivity}', alt='IMG')
+			b ¡ESCÚCHAME!
+		img#imgAct(src='#{activity.imgActivity}', alt='IMG')
 	article#nameChild2
 		p
-			b RESULTADO
-		img(src='/img/espera.png', alt='')
-		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', value='0', readonly)
+			b ¿CÓMO TE FUÉ?
+		img(src='/img/imgacts/activities/espera.png', alt='')
+		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', readonly)
 
 	script
 		$("#imgAct").click(() => $("#audio").trigger("play"))

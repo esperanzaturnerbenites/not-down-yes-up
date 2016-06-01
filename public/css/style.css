@@ -1,4 +1,4 @@
-/**
+ /**
  *Code Esperanza Turner
  */
 
@@ -922,22 +922,6 @@ option{
 	border-radius:20px;
 }
 
-.stepDesc{
-	background-color:#FFD2A7;
-	border:1px #FF7600 solid;
-	border-radius:20px;
-	padding:10px;
-	width:90%;
-	margin:0 auto;
-	text-align:center;
-	font-size:1rem;
-}
-
-.stepDesc p{
-	margin:0;
-	
-}
-
 .stepAct{
 	display:flex;
 	flex-flow:wrap;
@@ -981,6 +965,45 @@ option{
 	color:#246700;
 }
 
+.step{
+	border-radius:20px;
+	width:80%;
+	margin:20px auto;
+	background-color:#FFB65A;
+	text-align:center;
+	font-size:2rem;
+}
+
+.step p{
+	margin:0;
+	color:#5F3200;
+}
+
+.step span{
+	margin:10px;
+	background-color:#FFC38E;
+	color:#D36300;
+	text-decoration:none;
+	font-size:1.3rem;
+	padding:8px;
+	border-radius:8px;
+}
+
+.stepDesc{
+	background-color:#FFD2A7;
+	border:1px #FF7600 solid;
+	border-radius:20px;
+	padding:10px;
+	width:90%;
+	margin:0 auto;
+	text-align:center;
+	font-size:1rem;
+}
+
+.stepDesc p{
+	margin:0;
+}
+
 .activity{
 	border-radius:20px;
 	width:80%;
@@ -1016,6 +1039,21 @@ option{
 	box-shadow:inset 0 0 10px #FFC799;
 }
 
+.actDesc{
+	background-color:#FFDFC5;
+	border:1px #994500 solid;
+	border-radius:20px;
+	padding:10px;
+	width:90%;
+	margin:20px auto;
+	text-align:center;
+	font-size:1rem;
+}
+
+.actDesc p{
+	margin:0;
+}
+
 .actGroup input{
 	font-size:1.5rem;
 	background-color:#FFC799;
@@ -1037,7 +1075,6 @@ option{
 	margin:20px auto;
 	text-align:center;
 	width:50%;
-	max-width:50%;
 }
 
 .actGroup legend{
@@ -1050,21 +1087,6 @@ option{
 	margin:10px auto;
 	width:90%;
 	max-width:95%;
-}
-
-.actDesc{
-	background-color:#FFDFC5;
-	border:1px #994500 solid;
-	border-radius:20px;
-	padding:10px;
-	width:90%;
-	margin:20px auto;
-	text-align:center;
-	font-size:1rem;
-}
-
-.actDesc p{
-	margin:0;
 }
 
 .actContent{
@@ -1087,19 +1109,6 @@ option{
 	text-align:center;
 }
 
-article.actCentral{
-	max-width:50%;
-	width:50%;
-}
-
-input.actCentralI{
-	width:60%;
-	max-width:60%;
-	margin-top:20px;
-	background-color:#FFDBB0;
-	text-align:center;
-}
-
 .actContent img{
 	width:100%;
 	max-width:100%;
@@ -1113,31 +1122,18 @@ input.actCentralI{
 	font-size:1.3rem;
 }
 
-.step{
-	border-radius:20px;
-	width:80%;
-	margin:20px auto;
-	background-color:#FFB65A;
+article.actCentral{
+	max-width:50%;
+	width:50%;
+}
+
+input.actCentralI{
+	width:60%;
+	max-width:60%;
+	margin-top:20px;
+	background-color:#FFDBB0;
 	text-align:center;
-	font-size:2rem;
 }
-
-.step p{
-	margin:0;
-	
-	color:#5F3200;
-}
-
-.step span{
-	margin:10px;
-	background-color:#FFC38E;
-	color:#D36300;
-	text-decoration:none;
-	font-size:1.3rem;
-	padding:8px;
-	border-radius:8px;
-}
-
 
 .act{
 	width:80%;
@@ -1188,10 +1184,28 @@ input.actCentralI{
 }
 
 .showChildrens p{
+	text-align:justify;
 	padding:0;
-	margin:auto 0;
+	margin:0 0;
 	color:#994500;
-	font-size:1.3rem;
+	font-size:1rem;
+}
+
+.showChildrens fieldset{
+	width:90%;
+}
+
+.childShow{
+	margin:0 auto;
+	width:80%;
+	display:flex;
+	justify-content:space-around;
+}
+
+
+
+.childShow form{
+	width:100%;
 }
 
 .validAct{

@@ -34,10 +34,13 @@ block content
 									th N°
 									th NOMBRE
 									th DESCRIPCIÓN
+									th GUÍA 1
+									th GUÍA 2
+									th GUÍA 3
+									th GUÍA 4
 									th PASO 1
 									th PASO 2
 									th PASO 3
-									th PASO 4
 							tbody#actsList
 								-for (act of data.activities)
 									tr
@@ -46,6 +49,8 @@ block content
 										td #{act.descriptionActivity}
 										-for (var i = 0; i < 4; i++)
 											td #{act.guidesActivity[i]}
+										-for (var i = 0; i < 3; i++)
+											td #{act.guidesChild[i]}
 
 	section#add.actionDev.hide
 		article
@@ -65,17 +70,26 @@ block content
 							-for (step of data.steps)
 								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					fieldset
-						label PASOS:
+						label GUÍA: (Para docentes)
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 1' required='')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 1' required='')
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 2' required='')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 2' required='')
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 3')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 3')
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Paso 4')
+							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 4')
+					fieldset
+						label PASOS: (Texto para niñ@s)
+						article
+							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 1' required='')
+						article
+							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 2' required='')
+						article
+							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 3')
+
 					article
-						button#buttonAddActivity
+						button(type = 'button')#buttonAddActivity
 							span Agregar
 
 	section#edit.actionDev.hide
@@ -94,11 +108,12 @@ block content
 							-for (act of data.activities)
 								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
 					article
-						button#buttonEditAct
+						button(type='button')#buttonEditAct
 							span Editar
 					article#nameActivityEdit
 					article#descriptionActivityEdit
 					article#guideActivityEdit
+					article#guideChildEdit
 					article#saveActivity
 
 	section#delete.actionDev.hide
@@ -117,7 +132,7 @@ block content
 							-for (act of data.activities)
 								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
 					article
-						button#deleteActivity
+						button(type = 'button')#deleteActivity
 							span Eliminar
 
 	script(src="/js/app.js")

@@ -48,7 +48,7 @@ block content
 					article
 						textarea#descriptionStep(name='descriptionStep' placeholder='Descripción...' required)
 					article
-						button#buttonAddStep
+						button(type = 'button')#buttonAddStep
 							span Agregar
 
 	section#editStep.actionDev.hide
@@ -62,7 +62,7 @@ block content
 							-for (step of data.steps)
 								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					article
-						button#buttonEditStep
+						button(type = 'button')#buttonEditStep
 							span Editar
 					article#nameStepEdit
 					article#descriptionStepEdit
@@ -79,7 +79,7 @@ block content
 							-for (step of data.steps)
 								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					article
-						button#buttonDelStep
+						button(type = 'button')#buttonDelStep
 							span Eliminar
 
 	script(src="/js/app.js")

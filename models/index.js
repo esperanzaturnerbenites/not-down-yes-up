@@ -109,6 +109,7 @@ const userSchema = new Mongoose.Schema({
 		nameActivity: {type:String},
 		descriptionActivity: {type:String},
 		guidesActivity: [],
+		guidesChild: [],
 		imgActivity: {type:String},
 		audioActivity: {type:String},
 		urlActivity: {type:String},
@@ -116,7 +117,7 @@ const userSchema = new Mongoose.Schema({
 	}),
 
 	stepvalidSchema = new Mongoose.Schema({
-		statusStep: {type:String, default:"No Completada"},
+		statusStep: {type:Number, default:0},
 		scoreStep: {type:Number, default:0},
 		observationStep: {type:String, default:"Sin Validar"},
 		date: {type:Date, default:Date.now},

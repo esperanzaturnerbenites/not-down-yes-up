@@ -1,9 +1,20 @@
 template#consulQueryAddChild
-	form#formInicAct
-		fieldset
-			legend Niñ@ Actual
-			article#showChildrens.showChildrens
+	article.showChildrens
+		form#formInicAct
+			fieldset
+				legend Niñ@ Actual
+				article#showChildrens.showChildrens
 
-			article
-				button#cancelAddChildren(type="button")
-					span Cancelar
+				article
+					button#cancelAddChildren(type="button")
+						span Cancelar
+
+	article.showChildrens
+		fieldset
+			legend Guía
+			-var n = 0
+			for guide in activity.guidesActivity
+				-n++
+				p 
+					b #{n}: 
+					span #{guide}

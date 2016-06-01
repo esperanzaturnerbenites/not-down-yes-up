@@ -11,8 +11,8 @@ router.use(bodyParser.urlencoded({extended:false}))
 router.post("/found-step",(req,res)=>{
 	var data = req.body
 
-	models.stepvalid.find({_id : data.idChildren})
-	.populate('idStep')
+	models.stepvalid.find({idChildren : data.idChildren})
+	.populate("idStep idUser")
 	.exec((err, steps) => {
 		if(err) return res.json({err:err})
 		if(steps) return res.json({steps : steps})
@@ -20,15 +20,20 @@ router.post("/found-step",(req,res)=>{
 })
 
 router.post("/consul-step",(req,res)=>{
-	var data = req.body
+	var data = req.body,
+		dataFind = {}
 
 	models.step.findOne({stepStep : data.step}, (err, stepFind) => {
+		dataFind.steps = stepFind
+
 		models.activityhistory.find({idChildren : data.idChildren, idStep : stepFind._id})
 		.sort({date:-1})
 		.populate("idActivity idUser")
 		.exec((err, activities) => {
 			if(err) return res.json({err:err})
-			if(activities) return res.json({activities : activities})
+			data.activities = activities
+			console.log(data)
+			if(activities) return res.json({data : data})
 		})
 
 	})
@@ -190,7 +195,7 @@ router.get("/infoChildren/:id",(req,res)=>{
 					.exec((err, actsvalid) => {
 						if(err) return res.json({err:err})
 						dataChildren.actsvalid = actsvalid
-						//console.log(dataChildren.actsvalid[0].statusActivity)
+						console.log(dataChildren.actsvalid.length)
 						return res.render("continueOne",{childrenAct:dataChildren})
 					})
 				}else {return res.render("continueOne",{childrenAct:dataChildren})}

@@ -41,7 +41,7 @@ var formAddChildAct = $("#formAddChildAct"),
 	activityChildrens = $("#activityChildrens"),
 	showValidAct = $("#showValidAct"),
 	results = $("#results"),
-	resultStep = null,
+	resultStepActs = $("#resultStepActs"),
 	notification = new NotificationC()
 
 function getClone(selector){
@@ -53,7 +53,7 @@ function renderResults(node){showChildrensCont.html(""); showChildrensCont.appen
 function renderResultAct(node){activityChildrens.html(""); activityChildrens.append(node)}
 function renderResultValid(node){showValidAct.html(""); showValidAct.append(node)}
 function renderResultDataResult(node){results.html(""); results.append(node)}
-function renderResultDataStep(node){resultStep.html(""); resultStep.append(node)}
+function renderResultDataStep(node){resultStepActs.html(""); resultStepActs.append(node)}
 
 function initActivityArduino(){
 	$.ajax({
@@ -96,11 +96,14 @@ formAddChildAct.on("submit",(event) => {
 					dataAct = $(clone.querySelector("#activityChildrens"))
 
 				var pName = $("<p>").attr({id:childrens.idChildren}).append(
-						span = $("<span>",{html : "Identificación: " + childrens.idChildren})
+						$("<span>",{html : "Identificación: " + childrens.idChildren})
 					),
 					pId = $("<p>").attr({id:childrens.idChildren}).append(
-						span = $("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
+						$("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
 					),
+					imgChild = $("<article>",{class : "img"}).append(
+						$("<img>",{src:"/img/users/"+childrens.imgChildren})
+						),
 					button = $("<button>")
 						.attr("id","infoChildren")
 						.attr("type","button")
@@ -109,9 +112,7 @@ formAddChildAct.on("submit",(event) => {
 						})
 						.append($("<span>", {html : "Info: " + childrens.nameChildren})
 					)
-				data.append(pName)
-				data.append(pId)
-				data.append(button)
+				data.append(pName,pId, imgChild,button)
 
 				$("#cancelAddChildren",clone).click(()=>{
 					$("#formValidChildren").remove()
@@ -281,18 +282,25 @@ $("#continueViewMore").click((event) => {
 	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 		type = 0
 	notification.show({msg:msg, type:type})
+	resultStepActs.empty()
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)
 })
 
 $("#continueStepAll").click((event) => {
+	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
+		type = 0
+	resultStepActs.empty()
+	notification.show({msg:msg, type:type})
 	var clone = getClone("#consulQueryDataActOne")
 	renderResultDataResult(clone)
 })
 
 $("#continueActAll").click((event) => {
+	event.preventDefault
 	var clone = getClone("#consulQueryDataActAll")
-	var steps = $("#consulStep[data-step]",clone)
+
+	resultStepActs.empty()
 
 	$.ajax({
 		url: "/estimulation/found-step",
@@ -300,9 +308,30 @@ $("#continueActAll").click((event) => {
 		data : {idChildren : $("#idChildren").val()},
 		type : "POST",
 		success: function(result){
+			var dataConsul = $(clone.querySelector("#buttonSteps"))
+
+			for(var step of result.steps){
+				var tr =$("<tr>").append(
+					$("<th>").append(
+						$("<button>", {
+							html : "Etapa " + step.idStep.stepStep,
+							type : "button",
+							id : "consulStep",
+							"data-step" : step.idStep.stepStep
+						}).prepend(
+							$("<img>", {src : "/img/check.png"})
+						)
+						),
+					$("<td>", {html : step.statusStep})
+					)
+				dataConsul.append(tr)
+			}
+
+			var steps = $("#consulStep[data-step]",clone) 
+
 			steps.on("click" ,(e) => {
 				e.stopPropagation()
-				alert("aqui")
+				
 				$.ajax({
 					url: "/estimulation/consul-step",
 					async : false,
@@ -310,38 +339,38 @@ $("#continueActAll").click((event) => {
 							idChildren : $("#idChildren").val()},
 					type : "POST",
 					success: function(result){
-						var clone = getClone("#consulQueryDataStepDetail"),
-							data = $(clone.querySelector("#actsStepDetail")),
-							num = Array.from(result.activities).length
+						var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
+							type = 0
+						resultStepActs.empty()
+						notification.show({msg:msg, type:type})
+						
+						var cloneA = getClone("#consulQueryDataStepDetail"),
+							dataClone = $(cloneA.querySelector("#tableActsStepDetail")),
+							num = result.data.activities.length
 
-						//console.log(Array.from(result.activities).length)
-
-						resultStep = $("#resultStep")
-
-						for (activity of Array.from(result.activities)){
-							//console.log(1)
-							var tr = $("<tr>").append(
-								$("<td>",{html : num}),
-								$("<td>",{html : activity.idActivity.nameActivity}),
-								$("<td>",{html : funcStatusAct(activity.statusActivity)}),
-								$("<td>",{html : activity.scoreTeachActivity}),
-								$("<td>",{html : activity.scoreSystemActivity}),
-								$("<td>",{html : activity.observationActivity}),
-								$("<td>",{html : activity.idTeacher.nameUser}),
-								$("<td>",{html : activity.date})
-							)
-							$(data).append(tr)
-							//console.log(data)
-							num = num - 1
+						//resultStep = $("#resultStep")
+						if(num > 0){
+							for (var activity of result.data.activities){
+								var tr = $("<tr>").append(
+									$("<td>",{html : num}),
+									$("<td>",{html : activity.idActivity.nameActivity}),
+									$("<td>",{html : funcStatusAct(activity.statusActivity)}),
+									$("<td>",{html : activity.scoreTeachActivity}),
+									$("<td>",{html : activity.scoreSystemActivity}),
+									$("<td>",{html : activity.observationActivity}),
+									$("<td>",{html : activity.idUser.userUser}),
+									$("<td>",{html : activity.date})
+								)
+								num = num - 1
+								dataClone.append(tr)
+							}
+							
 						}
-						renderResultDataStep(clone)
+						renderResultDataStep(cloneA)
 					}
 				})
 			})
 		}
 	})
-
 	renderResultDataResult(clone)
 })
-	
-

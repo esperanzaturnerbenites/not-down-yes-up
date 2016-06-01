@@ -599,6 +599,7 @@ $("#clicShowAct").on("click",() => {
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
+	$("#guideChildEdit").empty()
 	$("#saveActivity").empty()
 	$("#activityActivityEdit").empty()
 
@@ -629,6 +630,11 @@ $("#clicShowAct").on("click",() => {
 						$("<td>",{html: guide})
 					)
 				}
+				for(var guideChild of stepList.guidesChild){
+					tr.append(
+						$("<td>",{html: guideChild})
+					)
+				}
 				$("#actsList").append(tr)
 			}
 		}
@@ -643,6 +649,7 @@ $("#clicAddAct").on("click",() => {
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
+	$("#guideChildEdit").empty()
 	$("#saveActivity").empty()
 	$("#activityActivityEdit").empty()
 })
@@ -688,6 +695,7 @@ $("#clicDeleteAct").on("click",() => {
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
+	$("#guideChildEdit").empty()
 	$("#saveActivity").empty()
 	$("#activityActivityEdit").empty()
 
@@ -811,6 +819,7 @@ $("#stepActivityEdit").change(() => {
 			$("#nameActivityEdit").empty()
 			$("#descriptionActivityEdit").empty()
 			$("#guideActivityEdit").empty()
+			$("#guideChildEdit").empty()
 			$("#saveActivity").empty()
 			$("#activityActivityEdit").empty()
 			if(result.steps){
@@ -1004,6 +1013,7 @@ $("#buttonEditAct").on("click",() => {
 				$("#nameActivityEdit").empty()
 				$("#descriptionActivityEdit").empty()
 				$("#guideActivityEdit").empty()
+				$("#guideChildEdit").empty()
 				$("#saveActivity").empty()
 				if(data){
 					$("#nameActivityEdit").append(
@@ -1022,8 +1032,9 @@ $("#buttonEditAct").on("click",() => {
 							value: data.descriptionActivity,
 							html: data.descriptionActivity})
 					)
+					var fieldsetAct = $("<fieldset>")
 					for(var i = 0; i < 4; i++){
-						$("#guideActivityEdit").append(
+						fieldsetAct.append(
 							$("<input>",{
 								type:"text",
 								name:"guideActivity",
@@ -1032,6 +1043,21 @@ $("#buttonEditAct").on("click",() => {
 								html: data.guidesActivity[i]})
 						)
 					}
+					$("#guideChildEdit").append(fieldsetAct)
+
+					var fieldset = $("<fieldset>")
+					for(var j = 0; j < 3; j++){
+						fieldset.append(
+							$("<input>",{
+								type:"text",
+								name:"guideChild",
+								id:"guideChild",
+								value: data.guidesChild[j],
+								html: data.guidesChild[j]})
+						)
+					}
+					$("#guideChildEdit").append(fieldset)
+
 					$("#saveActivity").append(
 						$("<button>",{
 							type:"submit",
@@ -1052,6 +1078,7 @@ $("#buttonEditAct").on("click",() => {
 									$("#nameActivityEdit").empty()
 									$("#descriptionActivityEdit").empty()
 									$("#guideActivityEdit").empty()
+									$("#guideChildEdit").empty()
 									$("#saveActivity").empty()
 									if (result.err) return notification.show({msg:result.err.message, type:1})
 									notification.show({msg:result.msg, type:result.statusCode})

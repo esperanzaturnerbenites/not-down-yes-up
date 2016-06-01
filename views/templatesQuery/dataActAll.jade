@@ -8,30 +8,4 @@ template#consulQueryDataActAll
 						tr
 							th ETAPA
 							th ESTADO
-					tbody.more
-						tr
-							th
-								button#consulStep(type='submit' data-step="1")
-									img(src="/img/check.png" alt=".::")
-									span Etapa 1
-							td#consulStatusStep1 Estado
-						tr
-							th
-								button#consulStep(type='submit' data-step="2")
-									img(src="/img/check.png" alt=".::")
-									span Etapa 2
-							td#consulStatusStep2 Estado
-						tr
-							th
-								button#consulStep(type='submit' data-step="3")
-									img(src="/img/check.png" alt=".::")
-									span Etapa 3
-							td#consulStatusStep3 Estado
-						tr
-							th
-								button#consulStep(type='submit' data-step="4")
-									img(src="/img/check.png" alt=".::")
-									span Etapa 4
-							td#consulStatusStep4 Estado
-	section.continue#resultStep
-	include dataStepDetail.jade
+					tbody.more#buttonSteps

@@ -1,6 +1,6 @@
 extends templates/templateEstimulation.jade
 block title
-	title Centro de stimulación - Nombre Actividad
+	title Etapa #{activity.stepActivity} - Actividad #{activity.activityActivity}
 block a-exit
 	p(onclick="history.back()") VOLVER
 
@@ -9,9 +9,9 @@ block desc
 		input(type="hidden" value="#{activity.activityActivity}" id="numberActivity")
 		input(type="hidden" value="#{activity.stepActivity}" id="numberStep")
 		p
-			span ETAPA
-			span #{activity.stepActivity}
-			span - ACTIVIDAD
+			span ETAPA 
+			span #{activity.stepActivity} 
+			span - ACTIVIDAD 
 			span #{activity.activityActivity}
 		h3 #{activity.nameActivity}
 		button#restarActClic(type='button')
