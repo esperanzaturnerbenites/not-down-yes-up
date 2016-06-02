@@ -1,6 +1,6 @@
 template#consulQueryDataActOne
 	section.continue.continueDetailAct-consulStatusStep
-		if childrenAct.actsvalid
+		if (childrenAct.actsvalid.length > 0)
 			if childrenAct.actsvalid.length
 				article.consulName
 					p
@@ -31,5 +31,5 @@ template#consulQueryDataActOne
 									td #{acts.idUser}
 									td #{acts.date}
 		else
-			h2 No se encontraron actividades completadas
+			h2 No se encontraron actividades validadas.
 			

@@ -32,7 +32,7 @@ router.post("/consul-step",(req,res)=>{
 		.exec((err, activities) => {
 			if(err) return res.json({err:err})
 			data.activities = activities
-			console.log(data)
+			//console.log(data)
 			if(activities) return res.json({data : data})
 		})
 
@@ -54,7 +54,7 @@ router.post("/valid-activity-parcial",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
-	console.log(user)
+	//console.log(user)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
@@ -88,7 +88,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
-	console.log(user._id)
+	//console.log(user._id)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
@@ -195,7 +195,7 @@ router.get("/infoChildren/:id",(req,res)=>{
 					.exec((err, actsvalid) => {
 						if(err) return res.json({err:err})
 						dataChildren.actsvalid = actsvalid
-						console.log(dataChildren.actsvalid.length)
+						//console.log(dataChildren.actsvalid.length)
 						return res.render("continueOne",{childrenAct:dataChildren})
 					})
 				}else {return res.render("continueOne",{childrenAct:dataChildren})}

@@ -8,8 +8,11 @@ html(lang='es')
 	body.backgroundF
 		section.container
 			section.centerEstimulation
-				h2.exit
-					a(href='/estimulation/steps') VOLVER
+				section.contentSteps.help
+					h2.exit
+						a(href='/estimulation/steps') VOLVER
+					a(href="/users/help-me" target="blank")
+						img(src="/img/help.png", alt="")
 			section.step
 				p #{step.nameStep}
 				p 

@@ -1,0 +1,148 @@
+doctype html
+html(lang='es')
+	head
+		meta(charset='UTF-8')
+		block title
+		link(rel='stylesheet', href='/css/normalize.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body.backgroundF
+		section.container
+			section.centerEstimulation
+				p.exit(onclick="history.back()") VOLVER
+			
+			nav.menuHelp
+				ul
+					li(title = 'ulPcpal')#allMenu
+						a PARA TODOS
+					li(title = 'ulPcpal')#adminMenu
+						a ADMINISTRACIÓN
+						nav#administration.menuSub
+							ul
+								li USUARIOS
+							ul
+								li NIÑ@S
+							ul
+								li REPORTES
+							ul
+								li BACKUPS
+					li(title = 'ulPcpal')#estimulationMenu
+						a ESTIMULACIÓN
+						nav#estimulation.menuSub.hide
+							ul
+								li GENERAL
+							ul
+								li ETAPAS
+							ul
+								li ACTIVIDADES
+							ul
+								li TAPETE ELECTRÓNICO
+
+			section#menuAllHelp
+				nav#allUsers.menuDesc
+					ul
+						li LOGUEO
+						//Tipos --- Estado --- 
+					ul
+						li DESLOGUEO
+					ul
+						li AYUDA
+			section#menuAdminHelp
+				nav#admUsers.menuDesc
+					ul
+						li REGISTRAR USUARI@ NUEV@
+					ul
+						li CONSULTAR USUARI@S
+					ul
+						li DETALLAR UN(A) USUARI@
+					ul
+						li ACTUALIZAR UN(A) USUARI@S
+					ul
+						li ELIMINAR UN(A) USUARI@S
+					ul
+						li ASIGNAR NUEVO USUARIO DE LOGUEO
+					ul
+						li ELIMINAR USUARIO DE LOGUEO
+					ul
+						li ACTUALIZAR CONTRASEÑA
+					ul
+						li ACTUALIZAR ROL
+					ul
+						li ACTUALIZAR ESTADO
+				nav#admChildrens.menuDesc
+					ul
+						li REGISTRAR NIÑ@ NUEV@
+					ul
+						li CONSULTAR USUARI@S
+					ul
+						li DETALLAR UN(A) NIÑ@
+					ul
+						li ACTUALIZAR UN(A) NIÑ@S
+					ul
+						li ELIMINAR UN(A) NIÑ@S
+					ul
+						li VALIDAR ETAPA
+				nav#admReports.menuDesc
+					ul
+						li CONSULTAS GENERALES
+					ul
+						li CONSULTA POR NIÑ@
+					ul
+						li CONSULTA POR EDADES
+					ul
+						li CONSULTA POR ETAPA
+					ul
+						li CONSULTA POR ACTIVIDAD
+					ul
+						li CONSULTA POR INDICADORES
+				nav#admBackups.menuDesc
+					ul
+						li SALVAR INFORMACIÓN (BACKUPS)
+					ul
+						li RECUPERAR INFORMACIÓN DE BACKUPS PREVIOS
+			section#menuEstimulationHelp
+				nav#estGeneral.menuDesc
+					ul
+						li ENTRAR AL CENTRO DE ESTIMULACIÓN
+				nav#estSteps.menuDesc
+					ul
+						li VER LAS ETAPAS
+					ul
+						li DETALLAR UNA ETAPA
+				nav#estActs.menuDesc
+					ul
+						li VER ACTIVIDADES DE UNA ETAPA
+					ul
+						li INGRESAR A UNA ACTIVIDAD
+					ul
+						li MENÚ DE UNA ACTIVIDAD
+					ul
+						li INICIAR ACTIVIDAD
+					ul
+						li REINICIAR O CANCELAR ACTIVIDAD
+					ul
+						li DETALLAR ACTIVIDAD
+					ul
+						li DESARROLLAR ACTIVIDAD
+					ul
+						li VALIDACIÓN PARCIAL DE UNA ACTIVIDAD
+					ul
+						li VALIDACIÓN FINAL DE UNA ACTIVIDAD
+					ul
+						li DETALLAR UN(A) NIÑ@
+				nav#estElec.menuDesc
+					ul
+						li DESCRIPCIÓN
+					ul
+						li CONEXIÓN
+					ul
+						li SELECCIÓN DE FICHAS
+					ul
+						li UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)
+					ul
+						li CUIDADO
+					ul
+						li SEGURIDAD
+
+				
+		script(src="/js/lib/jquery-2.2.0.min.js")
+		script(src="/js/users.js")

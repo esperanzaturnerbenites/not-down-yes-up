@@ -90,6 +90,12 @@ button:hover{
 	content:"Bienvenid@ ";
 }
 
+.menuHelp li:hover{
+	background-color:#F4C546;
+	transform:scale(1.05); 
+}
+
+
 .menuPrincipalTeach li:hover{
 	background-color:#F4C546;
 	transform:scale(1.05); 
@@ -307,7 +313,7 @@ option{
 	background-color:#e6f1bf;
 	font-size:1.2rem;
 	text-align:center;
-	margin:0 85%;
+	//margin:0 85%;
 }
 
 .exit a{
@@ -315,6 +321,7 @@ option{
 	padding:5%;
 	color:#758500;
 	text-decoration:none;
+	text-align:center;
 }
 
 .backgroundFooter{
@@ -421,6 +428,35 @@ option{
 	font-size:1.5rem;
 }
 
+.menuHelp{
+	margin:0 auto;
+	width:100%;
+}
+
+.menuHelp ul{
+	display:flex;
+	justify-content:space-around;
+	font-size:1.3rem;
+	padding:20px;
+	border-radius:3px;
+	background-color:#FFEA73;
+}
+
+.menuHelp li{
+	padding:10px;
+	list-style:none;
+	width:30%;
+	text-align:center;
+	border-radius:8px;
+	background-color:#EAB016;
+	font-family: 'Delius Unicase', cursive;
+	//font-family: 'Handlee', cursive;
+}
+
+.menuHelp a{
+	color:#9C4700;
+}
+
 .menuPrincipal{
 	margin:0 auto;
 	width:90%;
@@ -501,10 +537,6 @@ option{
 .menuPrincipalTeach li{
 	width:40%;
 	background-color:#EAB016;
-}
-
-.menuPrincipalTeach a{
-	color:#A05C00;
 }
 
 .menuPrincipalNew ul{
@@ -920,6 +952,21 @@ option{
 .actMenuDescription{
 	font-family: 'Fredoka One', cursive;
 	border-radius:20px;
+}
+
+.contentSteps{
+	display:flex;
+}
+
+.contentSteps h1{
+	margin:0 auto;
+	writing-mode:vertical-rl;
+	text-orientation:upright;
+	font-size:4rem;
+	font-family: 'Fredoka One', cursive;
+	//font-family: 'Delius Unicase', cursive;
+	//font-family: 'Handlee', cursive;
+
 }
 
 .stepAct{

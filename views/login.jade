@@ -1,14 +1,14 @@
 extends templates/template.jade
 block title
-  title Ingresa a ¡No Down, Yes Up!
+	title Ingresa a ¡No Down, Yes Up!
 block content
-  section.login
-    h3 INGRESA
-    article
-      form#formAuthenticateUser(action="/authenticate" method="POST")
-        input#loginUser(type='text', name='username', placeholder='Usuario', required='')
-        input#loginPassword(type='password', name='password', placeholder='Contraseña', required='')
-        button(type='submit')
-          span Ingresar
-  section.backgroundFooter
-  script(src="/js/app.js")
+	section.login
+		h3 INGRESA
+		article
+			form#formAuthenticateUser(action="/authenticate" method="POST")
+				input#loginUser(type='text', name='username', placeholder='Usuario', required='')
+				input#loginPassword(type='password', name='password', placeholder='Contraseña', required='')
+				button(type='submit')
+					span Ingresar
+	section.backgroundFooter
+	script(src="/js/app.js")

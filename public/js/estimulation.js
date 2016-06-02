@@ -278,7 +278,7 @@ $("#restarActClic").click(()=>{
 	$("#validActClic").prop("disabled", true)
 })
 
-$("#continueViewMore").click((event) => {
+$("#continueViewMore").click(() => {
 	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 		type = 0
 	notification.show({msg:msg, type:type})
@@ -287,7 +287,7 @@ $("#continueViewMore").click((event) => {
 	renderResultDataResult(clone)
 })
 
-$("#continueStepAll").click((event) => {
+$("#continueStepAll").click(() => {
 	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 		type = 0
 	resultStepActs.empty()
@@ -311,6 +311,11 @@ $("#continueActAll").click((event) => {
 			var dataConsul = $(clone.querySelector("#buttonSteps"))
 
 			for(var step of result.steps){
+				var status = ""
+				if(step.statusStep == 0)
+					status = "No Completada"
+				else
+					status = "Completada"
 				var tr =$("<tr>").append(
 					$("<th>").append(
 						$("<button>", {
@@ -322,7 +327,7 @@ $("#continueActAll").click((event) => {
 							$("<img>", {src : "/img/check.png"})
 						)
 						),
-					$("<td>", {html : step.statusStep})
+					$("<td>", {html : status})
 					)
 				dataConsul.append(tr)
 			}
@@ -350,6 +355,9 @@ $("#continueActAll").click((event) => {
 
 						//resultStep = $("#resultStep")
 						if(num > 0){
+							$("#stepDetailS", cloneA).append(
+								$("<b>", {html : "Etapa " + result.data.activities[0].idActivity.stepActivity})
+								)
 							for (var activity of result.data.activities){
 								var tr = $("<tr>").append(
 									$("<td>",{html : num}),

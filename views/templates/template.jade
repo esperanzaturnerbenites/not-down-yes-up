@@ -1,25 +1,25 @@
 doctype html
 html(lang='es')
-  head
-    meta(charset='UTF-8')
-    meta(name="viewport" content="width=device-width")
-    block title
-    link(rel='stylesheet', href='/css/normalize.css')
-    link(rel='stylesheet', href='/css/style.css')
-  body
-    section.container
-      header
-        section.help
-          h2 Software de Estimulación Temprana .:Síndrome de Down:.
-          a(href="#" target="blank")
-            img(src="/img/help.png", alt="")
-        section.logoCorp
-          a(href="http://www.corporacionsindromededown.org" target="blank")
-            img(src="/img/LogoCorpSD.png", alt="")
-          h1 
-            a Not Down, ¡Yes UP!
-        block exit
-    
-    script(src="/js/lib/jquery-2.2.0.min.js")
-    block content
-    script(src="/js/estimulation.js")
+	head
+		meta(charset='UTF-8')
+		meta(name="viewport" content="width=device-width")
+		block title
+		link(rel='stylesheet', href='/css/normalize.css')
+		link(rel='stylesheet', href='/css/style.css')
+	body
+		section.container
+			header
+				section.help
+					h2 Software de Estimulación Temprana .:Síndrome de Down:.
+					a(href="/users/help-me" target="blank")
+						img(src="/img/help.png", alt="")
+				section.logoCorp
+					a(href="http://www.corporacionsindromededown.org" target="blank")
+						img(src="/img/LogoCorpSD.png", alt="")
+					h1 
+						a Not Down, ¡Yes UP!
+				block exit
+		
+		script(src="/js/lib/jquery-2.2.0.min.js")
+		block content
+		script(src="/js/estimulation.js")

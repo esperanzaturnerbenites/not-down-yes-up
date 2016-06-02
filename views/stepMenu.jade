@@ -10,36 +10,50 @@ html(lang='es')
 			section.centerEstimulation
 				p
 					span Centro de Estimulación
-				h2.exit
-					a(href='/estimulation/menu-teacher') TERMINAR
+				section.contentSteps.help
+					h2.exit
+						a(href='/estimulation/menu-teacher') TERMINAR
+					a(href="/users/help-me" target="blank")
+						img(src="/img/help.png", alt="")
 			section
 				section.logoCorpAct
 					a(href="http://www.corporacionsindromededown.org" target="blank")
 						img(src="/img/LogoCorpSD.png", alt="")
-				section.stepAct
-					for step in steps
-						-var backStyle = ""
-						-var numStyle = ""
-						-var select = Math.floor((Math.random() * 6) + 1)
-						//-if(step.stepStep % 2 == 0)
-						-if(select == 1)
-							-numStyle = "numbersYellow"
-							-backStyle = "backsYellow"
-						-if(select == 2)
-							-numStyle = "numbersBlue"
-							-backStyle = "backsBlue"
-						-if(select == 3)
-							-numStyle = "numbersGreen"
-							-backStyle = "backsGreen"
-						-if(select == 4)
-							-numStyle = "numbersPurple"
-							-backStyle = "backsPurple"
-						-if(select == 5)
-							-numStyle = "numbersPink"
-							-backStyle = "backsPink"
-						-if(select == 6)
-							-numStyle = "numbersOlive"
-							-backStyle = "backsOlive"
-						article(class='#{backStyle}')
-							a(href='#{step.urlStep}')
-								span.numbers(class = '#{numStyle}') #{step.stepStep}
+				section.contentSteps
+					-var numStyle = ""
+					-var select = Math.floor((Math.random() * 3) + 1)
+					//-if(step.stepStep % 2 == 0)
+					-if(select == 1)
+						-numStyle = "numbersYellow"
+					-if(select == 2)
+						-numStyle = "numbersBlue"
+					-if(select == 3)
+						-numStyle = "numbersPink"
+					h1(class = '#{numStyle}') ETAPAS
+					section.stepAct
+						for step in steps
+							-var backStyle = ""
+							-var numStyle = ""
+							-var select = Math.floor((Math.random() * 6) + 1)
+							//-if(step.stepStep % 2 == 0)
+							-if(select == 1)
+								-numStyle = "numbersYellow"
+								-backStyle = "backsYellow"
+							-if(select == 2)
+								-numStyle = "numbersBlue"
+								-backStyle = "backsBlue"
+							-if(select == 3)
+								-numStyle = "numbersGreen"
+								-backStyle = "backsGreen"
+							-if(select == 4)
+								-numStyle = "numbersPurple"
+								-backStyle = "backsPurple"
+							-if(select == 5)
+								-numStyle = "numbersPink"
+								-backStyle = "backsPink"
+							-if(select == 6)
+								-numStyle = "numbersOlive"
+								-backStyle = "backsOlive"
+							article(class='#{backStyle}')
+								a(href='#{step.urlStep}')
+									span.numbers(class = '#{numStyle}') #{step.stepStep}
