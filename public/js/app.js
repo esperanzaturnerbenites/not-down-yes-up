@@ -591,11 +591,15 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 	})
 })*/
 
+$("[data-id = adminActivities]").on("click", function() {
+	var selector = $(this).data("reference")
+	$(".selector-hide").addClass("hide")
+	if(selector){
+		$(selector).removeClass("hide")
+	}
+})
+
 $("#clicShowAct").on("click",() => {
-	$("#showAtc").removeClass("hide")
-	$("#add").addClass("hide")
-	$("#edit").addClass("hide")
-	$("#delete").addClass("hide")
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
@@ -642,10 +646,6 @@ $("#clicShowAct").on("click",() => {
 })
 
 $("#clicAddAct").on("click",() => {
-	$("#showAtc").addClass("hide")
-	$("#add").removeClass("hide")
-	$("#edit").addClass("hide")
-	$("#delete").addClass("hide")
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
@@ -655,11 +655,6 @@ $("#clicAddAct").on("click",() => {
 })
 
 $("#clicEditAct").on("click",() => {
-	$("#showAtc").addClass("hide")
-	$("#add").addClass("hide")
-	$("#edit").removeClass("hide")
-	$("#delete").addClass("hide")
-	
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,
@@ -688,10 +683,6 @@ $("#clicEditAct").on("click",() => {
 })
 
 $("#clicDeleteAct").on("click",() => {
-	$("#showAtc").addClass("hide")
-	$("#add").addClass("hide")
-	$("#edit").addClass("hide")
-	$("#delete").removeClass("hide")
 	$("#nameActivityEdit").empty()
 	$("#descriptionActivityEdit").empty()
 	$("#guideActivityEdit").empty()
@@ -727,10 +718,6 @@ $("#clicDeleteAct").on("click",() => {
 })
 
 $("#clicShowStep").on("click",() => {
-	$("#showStep").removeClass("hide")
-	$("#addStep").addClass("hide")
-	$("#editStep").addClass("hide")
-	$("#deleteStep").addClass("hide")
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,
@@ -753,18 +740,7 @@ $("#clicShowStep").on("click",() => {
 	})
 })
 
-$("#clicAddStep").on("click",() => {
-	$("#showStep").addClass("hide")
-	$("#addStep").removeClass("hide")
-	$("#editStep").addClass("hide")
-	$("#deleteStep").addClass("hide")
-})
-
 $("#clicEditStep").on("click",() => {
-	$("#showStep").addClass("hide")
-	$("#addStep").addClass("hide")
-	$("#editStep").removeClass("hide")
-	$("#deleteStep").addClass("hide")
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,
@@ -785,10 +761,6 @@ $("#clicEditStep").on("click",() => {
 })
 
 $("#clicDeleteStep").on("click",() => {
-	$("#showStep").addClass("hide")
-	$("#addStep").addClass("hide")
-	$("#editStep").addClass("hide")
-	$("#deleteStep").removeClass("hide")
 	$.ajax({
 		url: "/admin/found-all-step-activities",
 		async : false,

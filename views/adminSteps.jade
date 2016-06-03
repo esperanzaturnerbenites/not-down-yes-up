@@ -8,15 +8,15 @@ block content
 	nav.menuPrincipal.menuDev
 		article.menuDeveloper
 			ul
-				p.h1-2#clicShowStep ETAPAS
-				li#clicAddStep
+				p(data-id = 'adminActivities' data-reference = '#showStep').h1-2#clicShowStep ETAPAS
+				li(data-id = 'adminActivities' data-reference = '#addStep')#clicAddStep
 					img(src='/img/icons/add.png', alt='.:.')
-				li#clicEditStep
+				li(data-id = 'adminActivities' data-reference = '#editStep')#clicEditStep
 					img(src='/img/icons/edit.png', alt='.:.')
-				li#clicDeleteStep
+				li(data-id = 'adminActivities' data-reference = '#deleteStep')#clicDeleteStep
 					img(src='/img/icons/delete.png', alt='.:.')
 
-	section#showStep.actionDev
+	section#showStep.selector-hide.actionDev
 		article
 			form#showSteps
 				fieldset
@@ -35,7 +35,7 @@ block content
 										td #{step.nameStep}
 										td #{step.descriptionStep}
 
-	section#addStep.actionDev.hide
+	section#addStep.selector-hide.actionDev.hide
 		article
 			form#addSteps
 				fieldset
@@ -51,7 +51,7 @@ block content
 						button(type = 'button')#buttonAddStep
 							span Agregar
 
-	section#editStep.actionDev.hide
+	section#editStep.selector-hide.actionDev.hide
 		article
 			form#editSteps
 				fieldset
@@ -68,7 +68,7 @@ block content
 					article#descriptionStepEdit
 					article#saveStep
 
-	section#deleteStep.actionDev.hide
+	section#deleteStep.selector-hide.actionDev.hide
 		article
 			form#deleteSteps
 				fieldset

@@ -8,15 +8,15 @@ block content
 	nav.menuPrincipal.menuDev
 		article.menuDeveloper
 			ul
-				p.h1-2#clicShowAct ACTS
-				li#clicAddAct
+				p(data-id = 'adminActivities' data-reference = '#showAtc').h1-2#clicShowAct ACTS
+				li(data-id = 'adminActivities' data-reference = '#add')#clicAddAct
 					img(src='/img/icons/add.png', alt='.:.')
-				li#clicEditAct
+				li(data-id = 'adminActivities' data-reference = '#edit')#clicEditAct
 					img(src='/img/icons/edit.png', alt='.:.')
-				li#clicDeleteAct
+				li(data-id = 'adminActivities' data-reference = '#delete')#clicDeleteAct
 					img(src='/img/icons/delete.png', alt='.:.')
 
-	section#showAtc.actionDev
+	section#showAtc.selector-hide.actionDev
 		article
 			form#showAtcs
 				fieldset
@@ -52,7 +52,7 @@ block content
 										-for (var i = 0; i < 3; i++)
 											td #{act.guidesChild[i]}
 
-	section#add.actionDev.hide
+	section#add.selector-hide.actionDev.hide
 		article
 			form#addActs
 				fieldset
@@ -92,7 +92,7 @@ block content
 						button(type = 'button')#buttonAddActivity
 							span Agregar
 
-	section#edit.actionDev.hide
+	section#edit.selector-hide.actionDev.hide
 		article
 			form#editActs
 				fieldset
@@ -116,7 +116,7 @@ block content
 					article#guideChildEdit
 					article#saveActivity
 
-	section#delete.actionDev.hide
+	section#delete.selector-hide.actionDev.hide
 		article
 			form#deleteActs
 				fieldset

@@ -9,139 +9,189 @@ html(lang='es')
 		section.container
 			section.centerEstimulation
 				p.exit(onclick="history.back()") VOLVER
+
+			section.
+				p.numbersYellow ¡HELP ME!
+				p ¿Estás pérdid@? Tranquil@! Navega en el siguiente menú y encontrarás lo que necesitas.
 			
 			nav.menuHelp
 				ul
-					li(title = 'ulPcpal')#allMenu
+					li(data-id='admest' data-reference="#allUsers")#allMenu
 						a PARA TODOS
-					li(title = 'ulPcpal')#adminMenu
+					li(data-id='ulPcpal' data-reference="#administration")#adminMenu
 						a ADMINISTRACIÓN
-						nav#administration.menuSub
+						nav#administration.menuSub.hide
 							ul
-								li USUARIOS
+								li(data-id='admest' data-reference="#admUsers") USUARIOS
 							ul
-								li NIÑ@S
+								li(data-id='admest' data-reference="#admChildrens") NIÑ@S
 							ul
-								li REPORTES
+								li(data-id='admest' data-reference="#admReports") REPORTES
 							ul
-								li BACKUPS
-					li(title = 'ulPcpal')#estimulationMenu
+								li(data-id='admest' data-reference="#admBackups") BACKUPS
+					li(data-id='ulPcpal' data-reference="#estimulation")#estimulationMenu
 						a ESTIMULACIÓN
 						nav#estimulation.menuSub.hide
 							ul
-								li GENERAL
+								li(data-id='admest' data-reference="#estGeneral") GENERAL
 							ul
-								li ETAPAS
+								li(data-id='admest' data-reference="#estSteps") ETAPAS
 							ul
-								li ACTIVIDADES
+								li(data-id='admest' data-reference="#estActs") ACTIVIDADES
 							ul
-								li TAPETE ELECTRÓNICO
+								li(data-id='admest' data-reference="#estElec") TAPETE ELECTRÓNICO
 
 			section#menuAllHelp
-				nav#allUsers.menuDesc
+				nav#allUsers.menuDesc.hide
 					ul
-						li LOGUEO
+						li(data-id = 'question' data-reference = '#allLogin') LOGUEO
 						//Tipos --- Estado --- 
+						p#allLogin.menuHelpQuestion.hide #allLogin Un mamut chiquitito quería olar probaba y probaba y no podía volar una palomita su amiga lo quiso ayudar y de un quinto piso lo hizo saltar ¿y que paso? mierda el mamut se hizo erda mierda el mamut se hizo mierda Un mamut chiquitito quería fumar probaba y probaba y no podía fumar un perro su amigo lo quiso ayudar y 500 cigarrillos lo hizo fumar ¿y que paso? cáncer al mamut le dio cáncer cáncer al mamut le dio cáncer Un mamut chiquitito quería tomar probaba y probaba y no podía tomar un oso su amigo lo quiso ayudar y cien litros de whisky le hizo tomar ¿y que paso? cirrosis al mamut le dio cirrosis cirrosis al mamut le dio cirrosis Un mamatu chiquitito quería debutar probaba y probaba y no podía debutar un burro su amigo lo quiso ayudar y con cien prostitutas lo hizo debutar ¿y que paso? sida al mamut le dio ida sida al mamut le dio sida Un mamut chiquitito se quería drogar probaba y probaba y no se podía drogar un gato su amigo lo quiso ayudar y diez lineas de coca le hizo probar ¿y que paso? sobredosis el mamut con sobredosis sobredosis el mamut con sobredosis y ahora que le paso se murió el mamut se murió se murió el mamut se murió 
 					ul
-						li DESLOGUEO
+						li(data-id = 'question' data-reference = '#allUnlogin') DESLOGUEO
+						p#allUnlogin.menuHelpQuestion.hide #allUnlogin
 					ul
-						li AYUDA
+						li(data-id = 'question' data-reference = '#allHelpQuestion') AYUDA
+						p#allHelpQuestion.menuHelpQuestion.hide #allHelpQuestion
 			section#menuAdminHelp
-				nav#admUsers.menuDesc
+				nav#admUsers.menuDesc.hide
 					ul
-						li REGISTRAR USUARI@ NUEV@
+						li(data-id = 'question' data-reference = '#admRegisterUser') REGISTRAR USUARI@ NUEV@
+						p#admRegisterUser.menuHelpQuestion.hide #admRegisterUser
 					ul
-						li CONSULTAR USUARI@S
+						li(data-id = 'question' data-reference = '#admConsulUser') CONSULTAR USUARI@S
+						p#admConsulUser.menuHelpQuestion.hide #admConsulUser
 					ul
-						li DETALLAR UN(A) USUARI@
+						li(data-id = 'question' data-reference = '#admDetailUser') DETALLAR UN(A) USUARI@
+						p#admDetailUser.menuHelpQuestion.hide #admDetailUser
 					ul
-						li ACTUALIZAR UN(A) USUARI@S
+						li(data-id = 'question' data-reference = '#admUpdateUser') ACTUALIZAR UN(A) USUARI@S
+						p#admUpdateUser.menuHelpQuestion.hide #admUpdateUser
 					ul
-						li ELIMINAR UN(A) USUARI@S
+						li(data-id = 'question' data-reference = '#admDeleteUser') ELIMINAR UN(A) USUARI@S
+						p#admDeleteUser.menuHelpQuestion.hide #admDeleteUser
 					ul
-						li ASIGNAR NUEVO USUARIO DE LOGUEO
+						li(data-id = 'question' data-reference = '#admNewRol') ASIGNAR NUEVO USUARIO DE LOGUEO
+						p#admNewRol.menuHelpQuestion.hide #admNewRol
 					ul
-						li ELIMINAR USUARIO DE LOGUEO
+						li(data-id = 'question' data-reference = '#admDeleteLogin') ELIMINAR USUARIO DE LOGUEO
+						p#admDeleteLogin.menuHelpQuestion.hide #admDeleteLogin
 					ul
-						li ACTUALIZAR CONTRASEÑA
+						li(data-id = 'question' data-reference = '#admUpdatePass') ACTUALIZAR CONTRASEÑA
+						p#admUpdatePass.menuHelpQuestion.hide #admUpdatePass
 					ul
-						li ACTUALIZAR ROL
+						li(data-id = 'question' data-reference = '#admUpdateRol') ACTUALIZAR ROL
+						p#admUpdateRol.menuHelpQuestion.hide #admUpdateRol
 					ul
-						li ACTUALIZAR ESTADO
-				nav#admChildrens.menuDesc
+						li(data-id = 'question' data-reference = '#admUpdateStatus') ACTUALIZAR ESTADO
+						p#admUpdateStatus.menuHelpQuestion.hide #admUpdateStatus
+				nav#admChildrens.menuDesc.hide
 					ul
-						li REGISTRAR NIÑ@ NUEV@
+						li(data-id = 'question' data-reference = '#admRegisterChild') REGISTRAR NIÑ@ NUEV@
+						p#admRegisterChild.menuHelpQuestion.hide #admRegisterChild
 					ul
-						li CONSULTAR USUARI@S
+						li(data-id = 'question' data-reference = '#admConsultChild') CONSULTAR NIÑ@S
+						p#admConsultChild.menuHelpQuestion.hide #admConsultChild
 					ul
-						li DETALLAR UN(A) NIÑ@
+						li(data-id = 'question' data-reference = '#admDetailChild') DETALLAR UN(A) NIÑ@
+						p#admDetailChild.menuHelpQuestion.hide #admDetailChild
 					ul
-						li ACTUALIZAR UN(A) NIÑ@S
+						li(data-id = 'question' data-reference = '#admUpdateChild') ACTUALIZAR UN(A) NIÑ@S
+						p#admUpdateChild.menuHelpQuestion.hide #admUpdateChild
 					ul
-						li ELIMINAR UN(A) NIÑ@S
+						li(data-id = 'question' data-reference = '#admDeleteChild') ELIMINAR UN(A) NIÑ@S
+						p#admDeleteChild.menuHelpQuestion.hide #admDeleteChild
 					ul
-						li VALIDAR ETAPA
-				nav#admReports.menuDesc
+						li(data-id = 'question' data-reference = '#admValidStep') VALIDAR ETAPA
+						p#admValidStep.menuHelpQuestion.hide #admValidStep
+				nav#admReports.menuDesc.hide
 					ul
-						li CONSULTAS GENERALES
+						li(data-id = 'question' data-reference = '#admReportGeneral') CONSULTAS GENERALES
+						p#admReportGeneral.menuHelpQuestion.hide #admReportGeneral
 					ul
-						li CONSULTA POR NIÑ@
+						li(data-id = 'question' data-reference = '#admReportChild') CONSULTA POR NIÑ@
+						p#admReportChild.menuHelpQuestion.hide #admReportChild
 					ul
-						li CONSULTA POR EDADES
+						li(data-id = 'question' data-reference = '#admReportAge') CONSULTA POR EDADES
+						p#admReportAge.menuHelpQuestion.hide #admReportAge
 					ul
-						li CONSULTA POR ETAPA
+						li(data-id = 'question' data-reference = '#admReportStep') CONSULTA POR ETAPA
+						p#admReportStep.menuHelpQuestion.hide #admReportStep
 					ul
-						li CONSULTA POR ACTIVIDAD
+						li(data-id = 'question' data-reference = '#admReportActivity') CONSULTA POR ACTIVIDAD
+						p#admReportActivity.menuHelpQuestion.hide #admReportActivity
 					ul
-						li CONSULTA POR INDICADORES
-				nav#admBackups.menuDesc
+						li(data-id = 'question' data-reference = '#admReportIndicator') CONSULTA POR INDICADORES
+						p#admReportIndicator.menuHelpQuestion.hide #admReportIndicator
+				nav#admBackups.menuDesc.hide
 					ul
-						li SALVAR INFORMACIÓN (BACKUPS)
+						li(data-id = 'question' data-reference = '#admSaveBackup') SALVAR INFORMACIÓN (BACKUPS)
+						p#admSaveBackup.menuHelpQuestion.hide #admSaveBackup
 					ul
-						li RECUPERAR INFORMACIÓN DE BACKUPS PREVIOS
+						li(data-id = 'question' data-reference = '#admRecoveryBackup') RECUPERAR INFORMACIÓN DE BACKUPS PREVIOS
+						p#admRecoveryBackup.menuHelpQuestion.hide #admRecoveryBackup
 			section#menuEstimulationHelp
-				nav#estGeneral.menuDesc
+				nav#estGeneral.menuDesc.hide
 					ul
-						li ENTRAR AL CENTRO DE ESTIMULACIÓN
-				nav#estSteps.menuDesc
+						li(data-id = 'question' data-reference = '#estEstimulation') ENTRAR AL CENTRO DE ESTIMULACIÓN
+						p#estEstimulation.menuHelpQuestion.hide #estEstimulation
+				nav#estSteps.menuDesc.hide
 					ul
-						li VER LAS ETAPAS
+						li(data-id = 'question' data-reference = '#estViewSteps') VER LAS ETAPAS
+						p#estViewSteps.menuHelpQuestion.hide #estViewSteps
 					ul
-						li DETALLAR UNA ETAPA
-				nav#estActs.menuDesc
+						li(data-id = 'question' data-reference = '#estDetailStep') DETALLAR UNA ETAPA
+						p#estDetailStep.menuHelpQuestion.hide #estDetailStep
+				nav#estActs.menuDesc.hide
 					ul
-						li VER ACTIVIDADES DE UNA ETAPA
+						li(data-id = 'question' data-reference = '#estViewActivities') VER ACTIVIDADES DE UNA ETAPA
+						p#estViewActivities.menuHelpQuestion.hide #estViewActivities
 					ul
-						li INGRESAR A UNA ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estEnterActivity') INGRESAR A UNA ACTIVIDAD
+						p#estEnterActivity.menuHelpQuestion.hide #estEnterActivity
 					ul
-						li MENÚ DE UNA ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estMenuActivity') MENÚ DE UNA ACTIVIDAD
+						p#estMenuActivity.menuHelpQuestion.hide #estMenuActivity
 					ul
-						li INICIAR ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estStartActivity') INICIAR ACTIVIDAD
+						p#estStartActivity.menuHelpQuestion.hide #estStartActivity
 					ul
-						li REINICIAR O CANCELAR ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estRestartActivity') REINICIAR O CANCELAR ACTIVIDAD
+						p#estRestartActivity.menuHelpQuestion.hide #estRestartActivity
 					ul
-						li DETALLAR ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estDetailActivity') DETALLAR ACTIVIDAD
+						p#estDetailActivity.menuHelpQuestion.hide #estDetailActivity
 					ul
-						li DESARROLLAR ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estDevelopActivity') DESARROLLAR ACTIVIDAD
+						p#estDevelopActivity.menuHelpQuestion.hide #estDevelopActivity
 					ul
-						li VALIDACIÓN PARCIAL DE UNA ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estValidParcial') VALIDACIÓN PARCIAL DE UNA ACTIVIDAD
+						p#estValidParcial.menuHelpQuestion.hide #estValidParcial
 					ul
-						li VALIDACIÓN FINAL DE UNA ACTIVIDAD
+						li(data-id = 'question' data-reference = '#estValidDefinitive') VALIDACIÓN FINAL DE UNA ACTIVIDAD
+						p#estValidDefinitive.menuHelpQuestion.hide #estValidDefinitive
 					ul
-						li DETALLAR UN(A) NIÑ@
-				nav#estElec.menuDesc
+						li(data-id = 'question' data-reference = '#estDetailChild') DETALLAR UN(A) NIÑ@
+						p#estDetailChild.menuHelpQuestion.hide #estDetailChild
+				nav#estElec.menuDesc.hide
 					ul
-						li DESCRIPCIÓN
+						li(data-id = 'question' data-reference = '#estRugDescription') DESCRIPCIÓN
+						p#estRugDescription.menuHelpQuestion.hide #estRugDescription
 					ul
-						li CONEXIÓN
+						li(data-id = 'question' data-reference = '#estRugConection') CONEXIÓN
+						p#estRugConection.menuHelpQuestion.hide #estRugConection
 					ul
-						li SELECCIÓN DE FICHAS
+						li(data-id = 'question' data-reference = '#estRugSelectRecord') SELECCIÓN DE FICHAS
+						p#estRugSelectRecord.menuHelpQuestion.hide #estRugSelectRecord
 					ul
-						li UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)
+						li(data-id = 'question' data-reference = '#estRuglocationRecord') UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)
+						p#estRuglocationRecord.menuHelpQuestion.hide #estRuglocationRecord
 					ul
-						li CUIDADO
+						li(data-id = 'question' data-reference = '#estRugCare') CUIDADO
+						p#estRugCare.menuHelpQuestion.hide #estRugCare
 					ul
-						li SEGURIDAD
+						li(data-id = 'question' data-reference = '#estRugSecurity') SEGURIDAD
+						p#estRugSecurity.menuHelpQuestion.hide #estRugSecurity
 
 				
 		script(src="/js/lib/jquery-2.2.0.min.js")
