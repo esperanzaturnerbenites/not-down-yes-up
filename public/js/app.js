@@ -74,7 +74,8 @@ function renderResultChildren(node){
 	showResultChildren.html("")
 	showResultChildren.append(node)
 }
-function renderResultValid(node){
+
+function renderResultValidAdmin(node){
 	showResultValid.html("")
 	showResultValid.append(node)
 }
@@ -251,10 +252,10 @@ $("#formValidChildrenValid").on("click",(event) => {
 					data = $(clone.querySelector("#dataNameChild")),
 					activities = result.activitiesvalid
 
-				if(activities.length == 2){
+				if(activities.length >= 2){
 					clone.querySelector("#nameChildren").innerHTML = "Niñ@: " + result.children.nameChildren + " " + result.children.lastnameChildren
 					clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
-					clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
+					//clone.querySelector("#step").innerHTML = "Etapa: " + result.step.stepStep
 
 					var num = 0,
 						scoreS = 0
@@ -341,8 +342,8 @@ $("#formValidChildrenValid").on("click",(event) => {
 							})
 						}
 					})
-
-					renderResultValid(clone)
+					console.log(clone)
+					renderResultValidAdmin(clone)
 				}else notification.show({msg:"¡No cumple con las condiciones necesarias para ser validad@!", type:2})
 			}
 		}

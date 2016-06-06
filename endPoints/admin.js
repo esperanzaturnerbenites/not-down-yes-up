@@ -192,85 +192,63 @@ router.get("/register-children",(req,res)=>{
 	
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	console.log("create")
+
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		return res.json({err:{message : "¡Números de identificación iguales"}})
 	}else{
-		models.children.create(dataChildren, function (err, children) {
-			if(err) return res.json({err:err})
-			if(children){
 
-				var queryParents = [
-					{idParent : dataMom.idParent},
-					{idParent : dataDad.idParent},
-					{idParent : dataCare.idParent}
-				]
+		var queryParents = [
+			{idParent : dataMom.idParent},
+			{idParent : dataDad.idParent},
+			{idParent : dataCare.idParent}
+		]
 
-				dataMom.idChildren = children._id
-				dataDad.idChildren = children._id
-				dataCare.idChildren = children._id
+		var idParents = [
+			{idParent : dataMom.idParent,relationshipParent:0},
+			{idParent : dataDad.idParent,relationshipParent:1},
+			{idParent : dataCare.idParent,relationshipParent:2}
+		]
 
-				var arrayParents = [dataMom, dataDad, dataCare]
+		var arrayParents = [dataMom, dataDad, dataCare]
 
-				models.parent.find(
-					{$or : queryParents},
-					function (err, parentsFind) {
+		models.parent.create(arrayParents,(err, parentsCreate) => {
+			if(err) {
+				if(err.message != "¡Familiar ya existe!") return res.json({err:err})
+			}
+
+			var parentsChildren = []
+
+			models.parent.find({$or:queryParents},{_id:1,idParent:1},(err, parentsFind) => {
+				idParents.forEach(parent => {
+					var parentTemp = parentsFind.find(parentFind => {return parentFind.idParent == parent.idParent})
+					parentTemp.relationshipParent = parent.relationshipParent
+					parentsChildren.push({idParent:parentTemp._id,relationshipParent:parent.relationshipParent})
+				})
+				console.log("--------------------------------")
+				console.log(parentsChildren)
+				console.log("--------------------------------")
+
+				dataChildren.idParent = parentsChildren
+
+				models.children.create(dataChildren, function (err, children) {
+					if(err) return res.json({err:err})
+
+					models.step.find({}, (err, steps) => {
 						if(err) return res.json({err:err})
+						if(!steps.length) return res.json({msg:"Not steps"})
 
-						models.step.find({}, (err, steps) => {
-							if(err) return res.json({err:err})
-							if(!steps.length) return res.json({msg:"Not steps"})
+						for(var stepDB of steps){
+							promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
+						}
 
-							for(var stepDB of steps){
-								promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
-							}
-							Q.all(promises).then(function (result) {
-								if(!parentsFind.length){
-									models.parent.create(arrayParents,(err, parentsCreate) => {
-										if(err) return res.json({err:err})
-										return res.redirect("/admin/menu-admin")
-									})
-								}else{
-									return res.json(parentsFind)
-								/*
-									var relation = parentsFind.map(parent => {return parent.relationshipParent})
-
-									var parentsNoExist = arrayParents.filter(parent => {
-										return relation.indexOf(parent.relationshipParent) < 0
-									})
-									console.log(parentsNoExist)
-									for (var parent of parentsNoExist){
-										models.parent.where({$or : queryParents})
-										.setOptions({ multi: true })
-										.update(
-											{
-												$push : {
-													idChildren : children._id,
-													relationshipParent : parent.relationshipParent
-												}
-											},
-											(err, parentDad) => {
-												if(err) return res.json({err:err})
-												if(parentsNoExist.length){
-													models.parent.create(parentsNoExist,(err, parentsCreate) => {
-														if(err) return res.json({err:err})
-														return res.redirect("/admin/menu-admin")
-													})
-												}else{
-													return res.redirect("/admin/menu-admin")
-												}
-											}
-										)
-									}
-								*/}
-							}).catch(err => {
-								console.log(err)
-							})
+						Q.all(promises).then(function () {
+							return res.json({msg:"¡Niñ@ Creado con éxito!", statusCode : 2})
 						})
 
-
 					})
-			}else return res.json({msg:"Children not found"})
+				})
+			})
 		})
 	}
 }

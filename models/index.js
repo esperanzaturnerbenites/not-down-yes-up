@@ -57,7 +57,8 @@ const userSchema = new Mongoose.Schema({
 		debilityChildren: {type:String},
 		statusChildren: {type:Number, default:0},
 		dateStart: {type:Date, default:Date.now},
-		dateEnd: {type:Date, default:Date.now}
+		dateEnd: {type:Date, default:Date.now},
+		idParent: [{idParent:{type:Schema.ObjectId, ref: "parent"}, relationshipParent:{type:Number}}]
 	}),
 
 	parentSchema = new Mongoose.Schema({
@@ -72,9 +73,9 @@ const userSchema = new Mongoose.Schema({
 		emailParent: {type:String},
 		studyParent: {type:String},
 		professionParent: {type:String},
-		jobParent: {type:String},
-		relationshipParent: [{type:Number}],
-		idChildren: [{type:Schema.ObjectId, ref: "children"}]
+		jobParent: {type:String}
+	//	relationshipParent: [{type:Number}],
+	//	idChildren: [{type:Schema.ObjectId, ref: "children"}]
 	}),
 
 	activityvalidSchema = new Mongoose.Schema({
@@ -134,7 +135,7 @@ const userSchema = new Mongoose.Schema({
 	})
 
 
-var models = {
+const models = {
 	user: Mongoose.model("user", userSchema),
 	adminuser: Mongoose.model("adminuser", adminuserSchema),
 	children: Mongoose.model("children", childrenSchema),
@@ -146,14 +147,14 @@ var models = {
 	step: Mongoose.model("step", stepSchema)
 }
 
-userSchema.pre("save",(next) => {
+userSchema.pre("save",function (next) {
 	models.user.findOne({idUser : this.idUser}, (err, user) => {
 		if(user) next(new Error("¡Usuario ya existe!"))
 		else next()
 	})
 })
 
-adminuserSchema.pre("save",(next) => {
+adminuserSchema.pre("save",function (next) {
 	//console.log(this)
 	models.adminuser.findOne({userUser : this.userUser}, (err, adminuser) => {
 		if (adminuser) next(new Error("¡Usuario de logueo ya existe!"))
@@ -161,21 +162,26 @@ adminuserSchema.pre("save",(next) => {
 	})
 })
 
-adminuserSchema.pre("remove",(next) => {
+adminuserSchema.pre("remove",function (next) {
 	models.adminuser.findOne({userUser : "Developer"}, (err, user) => {
 		if (user) next(new Error("Useradmin not delete"))
 		else next()
 	})
 })
 
-childrenSchema.pre("save",(next) => {
+childrenSchema.pre("save",function (next) {
 	models.children.findOne({idChildren : this.idChildren}, (err, children) => {
 		if (children) next(new Error("¡Niñ@ ya existe1"))
 		else next()
 	})
 })
 
-parentSchema.pre("save",(next) => {
+parentSchema.pre("save",function (next) {
+
+	console.log(":::::::::::::::::")
+	console.log(this)
+	console.log(":::::::::::::::::")
+
 	models.parent.findOne({idParent : this.idParent}, (err, parent) => {
 		if (parent) next(new Error("¡Familiar ya existe!"))
 		else next()

@@ -9,7 +9,7 @@
 @import url("https://fonts.googleapis.com/css?family=Fredoka+One");
 @import url("https://fonts.googleapis.com/css?family=Chewy");
 @import url("https://fonts.googleapis.com/css?family=Delius+Unicase:400,700");
-
+@import url("https://fonts.googleapis.com/css?family=Quattrocento");
 
 input:empty{
 	background-color:#e6f1bf;
@@ -64,6 +64,30 @@ button:hover{
 
 .login:hover{
 	background-color:#b9d162;
+}
+
+.backsYellow:hover{
+	background-color:#FFF1E5;
+}
+
+.backsBlue:hover{
+	background-color:#E4F3FB;
+}
+
+.backsGreen:hover{
+	background-color:#ECFDE9;
+}
+
+.backsPurple:hover{
+	background-color:#F6E5F8;
+}
+
+.backsPink:hover{
+	background-color:#FFEFEF;
+}
+
+.backsOlive:hover{
+	background-color:#FFFEED;
 }
 
 .exit a:visited{
@@ -433,6 +457,10 @@ option{
 	font-size:1.5rem;
 }
 
+.numberStyles{
+	width:100%;
+}
+
 .menuHelp{
 	margin:0 auto;
 	width:100%;
@@ -457,6 +485,22 @@ option{
 	background-color:#EAB016;
 	font-family: 'Delius Unicase', cursive;
 	//font-family: 'Handlee', cursive;
+}
+
+.menuHelp p{
+	margin:0 auto;
+	padding-top:20px;
+	padding-right:20px;
+	padding-left:20px;
+	text-align:center;
+	font-family: 'Quattrocento', serif;
+	font-weight:bold;
+	font-size:1.5rem;
+}
+
+p.menuHelpColor{
+	color:#931F1F;
+	font-size:3rem;
 }
 
 .menuHelp a{
@@ -1003,6 +1047,7 @@ option{
 	box-shadow:inset 0 0 10px purple;
 	background-color:#E2BDE6;
 }
+
 .backsPink{
 	-webkit-box-shadow: inset 0 0 10px #B14949;
 	box-shadow:inset 0 0 10px #B14949;
