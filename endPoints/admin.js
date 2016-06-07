@@ -225,9 +225,6 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 					parentTemp.relationshipParent = parent.relationshipParent
 					parentsChildren.push({idParent:parentTemp._id,relationshipParent:parent.relationshipParent})
 				})
-				console.log("--------------------------------")
-				console.log(parentsChildren)
-				console.log("--------------------------------")
 
 				dataChildren.idParent = parentsChildren
 
@@ -242,8 +239,8 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 							promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
 						}
 
-						Q.all(promises).then(function () {
-							return res.json({msg:"¡Niñ@ Creado con éxito!", statusCode : 2})
+						Q.all(promises).then(function 	() {
+							return res.redirect("/admin/menu-admin")
 						})
 
 					})
@@ -254,30 +251,30 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 }
 
 var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
+
+
 	models.children.findOneAndUpdate(
 		{idChildren : dataChildren.idChildren},
 		{"$set": dataChildren},
 	(err,children) => {
 		if(err) return res.json({err:err})
 
-		models.parent.update(
-			{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 0}]},
-			{"$set": dataMom}
-		).exec(err => {
-			if(err) return res.json({err:err})
-			models.parent.update(
-				{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 1}]},
-				{"$set": dataDad}
-			).exec(err => {
-				if(err) return res.json({err:err})
-				models.parent.update(
-					{"$and" :[{idChildren : {$in : [children._id]},relationshipParent : 2}]},
-					{"$set": dataCare}
-				).exec(err => {
-					if(err) return res.json({err:err})
-					return res.json({msg:"niño actualizado con éxito!", statusCode : 0})
-				})
-			})
+		var data = {},
+			promises = []
+
+		children.idParent.forEach(objIdParen => {
+			if(objIdParen.relationshipParent == 0) data = dataMom
+			if(objIdParen.relationshipParent == 1) data = dataDad
+			if(objIdParen.relationshipParent == 2) data = dataCare
+			console.log(objIdParen.idParent)
+			var promise = models.parent.update(
+				{_id:objIdParen.idParent},
+				{$set:data}
+				)
+			promises.push(promise)
+		})
+		Q.all(promises).then(() => {
+			return res.json("update listo")
 		})
 	})
 }
@@ -286,12 +283,15 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 	//console.log("init")
 
 	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
-		fileMomfile = req.files.find(e => {return e.fieldname == "imgMom"}),
+		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
 		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
 		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
+
+	//return res.json(req.files)
+
 	var defaultImage = "defaultUser.png",
 		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
-		imgMom =  fileMomfile ? fileMomfile.filename : defaultImage,
+		imgMom =  fileMom ? fileMom.filename : defaultImage,
 		imgDad =  fileDad ? fileDad.filename : defaultImage,
 		imgCure =  fileCure ? fileCure.filename : defaultImage
 
@@ -371,26 +371,24 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 
 router.get("/register-children/:id",(req,res)=>{
 	var id = req.params.id
-	models.children.findOne({idChildren:id}).exec((err,childrenSearch) =>{
+	models.children.findOne({idChildren:id}).populate('idParent.idParent').exec((err,childrenSearch) =>{
 		if (err) return {err : err}
-		models.parent.find(
-			{idChildren : {"$in" : [childrenSearch._id]}},
-			(err, parents) => {
-				var mom = parents.find(parent => {return parent.relationshipParent == 0}),
-					dad = parents.find(parent => {return parent.relationshipParent == 1}),
-					cure = parents.find(parent => {return parent.relationshipParent == 2})
-				res.render("registerChildren",
-					{
-						data: {
-							children : childrenSearch,
-							parents : {
-								mom : mom,
-								dad : dad,
-								cure : cure
-							}
-						}
+
+
+		var mom = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 0}),
+			dad = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 1}),
+			cure = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 2})
+		//return res.json(mom)
+		res.render("registerChildren",
+			{
+				data: {
+					children : childrenSearch,
+					parents : {
+						mom : mom.idParent,
+						dad : dad.idParent,
+						cure : cure.idParent
 					}
-				)
+				}
 			}
 		)
 	})
@@ -548,17 +546,24 @@ router.post("/register-newuser",(req,res)=>{
 
 		models.adminuser.findOne({userUser : data.userUser}, (err, adminFind) => {
 			if(err) return res.json({err:err})
-			if(adminFind) return res.json({err:{message:"¡Usuario de logüeo ya existe!"}})
+			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
 			if(!adminFind){
 
 				models.user.findOne({idUser : data.idUser},(err,user) => {
 					if(err) return res.json({err:err})
 					if(!user) return res.json({msg:"¡Usuario no existe!", statusCode:2})
 					if(user){
-						data.idUser = user._id
-						models.adminuser.create(data, function (err, adminuser) {
+
+						models.adminuser.find({idUser:user._id, typeUser:data.typeUser}, (err, admType) => {
 							if(err) return res.json({err:err})
-							if(adminuser) return res.json({msg:"¡Usuario de logüeo registrado con éxito!", statusCode : 0})
+							if(admType) return res.json({msg:"¡Usuario ya tiene asignado este rol!", statusCode:2})
+							
+							data.idUser = user._id
+
+							models.adminuser.create(data, function (err, adminuser) {
+								if(err) return res.json({err:err})
+								if(adminuser) return res.json({msg:"¡Usuario de logueo registrado con éxito!", statusCode : 0})
+							})
 						})
 					}
 				})
@@ -578,64 +583,47 @@ router.get("/admin-childrens",(req,res)=>{
 })
 
 router.get("/info-children/:id",(req,res)=>{
-	//console.log("cualquer cosa")
 	var id = req.params.id,
 		data = {}
-	//console.log(id)
-	models.children.findOne({idChildren:id},(err,childrenFind) =>{
+
+	models.children.findOne({idChildren:id})
+	.populate('idParent.idParent')
+	.exec((err,childrenFind) =>{
 		if(err) return res.json({err:err})
 		if(!childrenFind) return res.json({err:{message:"Children not exist"}})
 		if(childrenFind){
 			data.child = childrenFind
 
-			models.parent.find({idChildren:childrenFind._id})
-			.sort({relationshipParent:1})
-			.exec((err,parentsFind)=>{
-				if(err) return res.json({err:err})
-				if(!parentsFind) return res.json({err:{message:"Not parents"}})
-				data.parents = parentsFind
+			data.parents = childrenFind.idParent.map(objParent => {return objParent.idParent})
 
-				models.activityhistory.find({idChildren:childrenFind._id})
+			models.activityhistory.find({idChildren:childrenFind._id})
+			.sort({date:-1})
+			.populate("idActivity idStep idUser")
+			.exec((err,acthisChild) =>{
+				if(err) return res.json({err:err})
+				if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
+				//console.log(acthisChild)
+				data.historys = acthisChild
+				
+				models.activityvalid.find({idChildren:childrenFind._id})
 				.sort({date:-1})
-				.populate("idActivity idStep idUser")
-				.exec((err,acthisChild) =>{
+				.populate("idStep idActivity idUser")
+				.exec((err,actvalidChild) =>{
 					if(err) return res.json({err:err})
-					if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
-					//console.log(acthisChild)
-					data.historys = acthisChild
+					if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
+					data.valids = actvalidChild
 					
-					models.activityvalid.find({idChildren:childrenFind._id})
+					models.stepvalid.find({idChildren:childrenFind._id})
 					.sort({date:-1})
-					.populate("idStep idActivity idUser")
-					.exec((err,actvalidChild) =>{
+					.populate("idStep idUser")
+					.exec((err,stepvalidChild) =>{
 						if(err) return res.json({err:err})
-						if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
-						data.valids = actvalidChild
-						
-						models.stepvalid.find({idChildren:childrenFind._id})
-						.sort({date:-1})
-						.populate("idStep idUser")
-						.exec((err,stepvalidChild) =>{
-							if(err) return res.json({err:err})
-							if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
-							if(stepvalidChild){
-								data.stepvalids = stepvalidChild
-								res.render("infoChildren",{infoChildren: data})
-							}
-						})
+						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+						if(stepvalidChild){
+							data.stepvalids = stepvalidChild
+							res.render("infoChildren",{infoChildren: data})
+						}
 					})
-					/*models.activityhistory.aggregate([
-						{$group:{_id:"idChildren"}}]),
-						function(err,doc){
-							console.log(data.admin)
-							models.activityhistory.populate(doc,{"path":"idChildren"},function(err,doc){
-								if(err) return res.json({err:err})
-								if(doc){
-									data.children = doc
-									res.render("infoUserRol",{infoUser: data})
-								}
-							})
-						}*/
 				})
 			})
 		}
@@ -683,6 +671,19 @@ router.post("/update-pass",(req,res)=>{
 	}
 })
 
+router.post("/inactivate-children",(req,res)=>{
+	var data = req.body
+	
+	models.children.findOneAndUpdate(
+		{idChildren : data.adminUpdChildren},
+		{$set:{statusChildren:3, observationChildren:data.observationChildren}},
+		(err,doc) => {
+			if(err) return res.json({err:err})
+			if(doc) return res.json({msg:"¡Estado actualizado con éxito!", statusCode:0})
+			if(!doc) return res.json({msg:"Niñ@ no existe!", statusCode:2})
+		})
+})
+
 router.post("/update-rol",(req,res)=>{
 	var data = req.body
 	
@@ -724,29 +725,7 @@ router.post("/delete-childrens",(req,res)=>{
 	models.children.findOne({idChildren : data.adminOpeChildren},(err,children) => {
 		if(err) return res.json({err:err})
 		if(children){
-			models.children.remove({idChildren : data.adminOpeChildren},(err) => {
-				if(err) return res.json({err:err})
-				models.parent.find(
-					{idChildren : {$in : [children._id]}},
-					(err, parents) => {
-						if (err) return res.json({err:err})
-						var promises = []
-						parents.forEach(parent => {
-							if(parent.idChildren.length == 1){
-								promises.push(models.parent.remove({idParent: parent.idParent}))
-							}else{
-								promises.push(models.parent.where({idParent: parent.idParent})
-									.setOptions({ multi: true })
-									.update(
-										{$pull: {idChildren: children._id } }
-								))
-							}
-						})
-						Q.all(promises).then(function () {
-							return res.json({msg:"¡Niñ@ eliminado con éxito!", statusCode : 2})
-						})
-					})
-			})
+			children.remove()
 		}else{
 			return res.json({msg:"¡Niñ@ no existe!", statusCode : 2})
 		}

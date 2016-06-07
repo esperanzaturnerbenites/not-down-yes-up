@@ -359,7 +359,10 @@ formFindAll.on("submit",(event) => {
 		data : formFindAll.serializeArray(),
 		success: function(users){
 			if(users.err) return notification.show({msg:users.err.message, type:1})
-			if(!users.length) return notification.show({msg:"No hay usuarios", type:1})
+			if(!users.length){
+				$("#articleFindAll").remove()
+				return notification.show({msg:"No hay usuarios", type:1})
+			} 
 			var clone = getClone("#consulQueryUser")
 			var data = $(clone.querySelector("#dataFindAll"))
 
@@ -533,7 +536,6 @@ $("#formOpeChildrenDel").on("click.",(event) => {
 		success: function(result){
 			if (result.err) return notification.show({msg:result.err.message, type:1})
 			notification.show({msg:result.msg, type:result.statusCode})
-			//console.log(result)
 		}
 	})
 })
@@ -571,6 +573,20 @@ $("#formOpeChildrenInfo").on("click",(event) => {
 			if(result._id){
 				window.open("/admin/info-children/" + $("#adminInfoChildren").val())
 			}
+		}
+	})
+})
+
+$("#formOpeChildrenStatusUpd").on("click.",(event) => {
+	event.preventDefault()
+	$.ajax({
+		url: "/admin/inactivate-children",
+		async : false, 
+		data : $("#formOpeStatusChildren").serialize(),
+		type : "POST",
+		success: function(result){
+			if (result.err) return notification.show({msg:result.err.message, type:1})
+			notification.show({msg:result.msg, type:result.statusCode})
 		}
 	})
 })

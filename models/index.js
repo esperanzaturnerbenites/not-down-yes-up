@@ -56,6 +56,7 @@ const userSchema = new Mongoose.Schema({
 		abilityChildren: {type:String},
 		debilityChildren: {type:String},
 		statusChildren: {type:Number, default:0},
+		observationChildren: {type:String, default:"Sin Observaciones..."},
 		dateStart: {type:Date, default:Date.now},
 		dateEnd: {type:Date, default:Date.now},
 		idParent: [{idParent:{type:Schema.ObjectId, ref: "parent"}, relationshipParent:{type:Number}}]
@@ -85,7 +86,7 @@ const userSchema = new Mongoose.Schema({
 		backingMaxActivity:{type:Number, default:null},
 		backingMinActivity:{type:Number, default:null},
 		backingDFunctionActivity:{type:Number, default:null},
-		observationActivity: {type:String, default:"Sin Validar"},
+		observationActivity: {type:String, default:"Sin Calificar"},
 		date: {type:Date, default:Date.now},
 		idActivity: {type:Schema.ObjectId, ref: "activity"},
 		idStep: {type:Schema.ObjectId, ref: "step"},
@@ -97,7 +98,7 @@ const userSchema = new Mongoose.Schema({
 		statusActivity: {type:Number, default:0},
 		scoreSystemActivity: {type:Number, default:0},
 		scoreTeachActivity: {type:Number, default:0},
-		observationActivity: {type:String, default:"Sin Validar"},
+		observationActivity: {type:String, default:"Sin Calificar"},
 		date: {type:Date, default:Date.now},
 		idActivity: {type:Schema.ObjectId, ref: "activity"},
 		idStep: {type:Schema.ObjectId, ref: "step"},
@@ -120,7 +121,7 @@ const userSchema = new Mongoose.Schema({
 	stepvalidSchema = new Mongoose.Schema({
 		statusStep: {type:Number, default:0},
 		scoreStep: {type:Number, default:0},
-		observationStep: {type:String, default:"Sin Validar"},
+		observationStep: {type:String, default:"Sin Calificar"},
 		date: {type:Date, default:Date.now},
 		idStep: {type:Schema.ObjectId, ref: "step", required:true},
 		idUser: {type:Schema.ObjectId, ref: "adminuser", required:true},
@@ -176,11 +177,25 @@ childrenSchema.pre("save",function (next) {
 	})
 })
 
-parentSchema.pre("save",function (next) {
+childrenSchema.post("remove",function (children) {
+	console.log(children)
+	var idParents = children.idParent.map(objParent =>{
+		return objParent.idParent.idParent
+	})
+	models.children.find({'idParent.idParent' : {$in : idParents}})
+	.populate('idParent.idParent')
+	.exec((err, childrenFind) => {
+		if(!childrenFind){
+			var queryParents = childrenFind.idParent.map(objParent =>{
+				return {idParent : objParent.idParent.idParent}
+			})
 
-	console.log(":::::::::::::::::")
-	console.log(this)
-	console.log(":::::::::::::::::")
+			models.parent.remove({$or:queryParents})
+		}
+	})
+})
+
+parentSchema.pre("save",function (next) {
 
 	models.parent.findOne({idParent : this.idParent}, (err, parent) => {
 		if (parent) next(new Error("¡Familiar ya existe!"))

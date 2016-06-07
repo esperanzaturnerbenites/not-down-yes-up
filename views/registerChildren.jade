@@ -90,7 +90,10 @@ block content
 					section.data
 						fieldset
 							legend Personal
-							input.idChildren#idChildren(type='number', name='idChildren' value="#{idChildren}", readonly)
+							if (edit)
+								input.idChildren#idChildren(type='number', name='idChildren' value="#{idChildren}")
+							else
+								input.idChildren#idChildren(type='number', name='idChildren' value="#{idChildren}", readonly)
 							input#nameChildren(type='text', name='nameChildren' value="#{nameChildren}", placeholder='Nombres Niñ@', required='')
 							input#lastnameChildren(type='text', name='lastnameChildren' value="#{lastnameChildren}", placeholder='Apellidos Niñ@', required='')
 							article.img
@@ -161,7 +164,7 @@ block content
 								// <input-datetime></input-datetime>
 							article.img
 								span Foto
-								input#imgParent(type='file', name='imgMon', value="#{mom.imgParent}" accept='image/*' )
+								input#imgParent(type='file', name='imgMom', value="#{mom.imgParent}" accept='image/*' )
 						fieldset
 							legend Contacto
 							article

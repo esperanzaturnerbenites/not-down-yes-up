@@ -73,12 +73,24 @@ block content
 						span #{liveson}
 					p
 						b
-							span Estado: 
-						span #{infoChildren.child.statusChildren}
-					p
-						b
 							span Fecha Ingreso: 
 						span #{infoChildren.child.dateStart}
+					if (infoChildren.child.statusChildren == 0)
+						- var statusChildren = "Registrado"
+					if (infoChildren.child.statusChildren == 1)
+						- var statusChildren = "En Cursos"
+					if (infoChildren.child.statusChildren == 2)
+						- var statusChildren = "Calificado"
+					if (infoChildren.child.statusChildren == 3)
+						- var statusChildren = "Retirado/Inactivo"
+					p
+						b
+							span Estado: 
+						span #{statusChildren}
+					p
+						b
+							span Observaciones: 
+						span #{infoChildren.child.observationChildren}
 				article.img
 					img(src='/img/users/#{infoChildren.child.imgChildren}', alt='Foto')
 				article
