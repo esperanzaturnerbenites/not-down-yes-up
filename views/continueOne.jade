@@ -44,7 +44,7 @@ block content
 					tbody
 						for acts in childrenAct.activities
 							if (acts.statusActivity == 0)
-								- var statusA = "Pendiente"
+								- var statusA = "No Completada"
 							else if (acts.statusActivity == 1)
 								- var statusA = "Completada"
 							tr
@@ -60,37 +60,27 @@ block content
 			h3 Últimos Logros Alcanzados
 			h2 (Actividades Validadas)
 
-			if (childrenAct.actsvalid.length > 0)
-				if (childrenAct.actsvalid.length > 1)
-					if (childrenAct.actsvalid[0].statusActivity == 0 && childrenAct.actsvalid[1].statusActivity == 0)
-						- var complete = 0
-						- var nocomplete = 2
-					else if (childrenAct.actsvalid[0].statusActivity == 1 && childrenAct.actsvalid[1].statusActivity == 1)
-						- var complete = 2
-						- var nocomplete = 0
-					else
-						- var complete = 1
-						- var nocomplete = 1
-				else if (childrenAct.actsvalid.length = 1)
-					if (childrenAct.actsvalid[0].statusActivity == 0)
-						- var complete = 0
-						- var nocomplete = 2
-					else
-						- var complete = 1
-						- var nocomplete = 1
-
+			- if (childrenAct.actsvalid)
+				- if (childrenAct.actsvalid.length > 0)
+					- var complete = 0
+					- var nocomplete = 0
+					- for (var act of childrenAct.actsvalid)
+						- if (act.statusActivity == 0)
+							- nocomplete++
+						- else
+							- complete++
 				table#continueLogros
 					tbody
 						tr
 							th Etapa
-							td #{childrenAct.activities[0].idActivity.stepActivity}
+							th #{childrenAct.activities[0].idActivity.stepActivity}
 						tr
 							th Actividades Completadas
 							td#continueNumComp #{complete}
 						tr
 							th Actividades Pendientes
 							td#continueNumPend #{nocomplete}
-			else
+			- else
 				h2 No se encontraron actividades completadas.
 
 
@@ -113,7 +103,7 @@ block content
 					p
 						b Estado: 
 						if (childrenAct.activities[0].statusActivity == 0)
-							- var statusA2 = "Pendiente"
+							- var statusA2 = "No Completada"
 						else if (childrenAct.activities[0].statusActivity == 1)
 							- var statusA2 = "Completada"
 						span #{statusA2}

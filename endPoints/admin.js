@@ -191,11 +191,9 @@ router.get("/register-children",(req,res)=>{
 })
 	
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
-	console.log("create")
-
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
-		return res.json({err:{message : "¡Números de identificación iguales"}})
+		console.log({err:{message : "¡Números de identificación iguales"}})
 	}else{
 
 		var queryParents = [

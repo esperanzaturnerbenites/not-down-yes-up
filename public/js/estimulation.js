@@ -70,7 +70,7 @@ function initActivityArduino(){
 function funcStatusAct(status){
 	var statusText = ""
 	if(status == 0)
-		statusText = "Pendiente"
+		statusText = "No Completado"
 	if(status == 1)
 		statusText = "Completado"
 	return statusText
@@ -87,55 +87,57 @@ formAddChildAct.on("submit",(event) => {
 		success: function(childrens){
 			if (childrens.err) return notification.show({msg:childrens.err.message, type:1})
 			if(childrens.nameChildren != null) {
+				if(childrens.statusChildren == 3){
+					notification.show({msg:"¡Niñ@ Retirado. No puede realizar actividades!", type:2})
+				} else {
+					initActivityArduino()
 
-				initActivityArduino()
+					var clone = getClone("#consulQueryAddChild"),
+						cloneAct = getClone("#consulQueryActivityChild")
+					var data = $(clone.querySelector("#showChildrens")),
+						dataAct = $(clone.querySelector("#activityChildrens"))
 
-				var clone = getClone("#consulQueryAddChild"),
-					cloneAct = getClone("#consulQueryActivityChild")
-				var data = $(clone.querySelector("#showChildrens")),
-					dataAct = $(clone.querySelector("#activityChildrens"))
-
-				var pName = $("<p>").attr({id:childrens.idChildren}).append(
-						$("<span>",{html : "Identificación: " + childrens.idChildren})
-					),
-					pId = $("<p>").attr({id:childrens.idChildren}).append(
-						$("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
-					),
-					imgChild = $("<article>",{class : "img"}).append(
-						$("<img>",{src:"/img/users/"+childrens.imgChildren})
+					var pName = $("<p>").attr({id:childrens.idChildren}).append(
+							$("<span>",{html : "Identificación: " + childrens.idChildren})
 						),
-					button = $("<button>")
-						.attr("id","infoChildren")
-						.attr("type","button")
-						.click(() => {
-							window.open("/estimulation/infoChildren/" + $("#idChildren").val())
-						})
-						.append($("<span>", {html : "Info: " + childrens.nameChildren})
-					)
-				data.append(pName,pId, imgChild,button)
+						pId = $("<p>").attr({id:childrens.idChildren}).append(
+							$("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
+						),
+						imgChild = $("<article>",{class : "img"}).append(
+							$("<img>",{src:"/img/users/"+childrens.imgChildren})
+							),
+						button = $("<button>")
+							.attr("id","infoChildren")
+							.attr("type","button")
+							.click(() => {
+								window.open("/estimulation/infoChildren/" + $("#idChildren").val())
+							})
+							.append($("<span>", {html : "Info: " + childrens.nameChildren})
+						)
+					data.append(pName,pId, imgChild,button)
 
-				$("#cancelAddChildren",clone).click(()=>{
-					$("#formValidChildren").remove()
-					$("#formInicAct").remove()
-					$("#nameChild").remove()
-					$("#nameChild1").remove()
-					$("#nameChild2").remove()
-					$("#fieldsetGuide").remove()
-					$("#idChildren").prop("readonly", false)
-					$("#idChildren").val("")
-					$("#numberPin").prop("readonly", false)
-					$("#numberPin").val("")
-					$("#validActClicDef").prop("disabled", true)
-					$("#validActClic").prop("disabled", true)
-				})
-				renderResults(clone)
-				renderResultAct(cloneAct)
+					$("#cancelAddChildren",clone).click(()=>{
+						$("#formValidChildren").remove()
+						$("#formInicAct").remove()
+						$("#nameChild").remove()
+						$("#nameChild1").remove()
+						$("#nameChild2").remove()
+						$("#fieldsetGuide").remove()
+						$("#idChildren").prop("readonly", false)
+						$("#idChildren").val("")
+						$("#numberPin").prop("readonly", false)
+						$("#numberPin").val("")
+						$("#validActClicDef").prop("disabled", true)
+						$("#validActClic").prop("disabled", true)
+					})
+					renderResults(clone)
+					renderResultAct(cloneAct)
 
-				$("#idChildren").prop("readonly", true)
-				$("#numberPin").prop("readonly", true)
-				$("#validActClicDef").prop("disabled", false)
-				$("#validActClic").prop("disabled", false)
-
+					$("#idChildren").prop("readonly", true)
+					$("#numberPin").prop("readonly", true)
+					$("#validActClicDef").prop("disabled", false)
+					$("#validActClic").prop("disabled", false)
+				}
 			}
 		}
 	})

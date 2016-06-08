@@ -1,12 +1,11 @@
 template#consulQueryDataActOne
 	section.continue.continueDetailAct-consulStatusStep
-		if (childrenAct.actsvalid.length > 0)
+		if (childrenAct.actsvalid)
 			if childrenAct.actsvalid.length
 				article.consulName
 					p
 						span
-							b ETAPA 
-							span #{childrenAct.actsvalid[0].idActivity.stepActivity}
+							b ETAPA #{childrenAct.actsvalid[0].idActivity.stepActivity}
 				article.consulTable
 					table
 						thead
@@ -20,7 +19,7 @@ template#consulQueryDataActOne
 						tbody
 							for acts in childrenAct.actsvalid
 								if (acts.statusActivity == 0)
-									- var status = "Pendiente"
+									- var status = "No Completado"
 								if (acts.statusActivity == 1)
 									- var status = "Completado"
 								tr
@@ -28,7 +27,7 @@ template#consulQueryDataActOne
 									td #{acts.scoreTeachActivity}
 									td #{status}
 									td #{acts.observationActivity}
-									td #{acts.idUser}
+									td #{acts.idUser.userUser}
 									td #{acts.date}
 		else
 			h2 No se encontraron actividades validadas.

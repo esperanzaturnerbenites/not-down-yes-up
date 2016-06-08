@@ -73,9 +73,16 @@ router.post("/valid-activity-parcial",(req,res)=>{
 				if(err) return res.json({err:err})
 				if(!activityF) return res.json({err:{message:"¡Actividad no encontrada!"}})
 				data.idActivity = activityF._id
+
 				models.activityhistory.create(data, function (err, activity) {
-					if(err) return res.json({err:err})
-					return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
+
+					models.children.findOneAndUpdate(
+					{idChildren : children.idChildren},
+					{$set:{statusChildren:1}},
+					(err,doc) => {
+						if(err) return res.json({err:err})
+						if(doc) return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
+					})
 				})
 			})
 		})
@@ -131,13 +138,23 @@ router.post("/valid-activity-complete",(req,res)=>{
 										{idChildren : data.idChildren, idStep : data.idStep, idActivity : data.idActivity},
 										{"$set": data},
 										(err,doc) => {
-											if(err) return res.json({err:err})
-											if(doc) return res.json({msg:"¡Validación Semestral Exitosa (Actualización)!", statusCode:0, activity : doc})
+											models.children.findOneAndUpdate(
+											{idChildren : children.idChildren},
+											{$set:{statusChildren:1}},
+											(err,docChild) => {
+												if(err) return res.json({err:err})
+												if(docChild) return res.json({msg:"¡Validación Semestral Exitosa (Actualización)!", statusCode:0, activity : doc})
+											})
 										})
 								} else{
 									models.activityvalid.create(data, function (err,activity) {
-										if(err) return res.json({err:err})
-										return res.json({msg:"¡Validación Semestral Exitosa (Primera vez)!", statusCode:0, activity : activity})
+										models.children.findOneAndUpdate(
+											{idChildren : children.idChildren},
+											{$set:{statusChildren:1}},
+											(err,docChild) => {
+												if(err) return res.json({err:err})
+												if(docChild) return res.json({msg:"¡Validación Semestral Exitosa (Primera vez)!", statusCode:0, activity : activity})
+											})
 									})
 								}
 							})
@@ -169,37 +186,33 @@ router.get("/infoChildren/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}
 
-	models.children.findOne({idChildren: idChildren}, (err, children) => {
+	models.children.findOne({idChildren: idChildren})
+	.populate('idParent.idParent')
+	.exec((err, children) => {
 		if(err) return res.json({err:err})
 		if(!children) return res.json({"msg":"Children not found"})
 		dataChildren = children
+		
+		dataChildren.parents = children.idParent.map(objParent => {return objParent.idParent})
 
-		models.parent.find({idChildren : {$in : [children._id]}})
-		.sort({relationshipParent:1})
-		.exec((err, parents) => {
+		models.activityhistory.find({idChildren: children._id})
+		.sort({date:-1})
+		.limit(10)
+		.populate("idActivity idStep idUser")
+		.exec((err, activities) => {
 			if(err) return res.json({err:err})
-			if(!parents) return res.json({"msg":"Parents not found"})
-			dataChildren.parents = parents
+			if(activities.length){
+				dataChildren.activities = activities
 
-			models.activityhistory.find({idChildren: children._id})
-			.sort({date:-1})
-			.limit(10)
-			.populate("idActivity idStep idUser")
-			.exec((err, activities) => {
-				if(err) return res.json({err:err})
-				if(activities.length){
-					dataChildren.activities = activities
-
-					models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
-					.populate("idActivity idStep idUser")
-					.exec((err, actsvalid) => {
-						if(err) return res.json({err:err})
-						dataChildren.actsvalid = actsvalid
-						//console.log(dataChildren.actsvalid.length)
-						return res.render("continueOne",{childrenAct:dataChildren})
-					})
-				}else {return res.render("continueOne",{childrenAct:dataChildren})}
-			})
+				models.activityvalid.find({idChildren:children._id, idStep : activities[0].idStep})
+				.populate("idActivity idStep idUser")
+				.exec((err, actsvalid) => {
+					if(err) return res.json({err:err})
+					dataChildren.actsvalid = actsvalid
+					//console.log(dataChildren.actsvalid.length)
+					return res.render("continueOne",{childrenAct:dataChildren})
+				})
+			}else {return res.render("continueOne",{childrenAct:dataChildren})}
 		})
 	})
 })

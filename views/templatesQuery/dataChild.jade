@@ -118,7 +118,15 @@ template#consulQueryDataChild
 				span
 					b Fecha de Ingreso: 
 				span #{childrenAct.dateStart}
+			if (childrenAct.statusChildren == 0)
+				- var statusChildren = "Registrado"
+			if (childrenAct.statusChildren == 1)
+				- var statusChildren = "En Cursos"
+			if (childrenAct.statusChildren == 2)
+				- var statusChildren = "Calificado"
+			if (childrenAct.statusChildren == 3)
+				- var statusChildren = "Retirado/Inactivo"
 			p
 				span
 					b Estado Actual: 
-				span #{childrenAct.statusChildren}
+				span #{statusChildren}
