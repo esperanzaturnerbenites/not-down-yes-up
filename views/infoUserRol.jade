@@ -52,7 +52,6 @@ block content
 						span #{infoUser.user.municipalityUser} #{infoUser.user.departamentUser}
 				article.img
 					p
-						span Foto
 						img(src='/img/users/#{infoUser.user.imgUser}', alt='Foto')
 				article
 					h2 DATOS PROFESIONALES
@@ -119,24 +118,25 @@ block content
 									td #{status}
 				article
 					h2 NIÑOS ASIGNADOS
-					if (infoUser.childrens.length > 0)
-						table
-							thead
-								tr
-									th N
-									th ID
-									th NOMBRE
-									//th ULT ACTIVIDAD
-							tbody
-
-								- var n = 0
-								- for (children of infoUser.childrens)
-									- n++
-
+					if (infoUser.childrens)
+						if (infoUser.childrens.length > 0)
+							table
+								thead
 									tr
-										td #{n}
-										td #{children.idChildren}
-										td #{children.nameChildren} #{children.lastnameChildren}
-										//td #{children.idActivity.nameActivity}
+										th N
+										th ID
+										th NOMBRE
+										//th ULT ACTIVIDAD
+								tbody
+
+									- var n = 0
+									- for (children of infoUser.childrens)
+										- n++
+
+										tr
+											td #{n}
+											td #{children.idChildren}
+											td #{children.nameChildren} #{children.lastnameChildren}
+											//td #{children.idActivity.nameActivity}
 					else
 						h2 No tiene niñ@s asignados.

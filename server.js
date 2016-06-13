@@ -11,6 +11,7 @@ const express = require("express"),
 	//modulo para parse peticiones
 	bodyParser = require("body-parser"),
 	favicon = require("express-favicon"),
+	flash = require('express-flash'),
 	//Requrir modulos para manejo de sesiones
 	cookieParser = require("cookie-parser"),
 	expressSession = require("express-session"),
@@ -29,6 +30,7 @@ const express = require("express"),
 
 //Parceador de cookies
 app.use(cookieParser())
+app.use(flash())
 app.use(favicon(__dirname + "/public/img/favicon.png"))
 app.use(function(req,res,next){
 	req.io = io

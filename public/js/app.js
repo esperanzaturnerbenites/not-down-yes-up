@@ -83,7 +83,7 @@ function renderResultValidAdmin(node){
 function funcStatusAct(status){
 	var statusText = ""
 	if(status == 0)
-		statusText = "Pendiente"
+		statusText = "No Completado"
 	if(status == 1)
 		statusText = "Completado"
 	return statusText
@@ -103,6 +103,7 @@ function addUser(event){
 
 
 	if($("#passUser").val() == $("#passConfirmUser").val()){
+
 
 		$.ajax({
 			url: url,
@@ -150,13 +151,15 @@ if(eval($("#editingChildren").val())){
 
 if(eval($("#editingUser").val())){
 	/*Edicion de usuarios*/
+	$("#formAddUser").attr("action","/admin/update-user")
 	$("#formAddUser")
 	.removeClass("hide")
-	.on("submit",addUser)
+	//.on("submit",addUser)
 	$("#idUser").val($("#validUser").val())
 	$("#validUser").prop("readonly", true)
 }else{
 	/*Creacion de Usuarios*/
+	$("#formAddUser").attr("action","/admin/register-user")
 	formValidUser.on("submit",(event) => {
 		event.preventDefault()
 		$.ajax({
@@ -168,13 +171,13 @@ if(eval($("#editingUser").val())){
 				if(result.valid) {
 					$("#formAddUser")
 					.removeClass("hide")
-					.on("submit",addUser)
+					//.on("submit",addUser)
 					$("#idUser").val($("#validUser").val())
 					$("#validUser").prop("readonly", true)
 				}else{
 					$("#formAddUser")
 					.addClass("hide")
-					.off("submit",addUser)
+					//.off("submit",addUser)
 					$("#validUser").prop("readonly", false)
 					notification.show({msg:result.msg, type:result.statusCode})
 				}

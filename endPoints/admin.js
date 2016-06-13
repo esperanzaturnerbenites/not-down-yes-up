@@ -193,7 +193,9 @@ router.get("/register-children",(req,res)=>{
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
-		console.log({err:{message : "¡Números de identificación iguales"}})
+		req.flash("success","¡Números de identificación iguales")
+		res.redirect(req.get("referer"))
+		//res.json({err:{message : "¡Números de identificación iguales"}})
 	}else{
 
 		var queryParents = [
@@ -402,13 +404,49 @@ router.post("/valid-children",(req,res)=>{
 	})
 })
 
-router.all("/register-user",(req,res)=>{
+router.all("/register-user",upload.any(),(req,res)=>{
 	if(req.method == "GET"){
 		res.render("registerUserRol")
 	}else if(req.method == "POST"){
-		var dataUser = querystring.parse(req.body.userAdd),
-			dataUserAdmin = querystring.parse(req.body.userAdmin)
+		//var dataUser = req.body.userAdd,
+			//dataUserAdmin = req.body.userAdmin
+
+		var dataUser = {
+				validUser : req.body.validUser,
+				idUser : req.body.idUser,
+				expeditionUser : req.body.expeditionUser,
+				nameUser : req.body.nameUser,
+				lastnameUser : req.body.lastnameUser,
+				ageUser : req.body.ageUser,
+				imgUser : req.body.imgUser,
+				telUser : req.body.telUser,
+				celUser : req.body.celUser,
+				emailUser : req.body.emailUser,
+				addressUser : req.body.addressUser,
+				districtUser : req.body.districtUser,
+				localityUser : req.body.localityUser,
+				municipalityUser : req.body.municipalityUser,
+				departamentUser : req.body.departamentUser,
+				studyUser : req.body.studyUser,
+				professionUser : req.body.professionUser,
+				experienceUser : req.body.experienceUser,
+				centerUser : req.body.centerUser
+			},
+			dataUserAdmin = {
+				typeUser :req.body.typeUser,
+				userUser :req.body.userUser,
+				passUser :req.body.passUser,
+				passConfirmUser :req.body.passConfirmUser
+			}
+
 			
+		var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
+		//return res.json(req.files)
+
+		var defaultImage = "defaultUser.png"
+		dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
+
+		//console.log(dataUser)
 		if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
 
 			models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
@@ -424,7 +462,7 @@ router.all("/register-user",(req,res)=>{
 						
 						models.adminuser.create(dataUserAdmin, function (err, adminuser) {
 							if(err) return res.json({err:err})
-							return res.json({msg:"¡Usuario registrado con éxito!", statusCode : 0})
+							return res.redirect("/admin/menu-admin")
 						})
 					})
 				}
@@ -450,21 +488,26 @@ router.get("/info-user/:id",(req,res)=>{
 					return adminuser.typeUser == 1
 				})
 
-				models.activityhistory.aggregate([
-					{$match: {idUser:adminuserTeacher._id}},
-					{$group: {
-						_id: "$idChildren"
-					}}
-				], function (err, hisact) {
-					models.children.populate(hisact, {path: "_id"},(err, hisactP) => {
-						var childrens = hisactP.map(his => {
-							return his._id
+				console.log(adminuserTeacher)
+
+				if(adminuserTeacher){
+					models.activityhistory.aggregate([
+						{$match: {idUser:adminuserTeacher._id}},
+						{$group: {
+							_id: "$idChildren"
+						}}
+					], function (err, hisact) {
+						models.children.populate(hisact, {path: "_id"},(err, hisactP) => {
+							var childrens = hisactP.map(his => {
+								return his._id
+							})
+							childrens.sort(function(a, b){return a < b})
+							data.childrens = childrens
+							res.render("infoUserRol",{infoUser: data})
 						})
-						childrens.sort(function(a, b){return a < b})
-						data.childrens = childrens
-						res.render("infoUserRol",{infoUser: data})
 					})
-				})
+				}else return res.render("infoUserRol",{infoUser: data})
+
 				
 				/*models.activityhistory.find({idUser:adminuserTeacher._id})
 				.populate("idChildren idActivity")
@@ -834,8 +877,15 @@ router.post("/valid-step",(req,res)=>{
 					{idChildren : children._id, idStep : step._id},
 					{"$set": data},
 					(err,doc) => {
-						if(err) return res.json({err:err})
-						if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})
+						models.children.findOneAndUpdate(
+						{idChildren : children.idChildren},
+						{$set:{statusChildren:2}},
+						(err,activity) => {
+							if(err) return res.json({err:err})
+							if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})
+						})
+
+
 					})
 				}
 			})

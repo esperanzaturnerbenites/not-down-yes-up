@@ -77,7 +77,7 @@ router.post("/general",(req,res)=>{
 	.exec((err,acthistory) =>{
 		if (err) return res.json({err:err})
 		if(!acthistory) return res.json({err:{"msg":"Childrens not found"}})
-		info.acthistory = acthistory
+		//.acthistory = acthistory
 
 		models.activityvalid.find({})
 		.sort({idChildren : 1})
@@ -85,14 +85,26 @@ router.post("/general",(req,res)=>{
 		.exec((err,actvalid) =>{
 			if (err) return res.json({err:err})
 			if(!actvalid) return res.json({err:{"message":"Childrens not found"}})
-			info.actvalid = actvalid
+			//.actvalid = actvalid
 
 			models.stepvalid.find({})
 			.sort({idStep : 1})
-			.populate("idChildren")
+			.populate("idChildren idStep")
 			.exec((err, stepvalid) => {
 				if (err) return res.json({err:{message:err}})
 				if (!stepvalid) return res.json({"msg":"Stephis not found"})
+
+				var data = {}
+
+				stepvalid.forEach(sv => {
+					if(!data[sv.idChildren.idChildren]) data[sv.idChildren.idChildren] = []
+					var dataAux = {}
+					dataAux[sv.idStep.stepStep] = sv
+					data[sv.idChildren.idChildren].push(dataAux)
+				})
+
+				console.log(data)
+
 				info.stepvalid = stepvalid
 				return res.json({msg : "Consult Complete", statusCode : 0, info : info})
 			})
@@ -106,48 +118,46 @@ router.get("/info-children/:id",(req,res)=>{
 
 	console.log(id)
 
-	models.children.findOne({idChildren : id}, (err, children) => {
+	models.children.findOne({idChildren : id})
+	.populate('idParent.idParent')
+	.exec((err, children) => {
 		if (err) {res.json(err)}
 		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:2})}
+			
 		data.child = children
+		data.parents = children.idParent.map(objParent => {return objParent.idParent})
 
-		models.parent.find({idChildren : children._id})
-		.sort({relationshipParent:1})
-		.exec((err, parents) => {
-			if (err) {res.json(err)}
-			if(!parents) {res.json({"msg":"Parents not found"})}
-			data.parents = parents
+		console.log(data.child)
 
-			models.activityhistory.find({idChildren: children._id})
+		models.activityhistory.find({idChildren: children._id})
+		.sort({date:-1})
+		.populate("idActivity idUser idStep")
+		.exec((err, activitiesH) => {
+			if (err) return res.json({err:err})
+			if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
+			data.historys = activitiesH
+
+			models.activityvalid.find({idChildren: children._id})
 			.sort({date:-1})
 			.populate("idActivity idUser idStep")
-			.exec((err, activitiesH) => {
+			.exec((err, activitiesV) => {
 				if (err) return res.json({err:err})
-				if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
-				data.historys = activitiesH
-
-				models.activityvalid.find({idChildren: children._id})
-				.sort({date:-1})
-				.populate("idActivity idUser idStep")
-				.exec((err, activitiesV) => {
-					if (err) return res.json({err:err})
-					if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
-					if(activitiesV) {
-						data.valids = activitiesV
-						models.stepvalid.find({idChildren:children._id})
-						.sort({date:-1})
-						.populate("idStep idUser")
-						.exec((err,stepvalidChild) =>{
-							if(err) return res.json({err:err})
-							if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
-							if(stepvalidChild){
-								data.stepvalids = stepvalidChild
-								res.render("infoChildren",{infoChildren: data})
-								//return res.json({message : "¡Correcto!",statusCode:0, infoChildren : data})
-							}
-						})
-					}
-				})
+				if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
+				if(activitiesV) {
+					data.valids = activitiesV
+					models.stepvalid.find({idChildren:children._id})
+					.sort({date:-1})
+					.populate("idStep idUser")
+					.exec((err,stepvalidChild) =>{
+						if(err) return res.json({err:err})
+						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+						if(stepvalidChild){
+							data.stepvalids = stepvalidChild
+							res.render("infoChildren",{infoChildren: data})
+							//return res.json({message : "¡Correcto!",statusCode:0, infoChildren : data})
+						}
+					})
+				}
 			})
 		})
 	})

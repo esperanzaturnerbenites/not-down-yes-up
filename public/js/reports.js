@@ -59,6 +59,15 @@ function genderChild(gender){
 	return genderText
 }
 
+function funcStatusAct(status){
+	var statusText = ""
+	if(status == 0)
+		statusText = "No Completado"
+	if(status == 1)
+		statusText = "Completado"
+	return statusText
+}
+
 $("#buttonReportSteps").on("click", () => {
 	event.preventDefault()
 	$.ajax({
@@ -107,10 +116,10 @@ $("#consulG").change(() => {
 		async : false, 
 		type : "POST",
 		success: function(result){
-			console.log(result)
-			var steps = result.info.stepvalid,
-				actsvalid = result.info.actvalid,
-				actshis = result.info.acthistory
+			//console.log(result)
+			var steps = result.info.stepvalid
+				//actsvalid = result.info.actvalid,
+				//actshis = result.info.acthistory
 
 			if($("#consulG").val() == 0){
 				var clone = getClone("#consulQueryGeneralAvanced"),
@@ -126,10 +135,10 @@ $("#consulG").change(() => {
 						//Hacer un for y dentro de el
 						//preguntar si step.idChildren = step.idChildren
 						//y si step.stepStep = N° Step
-						$("<td>",{html : step.statusStep}),
-						$("<td>",{html : step.statusStep}),
-						$("<td>",{html : step.statusStep}),
-						$("<td>",{html : step.statusStep}),
+						$("<td>",{html : funcStatusAct(step.statusStep)}),
+						$("<td>",{html : funcStatusAct(step.statusStep)}),
+						$("<td>",{html : funcStatusAct(step.statusStep)}),
+						$("<td>",{html : funcStatusAct(step.statusStep)}),
 						$("<td>",{html : step.date})
 					)
 					data.append(tr)

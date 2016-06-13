@@ -60,7 +60,7 @@ block content
 					article
 						button(type='submit')
 							span Iniciar Registro
-			form#formAddUser(class="#{classForm}")
+			form#formAddUser(class="#{classForm}" method="POST" enctype="multipart/form-data")
 				fieldset.userAdd
 					legend Nuevo Usuario
 					section.data
