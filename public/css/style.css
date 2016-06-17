@@ -217,7 +217,7 @@ h1{
 
 h1 a{
 	margin:0;
-	padding:30px 20px 0 0;
+	padding:0px 20px 0 0;
 	font-size:2rem;
 	text-align:justify;
 	color:#5E7024;
@@ -336,13 +336,14 @@ option{
 }
 
 .exit{
-	width:10%;
-	max-width:10%;
+	/*width:10%;
+	max-width:10%;*/
+	display: inline-block;
 	border-radius:10px;
 	background-color:#e6f1bf;
 	font-size:1.2rem;
 	text-align:center;
-	//margin:0 85%;
+	margin:0;
 }
 
 .exit a{
