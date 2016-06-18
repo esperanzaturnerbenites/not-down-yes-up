@@ -5,48 +5,16 @@ block exit
 	h2.exit
 		a(href='/admin/menu-admin') VOLVER
 block content
-	- if (data)
-		- var edit = true
-		- var classFormValid = "hide"
-		- var idUser = data.idUser
-		- var expeditionUser = data.expeditionUser
-		- var nameUser = data.nameUser
-		- var lastnameUser = data.lastnameUser
-		- var imgUser = data.imgUser
-		- var ageUser = data.ageUser
-		- var telUser = data.telUser
-		- var celUser = data.celUser
-		- var emailUser = data.emailUser
-		- var addressUser = data.addressUser
-		- var districtUser = data.districtUser
-		- var localityUser = data.localityUser
-		- var municipalityUser = data.municipalityUser
-		- var departamentUser = data.departamentUser
-		- var professionUser = data.professionUser
-		- var experienceUser = data.experienceUser
-		- var centerUser = data.centerUser
-	- else
-		- var edit = false
-		- var classForm = "hide"
-		- var classFormValid = "show"
-		- var idUser = ''
-		- var expeditionUser = ''
-		- var nameUser = ''
-		- var lastnameUser = ''
-		- var imgUser = ''
-		- var ageUser = ''
-		- var telUser = ''
-		- var celUser = ''
-		- var emailUser = ''
-		- var addressUser = ''
-		- var districtUser = ''
-		- var localityUser = ''
-		- var municipalityUser = ''
-		- var departamentUser = ''
-		- var professionUser = ''
-		- var experienceUser = ''
-		- var centerUser = ''
-	
+	-if (userEdit)
+		-var data = userEdit
+		-var edit = true
+		-var classFormValid = "hide"
+		-var classForm = "show"
+	-else
+		-var edit = false
+		-var classForm = "hide"
+		-var classFormValid = "show"
+		- var data = {}
 	section.register
 		h3(class="#{classFormValid}") Nuevo Usuario
 
@@ -56,7 +24,7 @@ block content
 				fieldset.data.validChildren
 					legend Digita la cédula
 					article
-						input#validUser(type='number', value="#{idUser}" name='validUser', min='1111', placeholder='Cédula', required='')
+						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', required='')
 					article
 						button(type='submit')
 							span Iniciar Registro
@@ -67,29 +35,29 @@ block content
 						fieldset
 							legend Personal
 							article
-								input#idUser(type='number', name='idUser', value="#{idUser}" readonly)
-								input#expeditionUser(type='text', name='expeditionUser', value="#{expeditionUser}" placeholder='Lugar de Expedición', required)
+								input#idUser(type='number', name='idUser', value="#{data.idUser}" readonly)
+								input#expeditionUser(type='text', name='expeditionUser', value="#{data.expeditionUser}" placeholder='Lugar de Expedición', required)
 							article
-								input#nameUser(type='text', name='nameUser', value="#{nameUser}" placeholder='Nombres', required='')
-								input#lastnameUser(type='text', name='lastnameUser', value="#{lastnameUser}" placeholder='Apellidos', required='')
+								input#nameUser(type='text', name='nameUser', value="#{data.nameUser}" placeholder='Nombres', required='')
+								input#lastnameUser(type='text', name='lastnameUser', value="#{data.lastnameUser}" placeholder='Apellidos', required='')
 							article
 								label(for='ageUser') Edad:
-								input#ageUser(type='number', name='ageUser', value="#{ageUser}" min='18', max='99', placeholder='Edad' required)
+								input#ageUser(type='number', name='ageUser', value="#{data.ageUser}" min='18', max='99', placeholder='Edad' required)
 							article.img
 								span Foto
 								input#imgUser(type='file', name='imgUser', value='#{imgUser}', accept='image/*')
 						fieldset
 							legend Contacto
 							article
-								input#telUser(type='number', name='telUser',value="#{telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-								input#celUser(type='number', name='celUser',value="#{celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
-								input#emailUser(type='email', name='emailUser',value="#{emailUser}" placeholder='correo-usuario@abc.com', required)
+								input#telUser(type='number', name='telUser',value="#{data.telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
+								input#celUser(type='number', name='celUser',value="#{data.celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
+								input#emailUser(type='email', name='emailUser',value="#{data.emailUser}" placeholder='correo-usuario@abc.com', required)
 							article
-								input#addressUser(type='text', name='addressUser',value="#{addressUser}" placeholder='Dirección', required='')
-								input#districtUser(type='text', name='districtUser',value="#{districtUser}" placeholder='Barrio', required='')
-								input#localityUser(type='text', name='localityUser',value="#{localityUser}" placeholder='Localidad')
-								input#districtUser(type='text', name='municipalityUser',value="#{municipalityUser}" placeholder='Ciudad/Municipio', required='')
-								input#departamentUser(type='text', name='departamentUser',value="#{departamentUser}" placeholder='Departamento', required='')
+								input#addressUser(type='text', name='addressUser',value="#{data.addressUser}" placeholder='Dirección', required='')
+								input#districtUser(type='text', name='districtUser',value="#{data.districtUser}" placeholder='Barrio', required='')
+								input#localityUser(type='text', name='localityUser',value="#{data.localityUser}" placeholder='Localidad')
+								input#districtUser(type='text', name='municipalityUser',value="#{data.municipalityUser}" placeholder='Ciudad/Municipio', required='')
+								input#departamentUser(type='text', name='departamentUser',value="#{data.departamentUser}" placeholder='Departamento', required='')
 						fieldset
 							legend Profesión
 							article
@@ -104,11 +72,11 @@ block content
 									option(value='6') Especialización
 									option(value='7') Maestría
 									option(value='8') Doctorado
-							input#professionUser(type='text', value="#{professionUser}" name='professionUser', placeholder='Título adquirido', required)
+							input#professionUser(type='text', value="#{data.professionUser}" name='professionUser', placeholder='Título adquirido', required)
 							label(for='experienceUser') Experiencia en meses:
-							input#experienceUser(type='number', value="#{experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
+							input#experienceUser(type='number', value="#{data.experienceUser}" name='experienceUser', min='0', max='999', placeholder='Experiencia en meses', required)
 							article
-							input#centerUser(type='text', value="#{centerUser}" name='centerUser', placeholder='Centro Zonal', required)
+							input#centerUser(type='text', value="#{data.centerUser}" name='centerUser', placeholder='Centro Zonal', required)
 
 				fieldset.userAdmin.data.user
 					legend Confirmar Registro
@@ -132,3 +100,10 @@ block content
 						p.cancel
 							a(href='/admin/menu-admin') Cancelar
 	script(src="/js/app.js")
+
+	script.
+		$("[value=undefined]").val(function(){
+			if(this.value == 'undefined') {
+				this.value = " "
+			}
+		})

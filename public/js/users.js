@@ -1,4 +1,3 @@
-
 $("[data-id = ulPcpal]" ).hover(
 	function() {
 		var selector = $(this).data("reference")

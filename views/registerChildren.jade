@@ -11,65 +11,15 @@ block content
 		-var mom = data.parents.mom
 		-var dad = data.parents.dad
 		-var cure = data.parents.cure
-		-var idChildren = data.children.idChildren
-		-var nameChildren = data.children.nameChildren
-		-var lastnameChildren = data.children.lastnameChildren
-		-var imgChildren = data.children.imgChildren
-		-var birthplaceChildren = data.children.birthplaceChildren
-		-var birthdateChildren = data.children.birthdateChildren
-		-var ageChildren = data.children.ageChildren
-		-var genderChildren = data.children.genderChildren
-		-var liveSon = data.children.liveSon
-		-var addressChildren = data.children.addressChildren
-		-var districtChildren = data.children.districtChildren
-		-var localityChildren = data.children.localityChildren
-		-var municipalityChildren = data.children.municipalityChildren
-		-var departamentChildren = data.children.departamentChildren
-		-var levelhomeChildren = data.children.levelhomeChildren
-		-var healthChildren = data.children.healthChildren
-		-var epsChildren = data.children.epsChildren
-		-var apbChildren = data.children.apbChildren
-		-var glassesChildren = data.children.glassesChildren
-		-var hearingaidChildren = data.children.hearingaidChildren
-		-var abilityChildren = data.children.abilityChildren
-		-var debilityChildren = data.children.debilityChildren
+		-var children = data.children
 	-else
 		-var edit = false
 		-var mom = {}
 		-var dad = {}
 		-var cure = {}
+		-var children = {}
 		-var classForm = "hide"
 		-var classFormValid = "show"
-		-var idChildren = ''
-		-var nameChildren = ''
-		-var lastnameChildren = ''
-		-var imgChildren = ''
-		-var ageChildren = ''
-		-var genderChildren = ''
-		-var liveSon = ''
-		-var addressChildren = ''
-		-var districtChildren = ''
-		-var localityChildren = ''
-		-var municipalityChildren = ''
-		-var departamentChildren = ''
-		-var levelhomeChildren = ''
-		-var healthChildren = ''
-		-var epsChildren = ''
-		-var apbChildren = ''
-		-var glassesChildren = ''
-		-var hearingaidChildren = ''
-		-var abilityChildren = ''
-		-var debilityChildren = ''
-		-var birthplaceChildren = ''
-		-var idParent = ''
-		-var idExpeditionParent = ''
-		-var nameParent = ''
-		-var lastnameParent = ''
-		-var imgParent = ''
-		-var birthplaceParent = ''
-		-var professionParent = ''
-		-var jobParent = ''
-		-var emailParent = ''
 	
 	section.register
 		h3(class="#{classFormValid}") Niñ@s Nuev@s
@@ -91,62 +41,62 @@ block content
 						fieldset
 							legend Personal
 							if (edit)
-								input.idChildren#idChildren(type='number', name='idChildren' value="#{idChildren}")
+								input.idChildren#idChildren(type='number', name='idChildren' value="#{children.idChildren}")
 							else
-								input.idChildren#idChildren(type='number', name='idChildren' value="#{idChildren}", readonly)
-							input#nameChildren(type='text', name='nameChildren' value="#{nameChildren}", placeholder='Nombres Niñ@', required='')
-							input#lastnameChildren(type='text', name='lastnameChildren' value="#{lastnameChildren}", placeholder='Apellidos Niñ@', required='')
+								input.idChildren#idChildren(type='number', name='idChildren' value="#{children.idChildren}", readonly)
+							input#nameChildren(type='text', name='nameChildren' value="#{children.nameChildren}", placeholder='Nombres Niñ@', required='')
+							input#lastnameChildren(type='text', name='lastnameChildren' value="#{children.lastnameChildren}", placeholder='Apellidos Niñ@', required='')
 							article.img
 								span Foto
-								input#imgChildren(type='file', name='imgChildren' value="#{imgChildren}", accept='image/*' )
+								input#imgChildren(type='file', name='imgChildren' value="#{children.imgChildren}", accept='image/*' )
 							label(for='birthdateChildren') Fecha de Nacimiento
-							input#birthdateChildren(type='date' name='birthdateChildren' data-date='#{birthdateChildren}' required='')
+							input#birthdateChildren(type='date' name='birthdateChildren' data-date='#{children.birthdateChildren}' required='')
 
-							input#birthplaceChildren(type='text', name='birthplaceChildren' value="#{birthplaceChildren}", placeholder='Lugar de Nacimiento', required='')
+							input#birthplaceChildren(type='text', name='birthplaceChildren' value="#{children.birthplaceChildren}", placeholder='Lugar de Nacimiento', required='')
 							article
 								label(for='ageChildren') Edad en Meses: 
-								input#ageChildren(type='number', name='ageChildren' value="#{ageChildren}", min='0', max='48', placeholder='Edad en meses', required='')
+								input#ageChildren(type='number', name='ageChildren' value="#{children.ageChildren}", min='0', max='48', placeholder='Edad en meses', required='')
 								label(for='genderChildren') Sexo
-								select#genderChildren(name='genderChildren' data-value="#{genderChildren}")
+								select#genderChildren(name='genderChildren' data-value="#{children.genderChildren}")
 									option(value='0', selected='') Niña
 									option(value='1') Niño
 								label(for='liveSon')  ¿Vive con?
-								select#liveSon(name='liveSon' data-value="#{liveSon}")
+								select#liveSon(name='liveSon' data-value="#{children.liveSon}")
 									option(value='0', selected='') Ambos Padres
 									option(value='1') Mamá
 									option(value='2') Papá
 									option(value='3') Otro Cuidador
 							article
-								input#addressChildren(type='text', name='addressChildren' value="#{addressChildren}", placeholder='Dirección', required='')
-								input#districtChildren(type='text', name='districtChildren' value="#{districtChildren}", placeholder='Barrio', required='')
-								input#localityChildren(type='text', name='localityChildren' value="#{localityChildren}", placeholder='Localidad')
-								input#municipalityChildren(type='text', name='municipalityChildren' value="#{municipalityChildren}", placeholder='Ciudad/Municipio', required='')
-								input#departamentChildren(type='text', name='departamentChildren' value="#{departamentChildren}", placeholder='Departamento', required='')
+								input#addressChildren(type='text', name='addressChildren' value="#{children.addressChildren}", placeholder='Dirección', required='')
+								input#districtChildren(type='text', name='districtChildren' value="#{children.districtChildren}", placeholder='Barrio', required='')
+								input#localityChildren(type='text', name='localityChildren' value="#{children.localityChildren}", placeholder='Localidad')
+								input#municipalityChildren(type='text', name='municipalityChildren' value="#{children.municipalityChildren}", placeholder='Ciudad/Municipio', required='')
+								input#departamentChildren(type='text', name='departamentChildren' value="#{children.departamentChildren}", placeholder='Departamento', required='')
 								label(for='levelhomeChildren') Estrato de la residencia: 
-								input#levelhomeChildren(type='number', name='levelhomeChildren' value="#{levelhomeChildren}", min='1', max='6', placeholder='Estrato', required='')
+								input#levelhomeChildren(type='number', name='levelhomeChildren' value="#{children.levelhomeChildren}", min='1', max='6', placeholder='Estrato', required='')
 						fieldset
 							legend Salud
-							textarea#healthChildren(name='healthChildren' value="#{healthChildren}" placeholder='Indicaciones de Salud...' required) #{healthChildren}
+							textarea#healthChildren(name='healthChildren' placeholder='Indicaciones de Salud...' required) #{children.healthChildren}
 							article
-								input#epsChildren(type='text', name='epsChildren' value="#{epsChildren}", placeholder='EPS del niñ@', required='')
+								input#epsChildren(type='text', name='epsChildren' value="#{children.epsChildren}", placeholder='EPS del niñ@', required='')
 							article
 								label(for='apbChildren') APB -Organización que cobija al niñ@ (Policia, Ejercito, Sanidad Naval, Fuerza Aérea, Ecopetrol, ETB): 
-								input#apbChildren(type='text', name='apbChildren' value="#{apbChildren}", placeholder='APB del niño')
+								input#apbChildren(type='text', name='apbChildren' value="#{children.apbChildren}", placeholder='APB del niño')
 							article
 								label(for='glassesChildren')  ¿Usa Gafas:?
-								select#glassesChildren(name='glassesChildren' data-value="#{glassesChildren}")
+								select#glassesChildren(name='glassesChildren' data-value="#{children.glassesChildren}")
 									option(value='0', selected='') No
 									option(value='1') Si
 								label(for='hearingaidChildren')  ¿Usa Audífonos:?
-								select#hearingaidChildren(name='hearingaidChildren' data-value="#{hearingaidChildren}")
+								select#hearingaidChildren(name='hearingaidChildren' data-value="#{children.hearingaidChildren}")
 									option(value='0', selected='') No
 									option(value='1') Si
 						fieldset
 							legend Habilidades
-							textarea#abilityChildren(name='abilityChildren' value="#{abilityChildren}" placeholder='Habilidades del niñ@...')
+							textarea#abilityChildren(name='abilityChildren' value="#{children.abilityChildren}" placeholder='Habilidades del niñ@...')
 						fieldset
 							legend Debilidades
-							textarea#debilityChildren(name='debilityChildren' value="#{debilityChildren}" placeholder='Debilidades del niñ@...')
+							textarea#debilityChildren(name='debilityChildren' value="#{children.debilityChildren}" placeholder='Debilidades del niñ@...')
 				fieldset.mom
 					legend Mamá
 					section.data
@@ -267,6 +217,9 @@ block content
 						p.cancel
 							a(href='/admin/menu-admin') Cancelar
 	script(src="/js/app.js")
+	script.
+		var data = !{JSON.stringify(data)}
+		console.log(data)
 		
 	if(edit)
 		script.
@@ -280,3 +233,9 @@ block content
 					$(e).val(new Date($(e).data("date")).toISOString().slice(0,10))
 				}
 			})
+	script.
+		$("[value=undefined]").val(function(){
+			if(this.value == 'undefined') {
+				this.value = " "
+			}
+		})

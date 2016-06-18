@@ -9,8 +9,8 @@ var express = require("express"),
 	upload = multer({ dest: "public/img/users" }),
 	Q = require("q")
 
-router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:true}))
+router.use(bodyParser.json())
 
 router.post("/found-users",(req,res)=>{
 	var data = req.body
@@ -186,9 +186,6 @@ router.post("/upload",upload.any(),(req,res)=>{
 })
 
 //router.post("/register-children",upload.any(),(req,res)=>{
-router.get("/register-children",(req,res)=>{
-	res.render("registerChildren")
-})
 	
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
@@ -369,8 +366,11 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 	}
 })
 
-router.get("/register-children/:id",(req,res)=>{
+router.get("/register-children/:id?",(req,res)=>{
 	var id = req.params.id
+
+	if(!id) return res.render("registerChildren")
+		
 	models.children.findOne({idChildren:id}).populate('idParent.idParent').exec((err,childrenSearch) =>{
 		if (err) return {err : err}
 
@@ -404,71 +404,77 @@ router.post("/valid-children",(req,res)=>{
 	})
 })
 
-router.all("/register-user",upload.any(),(req,res)=>{
-	if(req.method == "GET"){
-		res.render("registerUserRol")
-	}else if(req.method == "POST"){
-		//var dataUser = req.body.userAdd,
-			//dataUserAdmin = req.body.userAdmin
+router.get("/register-user/:id?",(req,res)=>{
+	var id = req.params.id
+	if(!id) return res.render("registerUserRol")
+	console.log(id)
 
-		var dataUser = {
-				validUser : req.body.validUser,
-				idUser : req.body.idUser,
-				expeditionUser : req.body.expeditionUser,
-				nameUser : req.body.nameUser,
-				lastnameUser : req.body.lastnameUser,
-				ageUser : req.body.ageUser,
-				imgUser : req.body.imgUser,
-				telUser : req.body.telUser,
-				celUser : req.body.celUser,
-				emailUser : req.body.emailUser,
-				addressUser : req.body.addressUser,
-				districtUser : req.body.districtUser,
-				localityUser : req.body.localityUser,
-				municipalityUser : req.body.municipalityUser,
-				departamentUser : req.body.departamentUser,
-				studyUser : req.body.studyUser,
-				professionUser : req.body.professionUser,
-				experienceUser : req.body.experienceUser,
-				centerUser : req.body.centerUser
-			},
-			dataUserAdmin = {
-				typeUser :req.body.typeUser,
-				userUser :req.body.userUser,
-				passUser :req.body.passUser,
-				passConfirmUser :req.body.passConfirmUser
-			}
+	models.user.findOne({idUser:id}).exec((err,userSearch) =>{
+		if (err) return {err : err}
+		return res.render("registerUserRol",{userEdit: userSearch})
+	})
+})
 
-			
-		var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
-		//return res.json(req.files)
+router.post("/register-user",upload.any(),(req,res)=>{
 
-		var defaultImage = "defaultUser.png"
-		dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
 
-		//console.log(dataUser)
-		if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
+	var dataUser = {
+			validUser : req.body.validUser,
+			idUser : req.body.idUser,
+			expeditionUser : req.body.expeditionUser,
+			nameUser : req.body.nameUser,
+			lastnameUser : req.body.lastnameUser,
+			ageUser : req.body.ageUser,
+			imgUser : req.body.imgUser,
+			telUser : req.body.telUser,
+			celUser : req.body.celUser,
+			emailUser : req.body.emailUser,
+			addressUser : req.body.addressUser,
+			districtUser : req.body.districtUser,
+			localityUser : req.body.localityUser,
+			municipalityUser : req.body.municipalityUser,
+			departamentUser : req.body.departamentUser,
+			studyUser : req.body.studyUser,
+			professionUser : req.body.professionUser,
+			experienceUser : req.body.experienceUser,
+			centerUser : req.body.centerUser
+		},
+		dataUserAdmin = {
+			typeUser :req.body.typeUser,
+			userUser :req.body.userUser,
+			passUser :req.body.passUser,
+			passConfirmUser :req.body.passConfirmUser
+		}
 
-			models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
-				if(err) return res.json({err:err})
-				if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
-				if(!adminFind){
-					models.user.create(dataUser, function (err, user) {
+		
+	var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
+	//return res.json(req.files)
+
+	var defaultImage = "defaultUser.png"
+	dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
+
+	//console.log(dataUser)
+	if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
+
+		models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
+			if(err) return res.json({err:err})
+			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
+			if(!adminFind){
+				models.user.create(dataUser, function (err, user) {
+					if(err) return res.json({err:err})
+					dataUserAdmin.idUser = user._id
+					dataUserAdmin.statusUser = 1
+					delete dataUserAdmin.passConfirmUser
+					console.log(dataUserAdmin)
+					
+					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
 						if(err) return res.json({err:err})
-						dataUserAdmin.idUser = user._id
-						dataUserAdmin.statusUser = 1
-						delete dataUserAdmin.passConfirmUser
-						console.log(dataUserAdmin)
-						
-						models.adminuser.create(dataUserAdmin, function (err, adminuser) {
-							if(err) return res.json({err:err})
-							return res.redirect("/admin/menu-admin")
-						})
+						return res.redirect("/admin/menu-admin")
 					})
-				}
-			})
-		}else return res.json({err:{message:"¡Contraseña no coincide!"}})
-	}
+				})
+			}
+		})
+	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
 })
 
 router.get("/info-user/:id",(req,res)=>{
@@ -544,17 +550,11 @@ router.get("/info-user/:id",(req,res)=>{
 	})
 })
 
-router.get("/register-user/:id",(req,res)=>{
-	var id = req.params.id
-	models.user.findOne({idUser:id}).exec((err,userSearch) =>{
-		if (err) return {err : err}
-		res.render("registerUserRol",{data: userSearch})
-	})
-})
-
 router.post("/update-user",(req,res)=>{
 	
-	var dataUser = querystring.parse(req.body.userAdd)
+	var dataUser = req.body
+
+	console.log(dataUser)
 
 	models.user.update(
 		{idUser : dataUser.idUser},
