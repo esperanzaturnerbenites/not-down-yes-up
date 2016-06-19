@@ -22,10 +22,13 @@
   "dependencies": {
     "express": "^4.13.4",
     "express-favicon": "^1.0.1",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "mongodb-backup": "^1.6.0",
+    "mongodb-restore": "^1.5.3"
   },
   "devDependencies": {
     "body-parser": "^1.14.2",
+    "colors": "^1.1.2",
     "connect": "^3.4.1",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",

@@ -9,13 +9,20 @@ block content
     h3 Salvar la Información
     article.data
       
-      form#formSave
+      form(action="/admin/backup/" method="POST")
         fieldset
           legend Backup Info
           section
             p
               span Recuerde realizar el backup del sistema de manera periódica para evitar posibles pérdidas de información.
-            button#buttonSave
+            button
               span Realizar Backup
+
+      form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
+        fieldset
+          legend Reestaurar Info
+          section
+            input(type="file" name="data")
+            input(type="submit" value="Realizar Restauracion")
       
   script(src="/js/app.js")

@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
 	})
 })
+
 function NotificationC (){
 	var contenedorPrincipal = document.body
 

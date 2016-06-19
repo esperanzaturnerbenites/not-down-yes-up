@@ -7,7 +7,19 @@ var express = require("express"),
 	ObjectId = mongoose.Types.ObjectId,
 	multer = require("multer"),
 	upload = multer({ dest: "public/img/users" }),
-	Q = require("q")
+	Q = require("q"),
+	backup = require("mongodb-backup"),
+	restore = require("mongodb-restore")
+
+
+function filter(body,files){
+	if (files){
+		files.forEach(file => {
+			body[file.fieldname] = file.filename
+		})
+	}
+	return body
+}
 
 router.use(bodyParser.urlencoded({extended:true}))
 router.use(bodyParser.json())
@@ -118,7 +130,6 @@ router.post("/found-steps-acts",(req,res)=>{
 		if(err) return res.json({err:err})
 		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
 		data.steps = steps
-		console.log(data)
 
 		models.activity.find({stepActivity:steps.stepStep})
 		.sort({activityActivity:1})
@@ -147,6 +158,28 @@ router.post("/consul-step-acts",(req,res)=>{
 	})
 })
 
+router.post("/backup",(req,res)=>{
+	res.writeHead(200, {
+		'Content-Type': 'application/x-tar' // force header for tar download
+	})
+	backup({
+		uri: "mongodb://localhost/centerestimulation",
+		tar:"backup.tar",
+		stream: res,
+		parser:"json"
+	})
+})
+
+router.post("/restore",(req,res)=>{
+	restore({
+		uri: "mongodb://localhost/centerestimulation", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
+		//stream: stream, // send this stream into db
+		callback: function(err) { // callback after restore
+			console.log("done")
+		}
+	})
+})
+
 router.post("/consul-acts",(req,res)=>{
 	var data = req.body,
 		activities = {}
@@ -169,17 +202,14 @@ router.post("/upload",upload.any(),(req,res)=>{
 						promises.push(models.stepvalid.create({idStep:step._id, idUser:req.user._id, idChildren:children._id}))
 					}
 					Q.all(promises).then(function (result) {
-						console.log(result)
 					})
 				})*/
 
 				models.step.find({}, (err, steps) => {
 					if(err) return res.json({err:err})
 					if(!steps.length) return res.json({msg:"Not steps"})
-					console.log(steps)
 
 					for(var step in steps){
-						console.log(step)
 					}
 					return res.send("ok")
 				})
@@ -263,7 +293,6 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 			if(objIdParen.relationshipParent == 0) data = dataMom
 			if(objIdParen.relationshipParent == 1) data = dataDad
 			if(objIdParen.relationshipParent == 2) data = dataCare
-			console.log(objIdParen.idParent)
 			var promise = models.parent.update(
 				{_id:objIdParen.idParent},
 				{$set:data}
@@ -277,7 +306,6 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 }
 
 router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
-	//console.log("init")
 
 	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
 		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
@@ -407,7 +435,6 @@ router.post("/valid-children",(req,res)=>{
 router.get("/register-user/:id?",(req,res)=>{
 	var id = req.params.id
 	if(!id) return res.render("registerUserRol")
-	console.log(id)
 
 	models.user.findOne({idUser:id}).exec((err,userSearch) =>{
 		if (err) return {err : err}
@@ -453,7 +480,6 @@ router.post("/register-user",upload.any(),(req,res)=>{
 	var defaultImage = "defaultUser.png"
 	dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
 
-	//console.log(dataUser)
 	if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
 
 		models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
@@ -465,7 +491,6 @@ router.post("/register-user",upload.any(),(req,res)=>{
 					dataUserAdmin.idUser = user._id
 					dataUserAdmin.statusUser = 1
 					delete dataUserAdmin.passConfirmUser
-					console.log(dataUserAdmin)
 					
 					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
 						if(err) return res.json({err:err})
@@ -494,7 +519,6 @@ router.get("/info-user/:id",(req,res)=>{
 					return adminuser.typeUser == 1
 				})
 
-				console.log(adminuserTeacher)
 
 				if(adminuserTeacher){
 					models.activityhistory.aggregate([
@@ -526,7 +550,6 @@ router.get("/info-user/:id",(req,res)=>{
 						data.childrens = hisact.map(his => {
 							return his.idChildren
 						})
-						console.log(data)
 						res.render("infoUserRol",{infoUser: data})
 					}
 				})*/
@@ -534,7 +557,6 @@ router.get("/info-user/:id",(req,res)=>{
 				/*models.activityhistory.aggregate([
 					{$group:{_id:"idChildren"}}]),
 					function(err,doc){
-						console.log(data.admin)
 						models.activityhistory.populate(doc,{"path":"idChildren"},function(err,doc){
 							if(err) return res.json({err:err})
 							if(doc){
@@ -550,19 +572,16 @@ router.get("/info-user/:id",(req,res)=>{
 	})
 })
 
-router.post("/update-user",(req,res)=>{
+router.post("/update-user",upload.any(),(req,res)=>{
 	
-	var dataUser = req.body
-
-	console.log(dataUser)
+	var dataUser = filter(req.body)
 
 	models.user.update(
 		{idUser : dataUser.idUser},
 		{"$set": dataUser}
-		,(err) => {
+		,(err,status) => {
 			if(err) return res.json({err:err})
 			return res.json({msg:"¡Usuario actualizado con éxito!", statusCode : 0})
-
 		})
 })
 
@@ -581,7 +600,6 @@ router.post("/valid-user",(req,res)=>{
 
 router.post("/register-newuser",(req,res)=>{
 	var data = req.body
-	//console.dir(data)
 
 	if(data.passUser == data.newPassConfirmUser){
 
@@ -643,7 +661,6 @@ router.get("/info-children/:id",(req,res)=>{
 			.exec((err,acthisChild) =>{
 				if(err) return res.json({err:err})
 				if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
-				//console.log(acthisChild)
 				data.historys = acthisChild
 				
 				models.activityvalid.find({idChildren:childrenFind._id})
@@ -677,7 +694,6 @@ router.get("/valid-step",(req,res)=>{
 
 router.post("/find-all",(req,res)=>{
 	var data = req.body
-	console.log(data)
 	if(data.typeUser == "2"){
 		models.adminuser.find({typeUser : {$ne : "2"}})
 		.populate("idUser")
@@ -858,7 +874,6 @@ router.post("/valid-step",(req,res)=>{
 
 	data.idUser = req.user._id
 
-	//console.log(data)
 
 	models.children.findOne({idChildren : data.idChildren},(err,children) => {
 		if(err) return res.json({err:err})
