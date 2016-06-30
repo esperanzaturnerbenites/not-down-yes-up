@@ -20,9 +20,10 @@ block content
 
       form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
         fieldset
-          legend Reestaurar Info
+          legend Restaurar Info
           section
-            input(type="file" name="data")
-            input(type="submit" value="Realizar Restauracion")
+            input(type="file" name="data" accept=".tar" required)
+            button(type="submit")
+              span Realizar Restauracion
       
   script(src="/js/app.js")

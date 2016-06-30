@@ -12,8 +12,9 @@ const formValidChildren = $("#formValidChildren"),
 var showResults = $("#showResults"),
 	showResultTeachAdmin = $("#showResultTeachAdmin"),
 	showResultChildren = $("#showResultChildren"),
-	showResultValid = $("#showResultValid"),
-	notification = new NotificationC()
+	showResultValid = $("#showResultValid")
+	
+var notification = new NotificationC()
 
 function getClone(selector){
 	var t = document.querySelector(selector)
@@ -833,6 +834,11 @@ $("#stepActivityList").change(() => {
 							$("<td>",{html: guide})
 						)
 					}
+					for(var guideChild of step.guidesChild){
+						tr.append(
+							$("<td>",{html: guideChild})
+						)
+					}
 					$("#actsList").append(tr)
 				}
 			}
@@ -842,20 +848,24 @@ $("#stepActivityList").change(() => {
 
 $("#buttonAddStep").on("click",() => {
 	event.preventDefault()
-	if(confirm("Se creará una nueva etapa. ¿Desea continuar?")){
-		$.ajax({
-			url: "/admin/add-step",
-			async : false,
-			data : $("#addSteps").serialize(),
-			type : "POST",
-			success: function(result){
-				$("#stepStep").val("")
-				$("#nameStep").val("")
-				$("#descriptionStep").val("")
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
+	if($("#stepStep").val()!="" && $("#nameStep").val()!="" && $("#descriptionStep").val()!=""){
+		if(confirm("Se creará una nueva etapa. ¿Desea continuar?")){
+			$.ajax({
+				url: "/admin/add-step",
+				async : false,
+				data : $("#addSteps").serialize(),
+				type : "POST",
+				success: function(result){
+					$("#stepStep").val("")
+					$("#nameStep").val("")
+					$("#descriptionStep").val("")
+					if (result.err) return notification.show({msg:result.err.message, type:1})
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+			})
+		}
+	}else{
+		notification.show({msg:"¡Diligencia todos los campos obligatorios!", type:1})
 	}
 })
 
@@ -939,18 +949,24 @@ $("#buttonDelStep").on("click",() => {
 
 $("#buttonAddActivity").on("click",() => {
 	event.preventDefault()
-	$.ajax({
-		url: "/admin/add-activity",
-		async : false,
-		data : $("#addActs").serialize(),
-		type : "POST",
-		success: function(result){
-			$("#addActs").trigger("reset")
-			//$("[guidesActivity]").empty() - otra forma
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			notification.show({msg:result.msg, type:result.statusCode})
+	if($("#activityActivity").val()!="" && $("#nameActivity").val()!="" && $("#descriptionActivity").val()!="" && $("#guidesActivity").val()!="" && $("#guidesChild").val()!="" && $("#stepActivity").val()!=null){
+		if(confirm("Se creará una nueva actividad. ¿Desea continuar?")){
+			$.ajax({
+				url: "/admin/add-activity",
+				async : false,
+				data : $("#addActs").serialize(),
+				type : "POST",
+				success: function(result){
+					$("#addActs").trigger("reset")
+					//$("[guidesActivity]").empty() - otra forma
+					if (result.err) return notification.show({msg:result.err.message, type:1})
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+			})
 		}
-	})
+	}else{
+		notification.show({msg:"¡Diligencia todos los campos obligatorios!", type:1})
+	}
 })
 
 $("#buttonEditAct").on("click",() => {

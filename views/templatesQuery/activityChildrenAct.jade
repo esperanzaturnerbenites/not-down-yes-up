@@ -1,23 +1,59 @@
 template#consulQueryActivityChild
 	article#nameChild
-		p
-			b ¡LÉEME!
-		-var n = 0
-		for guide in activity.guidesChild
-			-n++
-			p 
-				b #{n}: 
-				span #{guide}
+		section
+			h1 ¡LÉEME!
+			-var n = 0
+			for guide in activity.guidesChild
+				article.actContentGuidesChild
+					-n++
+					h1 #{n} 
+					p 
+						//b #{n}: 
+						span #{guide}
+
+		section#aswerAct.hide
+			h1 ¿CÓMO TE FUÉ?
+			img(src='/img/imgacts/activities/espera.png', alt='')
+			input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', readonly)
 
 	article#nameChild1.actCentral
-		p
-			b ¡ESCÚCHAME!
-		img#imgAct(src='#{activity.imgActivity}', alt='IMG')
-	article#nameChild2
-		p
-			b ¿CÓMO TE FUÉ?
+		h1 ¡ESCÚCHAME!
+		img.img#imgAct(src='/img/imgacts/activities/listen.png', alt='')
+
+		section.actCentralImg
+			-var cantImg = activity.imgActivity.length - 1
+			//p cantImg: #{cantImg}
+			-var cantImgI = activity.imgActivityIncorrect.length - 1
+			//p cantImgI: #{cantImgI}
+			-var select = Math.floor((Math.random() * cantImg) + 0)
+			//p select: #{select}
+			-var selectI = Math.floor((Math.random() * cantImgI) + 0)
+			//p selectI: #{selectI}
+			-var selectI2 = Math.floor((Math.random() * cantImgI) + 0)
+			//p selectI2: #{selectI2}
+
+			-if (cantImgI > 0)
+				section
+					img(src='#{activity.imgActivityIncorrect[selectI]}', alt='.:: ... ::.')
+				section
+					img(src='#{activity.imgActivity[select]}', alt='IMG')
+				section
+					img(src='#{activity.imgActivityIncorrect[selectI2]}', alt='.:: ... ::.')
+			-else
+				section
+					img(src='#{activity.imgActivity[select]}', alt='IMG')
+			
+	//article#nameChild2
+		h1 ¿CÓMO TE FUÉ?
 		img(src='/img/imgacts/activities/espera.png', alt='')
 		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', readonly)
 
 	script.
-		$("#imgAct").click(()=>$("#audio").trigger("play"))
+		var text = new Text()
+		var guides = !{JSON.stringify(activity.guidesChild)}
+		console.log(guides)
+		$("#imgAct").click(() => {
+			for(var guide of guides){
+				text.toVoice(guide)
+			}
+		})

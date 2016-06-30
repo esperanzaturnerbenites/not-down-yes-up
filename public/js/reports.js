@@ -190,10 +190,10 @@ $("#consulAge").change(() => {
 
 			}else if($("#consulAge").val() == 2){
 				var clone = getClone("#consulQueryResults"),
-				dataResultStep1 = $(clone.querySelector("#dataResultStep1"))
-				dataResultStep2 = $(clone.querySelector("#dataResultStep2"))
-				dataResultStep3 = $(clone.querySelector("#dataResultStep3"))
-				dataResultStep4 = $(clone.querySelector("#dataResultStep4"))
+					dataResultStep1 = $(clone.querySelector("#dataResultStep1")),
+					dataResultStep2 = $(clone.querySelector("#dataResultStep2")),
+					dataResultStep3 = $(clone.querySelector("#dataResultStep3")),
+					dataResultStep4 = $(clone.querySelector("#dataResultStep4"))
 
 				renderResultsReport(clone)
 

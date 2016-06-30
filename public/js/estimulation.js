@@ -60,23 +60,24 @@ formAddChildAct.on("submit",(event) => {
 						dataAct = $(clone.querySelector("#activityChildrens"))
 
 					var pName = $("<p>").attr({id:childrens.idChildren}).append(
-							$("<span>",{html : "Identificación: " + childrens.idChildren})
+							$("<span>",{html : "Nombre: " +  childrens.nameChildren + " " + childrens.lastnameChildren})
 						),
 						pId = $("<p>").attr({id:childrens.idChildren}).append(
-							$("<span>",{html : childrens.nameChildren + " " + childrens.lastnameChildren})
+							$("<span>",{html :  "ID: " + childrens.idChildren})
 						),
-						imgChild = $("<article>",{class : "img"}).append(
+						imgChild = $("<article>",{class : "imgPhoto"}).append(
 							$("<img>",{src:"/img/users/"+childrens.imgChildren})
-							),
-						button = $("<button>")
-							.attr("id","infoChildren")
-							.attr("type","button")
-							.click(() => {
+							).click(() => {
 								window.open("/estimulation/infoChildren/" + $("#idChildren").val())
-							})
-							.append($("<span>", {html : "Info: " + childrens.nameChildren})
-						)
-					data.append(pName,pId, imgChild,button)
+							})//,
+						//button = $("<button>")
+							//.attr("id","infoChildren")
+							//.attr("type","button")
+							//.click(() => {
+							//	window.open("/estimulation/infoChildren/" + $("#idChildren").val())
+							//})
+							//.append($("<span>", {html : "Info: " + childrens.nameChildren}))
+					data.append(pName,pId, imgChild)
 
 					$("#cancelAddChildren",clone).click(()=>{
 						$("#formValidChildren").remove()

@@ -22,99 +22,106 @@ block content
 				fieldset
 					legend Listado de Atividades
 					article
-						label Etapa: 
-						select#stepActivityList(name='stepActivityList')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+							label Etapa: 
+							select#stepActivityList(name='stepActivityList')
+								-if (data)
+									-for (step of data.steps)
+										option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					article
-						p
-						table
-							thead
-								tr
-									th N°
-									th NOMBRE
-									th DESCRIPCIÓN
-									th GUÍA 1
-									th GUÍA 2
-									th GUÍA 3
-									th GUÍA 4
-									th PASO 1
-									th PASO 2
-									th PASO 3
-							tbody#actsList
-								-for (act of data.activities)
+							p
+							table
+								thead
 									tr
-										td #{act.activityActivity}
-										td #{act.nameActivity}
-										td #{act.descriptionActivity}
-										-for (var i = 0; i < 4; i++)
-											td #{act.guidesActivity[i]}
-										-for (var i = 0; i < 3; i++)
-											td #{act.guidesChild[i]}
+										th N°
+										th NOMBRE
+										th DESCRIPCIÓN
+										th GUÍA 1
+										th GUÍA 2
+										th GUÍA 3
+										th GUÍA 4
+										th PASO 1
+										th PASO 2
+										th PASO 3
+								tbody#actsList
+									-if(data)
+										-for (act of data.activities)
+											tr
+												td #{act.activityActivity}
+												td #{act.nameActivity}
+												td #{act.descriptionActivity}
+												-for (var i = 0; i < 4; i++)
+													td #{act.guidesActivity[i]}
+												-for (var i = 0; i < 3; i++)
+													td #{act.guidesChild[i]}
+									-else
+										h2 No hay actividades registradas.
 
 	section#add.selector-hide.actionDev.hide
 		article
-			form#addActs
-				fieldset
-					legend Agregar Actividad
-					article
-						label Número Actividad: 
-						input#activityActivity(type='number', name='activityActivity', min='1', max='50', required='')
-					article
-						input#nameActivity(type='text', name='nameActivity', placeholder='Nombre Actividad' required='')
-					article
-						textarea#descriptionActivity(name='descriptionActivity' placeholder='Descripción...' required)
-					article
-						label Etapa: 
-						select#stepActivity(name='stepActivity')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+				form#addActs
 					fieldset
-						label GUÍA: (Para docentes)
+						legend Agregar Actividad
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 1' required='')
+							label Número Actividad: 
+							input#activityActivity(type='number', name='activityActivity', min='1', max='50', required='')
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 2' required='')
+							input#nameActivity(type='text', name='nameActivity', placeholder='Nombre Actividad' required='')
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 3')
+							textarea#descriptionActivity(name='descriptionActivity' placeholder='Descripción...' required)
 						article
-							input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 4')
-					fieldset
-						label PASOS: (Texto para niñ@s)
-						article
-							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 1' required='')
-						article
-							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 2' required='')
-						article
-							input#guidesChild(type='text', name='guidesChild', placeholder='Paso 3')
+							label Etapa: 
+							select#stepActivity(name='stepActivity')
+								-if (data)
+									-for (step of data.steps)
+										option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+						fieldset
+							label GUÍA: (Para docentes)
+							article
+								input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 1' required='')
+							article
+								input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 2' required='')
+							article
+								input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 3')
+							article
+								input#guidesActivity(type='text', name='guidesActivity', placeholder='Guía 4')
+						fieldset
+							label PASOS: (Texto para niñ@s)
+							article
+								input#guidesChild(type='text', name='guidesChild', placeholder='Paso 1' required='')
+							article
+								input#guidesChild(type='text', name='guidesChild', placeholder='Paso 2' required='')
+							article
+								input#guidesChild(type='text', name='guidesChild', placeholder='Paso 3')
 
-					article
-						button(type = 'button')#buttonAddActivity
-							span Agregar
+						article
+							button(type = 'button')#buttonAddActivity
+								span Agregar
 
 	section#edit.selector-hide.actionDev.hide
 		article
-			form#editActs
-				fieldset
-					legend Editar Actividad
-					article
-						label(for='stepActivityEdit') Etapa: 
-						select#stepActivityEdit(name='stepActivityEdit')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
-					article
-						label(for='activityActivityEdit') Actividades: 
-						select#activityActivityEdit(name='activityActivityEdit')
-							-for (act of data.activities)
-								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
-					article
-						button(type='button')#buttonEditAct
-							span Editar
-					article#nameActivityEdit
-					article#descriptionActivityEdit
-					article#guideActivityEdit
-					article#guideChildEdit
-					article#saveActivity
+				form#editActs
+					fieldset
+						legend Editar Actividad
+						article
+							label(for='stepActivityEdit') Etapa: 
+							select#stepActivityEdit(name='stepActivityEdit')
+								-if (data)
+									-for (step of data.steps)
+										option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+						article
+							label(for='activityActivityEdit') Actividades: 
+							select#activityActivityEdit(name='activityActivityEdit')
+								-if (data)
+									-for (act of data.activities)
+										option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
+						article
+							button(type='button')#buttonEditAct
+								span Editar
+						article#nameActivityEdit
+						article#descriptionActivityEdit
+						article#guideActivityEdit
+						article#guideChildEdit
+						article#saveActivity
 
 	section#delete.selector-hide.actionDev.hide
 		article
@@ -124,13 +131,15 @@ block content
 					article
 						label(for='stepActivityDel') Etapa: 
 						select#stepActivityDel(name='stepActivityDel')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+							-if (data)
+								-for (step of data.steps)
+									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					article
 						label Actividades: 
 						select#activityActivityDel(name='activityActivityDel')
-							-for (act of data.activities)
-								option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
+							-if (data)
+								-for (act of data.activities)
+									option(value= act.activityActivity) Actividad: #{act.activityActivity} - #{act.nameActivity}
 					article
 						button(type = 'button')#deleteActivity
 							span Eliminar

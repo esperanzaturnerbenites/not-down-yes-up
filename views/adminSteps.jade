@@ -22,64 +22,73 @@ block content
 				fieldset
 					legend Listado de Etapas
 					article
-						table
-							thead
-								tr
-									th N°
-									th NOMBRE
-									th DESCRIPCIÓN
-							tbody#stepList
-								-for (step of data.steps)
+							table
+								thead
 									tr
-										td #{step.stepStep}
-										td #{step.nameStep}
-										td #{step.descriptionStep}
+										th N°
+										th NOMBRE
+										th DESCRIPCIÓN
+								tbody#stepList
+									-if (data)
+										-for (step of data.steps)
+											tr
+												td #{step.stepStep}
+												td #{step.nameStep}
+												td #{step.descriptionStep}
+									-else
+										h2 No hay etapas registradas
 
 	section#addStep.selector-hide.actionDev.hide
 		article
-			form#addSteps
-				fieldset
-					legend Agregar Etapa
-					article
-						label Número Etapa: 
-						input#stepStep(type='number', name='stepStep', min='1', max='50', required='')
-					article
-						input#nameStep(type='text', name='nameStep', placeholder='Nombre Etapa' required='')
-					article
-						textarea#descriptionStep(name='descriptionStep' placeholder='Descripción...' required)
-					article
-						button(type = 'button')#buttonAddStep
-							span Agregar
-
+				form#addSteps
+					fieldset
+						legend Agregar Etapa
+						article
+							label Número Etapa: 
+							input#stepStep(type='number', name='stepStep', min='1', max='50', required='')
+						article
+							input#nameStep(type='text', name='nameStep', placeholder='Nombre Etapa' required='')
+						article
+							textarea#descriptionStep(name='descriptionStep' placeholder='Descripción...' required)
+						article
+							button(type = 'button')#buttonAddStep
+								span Agregar
+			
 	section#editStep.selector-hide.actionDev.hide
 		article
-			form#editSteps
-				fieldset
-					legend Editar Etapa
-					article
-						label(for='stepStepEdit') Etapa: 
-						select#stepStepEdit(name='stepStepEdit')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
-					article
-						button(type = 'button')#buttonEditStep
-							span Editar
-					article#nameStepEdit
-					article#descriptionStepEdit
-					article#saveStep
+				form#editSteps
+					fieldset
+						legend Editar Etapa
+						article
+							label(for='stepStepEdit') Etapa: 
+							select#stepStepEdit(name='stepStepEdit')
+								-if (data)
+									-for (step of data.steps)
+										option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+								-else
+									h2 No hay etapas registradas.
+						article
+							button(type = 'button')#buttonEditStep
+								span Editar
+						article#nameStepEdit
+						article#descriptionStepEdit
+						article#saveStep
 
 	section#deleteStep.selector-hide.actionDev.hide
 		article
-			form#deleteSteps
-				fieldset
-					legend Eliminar Etapa
-					article
-						label(for='stepDel') Etapa: 
-						select#stepDel(name='stepDel')
-							-for (step of data.steps)
-								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
-					article
-						button(type = 'button')#buttonDelStep
-							span Eliminar
+				form#deleteSteps
+					fieldset
+						legend Eliminar Etapa
+						article
+							label(for='stepDel') Etapa: 
+							select#stepDel(name='stepDel')
+								-if (data)
+									-for (step of data.steps)
+										option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+								-else
+									h2 No hay etapas registradas.
+						article
+							button(type = 'button')#buttonDelStep
+								span Eliminar
 
 	script(src="/js/app.js")

@@ -1,3 +1,5 @@
+process.env.SECRETKEY = "V8=!N*k6Q-S_Auz?CHTM2F+"
+
 //Definir un modulo de express
 const express = require("express"),
 	//Crear aplicacion express
@@ -11,7 +13,7 @@ const express = require("express"),
 	//modulo para parse peticiones
 	bodyParser = require("body-parser"),
 	favicon = require("express-favicon"),
-	flash = require('express-flash'),
+	flash = require("express-flash"),
 	//Requrir modulos para manejo de sesiones
 	cookieParser = require("cookie-parser"),
 	expressSession = require("express-session"),
@@ -26,7 +28,23 @@ const express = require("express"),
 	userURLUsers = require("./endPoints/users"),
 	userURLEstimulation = require("./endPoints/estimulation"),
 	userURLAdmin = require("./endPoints/admin"),
-	userURLReports = require("./endPoints/reports")
+	userURLReports = require("./endPoints/reports"),
+
+	Cryptr = require("cryptr"),
+	cryptr = new Cryptr(process.env.SECRETKEY)
+
+models.adminuser.find((err, users) => {
+	if(!users.length){
+		var passwordFirstUser = cryptr.encrypt("dev")
+
+		models.adminuser.create({
+			userUser:"dev",
+			passUser:passwordFirstUser,
+			typeUser:2,
+			statusUser:1
+		})
+	}
+})
 
 //Parceador de cookies
 app.use(cookieParser())
@@ -55,13 +73,14 @@ app.use(passport.session())
 //Definicion de estrategia de logueo
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
+		var passwordEncrypted = cryptr.decrypt(user.passUser)
 		if (err) return done(null, false, { message: err})
 		//console.log(user)
 		if (!user){
 			return done(null, false, { message: "Unknown user"})
 		}else if(user.statusUser != 1) {return done(null, false, { message: "User disabled"})}
-		else if (password === user.passUser) {
-			if (username === user.userUser && password === user.passUser) {
+		else if (password === passwordEncrypted) {
+			if (username === user.userUser && password === passwordEncrypted) {
 				return done(null,user)
 			}
 		} else done(null, false, { message: "Unknown password"})
@@ -75,7 +94,6 @@ app.get("/logout", (req, res) => {
 })
 passport.serializeUser(function(user, done) {
 	done(null, user) 
-	// where is this user.id going? Are we supposed to access this anywhere?
 })
 
 //Desserializacion de usuario
