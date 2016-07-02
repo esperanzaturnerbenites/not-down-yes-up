@@ -1,6 +1,7 @@
 doctype html
 html(lang='es')
 	head
+		audio#audioPrinc(src='/audio/principal.mp3')
 		meta(charset='UTF-8')
 		block title
 		link(rel='stylesheet', href='/css/normalize.css')
@@ -38,6 +39,8 @@ html(lang='es')
 		script(src="/js/main.js")
 		script(src="/js/estimulation.js")
 		script.
+			$('#audioPrinc').prop("volume", 0.1);
+			$("#audioPrinc").trigger("play")
 			var socket = io.connect("http://localhost:8000/")
 			socket.on("response", function (data) {
 			console.log(data)

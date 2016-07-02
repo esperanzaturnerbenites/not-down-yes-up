@@ -29,7 +29,8 @@ html(lang='es')
 						-numStyle = "numbersBlue"
 					-if(select == 3)
 						-numStyle = "numbersPink"
-					h1(class = '#{numStyle}') ETAPAS
+					section
+						h1(class = '#{numStyle}') ETAPAS
 					section.stepAct
 						for step in steps
 							-var backStyle = ""

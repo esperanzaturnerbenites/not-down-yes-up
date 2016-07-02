@@ -955,7 +955,7 @@ $("#buttonAddActivity").on("click",() => {
 				url: "/admin/add-activity",
 				async : false,
 				data : $("#addActs").serialize(),
-				type : "POST",
+				type 	: "POST",
 				success: function(result){
 					$("#addActs").trigger("reset")
 					//$("[guidesActivity]").empty() - otra forma

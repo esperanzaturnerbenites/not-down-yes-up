@@ -1013,7 +1013,6 @@ router.post("/add-activity",(req,res)=>{
 	var data = req.body
 
 	data.imgActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
-	data.audioActivity = "/audio/step" + data.stepActivity + "act" + data.activityActivity + ".mp3"
 	data.urlActivity = "/estimulation/steps/" + data.stepActivity + "/" + data.activityActivity
 		
 	models.activity.findOne({stepActivity : data.stepActivity, activityActivity:data.activityActivity}, (err, acts) => {

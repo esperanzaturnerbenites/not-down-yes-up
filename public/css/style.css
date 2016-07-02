@@ -11,6 +11,10 @@
 @import url("https://fonts.googleapis.com/css?family=Delius+Unicase:400,700");
 @import url("https://fonts.googleapis.com/css?family=Quattrocento");
 
+.hiddenImage{
+	opacity:0;
+}
+
 input:empty{
 	background-color:#e6f1bf;
 }
@@ -1327,7 +1331,6 @@ input.actCentralI{
 .actCentralImg{
 	display:flex;
 	justify-content:space-around;
-	//flex-wrap:wrap;
 	align-items:center;
 	width:100%;
 	background-color:#FFEDDF;
@@ -1340,7 +1343,7 @@ input.actCentralI{
 	align-items:center;
 	width:30%;
 	height:100%;
-	//background-color:#FFEDDF;
+	/*background-color:#FFEDDF;*/
 	margin:0 auto;
 	padding:10px;
 	border-left:3px solid orange;
@@ -1351,6 +1354,11 @@ input.actCentralI{
 img.img{
 	margin:0 40%;
 	width:20%;
+}
+
+img.imgAudio{
+	width:5%;
+	align-self: flex-start;
 }
 
 .imgPhoto img{
