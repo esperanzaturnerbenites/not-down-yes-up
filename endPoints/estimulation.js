@@ -267,9 +267,38 @@ router.post("/valid-activity-complete",(req,res)=>{
 	})
 })
 
-router.post("/arduino/init",(req,res)=>{
+var SerialPort = require("serialport").SerialPort,
+	dataPort
+
+SerialPort.list(function (err, ports) {
+	dataPort = ports.find(function(port) {return port.manufacturer == "Arduino__www.arduino.cc_"})
+
+	if(!dataPort) {
+		port.close()
+		return console.log('Verifique el tapete.')
+	}
+
+	console.log(dataPort)
+
+	var port = new SerialPort(dataPort.comName, {
+		baudrate: 57600,
+		buffersize: 1
+	})
+
 	var five = require("johnny-five"),
-		board = new five.Board()
+		board = new five.Board({
+			port: port
+		})
+
+	board.on("ready", function() {
+		console.log("ready")
+	})
+	board.on("error", function(err) {
+		console.log("error")
+	})
+})
+
+router.post("/arduino/init",(req,res)=>{
 
 	var data = req.body
 
