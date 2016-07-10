@@ -19,6 +19,7 @@ function validatePress(button,data,req){
 	}else{
 		response.msg = "Incorrecto"
 	}
+	console.log(response)
 	req.io.sockets.emit("response", {reponse: response})
 }
 
@@ -267,56 +268,95 @@ router.post("/valid-activity-complete",(req,res)=>{
 	})
 })
 
-var SerialPort = require("serialport").SerialPort,
-	dataPort
 
-SerialPort.list(function (err, ports) {
-	dataPort = ports.find(function(port) {return port.manufacturer == "Arduino__www.arduino.cc_"})
+var sp = require("serialport"),
+	SerialPort = sp.SerialPort,
+	dataPort,
+	port = false,
+	board = false,
+	five = require("johnny-five")
 
-	if(!dataPort) {
-		port.close()
-		return console.log('Verifique el tapete.')
-	}
-
-	console.log(dataPort)
-
-	var port = new SerialPort(dataPort.comName, {
-		baudrate: 57600,
-		buffersize: 1
-	})
-
-	var five = require("johnny-five"),
-		board = new five.Board({
-			port: port
-		})
-
-	board.on("ready", function() {
-		console.log("ready")
-	})
-	board.on("error", function(err) {
-		console.log("error")
-	})
-})
-
-router.post("/arduino/init",(req,res)=>{
+router.post("/arduino/connect",(req,res)=>{
 
 	var data = req.body
 
-	board.on("ready", function() {
+	if(!port){
+		SerialPort.list(function (err, ports) {
+			dataPort = ports.find(function(port) {return port.manufacturer == "Arduino__www.arduino.cc_"})
 
-		var button1 = new five.Button({pin :8, custom :{pin: 1}}),
-			button2 = new five.Button({pin :9, custom :{pin: 2}}),
-			button3 = new five.Button({pin :10, custom :{pin: 3}}),
-			button4 = new five.Button({pin :11, custom :{pin: 4}})
-			//,led = new five.Led(9)
+			if(!dataPort) {
+				return res.json({msg: 'Verifique el tapete.'})
+			}
 
-		button1.on("press", () => {validatePress(button1,data,req)})
-		button2.on("press", () => {validatePress(button2,data,req)})
-		button3.on("press", () => {validatePress(button3,data,req)})
-		button4.on("press", () => {validatePress(button4,data,req)})
-		res.json({msg: "Actividad Iniciada"})
+			port = new SerialPort(dataPort.comName, {
+				baudrate: 57600,
+				buffersize: 1
+			})
+			console.log("port open " + port.isOpen())
+
+			port.on("open",function(){
+				console.log("port open " + port.isOpen())
+
+				if(!board){
+					board = new five.Board({
+						port: port,
+						relp: false,
+						debug: false
+					})
+
+
+					board.on("ready", function() {
+
+						var button1 = new five.Button({pin :8, custom :{pin: 1}}),
+							button2 = new five.Button({pin :9, custom :{pin: 2}}),
+							button3 = new five.Button({pin :10, custom :{pin: 3}}),
+							button4 = new five.Button({pin :11, custom :{pin: 4}})
+							//,led = new five.Led(9)
+
+						button1.on("press", () => {validatePress(button1,data,req)})
+						button2.on("press", () => {validatePress(button2,data,req)})
+						button3.on("press", () => {validatePress(button3,data,req)})
+						button4.on("press", () => {validatePress(button4,data,req)})
+						req.io.sockets.emit("changeStatusRug", {statusText: "Conectado"})
+						return res.json({msg: "Actividad Iniciada"})
+					})
+
+					board.on("error", function(err) {
+						console.log(err)
+						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
+					})
+
+					board.on("exit", function(err) {
+						console.log(err)
+						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
+					})
+
+					board.on("close", function(err) {
+						console.log(err)
+						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
+					})
+				}
+				
+			})
+		})
+	}else{
+		port.open()
+	}
+})
+
+router.post("/arduino/disconnect",(req,res)=>{
+	port.close(function(err){
+		if(err) return res.json({err:err})
+		console.log("board Connected : " + board.isConnected)
+		console.log("board Ready : " + board.isReady)
+		console.log("port open" + port.isOpen())
+		console.log(board.isReady)
+		req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
+
+		return res.json({msg: "Tapete Desconectado",statusCode: 0})
 	})
 })
+
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

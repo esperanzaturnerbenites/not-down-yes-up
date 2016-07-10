@@ -17,17 +17,7 @@ function renderResultValid(node){showValidAct.html(""); showValidAct.append(node
 function renderResultDataResult(node){results.html(""); results.append(node)}
 function renderResultDataStep(node){resultStepActs.html(""); resultStepActs.append(node)}
 
-function initActivityArduino(){
-	$.ajax({
-		url: "/estimulation/arduino/init",
-		async : true,
-		type : "POST",
-		data : {numberPin : $("#numberPin").val()},
-		success: response => {
-			console.log(response)
-		}
-	})
-}
+
 
 function funcStatusAct(status){
 	var statusText = ""
@@ -52,8 +42,6 @@ formAddChildAct.on("submit",(event) => {
 				if(childrens.statusChildren == 3){
 					notification.show({msg:"¡Niñ@ Retirado. No puede realizar actividades!", type:2})
 				} else {
-					initActivityArduino()
-
 					var clone = getClone("#consulQueryAddChild"),
 						cloneAct = getClone("#consulQueryActivityChild")
 					var data = $(clone.querySelector("#showChildrens")),
@@ -100,6 +88,28 @@ formAddChildAct.on("submit",(event) => {
 					$("#numberPin").prop("readonly", true)
 					$("#validActClicDef").prop("disabled", false)
 					$("#validActClic").prop("disabled", false)
+
+					$("#connectRug").click(function(){
+						$.ajax({
+							url: "/estimulation/arduino/connect",
+							async : true,
+							type : "POST",
+							data : {numberPin : $("#numberPin").val()},
+							success: response => {
+								console.log(response)
+							}
+						})
+					})
+					$("#disconnectRug").click(function(){
+						$.ajax({
+							url: "/estimulation/arduino/disconnect",
+							async : true,
+							type : "POST",
+							success: response => {
+								console.log(response)
+							}
+						})
+					})
 				}
 			}
 		}
@@ -351,3 +361,4 @@ $("#continueActAll").click((event) => {
 	})
 	renderResultDataResult(clone)
 })
+
