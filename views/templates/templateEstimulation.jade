@@ -38,14 +38,3 @@ html(lang='es')
 		script(src="/js/lib/jquery-2.2.0.min.js")
 		script(src="/js/main.js")
 		script(src="/js/estimulation.js")
-		script.
-			$('#audioPrinc').prop("volume", 0.1);
-			$("#audioPrinc").trigger("play")
-			var socket = io.connect("http://localhost:8000/")
-			socket.on("response", function (data) {
-				console.log(data)
-			})
-			socket.on("changeStatusRug", function (data) {
-				console.log(data)
-				$("#statusRug").html(data.statusText)
-			})

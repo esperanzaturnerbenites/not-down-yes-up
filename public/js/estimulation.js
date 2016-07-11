@@ -96,7 +96,7 @@ formAddChildAct.on("submit",(event) => {
 							type : "POST",
 							data : {numberPin : $("#numberPin").val()},
 							success: response => {
-								console.log(response)
+								notification.show({msg:response.message, type:response.statusCode})
 							}
 						})
 					})
@@ -106,7 +106,7 @@ formAddChildAct.on("submit",(event) => {
 							async : true,
 							type : "POST",
 							success: response => {
-								console.log(response)
+								notification.show({msg:response.message, type:response.statusCode})
 							}
 						})
 					})
@@ -362,3 +362,12 @@ $("#continueActAll").click((event) => {
 	renderResultDataResult(clone)
 })
 
+$('#audioPrinc').prop("volume", 0.1);
+$("#audioPrinc").trigger("play")
+var socket = io.connect("http://localhost:8000/")
+socket.on("response", function (data) {
+	notification.show({msg:data.message, type:data.statusCode})
+})
+socket.on("changeStatusRug", function (data) {
+	$("#statusRug").html(data.statusText)
+})
