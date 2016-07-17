@@ -4,6 +4,14 @@ function getClone(selector){
 	return document.importNode(t.content,true)
 }
 
+/*
+	Validacion de ids
+		Validadcion Frontend
+		Validacion Backend
+		POST /admin/id-exists
+		Reques Data {Object}
+			@propertie {String} id: id a Validar
+*/
 $(".idChildren,.idMom,.idDad,.idCare").change(function(){
 	var target = this,
 		selector = "." + $(this).attr("class"),
@@ -29,7 +37,98 @@ $(".idChildren,.idMom,.idDad,.idCare").change(function(){
 			})
 		}
 	})
+})
 
+$("#formUpdatePass").on("submit",(event) => { 
+	event.preventDefault()
+	if($("#adminPassUser").val() == $("#adminPassConfirmUser").val()){
+		if(confirm("Se actualizará contraseña a: " + $("#adminIdUser").val() +". ¿Desea continuar?")){
+			$.ajax({
+				url: "/api/adminuser",
+				contentType: "application/json",
+				data: JSON.stringify({
+					data:{passUser:$("#adminPassUser").val()},
+					query:{userUser:$("#adminIdUser").val()},
+					fn: "encryptPass",
+					params :{passUser:$("#adminPassUser").val()}
+				}),
+				type: "PUT",
+				success: function(result){
+					$("#formUpdatePass").trigger("reset")
+					notification.show({msg:result.msg, type:result.statusCode})
+				}
+			})
+		}
+	}else{
+		notification.show({msg:"¡Contraseña no coincide!", type:CTE.STATUS_CODE.NOT_OK})
+	}
+})
+
+$("#formOpeUserRol").on("submit",(event) => {
+	event.preventDefault()
+	if(confirm("Se actualizará rol a: " + $("#adminRolIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/api/adminuser",
+			contentType: "application/json",
+			data: JSON.stringify({
+				data:{typeUser:$("#rolUser").val()},
+				query:{userUser:$("#adminRolIdUser").val()}
+			}),
+			type: "PUT",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminRolIdUser").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
+})
+
+$("#formOpeUserStatus").on("submit",(event) => {
+	var confirmSta
+
+	event.preventDefault()
+	if($("#statusUser").val() == 0)
+		confirmSta = "INACTIVARÁ"
+	else
+		confirmSta = "ACTIVARÁ"
+
+	if(confirm("Se " + confirmSta + ": " + $("#adminStaIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/api/adminuser",
+			contentType: "application/json",
+			data: JSON.stringify({
+				data:{statusUser:$("#statusUser").val()},
+				query:{userUser:$("#adminStaIdUser").val()}
+			}),
+			type: "PUT",
+			success: function(result){
+				$("#formOpeUserStatus").trigger("reset")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
+})
+
+$("#formOpeUser").submit(function(event) {
+	event.preventDefault()
+	if(confirm("Se borrará: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
+		$.ajax({
+			url: "/api/adminuser",
+			contentType: "application/json",
+			data : JSON.stringify({
+				query:{userUser:$("#adminOpeIdUser").val()},
+				fn:"checkActivities",
+				params:{userUser:$("#adminOpeIdUser").val()}
+			}),
+			type : "DELETE",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#adminOpeIdUser").val("")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+	}
 })
 
 function renderResultTeachAdmin(node){
@@ -56,46 +155,6 @@ function funcStatusAct(status){
 	return statusText
 }
 
-//Asigna un escuchador de evento --- Cuando suceda el evento
-function addUser(event){
-	event.preventDefault()
-	var action = $("button[type='submit']",this).data("action")
-	if(action == "create"){
-		var url = "/admin/register-user",
-			data = {userAdd : $(".userAdd").serialize(),userAdmin : $(".userAdmin").serialize()}
-	}else{
-		var url = "/admin/update-user",
-			data = {userAdd : $(".userAdd").serialize()}
-	}
-
-
-	if($("#passUser").val() == $("#passConfirmUser").val()){
-
-
-		$.ajax({
-			url: url,
-			async : false, 
-			data : data,
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				//console.log(result)
-				$("#formAddUser")
-				.trigger("reset")
-				.off("submit")
-				.addClass("hide")
-				$("#validUser").prop("readonly", false)
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
-
-	}else{
-		var msg = "¡Contraseña no coincide!",
-			type = 1
-		notification.show({msg:msg, type:type})
-	}
-}
-
 function typeUserFind(type){
 	var typeU = ""
 	if(type == "0"){
@@ -118,10 +177,9 @@ if(eval($("#editingChildren").val())){
 
 if(eval($("#editingUser").val())){
 	/*Edicion de usuarios*/
-	$("#formAddUser").attr("action","/admin/update-user")
 	$("#formAddUser")
-	.removeClass("hide")
-	//.on("submit",addUser)
+		.attr("action","/admin/update-user")
+		.removeClass("hide")
 	$("#idUser").val($("#validUser").val())
 	$("#validUser").prop("readonly", true)
 }else{
@@ -130,25 +188,22 @@ if(eval($("#editingUser").val())){
 	$("#formValidUser").on("submit",(event) => {
 		event.preventDefault()
 		$.ajax({
-			url: "/admin/valid-user",
-			async : false, 
-			data : $("#formValidUser").serialize(),
+			url: "/admin/id-exists",
+			data : {id:$("#validUser").val()},
 			type : "POST",
-			success: function(result){
-				if(result.valid) {
-					$("#formAddUser")
-					.removeClass("hide")
-					//.on("submit",addUser)
+			success: function(response){
+				if (response.statusCode != CTE.STATUS_CODE.OK) {
+					$("#formAddUser").addClass("hide")
+					$("#validUser").prop("readonly", false)
+					notification.show({
+						msg:"Esta Identificaion ya se encuentra registrada",
+						type:CTE.STATUS_CODE.INFORMATION
+					})
+				}else{
+					$("#formAddUser").removeClass("hide")
 					$("#idUser").val($("#validUser").val())
 					$("#validUser").prop("readonly", true)
-				}else{
-					$("#formAddUser")
-					.addClass("hide")
-					//.off("submit",addUser)
-					$("#validUser").prop("readonly", false)
-					notification.show({msg:result.msg, type:result.statusCode})
 				}
-
 			}
 		})
 	})
@@ -360,89 +415,6 @@ $("#formFindAll").on("submit",(event) => {
 			window.myvar = clone
 		}
 	})
-})
-
-$("#formUpdatePass").on("submit",(event) => {
-	event.preventDefault()
-	if($("#adminPassUser").val() == $("#adminPassConfirmUser").val()){
-		if(confirm("Se actualizará contraseña a: " + $("#adminIdUser").val() +". ¿Desea continuar?")){
-			$.ajax({
-				url: "/admin/update-pass",
-				async : false, 
-				data : $("#formUpdatePass").serialize(),
-				type : "POST",
-				success: function(result){
-					if (result.err) return notification.show({msg:result.err.message, type:1})
-					$("#adminIdUser").val("")
-					$("#adminPassUser").val("")
-					$("#adminPassConfirmUser").val("")
-					notification.show({msg:result.msg, type:result.statusCode})
-				}
-			})
-		}
-	}else{
-		//console.log({msg:"Password not equals"})
-		var msg = "¡Contraseña no coincide!"
-		notification.show({msg:msg, type:1})
-	}
-})
-
-$("#formOpeUserRol").on("submit",(event) => {
-	event.preventDefault()
-	if(confirm("Se actualizará rol a: " + $("#adminRolIdUser").val() +". ¿Desea continuar?")){
-		$.ajax({
-			url: "/admin/update-rol",
-			async : false, 
-			data : $("#formOpeUserRol").serialize(),
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				$("#adminRolIdUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
-	}
-})
-
-$("#formOpeUserStatus").on("submit",(event) => {
-	var confirmSta
-
-	event.preventDefault()
-	if($("#statusUser").val() == 0)
-		confirmSta = "INACTIVARÁ"
-	else
-		confirmSta = "ACTIVARÁ"
-
-	if(confirm("Se " + confirmSta + ": " + $("#adminStaIdUser").val() +". ¿Desea continuar?")){
-		$.ajax({
-			url: "/admin/update-status",
-			async : false, 
-			data : $("#formOpeUserStatus").serialize(),
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				$("#adminStaIdUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
-	}
-})
-
-$("#formOpeUser").on("submit.formOpeUserDel",(event) => {
-	event.preventDefault()
-	if(confirm("Se borrará: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
-		$.ajax({
-			url: "/admin/delete-users",
-			async : false, 
-			data : $("#formOpeUser").serialize(),
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				$("#adminOpeIdUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})
-	}
 })
 
 $("#formOpeTeachAdminDel").on("click",(event) => {

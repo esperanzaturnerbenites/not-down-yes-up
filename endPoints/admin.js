@@ -27,12 +27,40 @@ function filter(body,files){
 	return body
 }
 
+router.get("/menu-admin",(req,res)=>{return res.render("menuAdmin")})
+router.get("/admin-users",(req,res)=>{return res.render("adminUsers")})
+router.get("/admin-childrens",(req,res)=>{return res.render("adminChildrens")})
+router.get("/valid-step",(req,res)=>{return res.render("validStep")})
+router.get("/backup",(req,res)=>{return res.render("backup")})
+
+/*
+	Valida que un id(Identificacion) no se encuentre Registrada
+	Request Data {String} id: id a Validar
+	Response {Object}: Resultado de la validacion
+		@property {String} msg: Menaje de Validacion
+		@property {Number} statusCode: Estado de la Validacion
+*/
+router.post("/id-exists",(req,res)=>{
+	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
+
+	models.user.findOne({idUser : req.body.id}, (err, user) => {
+		if(user) return res.json(message)
+		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
+			if(parent) return res.json(message)
+			models.children.findOne({idChildren : req.body.id}, (err, children) => {
+				if(children) return res.json(message)
+				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
+			})
+		})
+	})
+})
+
+/* Children */
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		req.flash("success","¡Números de identificación iguales")
 		res.redirect(req.get("referer"))
-		//res.json({err:{message : "¡Números de identificación iguales"}})
 	}else{
 
 		var queryParents = [
@@ -115,36 +143,94 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	})
 }
 
-/*
-	Valida que un id(Identificacion) no se encuentre Registrada
-	Request Data {String} id: id a Validar
-	Response {Object}: Resultado de la validacion
-		@property {String} msg: Menaje de Validacion
-		@property {Number} statusCode: Estado de la Validacion
-*/
-router.post("/id-exists",(req,res)=>{
-	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
+router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 
-	models.user.findOne({idUser : req.body.id}, (err, user) => {
-		if(user) return res.json(message)
-		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
-			if(parent) return res.json(message)
-			models.children.findOne({idChildren : req.body.id}, (err, children) => {
-				if(children) return res.json(message)
-				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
-			})
-		})
-	})
+	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
+		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
+		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
+		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
+
+	//return res.json(req.files)
+
+	var defaultImage = "defaultUser.png",
+		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
+		imgMom =  fileMom ? fileMom.filename : defaultImage,
+		imgDad =  fileDad ? fileDad.filename : defaultImage,
+		imgCure =  fileCure ? fileCure.filename : defaultImage
+
+	var data = req.body,
+		dataChildren = {
+			abilityChildren : data.abilityChildren,
+			addressChildren : data.addressChildren,
+			ageChildren : data.ageChildren,
+			apbChildren : data.apbChildren,
+			birthdateChildren : new Date(data.birthdateChildren.split("-")),
+			birthplaceChildren : data.birthplaceChildren,
+			debilityChildren : data.debilityChildren,
+			departamentChildren : data.departamentChildren,
+			districtChildren : data.districtChildren,
+			epsChildren : data.epsChildren,
+			genderChildren : data.genderChildren,
+			glassesChildren : data.glassesChildren,
+			healthChildren : data.healthChildren,
+			hearingaidChildren : data.hearingaidChildren,
+			idChildren : data.idChildren,
+			imgChildren : imgChildren,
+			lastnameChildren : data.lastnameChildren,
+			levelhomeChildren : data.levelhomeChildren,
+			liveSon : data.liveSon,
+			localityChildren : data.localityChildren,
+			municipalityChildren : data.municipalityChildren,
+			nameChildren : data.nameChildren
+		},
+		dataMom = {
+			imgParent : imgMom,
+			birthdateParent : new Date(data.birthdateParent[0].split("-")),
+			celParent : data.celParent[0],
+			emailParent : data.emailParent[0],
+			idExpeditionParent : data.idExpeditionParent[0],
+			idParent : data.idParent[0],
+			jobParent : data.jobParent[0],
+			lastnameParent : data.lastnameParent[0],
+			nameParent : data.nameParent[0],
+			professionParent : data.professionParent[0],
+			relationshipParent : 0,
+			studyParent : data.studyParent[0],
+			telParent : data.telParent[0]
+		},
+		dataDad = {
+			imgParent : imgDad,
+			birthdateParent : new Date(data.birthdateParent[1].split("-")),
+			celParent : data.celParent[1],
+			emailParent : data.emailParent[1],
+			idExpeditionParent : data.idExpeditionParent[1],
+			idParent : data.idParent[1],
+			jobParent : data.jobParent[1],
+			lastnameParent : data.lastnameParent[1],
+			nameParent : data.nameParent[1],
+			professionParent : data.professionParent[1],
+			relationshipParent : 1,
+			studyParent : data.studyParent[1],
+			telParent : data.telParent[1]
+		},
+		dataCare = {
+			imgParent : imgCure,
+			birthdateParent : new Date(data.birthdateParent[2].split("-")),
+			celParent : data.celParent[2],
+			emailParent : data.emailParent[2],
+			idExpeditionParent : data.idExpeditionParent[2],
+			idParent : data.idParent[2],
+			lastnameParent : data.lastnameParent[2],
+			nameParent : data.nameParent[2],
+			relationshipParent : 2,
+			telParent : data.telParent[2]
+		}
+	if(eval(data.editingChildren)){
+		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}else{
+		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
+	}
 })
-router.get("/menu-admin",(req,res)=>{return res.render("menuAdmin"/*,{user :req.user}*/)})
-
-router.get("/admin-users",(req,res)=>{return res.render("adminUsers")})
-
-router.get("/admin-childrens",(req,res)=>{return res.render("adminChildrens")})
-
-router.get("/valid-step",(req,res)=>{return res.render("validStep")})
-
-router.get("/backup",(req,res)=>{return res.render("backup")})
 
 router.get("/register-children/:id?",(req,res)=>{
 	var id = req.params.id
@@ -174,6 +260,55 @@ router.get("/register-children/:id?",(req,res)=>{
 	})
 })
 
+router.get("/info-children/:id",(req,res)=>{
+	var id = req.params.id,
+		data = {}
+
+	models.children.findOne({idChildren:id})
+	.populate('idParent.idParent')
+	.exec((err,childrenFind) =>{
+		if(err) return res.json({err:err})
+		if(!childrenFind) return res.json({err:{message:"Children not exist"}})
+		if(childrenFind){
+			data.child = childrenFind
+
+			data.parents = childrenFind.idParent.map(objParent => {return objParent.idParent})
+
+			models.activityhistory.find({idChildren:childrenFind._id})
+			.sort({date:-1})
+			.populate("idActivity idStep idUser")
+			.exec((err,acthisChild) =>{
+				if(err) return res.json({err:err})
+				if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
+				data.historys = acthisChild
+				
+				models.activityvalid.find({idChildren:childrenFind._id})
+				.sort({date:-1})
+				.populate("idStep idActivity idUser")
+				.exec((err,actvalidChild) =>{
+					if(err) return res.json({err:err})
+					if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
+					data.valids = actvalidChild
+					
+					models.stepvalid.find({idChildren:childrenFind._id})
+					.sort({date:-1})
+					.populate("idStep idUser")
+					.exec((err,stepvalidChild) =>{
+						if(err) return res.json({err:err})
+						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+						if(stepvalidChild){
+							data.stepvalids = stepvalidChild
+							res.render("infoChildren",{infoChildren: data})
+						}
+					})
+				})
+			})
+		}
+	})
+})
+/* Children */
+
+/* User */
 router.get("/register-user/:id?",(req,res)=>{
 	var id = req.params.id
 	if(!id) return res.render("registerUserRol")
@@ -182,6 +317,76 @@ router.get("/register-user/:id?",(req,res)=>{
 		if (err) return {err : err}
 		return res.render("registerUserRol",{userEdit: userSearch})
 	})
+})
+
+router.post("/register-user",upload.any(),(req,res)=>{
+	var dataUser = {
+			validUser : req.body.validUser,
+			idUser : req.body.idUser,
+			expeditionUser : req.body.expeditionUser,
+			nameUser : req.body.nameUser,
+			lastnameUser : req.body.lastnameUser,
+			ageUser : req.body.ageUser,
+			imgUser : req.body.imgUser,
+			telUser : req.body.telUser,
+			celUser : req.body.celUser,
+			emailUser : req.body.emailUser,
+			addressUser : req.body.addressUser,
+			districtUser : req.body.districtUser,
+			localityUser : req.body.localityUser,
+			municipalityUser : req.body.municipalityUser,
+			departamentUser : req.body.departamentUser,
+			studyUser : req.body.studyUser,
+			professionUser : req.body.professionUser,
+			experienceUser : req.body.experienceUser,
+			centerUser : req.body.centerUser
+		},
+		dataUserAdmin = {
+			typeUser :req.body.typeUser,
+			userUser :req.body.userUser,
+			passUser :cryptr.encrypt(req.body.passUser),
+			passConfirmUser :cryptr.encrypt(req.body.passConfirmUser)
+		}
+
+	var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
+
+	var defaultImage = "defaultUser.png"
+	dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
+
+	if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
+
+		models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
+			if(err) return res.json({err:err})
+			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
+			if(!adminFind){
+				models.user.create(dataUser, function (err, user) {
+					if(err) return res.json({err:err})
+					dataUserAdmin.idUser = user._id
+					dataUserAdmin.statusUser = 1
+					delete dataUserAdmin.passConfirmUser
+					
+					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
+						if(err) return res.json({err:err})
+						return res.redirect("/admin/menu-admin")
+					})
+				})
+			}
+		})
+	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
+})
+
+router.post("/update-user",upload.any(),(req,res)=>{
+	
+	var dataUser = filter(req.body)
+
+	models.user.update(
+		{idUser : dataUser.idUser},
+		{"$set": dataUser}
+		,(err,status) => {
+			if(err) return res.json({err:err})
+			req.flash("success","¡Usuario actualizado con éxito!")
+			return res.redirect("/admin/menu-admin")
+		})
 })
 
 router.get("/info-user/:id",(req,res)=>{
@@ -253,53 +458,7 @@ router.get("/info-user/:id",(req,res)=>{
 		}
 	})
 })
-
-router.get("/info-children/:id",(req,res)=>{
-	var id = req.params.id,
-		data = {}
-
-	models.children.findOne({idChildren:id})
-	.populate('idParent.idParent')
-	.exec((err,childrenFind) =>{
-		if(err) return res.json({err:err})
-		if(!childrenFind) return res.json({err:{message:"Children not exist"}})
-		if(childrenFind){
-			data.child = childrenFind
-
-			data.parents = childrenFind.idParent.map(objParent => {return objParent.idParent})
-
-			models.activityhistory.find({idChildren:childrenFind._id})
-			.sort({date:-1})
-			.populate("idActivity idStep idUser")
-			.exec((err,acthisChild) =>{
-				if(err) return res.json({err:err})
-				if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
-				data.historys = acthisChild
-				
-				models.activityvalid.find({idChildren:childrenFind._id})
-				.sort({date:-1})
-				.populate("idStep idActivity idUser")
-				.exec((err,actvalidChild) =>{
-					if(err) return res.json({err:err})
-					if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
-					data.valids = actvalidChild
-					
-					models.stepvalid.find({idChildren:childrenFind._id})
-					.sort({date:-1})
-					.populate("idStep idUser")
-					.exec((err,stepvalidChild) =>{
-						if(err) return res.json({err:err})
-						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
-						if(stepvalidChild){
-							data.stepvalids = stepvalidChild
-							res.render("infoChildren",{infoChildren: data})
-						}
-					})
-				})
-			})
-		}
-	})
-})
+/* User */
 
 router.get("/admin-steps",(req,res)=>{
 	var data = {}
@@ -472,118 +631,6 @@ router.post("/consul-acts",(req,res)=>{
 	})
 })
 
-router.post("/upload",upload.any(),(req,res)=>{
-	/*
-				models.step.find({}, (err, steps) => {
-					if(err) return res.json({err:err})
-					if(!steps.length) return res.json({msg:"Not steps"})
-
-					for(var step of steps){
-						promises.push(models.stepvalid.create({idStep:step._id, idUser:req.user._id, idChildren:children._id}))
-					}
-					Q.all(promises).then(function (result) {
-					})
-				})*/
-
-				models.step.find({}, (err, steps) => {
-					if(err) return res.json({err:err})
-					if(!steps.length) return res.json({msg:"Not steps"})
-
-					for(var step in steps){
-					}
-					return res.send("ok")
-				})
-})
-
-router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
-
-	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
-		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
-		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
-		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
-
-	//return res.json(req.files)
-
-	var defaultImage = "defaultUser.png",
-		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
-		imgMom =  fileMom ? fileMom.filename : defaultImage,
-		imgDad =  fileDad ? fileDad.filename : defaultImage,
-		imgCure =  fileCure ? fileCure.filename : defaultImage
-
-	var data = req.body,
-		dataChildren = {
-			abilityChildren : data.abilityChildren,
-			addressChildren : data.addressChildren,
-			ageChildren : data.ageChildren,
-			apbChildren : data.apbChildren,
-			birthdateChildren : new Date(data.birthdateChildren.split("-")),
-			birthplaceChildren : data.birthplaceChildren,
-			debilityChildren : data.debilityChildren,
-			departamentChildren : data.departamentChildren,
-			districtChildren : data.districtChildren,
-			epsChildren : data.epsChildren,
-			genderChildren : data.genderChildren,
-			glassesChildren : data.glassesChildren,
-			healthChildren : data.healthChildren,
-			hearingaidChildren : data.hearingaidChildren,
-			idChildren : data.idChildren,
-			imgChildren : imgChildren,
-			lastnameChildren : data.lastnameChildren,
-			levelhomeChildren : data.levelhomeChildren,
-			liveSon : data.liveSon,
-			localityChildren : data.localityChildren,
-			municipalityChildren : data.municipalityChildren,
-			nameChildren : data.nameChildren
-		},
-		dataMom = {
-			imgParent : imgMom,
-			birthdateParent : new Date(data.birthdateParent[0].split("-")),
-			celParent : data.celParent[0],
-			emailParent : data.emailParent[0],
-			idExpeditionParent : data.idExpeditionParent[0],
-			idParent : data.idParent[0],
-			jobParent : data.jobParent[0],
-			lastnameParent : data.lastnameParent[0],
-			nameParent : data.nameParent[0],
-			professionParent : data.professionParent[0],
-			relationshipParent : 0,
-			studyParent : data.studyParent[0],
-			telParent : data.telParent[0]
-		},
-		dataDad = {
-			imgParent : imgDad,
-			birthdateParent : new Date(data.birthdateParent[1].split("-")),
-			celParent : data.celParent[1],
-			emailParent : data.emailParent[1],
-			idExpeditionParent : data.idExpeditionParent[1],
-			idParent : data.idParent[1],
-			jobParent : data.jobParent[1],
-			lastnameParent : data.lastnameParent[1],
-			nameParent : data.nameParent[1],
-			professionParent : data.professionParent[1],
-			relationshipParent : 1,
-			studyParent : data.studyParent[1],
-			telParent : data.telParent[1]
-		},
-		dataCare = {
-			imgParent : imgCure,
-			birthdateParent : new Date(data.birthdateParent[2].split("-")),
-			celParent : data.celParent[2],
-			emailParent : data.emailParent[2],
-			idExpeditionParent : data.idExpeditionParent[2],
-			idParent : data.idParent[2],
-			lastnameParent : data.lastnameParent[2],
-			nameParent : data.nameParent[2],
-			relationshipParent : 2,
-			telParent : data.telParent[2]
-		}
-	if(eval(data.editingChildren)){
-		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-	}else{
-		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
-	}
-})
-
 router.post("/update-pass",(req,res)=>{
 	var data = req.body
 	
@@ -599,21 +646,6 @@ router.post("/update-pass",(req,res)=>{
 				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
 			})
 	}
-})
-
-router.post("/update-user",upload.any(),(req,res)=>{
-	
-	var dataUser = filter(req.body)
-
-	dataUser.passUser = cryptr.encrypt(dataUser.passUser)
-
-	models.user.update(
-		{idUser : dataUser.idUser},
-		{"$set": dataUser}
-		,(err,status) => {
-			if(err) return res.json({err:err})
-			return res.json({msg:"¡Usuario actualizado con éxito!", statusCode : 0})
-		})
 })
 
 router.post("/update-rol",(req,res)=>{
@@ -827,66 +859,6 @@ router.post("/valid-step",(req,res)=>{
 			})
 		})
 	})
-})
-
-router.post("/register-user",upload.any(),(req,res)=>{
-
-
-	var dataUser = {
-			validUser : req.body.validUser,
-			idUser : req.body.idUser,
-			expeditionUser : req.body.expeditionUser,
-			nameUser : req.body.nameUser,
-			lastnameUser : req.body.lastnameUser,
-			ageUser : req.body.ageUser,
-			imgUser : req.body.imgUser,
-			telUser : req.body.telUser,
-			celUser : req.body.celUser,
-			emailUser : req.body.emailUser,
-			addressUser : req.body.addressUser,
-			districtUser : req.body.districtUser,
-			localityUser : req.body.localityUser,
-			municipalityUser : req.body.municipalityUser,
-			departamentUser : req.body.departamentUser,
-			studyUser : req.body.studyUser,
-			professionUser : req.body.professionUser,
-			experienceUser : req.body.experienceUser,
-			centerUser : req.body.centerUser
-		},
-		dataUserAdmin = {
-			typeUser :req.body.typeUser,
-			userUser :req.body.userUser,
-			passUser :cryptr.encrypt(req.body.passUser),
-			passConfirmUser :cryptr.encrypt(req.body.passConfirmUser)
-		}
-
-		
-	var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
-	//return res.json(req.files)
-
-	var defaultImage = "defaultUser.png"
-	dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
-
-	if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
-
-		models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
-			if(err) return res.json({err:err})
-			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
-			if(!adminFind){
-				models.user.create(dataUser, function (err, user) {
-					if(err) return res.json({err:err})
-					dataUserAdmin.idUser = user._id
-					dataUserAdmin.statusUser = 1
-					delete dataUserAdmin.passConfirmUser
-					
-					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
-						if(err) return res.json({err:err})
-						return res.redirect("/admin/menu-admin")
-					})
-				})
-			}
-		})
-	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
 })
 
 router.post("/register-newuser",(req,res)=>{

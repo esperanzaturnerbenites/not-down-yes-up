@@ -20,7 +20,7 @@ block content
 
 		article
 			form#formValidUser(class="#{classFormValid}")
-				input(type="hidden" value="#{edit}" id="editingUser")
+				input(type="hidden" value="#{edit}" id="editingUser" name="editingUser")
 				fieldset.data.validChildren
 					legend Digita la cédula
 					article
@@ -97,7 +97,7 @@ block content
 								span Actualizar
 						button(type='reset')
 							span Limpiar
-						p.cancel
+						button
 							a(href='/admin/menu-admin') Cancelar
 	script(src="/js/app.js")
 

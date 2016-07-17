@@ -16,6 +16,7 @@ const userSchema = new Mongoose.Schema({
 		addressUser: {type:String},
 		districtUser: {type:String},
 		localityUser: {type:String},
+		municipalityUser: {type:String},
 		departamentUser: {type:String},
 		studyUser: {type:Number},
 		professionUser: {type:String},
