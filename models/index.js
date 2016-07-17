@@ -143,7 +143,7 @@ const userSchema = new Mongoose.Schema({
 
 
 const models = {
-	user: Mongoose.model("user", userSchema),
+	user: Mongoose.model("user", userSchema), 
 	adminuser: Mongoose.model("adminuser", adminuserSchema),
 	children: Mongoose.model("children", childrenSchema),
 	parent: Mongoose.model("parent", parentSchema),
@@ -154,15 +154,46 @@ const models = {
 	step: Mongoose.model("step", stepSchema)
 }
 
+childrenSchema.pre("save",function (next) {
+	models.children.findOne({idChildren : this.idChildren}, (err, children) => {
+		if(children) next(new Error("¡Niñ@ ya existe!"))
+		models.user.findOne({idUser : this.idChildren}, (err, user) => {
+			if(user) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+			models.parent.findOne({idParent : this.idChildren}, (err, parent) => {
+				if(parent) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+				else next()
+			})
+		})
+	})
+})
+
+parentSchema.pre("save",function (next) {
+	models.parent.findOne({idParent : this.idParent}, (err, parent) => {
+		if(parent) next(new Error("¡Familiar ya existe!"))
+		models.user.findOne({idUser : this.idParent}, (err, user) => {
+			if(user) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+			models.children.findOne({idChildren : this.idParent}, (err, children) => {
+				if(children) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+				else next()
+			})
+		})
+	})
+})
+
 userSchema.pre("save",function (next) {
 	models.user.findOne({idUser : this.idUser}, (err, user) => {
 		if(user) next(new Error("¡Usuario ya existe!"))
-		else next()
+		models.parent.findOne({idParent : this.idUser}, (err, parent) => {
+			if(parent) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+			models.children.findOne({idChildren : this.idUser}, (err, children) => {
+				if(children) next(new Error("Esta Identificacion Se encuenta Registrada!"))
+				else next()
+			})
+		})
 	})
 })
 
 adminuserSchema.pre("save",function (next) {
-	//console.log(this)
 	models.adminuser.findOne({userUser : this.userUser}, (err, adminuser) => {
 		if (adminuser) next(new Error("¡Usuario de logueo ya existe!"))
 		else next()
@@ -172,13 +203,6 @@ adminuserSchema.pre("save",function (next) {
 adminuserSchema.pre("remove",function (next) {
 	models.adminuser.findOne({userUser : "Developer"}, (err, user) => {
 		if (user) next(new Error("Useradmin not delete"))
-		else next()
-	})
-})
-
-childrenSchema.pre("save",function (next) {
-	models.children.findOne({idChildren : this.idChildren}, (err, children) => {
-		if (children) next(new Error("¡Niñ@ ya existe1"))
 		else next()
 	})
 })
@@ -201,12 +225,5 @@ childrenSchema.post("remove",function (children) {
 	})
 })
 
-parentSchema.pre("save",function (next) {
-
-	models.parent.findOne({idParent : this.idParent}, (err, parent) => {
-		if (parent) next(new Error("¡Familiar ya existe!"))
-		else next()
-	})
-})
 
 module.exports = models

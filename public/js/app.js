@@ -4,6 +4,34 @@ function getClone(selector){
 	return document.importNode(t.content,true)
 }
 
+$(".idChildren,.idMom,.idDad,.idCare").change(function(){
+	var target = this,
+		selector = "." + $(this).attr("class"),
+		otherInput = $(".idChildren,.idMom,.idDad,.idCare").not(selector)
+
+	$.ajax({
+		url: "/admin/id-exists",
+		data : {id: $(this).val()},
+		type : "POST",
+		success: function(response){
+			if (response.statusCode != CTE.STATUS_CODE.OK) {
+				$(target).val("")
+				return notification.show({msg:response.msg, type:response.statusCode})
+			}
+			otherInput.each(function(index,element){
+				if($(element).val() == $(target).val()) {
+					$(target).val("")
+					notification.show({
+						msg:"Hay Identificaiones Repetidas",
+						type:CTE.STATUS_CODE.INFORMATION
+					})
+				}
+			})
+		}
+	})
+
+})
+
 function renderResultTeachAdmin(node){
 	$("#showResults").empty()
 	$("#showResults").append(node)

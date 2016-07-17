@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "supervisor server.js",
-    "stylus": "stylus -w -c public/stylus/styles.styl -o public/stylus"
+    "stylus": "stylus -w -c public/stylus/styles.styl -o public/css"
   },
   "keywords": [
     "Estimulación",
@@ -27,12 +27,10 @@
     "jade": "^1.11.0",
     "mongodb-backup": "^1.6.0",
     "mongodb-restore": "^1.5.3",
-    "pug": "^2.0.0-beta3"
+    "winston": "^2.2.0"
   },
   "devDependencies": {
     "body-parser": "^1.14.2",
-    "colors": "^1.1.2",
-    "connect": "^3.4.1",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
     "express-flash": "0.0.2",

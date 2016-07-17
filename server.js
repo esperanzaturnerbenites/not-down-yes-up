@@ -11,7 +11,6 @@ const express = require("express"),
 	models = require("./models"),
 
 	//modulo para parse peticiones
-	CTE = require("./CTE"),
 	bodyParser = require("body-parser"),
 	favicon = require("express-favicon"),
 	flash = require("express-flash"),
@@ -31,17 +30,17 @@ const express = require("express"),
 	userURLReports = require("./endPoints/reports"),
 
 	Cryptr = require("cryptr"),
-	cryptr = new Cryptr(process.env.SECRETKEY)
+	cryptr = new Cryptr(process.env.SECRETKEY),
+	CTE = require("./CTE"),
+	Log = require("./log")
 
 models.adminuser.find((err, users) => {
 	if(!users.length){
-		var passwordFirstUser = cryptr.encrypt("dev")
-
 		models.adminuser.create({
-			userUser:"dev",
-			passUser:passwordFirstUser,
-			typeUser:2,
-			statusUser:1
+			userUser:CTE.FIRST_USER.USERNAME,
+			passUser:cryptr.encrypt(CTE.FIRST_USER.PASSWORD),
+			typeUser:CTE.TYPE_USER.DEVELOPER,
+			statusUser:CTE.STATUS_USER.ACTIVE
 		})
 	}
 })
@@ -66,7 +65,9 @@ app.use(expressSession({
 	resave: false,
 	saveUninitialized: false,
 	store: new MongoStore({
-		mongooseConnection: mongoose.connection
+		mongooseConnection: mongoose.connection,
+		autoRemove: "native",
+		stringify: true
 	})
 }))
 
@@ -83,7 +84,7 @@ passport.use(new LocalStrategy( (username, password, done) => {
 		if (err) return done(null, false, { message: err})
 		if (!user){
 			return done(null, false, { message: "Unknown user"})
-		}else if(user.statusUser != 1) {return done(null, false, { message: "User disabled"})}
+		}else if(user.statusUser != CTE.STATUS_USER.ACTIVE) {return done(null, false, { message: "User disabled"})}
 		else if (password === passwordEncrypted) {
 			if (username === user.userUser && password === passwordEncrypted) {
 				return done(null,user)
@@ -94,6 +95,7 @@ passport.use(new LocalStrategy( (username, password, done) => {
 
 //Deslogueo
 app.get("/logout", (req, res) => {
+	Log.info("Deslogueo usuario", {user:req.user})
 	req.logout()
 	res.redirect("/users/login")
 })
@@ -117,11 +119,11 @@ app.use((req,res,next) => {
 })
 
 app.use("/api",api)
-app.use("/arduino",requiredType([1]),arduinoURL)
+app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
 app.use("/users",userURLUsers)
-app.use("/estimulation", requiredType([1]), userURLEstimulation)
-app.use("/admin", requiredType([0,2]), userURLAdmin)
-app.use("/reports", requiredType([0,2]), userURLReports)
+app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
+app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
+app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
 
 //definir carpeta para vistas
 app.set("views", __dirname + "/views")
@@ -163,12 +165,20 @@ app.get("/",(req,res)=>{
 app.post("/authenticate", 
 	passport.authenticate("local",{failureRedirect: "users/login"}), 
 	(req, res) => {
+
 		var ifDesktopApp = eval(req.get("Desktop-App"))
 		if(ifDesktopApp){
+			Log.info("Logueo usuario", {user:req.user, accessTo:"Desktop"})
 			return res.json({user:req.user,CTE:CTE})
 		}else{
-			if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
-			if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
+			Log.info("Logueo usuario", {user:req.user, accessTo:"Web"})
+			if(req.user.typeUser == CTE.TYPE_USER.ADMINISTRATOR || req.user.typeUser == CTE.TYPE_USER.DEVELOPER) {
+				return res.redirect("/admin/menu-admin")
+			}else if(req.user.typeUser == CTE.TYPE_USER.TEACHER){
+				return res.redirect("/estimulation/menu-teacher")
+			}else{
+				return res.redirect("/")
+			}
 		}
 	})
 
@@ -181,9 +191,9 @@ function requiredType (types){
 		if(ifDesktopApp){
 			if (req.isAuthenticated()){
 				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-				res.json({msg: "Ok, Autenticado Correctamente",statusCode:2})
+				res.json({msg: "Ok, Autenticado Correctamente",statusCode:CTE.STATUS_CODE.OK})
 			}else{
-				res.json({msg: "Autentiquese para continuar",statusCode:2})
+				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
 			}
 		}else{
 			if (req.isAuthenticated()){

@@ -7,6 +7,7 @@
     "globals":{
         "NotificationC" : true,
         "notification" : true,
+        "CTE" : true,
         "io" : true
         },
     "extends": "eslint:recommended",

@@ -10,10 +10,13 @@ var express = require("express"),
 	restore = require("mongodb-restore"),
 	fs = require("fs"),
 	Cryptr = require("cryptr"),
-	cryptr = new Cryptr(process.env.SECRETKEY)
+	cryptr = new Cryptr(process.env.SECRETKEY),
+	CTE = require("../CTE")
 
 router.use(bodyParser.urlencoded({extended:true}))
 router.use(bodyParser.json())
+
+
 
 function filter(body,files){
 	if (files){
@@ -112,7 +115,27 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	})
 }
 
+/*
+	Valida que un id(Identificacion) no se encuentre Registrada
+	Request Data {String} id: id a Validar
+	Response {Object}: Resultado de la validacion
+		@property {String} msg: Menaje de Validacion
+		@property {Number} statusCode: Estado de la Validacion
+*/
+router.post("/id-exists",(req,res)=>{
+	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
 
+	models.user.findOne({idUser : req.body.id}, (err, user) => {
+		if(user) return res.json(message)
+		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
+			if(parent) return res.json(message)
+			models.children.findOne({idChildren : req.body.id}, (err, children) => {
+				if(children) return res.json(message)
+				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
+			})
+		})
+	})
+})
 router.get("/menu-admin",(req,res)=>{return res.render("menuAdmin"/*,{user :req.user}*/)})
 
 router.get("/admin-users",(req,res)=>{return res.render("adminUsers")})

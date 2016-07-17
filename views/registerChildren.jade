@@ -2,7 +2,7 @@ extends templates/template.jade
 block title
 	title Nuevo Niñ@ en ¡Not Down, Yes Up!
 block exit
-	h2.exit
+	button
 		a(href='/admin/menu-admin') VOLVER
 block content
 	-if (data)
@@ -48,7 +48,7 @@ block content
 							input#lastnameChildren(type='text', name='lastnameChildren' value="#{children.lastnameChildren}", placeholder='Apellidos Niñ@', required='')
 							article.img
 								span Foto
-								input#imgChildren(type='file', name='imgChildren' value="#{children.imgChildren}", accept='image/*' )
+								input#imgChildren.inputfile(type='file', name='imgChildren' value="#{children.imgChildren}", accept='image/*' )
 							label(for='birthdateChildren') Fecha de Nacimiento
 							input#birthdateChildren(type='date' name='birthdateChildren' data-date='#{children.birthdateChildren}' required='')
 
@@ -210,7 +210,7 @@ block content
 								span Actualizar
 						button(type='reset')
 							span Limpiar
-						p.cancel
+						button
 							a(href='/admin/menu-admin') Cancelar
 	
 	script(src="/js/app.js")

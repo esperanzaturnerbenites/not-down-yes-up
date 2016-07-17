@@ -12,8 +12,6 @@ router.post("/consult-step-act",(req,res)=>{
 
 	var report = data.consulAct ? 1 : 2
 
-	console.log("report " + report)
-
 	var view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
 
 	models.step.findOne({stepStep:data.consulStep},(err,step) => {
