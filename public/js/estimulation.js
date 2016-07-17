@@ -110,6 +110,11 @@ formAddChildAct.on("submit",(event) => {
 							}
 						})
 					})
+					$("#review").click((event) => {
+						event.preventDefault
+						$("#reviewChild").toggleClass("hide")
+
+					})
 				}
 			}
 		}
@@ -155,9 +160,10 @@ $("#validActClic").on("click",(event) => {
 							if (activity.err) return notification.show({msg:activity.err.message, type:1})
 							notification.show({msg:activity.msg, type:activity.statusCode})
 							//console.log(activity)
+							location.reload(true)
 						}
 					})
-					$("#formInicAct").remove()
+					/*$("#formInicAct").remove()
 					$("#nameChild").remove()
 					$("#nameChild1").remove()
 					$("#nameChild2").remove()
@@ -168,7 +174,8 @@ $("#validActClic").on("click",(event) => {
 					$("#numberPin").val("")
 					$("#numberPin").prop("readonly", false)
 					$("#validActClicDef").prop("disabled", true)
-					$("#validActClic").prop("disabled", true)
+					$("#validActClic").prop("disabled", true)*/
+
 				}
 			})
 
@@ -218,9 +225,10 @@ $("#validActClicDef").on("click",(event) => {
 							if (activity.err) return notification.show({msg:activity.err.message, type:1})
 							notification.show({msg:activity.msg, type:activity.statusCode})
 							//console.log(activity)
+							location.reload(true)
 						}
 					})
-					$("#formInicAct").remove()
+					/*$("#formInicAct").remove()
 					$("#nameChild").remove()
 					$("#nameChild1").remove()
 					$("#nameChild2").remove()
@@ -231,7 +239,7 @@ $("#validActClicDef").on("click",(event) => {
 					$("#numberPin").val("")
 					$("#numberPin").prop("readonly", false)
 					$("#validActClicDef").prop("disabled", true)
-					$("#validActClic").prop("disabled", true)
+					$("#validActClic").prop("disabled", true)*/
 				}
 			})
 
@@ -362,8 +370,9 @@ $("#continueActAll").click((event) => {
 	renderResultDataResult(clone)
 })
 
-$('#audioPrinc').prop("volume", 0.1);
+$("#audioPrinc").prop("volume", 0.1)
 $("#audioPrinc").trigger("play")
+
 var socket = io.connect("http://localhost:8000/")
 socket.on("response", function (data) {
 	notification.show({msg:data.message, type:data.statusCode})

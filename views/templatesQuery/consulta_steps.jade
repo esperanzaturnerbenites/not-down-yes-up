@@ -1,0 +1,28 @@
+section.consul.consulQuery
+	h3 RESULTADO CONSULTA
+	p
+		b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
+	p #{data.step.descriptionStep}
+	article.consulTable
+		table
+			thead
+				tr
+					th Id
+					th NOMBRE
+					th EDAD
+					th ESTADO
+					- var numeroActividad = 1
+						while numeroActividad <= data.cantidadActividades
+							th Actividad #{numeroActividad++}
+			tbody
+				each stepValid in data.stepsValid
+					- var children = stepValid.idChildren
+					tr
+						td 
+							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
+						td #{children.nameChildren} #{children.lastnameChildren}
+						td #{children.ageChildren}
+						td #{children.statusChildren}
+						- var numeroActividad = 1
+							while numeroActividad <= data.cantidadActividades
+								td Sin Iniciar #{numeroActividad++}

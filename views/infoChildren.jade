@@ -9,14 +9,14 @@ block content
 		nav.menuInfoChild
 			article.menuPcplInfoChild
 				ul
-					li#menuInfoOpc1 INFORMACIÓN NIÑ@
-					li#menuInfoOpc2 DATOS FAMILIARES
-					li#menuInfoOpc3 ETAPAS
-					li#menuInfoOpc4 ACTIVIDADES VALIDADAS
-					li#menuInfoOpc5 HISTORIAL ACTIVIDADES
+					li.headerTab(data-ref="#contentTab1") INFORMACIÓN NIÑ@
+					li.headerTab(data-ref="#contentTab2") DATOS FAMILIARES
+					li.headerTab(data-ref="#contentTab3") ETAPAS
+					li.headerTab(data-ref="#contentTab4") ACTIVIDADES VALIDADAS
+					li.headerTab(data-ref="#contentTab5") HISTORIAL ACTIVIDADES
 
 		article
-			section#info1.hide.continue.continueViewMore
+			section.contentTab#contentTab1.hide.continue.continueViewMore
 				article
 					h2 DATOS PERSONALES
 					p
@@ -119,7 +119,6 @@ block content
 						b
 							span Nivel Socioeconómico: 
 						span #{infoChildren.child.levelhomeChildren}
-					//if (infoChildren.child.)
 				article
 					h2 DATOS DE SALUD
 
@@ -160,7 +159,7 @@ block content
 							span Debilidades: 
 						span #{infoChildren.child.debilityChildren}
 
-			section#info2.hide.continue.continueViewMore
+			section.contentTab#contentTab2.hide.continue.continueViewMore
 				article
 					h2 MAMÁ
 					article.img
@@ -348,9 +347,9 @@ block content
 							span Ocupación: 
 						span #{infoChildren.parents[2].jobParent}
 
-			section#info3.hide.continue.continueViewMore
+			section.contentTab#contentTab3.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ETAPAS
-				if (infoChildren.stepvalids.length > 0)
+				if (infoChildren.stepvalids.length)
 					table
 						thead
 							tr
@@ -380,7 +379,7 @@ block content
 				else
 					h2 No tiene actividades.
 
-			section#info4.hide.continue.continueViewMore
+			section.contentTab#contentTab4.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ACTIVIDADES
 				if (infoChildren.valids.length > 0)
 					table
@@ -416,7 +415,7 @@ block content
 				else
 					h2 No tiene actividades.
 
-			section#info5.hide.continue.continueViewMore
+			section.contentTab#contentTab5.hide.continue.continueViewMore
 				h2 HISTORIAL DE ACTIVIDADES
 				if (infoChildren.historys.length > 0)
 					table

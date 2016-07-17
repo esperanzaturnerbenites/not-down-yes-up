@@ -1,3 +1,11 @@
+var CTE = {
+	STATUS : {
+		OK:0,
+		NOT_OK:1,
+		INFORMATION:2
+	}
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()

@@ -1,28 +1,44 @@
 template#consulQueryAddChild
-	article.showChildrens
-		form#formInicAct
-			fieldset
-				legend Niñ@ Actual
-				article#showChildrens.showChildrens
+	section.flex
+		article.showChildrens
+			form#formInicAct
+				fieldset
+					legend Niñ@ Actual
+					article#showChildrens.showChildrens
 
-				article
-					button#cancelAddChildren(type="button")
-						span Cancelar
+					article
+						button#cancelAddChildren(type="button")
+							span Cancelar
 
-	article.showChildrens
-		fieldset#fieldsetGuide
-			legend Guía
-			-var n = 0
-			for guide in activity.guidesActivity
-				-n++
-				p 
-					b #{n}: 
-					span #{guide}
-	article.showChildrens
+		article.showChildrens
+			fieldset#fieldsetGuide
+				legend Guía
+				-var n = 0
+				for guide in activity.guidesActivity
+					-n++
+					p 
+						b #{n}: 
+						span #{guide}
+				button#review
+					span Repaso
+
+	section#reviewChild.flex.actGroupReview.hide
 		fieldset
-			legend Tapete
-			button#connectRug
-				span Connectar
-			button#disconnectRug
-				span Desconectar
-			span#statusRug Desconectado
+			legend Aprendamos Juntos
+			article.flex
+				- var aDesc = 0
+				if (activity.uniqueImageActivity == 1)
+					- var a = 1
+				else
+					- var a = 0
+				-for (var a; a < activity.imgActivity.length; a++)
+					article#imgReviewAudio.imgReview
+						h1.h1-3#descImg #{activity.imgDescriptionActivity[aDesc]}
+						img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
+					- aDesc++
+
+	script.
+		$("[id = imgReviewAudio]").on("click", function() {
+			var idVoice = $("#descImg",$(this)).text()
+			text.toVoice(idVoice)
+		})

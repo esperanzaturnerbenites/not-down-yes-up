@@ -7,33 +7,8 @@ var express = require("express"),
 	ObjectId = mongoose.Types.ObjectId
 
 
-function validatePress(button,data,req){
-
-	var numberPin = button.custom.pin,
-		numberPinCorrect = parseInt(data.numberPin),
-		response = {}
-
-	if(numberPin == numberPinCorrect){
-		response.message = "Correcto"
-		response.statusCode = 0
-		
-		var leds = new five.Leds([7])
-		leds.pulse()
-
-	}else{
-		response.message = "Incorrecto"
-		response.statusCode = 1
-	}
-	console.log(response)
-	req.io.sockets.emit("response", response)
-
-	/*port.close(function(err){
-		if(err) return err
-		req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
-	})*/
-}
-
 router.use(bodyParser.urlencoded({extended:false}))
+router.use(bodyParser.json())
 
 router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher"/*,{user :req.user}*/)})
 
@@ -277,89 +252,6 @@ router.post("/valid-activity-complete",(req,res)=>{
 		})
 	})
 })
-
-
-var sp = require("serialport"),
-	SerialPort = sp.SerialPort,
-	dataPort,
-	port = false,
-	board = false,
-	five = require("johnny-five")
-
-router.post("/arduino/connect",(req,res)=>{
-
-	var data = req.body
-
-	if(!port){
-		SerialPort.list(function (err, ports) {
-			dataPort = ports.find(function(port) {return port.manufacturer == "Arduino__www.arduino.cc_"})
-
-			if(!dataPort) return res.json({message: "Verifique el tapete.",statusCode: 2})
-
-			port = new SerialPort(dataPort.comName, {
-				baudrate: 57600,
-				buffersize: 1
-			})
-			port.on("open",function(){
-				console.log("port open")
-				console.log("board " + board.isReady)
-
-
-				if(!board){
-					board = new five.Board({
-						port: port,
-						relp: false,
-						debug: false
-					})
-
-
-					board.on("ready", function() {
-
-						var button1 = new five.Button({pin :8, custom :{pin: 1}}),
-							button2 = new five.Button({pin :9, custom :{pin: 2}}),
-							button3 = new five.Button({pin :10, custom :{pin: 3}}),
-							button4 = new five.Button({pin :11, custom :{pin: 4}})
-							//,led = new five.Led(9)
-
-						button1.on("press", () => {validatePress(button1,data,req)})
-						button2.on("press", () => {validatePress(button2,data,req)})
-						button3.on("press", () => {validatePress(button3,data,req)})
-						button4.on("press", () => {validatePress(button4,data,req)})
-						req.io.sockets.emit("changeStatusRug", {statusText: "Conectado"})
-						return res.json({message: "Tapete Conectado",statusCode:0})
-					})
-
-					board.on("error", function(err) {
-						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
-					})
-
-					board.on("exit", function(err) {
-						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
-					})
-
-					board.on("close", function(err) {
-						req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
-					})
-				}
-				
-			})
-		})
-	}else{
-		port.open()
-	}
-})
-
-router.post("/arduino/disconnect",(req,res)=>{
-	if(!port) return res.json({message: "Verifique el tapete.", statusCode: 2})
-
-	port.close(function(err){
-		console.log("port close")
-		if(err) return res.json({err:err})
-		req.io.sockets.emit("changeStatusRug", {statusText: "Desconectado"})
-		return res.json({message: "Tapete Desconectado",statusCode: 0})
-	})
-})
-
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

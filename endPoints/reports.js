@@ -1,11 +1,8 @@
 var express = require("express"),
 	models = require("./../models"),
-	mongoose = require("mongoose"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
-	querystring = require("querystring"),
-	passport = require("passport"),
-	ObjectId = mongoose.Types.ObjectId
+	jade = require("jade")
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -70,7 +67,7 @@ router.post("/found-childrens",(req,res)=>{
 	})
 })
 
-router.post("/consul-step",(req,res)=>{
+router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
 		steps = {}
 
@@ -85,8 +82,8 @@ router.post("/consul-step",(req,res)=>{
 		.exec((err, stephis) => {
 			if (err) return res.json(err)
 			if (!stephis) return res.json({"msg":"Stephis not found"})
+			steps.stepsValid = stephis
 			var idsChild = stephis.map(e => {return {idChildren:e.idChildren._id}})
-			steps.stepval = stephis
 
 			models.activityvalid.find({idStep:step._id, $or:idsChild})
 			.sort({idChildren : 1})
@@ -95,12 +92,13 @@ router.post("/consul-step",(req,res)=>{
 				if(!actsval) return res.json({"msg":"actsval not found"})
 				steps.actsval = actsval
 
-				models.activity.count({stepActivity:step.stepStep},(err,numact) =>{
+				models.activity.count({stepActivity:step.stepStep},(err,cantidadActividades) =>{
 					if(err) return res.json({err:err})
-					if(!numact) return res.json({err:{message:"Not Activities"}})
-					steps.numact = numact
-					console.log(numact)
-					return res.json({msg : "Consult Complete", steps :steps})
+					if(!cantidadActividades) return res.json({err:{message:"Not Activities"}})
+					steps.cantidadActividades = cantidadActividades
+					var fn = jade.compileFile("views/reports/consulta_steps.jade",{})
+					var html = fn({data: steps})
+					return res.json({msg : "Consult Complete", steps :steps,html:html})
 				})
 			})
 		})
@@ -120,6 +118,29 @@ router.post("/consul-step-acts",(req,res)=>{
 })
 
 router.post("/general",(req,res)=>{
+	var report = req.body.reportGeneral
+
+	/*
+		report:
+			0: Listado General Niñ@s
+			1: Listado General Profesores
+			2: Listado por Etapas
+	*/
+	var pathView = "views/reports/"
+
+	if(report == 0){
+		pathView = pathView + "listChildren.jade"
+
+	}else if(report == 1){
+		pathView = pathView + "listTeacher.jade"
+
+	}else if(report == 2){
+		pathView = pathView + "listSteps.jade"
+
+	}else{
+		return res.json({"msg":"Este Reporte No Existe", statusCode:1})
+	}
+
 	var info = {}
 
 	models.activityhistory.find({})
@@ -154,9 +175,9 @@ router.post("/general",(req,res)=>{
 					data[sv.idChildren.idChildren].push(dataAux)
 				})
 
-				console.log(data)
 
 				info.stepvalid = stepvalid
+				info.data = data
 				return res.json({msg : "Consult Complete", statusCode : 0, info : info})
 			})
 		})

@@ -3,12 +3,11 @@ template#consulQueryActivityChild
 		section
 			h1 ¡LÉEME!
 			-var n = 0
-			for guide in activity.guidesChild
+			for guide in activity.guidesChildActivity
 				article.actContentGuidesChild
 					-n++
 					h1 #{n} 
 					p 
-						//b #{n}: 
 						span #{guide}
 
 		section#aswerAct.hide
@@ -17,17 +16,21 @@ template#consulQueryActivityChild
 			input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', readonly)
 
 	article#nameChild1.actCentral
+		-if (activity.scriptActivity)
+			-var scritp = activity.scriptActivity
+		-else
+			-var scritp = false
 		h1 ¡ESCÚCHAME!
 		img.img#imgAct(src='/img/imgacts/activities/listen.png', alt='Listen')
 
 		section.actCentralImg
-			-var cantImg = activity.imgActivity.length - 1
-			-var cantImgI = activity.imgActivityIncorrect.length - 1
-			-var cantAudio = activity.audioActivity.length - 1
-			-var select = Math.floor((Math.random() * cantImg) + 0)
-			-var selectI = Math.floor((Math.random() * cantImgI) + 0)
-			-var selectI2 = Math.floor((Math.random() * cantImgI) + 0)
-			-var selectAudio = Math.floor((Math.random() * cantAudio) + 0)
+			-var cantImg = activity.imgActivity.length
+			-var cantImgI = activity.imgActivityIncorrect.length
+			-var cantAudio = activity.audioActivity.length
+			-var select = Math.floor((Math.random() * (cantImg - 0)) + 0)
+			-var selectI = Math.floor((Math.random() * (cantImgI - 0)) + 0)
+			-var selectI2 = Math.floor((Math.random() * (cantImgI - 0)) + 0)
+			-var selectAudio = Math.floor((Math.random() * (cantAudio - 0)) + 0)
 
 			-if (activity.audioActivity.length)
 				img.imgAudio#imgAudio(src='/img/imgacts/activities/play.png', alt='Play')
@@ -35,19 +38,29 @@ template#consulQueryActivityChild
 
 
 			-if (cantImgI > 0)
-				section
+				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI]}', alt='.:: ... ::.')
-				section
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI]}
+				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
-				section
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI2]}', alt='.:: ... ::.')
-			-else
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI2]}
+			-else if (activity.onlyTextActivity == 1)
+				section#imgActAudio.imgReview
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+			-else if (activity.uniqueImageActivity == 1)
 				section
-					img#uniqueImageActivity(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
+					img#uniqueImgAct(src='#{activity.imgActivity[0]}', alt='.:: ... ::.')
+			-else
+				section#imgActAudio.imgReview
+					img#uniqueImgAct(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
 	script(src="/js/scripts.js")
 	script.
 		var text = new Text()
-		var guides = !{JSON.stringify(activity.guidesChild)}
+		var guides = !{JSON.stringify(activity.guidesChildActivity)}
 		$("#imgAct").click(() => {
 			for(var guide of guides){
 				text.toVoice(guide)
@@ -63,5 +76,10 @@ template#consulQueryActivityChild
 				play = true
 			}
 		})
-		var script = !{activity.scriptActivity}
-		script()
+		$("[id = imgActAudio]").on("click", function() {
+			var idVoice = $("#audioImgActivity", $(this)).text()
+			console.log(idVoice)
+			text.toVoice(idVoice)
+		})
+		var script = !{scritp}
+		if(script) script()

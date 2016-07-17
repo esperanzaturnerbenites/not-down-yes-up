@@ -25,6 +25,8 @@ const express = require("express"),
 	MongoStore = require("connect-mongo")(expressSession),
 
 	//Definicion de Rutas
+	arduinoURL = require("./endPoints/arduino"),
+	api = require("./endPoints/api"),
 	userURLUsers = require("./endPoints/users"),
 	userURLEstimulation = require("./endPoints/estimulation"),
 	userURLAdmin = require("./endPoints/admin"),
@@ -111,8 +113,11 @@ app.use((req,res,next) => {
 	next()
 })
 
+app.use("/api",api)
+app.use("/arduino",arduinoURL)
 app.use("/users",userURLUsers)
-app.use("/estimulation", requiredType([1]), userURLEstimulation)
+//app.use("/estimulation", requiredType([1]), userURLEstimulation)
+app.use("/estimulation", userURLEstimulation)
 app.use("/admin", requiredType([0,2]), userURLAdmin)
 app.use("/reports", requiredType([0,2]), userURLReports)
 

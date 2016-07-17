@@ -9,21 +9,23 @@ block content
 		h3 ¿Qué deseas consultar?
 		section.consulFlex
 
-			form#consulGeneral
+			form#consultGeneral
 				fieldset.consul.consulGeneral
 					legend Consultas Generales
-					label(for='consulG') Tipo de Consulta: 
-					select#consulG(name='consulG')
-						option(value='', disabled='', selected='') Escoge tu Consulta: 
-						option(value='0') Listado General (Sin Actividades)
-						option(value='1') Listado por Edades y Etapas
-						option(value='2') Listado por Resultados
+					label(for='reportGeneral') Tipo de Consulta: 
+					select#reportGeneral(name='reportGeneral')
+						option(value="" disabled selected) Escoge tu Consulta: 
+						option(value=0) Listado General Niñ@s
+						option(value=1) Listado General Profesores
+						option(value=2) Listado por Etapas
+					button.buttons(type='submit')
+						span Consultar
 
 			form#consulChildren
 				fieldset.consul.consulChildren
 					legend Consulta por Nin@
-					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required=''	)
-					button#buttonConsulIdChildrenx.buttons(type='button')
+					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
+					button#buttonConsulIdChildrenx.buttons(type='submit')
 						span Consultar
 
 			form#ageConsul
@@ -32,10 +34,9 @@ block content
 					article
 						label(for='consulAge') Edad en Meses: 
 						select#consulAge(name='consulAge')
-							option(value='0' select) Exacta
-							option(value='1') Mayor Que
-							option(value='2') Menor Que
-							option(value='3') Entre
+							option(value='eq' select) Exacta
+							option(value='gt') Mayor Que
+							option(value='lt') Menor Que
 						label Mes: 
 						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', value='0', min='0', max='48', placeholder='Meses')
 						label#consulIdConsulAvanced2Label.hide Mes:
@@ -84,28 +85,22 @@ block content
 			form#consulIndicator
 				fieldset.consul.consulAvanced
 					legend Consulta por Indicadores
-					article
-						label Cantidad de Actividades Completadas: 
-						input#consulActCompleted(type='number', name='consulActCompleted', min='0', max='8', placeholder='Act')
-					article
-						label Cantidad de Actividades Pendientes: 
-						input#consulActPending(type='number', name='consulActPending', min='0', max='8', placeholder='Act')
-					button.buttons#buttonReportIndicators(type='submit')
+					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
+					button#buttonConsulIdChildrenx.buttons(type='submit')
 						span Consultar
 
 			section#buttons
 				form
 					fieldset.consul.buttons
 						legend Imprimir/Exportar
-						button(type='')
+						button(type)
 							span Imprimir
-						button(type='')
+						button(type)
 							span Exportar PDF
 
 		section#showResultsReport
 		include templatesQuery/general.jade
 		include templatesQuery/ageStep.jade
-		include templatesQuery/results.jade
 		include templatesQuery/children.jade
 
 		script(src="/js/reports.js")

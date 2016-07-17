@@ -1,5 +1,5 @@
 function toggleImage(){
-	$("#uniqueImageActivity").click(
+	$("#uniqueImgAct").click(
 		function(){$(this).toggleClass("hiddenImage")}
 	)
 }
