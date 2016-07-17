@@ -7,6 +7,8 @@ html(lang='es')
 		link(rel='stylesheet', href='/css/normalize.css')
 		link(rel='stylesheet', href='/css/style.css')
 	body
+		if user
+			input(type="hidden" name="idUserAuthenticate" value="#{user.idUser}")
 		- var typesMessages = ['warning','success','info','error']
 		for typeMessages in typesMessages
 			if messages[typeMessages]
@@ -30,6 +32,7 @@ html(lang='es')
 						a Not Down, ¡Yes UP!
 				block exit
 		
+		script(src="/js/lib/jspdf.min.1.2.60.js")
 		script(src="/js/lib/jquery-2.2.0.min.js")
 		script(src="/js/lib/socket.io-1.4.5.js")
 		script(src="/js/main.js")

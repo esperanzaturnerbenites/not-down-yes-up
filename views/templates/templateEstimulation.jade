@@ -7,6 +7,8 @@ html(lang='es')
 		link(rel='stylesheet', href='/css/normalize.css')
 		link(rel='stylesheet', href='/css/style.css')
 	body.backgroundF
+		if user
+			input(type="hidden" name="idUserAuthenticate" value="#{user.idUser}")
 		section.container
 			section.centerEstimulation.help
 				h2.exit

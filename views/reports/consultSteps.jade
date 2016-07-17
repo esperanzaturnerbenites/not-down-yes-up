@@ -6,6 +6,9 @@ section.consul.consulQuery
 	p
 		b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
 	p #{data.step.descriptionStep}
+	section
+		button(type="button")
+			span Generar PDF
 	article.consulTable
 		table
 			thead
@@ -15,7 +18,7 @@ section.consul.consulQuery
 					th EDAD
 					th ESTADO
 					- var numeroActividad = 1
-						while numeroActividad <= data.cantidadActividades
+						while numeroActividad <= data.countActivities
 							th Actividad #{numeroActividad++}
 			tbody
 				each stepValid in data.stepsValid
@@ -27,5 +30,5 @@ section.consul.consulQuery
 						td #{children.ageChildren}
 						td #{children.statusChildren}
 						- var numeroActividad = 1
-							while numeroActividad <= data.cantidadActividades
+							while numeroActividad <= data.countActivities
 								td Sin Iniciar #{numeroActividad++}

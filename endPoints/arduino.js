@@ -13,8 +13,11 @@ router.post("/connect-server",(req, res) => {
 })
 
 router.post("/data",(req, res) => {
-	var data = req.body
-	req.io.sockets.emit("response", data)
+	var data = req.body,
+		room = req.user.idUser
+
+	req.io.sockets.in(room).emit("response", data)
+	req.io.sockets.emit("message", "Hola a Todos")
 	return res.json({messsage:"Información Recivida.",statusCode:1})
 })
 

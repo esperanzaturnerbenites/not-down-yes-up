@@ -3,6 +3,9 @@
 
 section.consul.consulQuery
 	h3 Listado General De Niñ@s Por Etapa
+	section
+		button(type="button")
+			span Generar PDF
 	article.consulTable
 		each step in data
 			h2 Etapa:  #{step.idStep}

@@ -65,8 +65,8 @@ block content
 
 					if (reportData.steps.length > 0)
 						article
-							label(for='consulActStep') Etapa: 
-							select#consulActStep(name='consulActStep')
+							label(for='consulStep') Etapa: 
+							select#consulActStep(name='consulStep')
 								-for (step of reportData.steps)
 									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 					else
@@ -81,22 +81,6 @@ block content
 							span Consultar
 					else
 						h2 No existen actividades
-
-			form#consulIndicator
-				fieldset.consul.consulAvanced
-					legend Consulta por Indicadores
-					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
-					button#buttonConsulIdChildrenx.buttons(type='submit')
-						span Consultar
-
-			section#buttons
-				form
-					fieldset.consul.buttons
-						legend Imprimir/Exportar
-						button(type="button")
-							span Imprimir
-						button(type="button")
-							span Exportar PDF
 
 		section#showResultsReport
 

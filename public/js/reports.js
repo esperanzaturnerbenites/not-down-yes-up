@@ -45,14 +45,21 @@ $("#ageConsul").submit(function (event) {
 		data = {query:{ageChildren : {}}}
 
 	data.query.ageChildren[operator] = $("#consulIdConsulAvanced").val()
+	data.fn = "renderReportAge"
+	data.params = {
+		view: "views/reports/listChildren.jade",
+		data: []
+	}
 
 	$.ajax({
 		url: "/api/children",
 		type : "POST",
 		contentType: "application/json",
 		data : JSON.stringify(data),
-		success: function(respose){
-			console.log(respose)
+		success: function(response){
+			console.log(response)
+			$("#showResultsReport").html(response.returnFn)
+			$("#showResultsReport")[0].scrollIntoView()
 		}
 	})
 })
@@ -75,8 +82,8 @@ $("#consulChildren").submit((event) => {
 				idChildren : $("#idChildren").val()
 			}
 		}),
-		success: function(children){
-			if(children.length){
+		success: function(respose){
+			if(respose.documents.length){
 				window.open("/reports/info-children/" + $("#idChildren").val())
 			}else{
 				notification.show({msg:"El Niñ@ no existe.", type:CTE.STATUS.NOT_OK})
@@ -87,34 +94,26 @@ $("#consulChildren").submit((event) => {
 
 /*
 	Consulta por Etapas
-	form#consulChildren
+	form#formConsulStep
 	Consulta todos niñ@s que se encuentran en una etapa determinada
 	Resquest POST /reports/consult-step-act
 */
-$("#formConsulStep").submit(function(event){
-	event.preventDefault()
-
-	$.ajax({
-		url: "/reports/consult-step-act",
-		type : "POST",
-		data : $(this).serialize(),
-		success: function(result){$("#showResultsReport").html(result.html)}
-	})
-})
-
 /*
 	Consulta por Actividad
-	form#consulChildren
+	form#formConsulActStepsReport
 	Consulta todos niñ@s que se encuentran en una actividad determinada
 	Resquest POST /reports/consult-step-act
 */
-$("#formConsulActStepsReport").submit(function(event){
+$("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 	event.preventDefault()
 
 	$.ajax({
 		url: "/reports/consult-step-act",
 		type : "POST",
 		data : $(this).serialize(),
-		success: function(result){$("#showResultsReport").html(result.html)}
+		success: function(result){
+			$("#showResultsReport").html(result.html)
+			$("#showResultsReport")[0].scrollIntoView()
+		}
 	})
 })

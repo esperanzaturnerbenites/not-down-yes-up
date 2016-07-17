@@ -363,10 +363,19 @@ $("#continueActAll").click((event) => {
 $("#audioPrinc").prop("volume", 0.1)
 $("#audioPrinc").trigger("play")
 
-var socket = io.connect("http://localhost:8000/")
+var socket = io.connect("http://192.168.0.4:8000/")
+
+
+var room = $("input[name=idUserAuthenticate]").val()
+
+socket.on("connect", function() {
+	socket.emit("room", room)
+})
+
+socket.on("message", function(data) {
+	console.log("Message:", data)
+})
+
 socket.on("response", function (data) {
 	notification.show({msg:data.message, type:data.statusCode})
-})
-socket.on("changeStatusRug", function (data) {
-	$("#statusRug").html(data.statusText)
 })

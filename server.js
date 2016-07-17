@@ -11,6 +11,7 @@ const express = require("express"),
 	models = require("./models"),
 
 	//modulo para parse peticiones
+	CTE = require("./CTE"),
 	bodyParser = require("body-parser"),
 	favicon = require("express-favicon"),
 	flash = require("express-flash"),
@@ -45,6 +46,12 @@ models.adminuser.find((err, users) => {
 	}
 })
 
+io.sockets.on("connection", function(socket) {
+	socket.on("room", function(room) {
+		socket.join(room)
+	})
+})
+
 //Parceador de cookies
 app.use(cookieParser())
 app.use(flash())
@@ -72,10 +79,6 @@ app.use(passport.session())
 //Definicion de estrategia de logueo
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
-		console.log("----------")
-		console.log(username)
-		console.log(password)
-		console.log("----------")
 		var passwordEncrypted = cryptr.decrypt(user.passUser)
 		if (err) return done(null, false, { message: err})
 		if (!user){
@@ -139,21 +142,41 @@ app.set("view engine", "jade")
 app.get("/",(req,res)=>{
 	res.render("index")
 })
+/*app.post("/authenticate", (req, res, next) => {
+	passport.authenticate("local",{failureRedirect: "users/login"},(err, user,info) => {
+		var ifDesktopApp = eval(req.get("Desktop-App"))
+		console.log("--------")
+		console.log(info)
+		console.log("--------")
+		if(ifDesktopApp){
+			return res.json({user:req.user,CTE:CTE})
+		}else{
+			if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
+			if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
+		}
+	})
+	
+})*/
+
 
 //Redireccionamiento tras la autenticacion
 app.post("/authenticate", 
 	passport.authenticate("local",{failureRedirect: "users/login"}), 
 	(req, res) => {
-		if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
-		if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
+		var ifDesktopApp = eval(req.get("Desktop-App"))
+		if(ifDesktopApp){
+			return res.json({user:req.user,CTE:CTE})
+		}else{
+			if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
+			if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
+		}
 	})
+
 
 //Valida si se encuentra autenticado
 function requiredType (types){
 	return function ensureAuth (req, res, next) {
 		var ifDesktopApp = eval(req.get("Desktop-App"))
-		console.log(ifDesktopApp)
-		console.log(typeof(ifDesktopApp))
 
 		if(ifDesktopApp){
 			if (req.isAuthenticated()){

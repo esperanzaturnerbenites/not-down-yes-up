@@ -1,0 +1,74 @@
+//- 
+//- POST /reports/general
+
+section.consul.consulQuery
+	h3 RESULTADO CONSULTA
+	p
+		b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
+	p #{data.step.descriptionStep}
+	section#buttons
+	section
+		button(type="button")
+			span Generar PDF
+	article.consulTable
+		table
+			thead
+				tr
+					th ID
+					th NOMBRE NIÑ@
+					th EDAD
+					th ESTADO NIÑ@
+					th N. ACTIVIDAD
+					th NOMBRE ACTIVIDAD
+					th ESTADO
+					th scoreSystem
+					th scoreTeach
+					th backingMax
+					th backingMin
+					th backingDFunction
+					th observation
+					th date
+			tbody
+				- var numeroActividad = 1
+				while data.countActivities <= numeroActividad
+					if data.activitiesValid.length != 0
+						if data.activitiesValid.idActivity.activityActivity == numeroActividad
+							- var activityValid = data.activitiesValid
+							- var children = activityValid.idChildren
+							tr
+								td 
+									a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
+								td #{children.nameChildren} #{children.lastnameChildren}
+								td #{children.ageChildren}
+								td #{children.statusChildren}
+								td #{activityValid.idActivity.activityActivity} 
+								td #{activityValid.idActivity.nameActivity}
+								td #{activityValid.statusActivity}
+								td #{activityValid.scoreSystemActivity}
+								td #{activityValid.scoreTeachActivity}
+								td #{activityValid.backingMaxActivity}
+								td #{activityValid.backingMinActivity}
+								td #{activityValid.backingDFunctionActivity}
+								td #{activityValid.observationActivity}
+								td #{activityValid.date}
+					else
+						- var children = data.stepsValid[0].idChildren
+						td 
+							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
+						td #{children.nameChildren} #{children.lastnameChildren}
+						td #{children.ageChildren}
+						td #{children.statusChildren}
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+						td Sin Iniciar
+					span [Borrar #{numeroActividad++}]
+
+
+

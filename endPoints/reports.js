@@ -10,6 +10,12 @@ router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
 		steps = {}
 
+	var report = data.consulAct ? 1 : 2
+
+	console.log("report " + report)
+
+	var view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
+
 	models.step.findOne({stepStep:data.consulStep},(err,step) => {
 		if(err) return res.json({err:err})
 		if(!step) return res.json({err:{message:"Not steps"}})
@@ -24,18 +30,28 @@ router.post("/consult-step-act",(req,res)=>{
 			steps.stepsValid = stephis
 			var idsChild = stephis.map(e => {return {idChildren:e.idChildren._id}})
 
-			models.activityvalid.find({idStep:step._id, $or:idsChild})
-			.sort({idChildren : 1})
-			.exec((err,actsval) =>{
-				if (err) return res.json(err)
-				if(!actsval) return res.json({"msg":"actsval not found"})
-				steps.actsval = actsval
+			var queryActivity = {stepActivity:step.stepStep}
+			if(report == 1) queryActivity.activityActivity = data.consulAct
 
-				models.activity.count({stepActivity:step.stepStep},(err,cantidadActividades) =>{
-					if(err) return res.json({err:err})
-					if(!cantidadActividades) return res.json({err:{message:"Not Activities"}})
-					steps.cantidadActividades = cantidadActividades
-					var fn = jade.compileFile("views/reports/consult_steps.jade",{})
+			models.activity.find(queryActivity,(err,activities) =>{
+				if(err) return res.json({err:err})
+				if(!activities) return res.json({err:{message:"Not Activities"}})
+
+				var queryStepActivity = {idStep:step._id, $or:idsChild}
+				if(report == 1) queryStepActivity.idActivity = activities[0]._id
+
+				models.activityvalid.find(queryStepActivity)
+				.populate("idActivity idChildren idUser")
+				.sort({idChildren : 1})
+				.exec((err,activitiesValid) =>{
+					if (err) return res.json(err)
+
+
+					steps.activitiesValid = activitiesValid
+
+					steps.countActivities = activities.length
+					steps.activities = activities
+					var fn = jade.compileFile(view,{})
 					var html = fn({data: steps})
 					return res.json({html:html})
 				})
@@ -100,7 +116,6 @@ router.get("/info-children/:id",(req,res)=>{
 		})
 	})
 })
-
 
 /*
 	Genera y Retorna los Reportes Generales
