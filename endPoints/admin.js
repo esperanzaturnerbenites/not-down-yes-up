@@ -1,10 +1,7 @@
 var express = require("express"),
 	models = require("./../models"),
-	mongoose = require("mongoose"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
-	querystring = require("querystring"),
-	ObjectId = mongoose.Types.ObjectId,
 	multer = require("multer"),
 	upload = multer({ dest: "public/img/users" }),
 	uploadBackup = multer({ dest: "public/backups/" }),
@@ -14,6 +11,9 @@ var express = require("express"),
 	fs = require("fs"),
 	Cryptr = require("cryptr"),
 	cryptr = new Cryptr(process.env.SECRETKEY)
+
+router.use(bodyParser.urlencoded({extended:true}))
+router.use(bodyParser.json())
 
 function filter(body,files){
 	if (files){
@@ -112,8 +112,6 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	})
 }
 
-router.use(bodyParser.urlencoded({extended:true}))
-router.use(bodyParser.json())
 
 router.get("/menu-admin",(req,res)=>{return res.render("menuAdmin"/*,{user :req.user}*/)})
 
@@ -358,28 +356,6 @@ router.get("/reports",(req,res)=>{
 	})
 })
 
-router.post("/backup",(req,res)=>{
-	res.writeHead(200, {"Content-Type": "application/x-tar"})
-	backup({
-		uri: "mongodb://localhost/centerestimulation",
-		tar:"backup.tar",
-		stream: res,
-		parser:"json"
-	})
-})
-
-router.post("/restore",uploadBackup.single("data"),(req,res)=>{
-	var file = fs.createReadStream(req.file.path)
-	restore({
-		uri: "mongodb://localhost/dbtest", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-		stream: file, // send this stream into db
-		callback: function(err) { // callback after restore
-			if(err) return res.json({err:err})
-			return res.json({msg:"importacion correcta"})
-			
-		}
-	})
-})
 
 router.post("/found-users",(req,res)=>{
 	var data = req.body
@@ -1040,6 +1016,28 @@ router.post("/save-edit-activity",(req,res)=>{
 		})
 })
 
+router.post("/backup",(req,res)=>{
+	res.writeHead(200, {"Content-Type": "application/x-tar"})
+	backup({
+		uri: "mongodb://localhost/centerestimulation",
+		tar:"backup.tar",
+		stream: res,
+		parser:"json"
+	})
+})
+
+router.post("/restore",uploadBackup.single("data"),(req,res)=>{
+	var file = fs.createReadStream(req.file.path)
+	restore({
+		uri: "mongodb://localhost/dbtest", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
+		stream: file, // send this stream into db
+		callback: function(err) { // callback after restore
+			if(err) return res.json({err:err})
+			return res.json({msg:"importacion correcta"})
+			
+		}
+	})
+})
 
 
 //Exportar una variable de js mediante NodeJS

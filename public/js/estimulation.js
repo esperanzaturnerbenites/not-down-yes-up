@@ -1,23 +1,13 @@
-var formAddChildAct = $("#formAddChildAct"),
-	showChildrensCont = $("#showChildrensCont"),
-	activityChildrens = $("#activityChildrens"),
-	showValidAct = $("#showValidAct"),
-	results = $("#results"),
-	resultStepActs = $("#resultStepActs"),
-	notification = new NotificationC()
-
 function getClone(selector){
 	var t = document.querySelector(selector)
 	return document.importNode(t.content,true)
 }
 
-function renderResults(node){showChildrensCont.html(""); showChildrensCont.append(node)}
-function renderResultAct(node){activityChildrens.html(""); activityChildrens.append(node)}
-function renderResultValid(node){showValidAct.html(""); showValidAct.append(node)}
-function renderResultDataResult(node){results.html(""); results.append(node)}
-function renderResultDataStep(node){resultStepActs.html(""); resultStepActs.append(node)}
-
-
+function renderResults(node){$("#showChildrensCont").html(""); $("#showChildrensCont").append(node)}
+function renderResultAct(node){$("#activityChildrens").html(""); $("#activityChildrens").append(node)}
+function renderResultValid(node){$("#showValidAct").html(""); $("#showValidAct").append(node)}
+function renderResultDataResult(node){$("#results").html(""); $("#results").append(node)}
+function renderResultDataStep(node){$("#resultStepActs").html(""); $("#resultStepActs").append(node)}
 
 function funcStatusAct(status){
 	var statusText = ""
@@ -28,7 +18,7 @@ function funcStatusAct(status){
 	return statusText
 }
 
-formAddChildAct.on("submit",(event) => {
+$("#formAddChildAct").on("submit",(event) => {
 	event.preventDefault()
 
 	$.ajax({
@@ -269,7 +259,7 @@ $("#continueViewMore").click(() => {
 	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 		type = 0
 	notification.show({msg:msg, type:type})
-	resultStepActs.empty()
+	$("#resultStepActs").empty()
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)
 })
@@ -277,7 +267,7 @@ $("#continueViewMore").click(() => {
 $("#continueStepAll").click(() => {
 	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 		type = 0
-	resultStepActs.empty()
+	$("#resultStepActs").empty()
 	notification.show({msg:msg, type:type})
 	var clone = getClone("#consulQueryDataActOne")
 	renderResultDataResult(clone)
@@ -287,7 +277,7 @@ $("#continueActAll").click((event) => {
 	event.preventDefault
 	var clone = getClone("#consulQueryDataActAll")
 
-	resultStepActs.empty()
+	$("#resultStepActs").empty()
 
 	$.ajax({
 		url: "/estimulation/found-step",
@@ -333,7 +323,7 @@ $("#continueActAll").click((event) => {
 					success: function(result){
 						var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
 							type = 0
-						resultStepActs.empty()
+						$("#resultStepActs").empty()
 						notification.show({msg:msg, type:type})
 						
 						var cloneA = getClone("#consulQueryDataStepDetail"),

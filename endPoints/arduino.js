@@ -8,12 +8,12 @@ router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
 
 router.post("/connect-server",(req, res) => {
+	console.log(req.get("Desktop-App"))
 	return res.json({messsage:"Servidor Listo!",statusCode:1})
 })
 
 router.post("/data",(req, res) => {
 	var data = req.body
-	console.log(data)
 	req.io.sockets.emit("response", data)
 	return res.json({messsage:"Información Recivida.",statusCode:1})
 })

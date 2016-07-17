@@ -19,9 +19,6 @@ const express = require("express"),
 	expressSession = require("express-session"),
 	passport = require("passport"),
 	LocalStrategy = require("passport-local").Strategy,
-	//Definir el modulo jade
-	jade = require("jade"),
-	connect = require("connect"),
 	MongoStore = require("connect-mongo")(expressSession),
 
 	//Definicion de Rutas
@@ -75,9 +72,12 @@ app.use(passport.session())
 //Definicion de estrategia de logueo
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
+		console.log("----------")
+		console.log(username)
+		console.log(password)
+		console.log("----------")
 		var passwordEncrypted = cryptr.decrypt(user.passUser)
 		if (err) return done(null, false, { message: err})
-		//console.log(user)
 		if (!user){
 			return done(null, false, { message: "Unknown user"})
 		}else if(user.statusUser != 1) {return done(null, false, { message: "User disabled"})}
@@ -114,10 +114,9 @@ app.use((req,res,next) => {
 })
 
 app.use("/api",api)
-app.use("/arduino",arduinoURL)
+app.use("/arduino",requiredType([1]),arduinoURL)
 app.use("/users",userURLUsers)
-//app.use("/estimulation", requiredType([1]), userURLEstimulation)
-app.use("/estimulation", userURLEstimulation)
+app.use("/estimulation", requiredType([1]), userURLEstimulation)
 app.use("/admin", requiredType([0,2]), userURLAdmin)
 app.use("/reports", requiredType([0,2]), userURLReports)
 
@@ -152,19 +151,29 @@ app.post("/authenticate",
 //Valida si se encuentra autenticado
 function requiredType (types){
 	return function ensureAuth (req, res, next) {
-		//console.log(req.user)
-		if (req.isAuthenticated()){
-			if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-			return res.redirect("/")
+		var ifDesktopApp = eval(req.get("Desktop-App"))
+		console.log(ifDesktopApp)
+		console.log(typeof(ifDesktopApp))
+
+		if(ifDesktopApp){
+			if (req.isAuthenticated()){
+				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+				res.json({msg: "Ok, Autenticado Correctamente",statusCode:2})
+			}else{
+				res.json({msg: "Autentiquese para continuar",statusCode:2})
+			}
 		}else{
-			res.redirect("/users/login")
+			if (req.isAuthenticated()){
+				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+				return res.redirect("/")
+			}else{
+				res.redirect("/users/login")
+			}
 		}
 	}
 }
 
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku
-server.listen(process.env.PORT || 8000, ()=>{
-	console.log("Server ON")
-})
+server.listen(process.env.PORT || 8000, () => {console.log("Server ON")})
 

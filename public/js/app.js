@@ -1,46 +1,22 @@
-//Definir constante que captura un elemento html
-const formValidChildren = $("#formValidChildren"),
-	formValidUser = $("#formValidUser"),
-	formUpdatePass = $("#formUpdatePass"),
-	formOpeUserRol = $("#formOpeUserRol"),
-	formOpeUserStatus = $("#formOpeUserStatus"),
-	formOpeUser = $("#formOpeUser"),
-	formNewUser = $("#formNewUser"),
-	formFindAll = $("#formFindAll"),
-	formOpeValidChildren = $("#formOpeValidChildren")
-
-var showResults = $("#showResults"),
-	showResultTeachAdmin = $("#showResultTeachAdmin"),
-	showResultChildren = $("#showResultChildren"),
-	showResultValid = $("#showResultValid")
-	
-var notification = new NotificationC()
-
 function getClone(selector){
 	var t = document.querySelector(selector)
 	//var t = document.querySelector("#consulQueryGeneralAvanced")
 	return document.importNode(t.content,true)
 }
 
-/*function renderResults(node){
-	console.log("hola")
-	console.log(cshowResults)
-	showResults.empty()
-	showResults.acppend(node)
-}*/
 function renderResultTeachAdmin(node){
-	showResults.empty()
-	showResults.append(node)
+	$("#showResults").empty()
+	$("#showResults").append(node)
 
 }
 function renderResultChildren(node){
-	showResultChildren.html("")
-	showResultChildren.append(node)
+	$("#showResultChildren").html("")
+	$("#showResultChildren").append(node)
 }
 
 function renderResultValidAdmin(node){
-	showResultValid.html("")
-	showResultValid.append(node)
+	$("#showResultValid").html("")
+	$("#showResultValid").append(node)
 }
 
 function funcStatusAct(status){
@@ -123,7 +99,7 @@ if(eval($("#editingUser").val())){
 }else{
 	/*Creacion de Usuarios*/
 	$("#formAddUser").attr("action","/admin/register-user")
-	formValidUser.on("submit",(event) => {
+	$("#formValidUser").on("submit",(event) => {
 		event.preventDefault()
 		$.ajax({
 			url: "/admin/valid-user",
@@ -151,7 +127,7 @@ if(eval($("#editingUser").val())){
 }
 
 //Asigna un escuchador de evento --- Cuando suceda el evento
-formValidChildren.on("submit",(event) => {
+$("#formValidChildren").on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
 		url: "/admin/valid-children",
@@ -177,7 +153,7 @@ formValidChildren.on("submit",(event) => {
 	})
 })
 
-formNewUser.on("submit",(event) => {
+$("#formNewUser").on("submit",(event) => {
 	event.preventDefault()
 
 	if($("#passUser").val() == $("#newPassConfirmUser").val()){
@@ -208,7 +184,7 @@ $("#formValidChildrenValid").on("click",(event) => {
 		url: "/admin/show-valid-step",
 		async : false, 
 		type : "POST",
-		data : formOpeValidChildren.serializeArray(),
+		data : $("#formOpeValidChildren").serializeArray(),
 		success: function(result){
 			if(result.err) return notification.show({msg:result.err.message, type:1})
 			notification.show({msg:result.msg, type:result.statusCode})
@@ -316,13 +292,13 @@ $("#formValidChildrenValid").on("click",(event) => {
 	})
 })
 
-formFindAll.on("submit",(event) => {
+$("#formFindAll").on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
 		url: "/admin/find-all",
 		async : false, 
 		type : "POST",
-		data : formFindAll.serializeArray(),
+		data : $("#formFindAll").serializeArray(),
 		success: function(users){
 			if(users.err) return notification.show({msg:users.err.message, type:1})
 			if(!users.length){
@@ -358,7 +334,7 @@ formFindAll.on("submit",(event) => {
 	})
 })
 
-formUpdatePass.on("submit",(event) => {
+$("#formUpdatePass").on("submit",(event) => {
 	event.preventDefault()
 	if($("#adminPassUser").val() == $("#adminPassConfirmUser").val()){
 		if(confirm("Se actualizará contraseña a: " + $("#adminIdUser").val() +". ¿Desea continuar?")){
@@ -383,7 +359,7 @@ formUpdatePass.on("submit",(event) => {
 	}
 })
 
-formOpeUserRol.on("submit",(event) => {
+$("#formOpeUserRol").on("submit",(event) => {
 	event.preventDefault()
 	if(confirm("Se actualizará rol a: " + $("#adminRolIdUser").val() +". ¿Desea continuar?")){
 		$.ajax({
@@ -400,7 +376,7 @@ formOpeUserRol.on("submit",(event) => {
 	}
 })
 
-formOpeUserStatus.on("submit",(event) => {
+$("#formOpeUserStatus").on("submit",(event) => {
 	var confirmSta
 
 	event.preventDefault()
@@ -424,7 +400,7 @@ formOpeUserStatus.on("submit",(event) => {
 	}
 })
 
-formOpeUser.on("submit.formOpeUserDel",(event) => {
+$("#formOpeUser").on("submit.formOpeUserDel",(event) => {
 	event.preventDefault()
 	if(confirm("Se borrará: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
 		$.ajax({

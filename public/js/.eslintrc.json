@@ -6,6 +6,7 @@
     },
     "globals":{
         "NotificationC" : true,
+        "notification" : true,
         "io" : true
         },
     "extends": "eslint:recommended",

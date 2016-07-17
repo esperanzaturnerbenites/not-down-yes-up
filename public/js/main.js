@@ -1,11 +1,14 @@
-var CTE = {
+$.ajaxSetup({
+	headers: {"Desktop-App": "false"}
+})
+const CTE = {
 	STATUS : {
 		OK:0,
 		NOT_OK:1,
 		INFORMATION:2
 	}
 }
-
+var notification = new NotificationC()
 $(document).ready(function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
