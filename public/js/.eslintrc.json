@@ -5,7 +5,8 @@
         "jquery": true
     },
     "globals":{
-        "NotificationC" : true
+        "NotificationC" : true,
+        "io" : true
         },
     "extends": "eslint:recommended",
     "rules": {

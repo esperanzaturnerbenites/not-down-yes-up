@@ -1,0 +1,27 @@
+//- Listado de Niñ@s
+//- POST /reports/general
+
+section.consul.consulQuery
+	h3 Listado General Niñ@s
+	article.consulTable
+		table
+			thead
+				tr
+					th Id
+					th NOMBRES
+					th APELLIDOS
+					th EDAD
+					th EPS
+					th ESTADO
+					th FECHA REGISTRO
+			tbody
+				each children in data
+					tr
+						td
+							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
+						td #{children.nameChildren}
+						td #{children.lastnameChildren}
+						td #{children.ageChildren}
+						td #{children.epsChildren}
+						td #{children.statusChildren}
+						td #{children.dateStart}

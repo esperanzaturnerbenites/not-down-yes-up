@@ -1,6 +1,16 @@
 var notification = new NotificationC()
 
 /*
+	Informacion Detallada
+	Manejo de Tabs para la muestra de informacion detallada de un niñ@
+	Route /reports/info-children/:id
+*/
+$(".headerTab").on("click",function() {
+	$(".contentTab").addClass("hide")
+	$($(this).data("ref")).removeClass("hide")
+})
+
+/*
 	Consultas Generales
 	Genera una Serie de Consultas Generales
 		0 - Listado General Niñ@s: Listado de Niñ@s
@@ -14,18 +24,12 @@ $("#consultGeneral").submit(function (event) {
 		url: "/reports/general",
 		type : "POST",
 		data : $(this).serialize(),
-		success: function(response){$("#showResultsReport").html(response.html)}
+		success: function(response){
+			window.response = response
+			$("#showResultsReport").html(response.html)
+			$("#showResultsReport")[0].scrollIntoView()
+		}
 	})
-})
-
-/*
-	Informacion Detallada
-	Manejo de Tabs para la muestra de informacion detallada de un niñ@
-	Route /reports/info-children/:id
-*/
-$(".headerTab").on("click",function() {
-	$(".contentTab").addClass("hide")
-	$($(this).data("ref")).removeClass("hide")
 })
 
 /*
@@ -36,13 +40,12 @@ $(".headerTab").on("click",function() {
 */
 $("#ageConsul").submit(function (event) {
 	event.preventDefault()
-	var operator = "$" + $("#consulAge").val()
-	var data = {
-		query:{
-			ageChildren : {}
-		}
-	}
+
+	var operator = "$" + $("#consulAge").val(),
+		data = {query:{ageChildren : {}}}
+
 	data.query.ageChildren[operator] = $("#consulIdConsulAvanced").val()
+
 	$.ajax({
 		url: "/api/children",
 		type : "POST",
@@ -90,6 +93,7 @@ $("#consulChildren").submit((event) => {
 */
 $("#formConsulStep").submit(function(event){
 	event.preventDefault()
+
 	$.ajax({
 		url: "/reports/consult-step-act",
 		type : "POST",
@@ -106,6 +110,7 @@ $("#formConsulStep").submit(function(event){
 */
 $("#formConsulActStepsReport").submit(function(event){
 	event.preventDefault()
+
 	$.ajax({
 		url: "/reports/consult-step-act",
 		type : "POST",

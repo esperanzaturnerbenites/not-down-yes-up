@@ -1,0 +1,118 @@
+html
+	height:100%
+	-webkit-user-select:none
+
+body
+	height:100%
+	background-image:url("img/fondo.png")
+	color:#191E09
+
+input
+	background-color:#e6f1bf
+	outline: none
+	padding:5px
+	&:empty
+		background-color:#e6f1bf
+	&:valid
+		background-color:#e6f1bf
+	&:invalid
+		background:#e8b8b8 
+
+textarea
+	width:60%
+	border-radius:5px
+	background-color:#e6f1bf
+	outline: none
+	padding:5px
+	&:empty
+		background-color:#e6f1bf
+	&:invalid
+		background:#e8b8b8 
+	&:valid
+		background-color:#e6f1bf
+
+legend
+	border-top:1px solid green
+	border-radius:5px
+	background-color:#e6f1bf
+	padding:10px
+	&::first-letter
+		font-size:1.5rem
+
+button
+	border-bottom-right-radius:10px
+	border-top-left-radius:10px
+	padding:0.5%
+	background-color:#76A339
+	text-align:center
+	color:#142101
+	-webkit-box-shadow: inset 0 0 10px #305300
+	box-shadow:inset 0 0 10px #305300
+	outline: none
+	&:hover
+		background-color:#5D9A0A
+		color:#CCDD91
+		font-weight:bold
+
+header
+	background-color:#CCDD91
+	padding:10px
+
+h1
+	margin:10px 0
+	a
+		margin:0
+		padding:0px 20px 0 0
+		font-size:2rem
+		text-align:justify
+		color:#5E7024
+
+h2
+	margin:0 10px 0 0
+	font-size:1rem
+	text-align:right
+	color:#758540
+	font-style:italic
+
+h3
+	margin:0
+	padding:15px
+	font-size:1.5rem
+	text-align:center
+	color:#191E09
+
+
+ul
+	padding:0
+
+li
+	cursor:pointer
+
+table
+	width:100%
+
+th
+	border:1px solid green
+	background-color:#d9e5b0
+	padding:5px
+
+td
+	border:1px solid green
+	padding:5px
+
+fieldset
+	margin:10px auto
+	border:1px solid green
+	border-radius:7px
+	width:90%
+
+select
+	padding:2px
+	background-color:#e6f1bf
+
+option
+	background-color:#e6f1bf
+
+	
+::-webkit-input-placeholder
+	color:#606d38

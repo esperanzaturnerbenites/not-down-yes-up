@@ -6,67 +6,6 @@ var express = require("express"),
 
 router.use(bodyParser.urlencoded({extended:false}))
 
-router.get("/info-children/:id",(req,res)=>{
-	var id = req.params.id,
-		data = {}
-
-	console.log(id)
-
-	models.children.findOne({idChildren : id})
-	.populate('idParent.idParent')
-	.exec((err, children) => {
-		if (err) {res.json(err)}
-		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:2})}
-			
-		data.child = children
-		data.parents = children.idParent.map(objParent => {return objParent.idParent})
-
-		console.log(data.child)
-
-		models.activityhistory.find({idChildren: children._id})
-		.sort({date:-1})
-		.populate("idActivity idUser idStep")
-		.exec((err, activitiesH) => {
-			if (err) return res.json({err:err})
-			if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
-			data.historys = activitiesH
-
-			models.activityvalid.find({idChildren: children._id})
-			.sort({date:-1})
-			.populate("idActivity idUser idStep")
-			.exec((err, activitiesV) => {
-				if (err) return res.json({err:err})
-				if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
-				if(activitiesV) {
-					data.valids = activitiesV
-					models.stepvalid.find({idChildren:children._id})
-					.sort({date:-1})
-					.populate("idStep idUser")
-					.exec((err,stepvalidChild) =>{
-						if(err) return res.json({err:err})
-						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
-						if(stepvalidChild){
-							data.stepvalids = stepvalidChild
-							res.render("infoChildren",{infoChildren: data})
-							//return res.json({message : "¡Correcto!",statusCode:0, infoChildren : data})
-						}
-					})
-				}
-			})
-		})
-	})
-})
-
-router.post("/found-childrens",(req,res)=>{
-	var data = req.body
-
-	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
-		if(err) return res.json({err:err})
-		if(children) return res.json(children)
-		return res.json({msg:"¡Niñ@ no existe!", statusCode:2})
-	})
-})
-
 router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
 		steps = {}
@@ -96,27 +35,78 @@ router.post("/consult-step-act",(req,res)=>{
 					if(err) return res.json({err:err})
 					if(!cantidadActividades) return res.json({err:{message:"Not Activities"}})
 					steps.cantidadActividades = cantidadActividades
-					var fn = jade.compileFile("views/reports/consulta_steps.jade",{})
+					var fn = jade.compileFile("views/reports/consult_steps.jade",{})
 					var html = fn({data: steps})
-					return res.json({msg : "Consult Complete", steps :steps,html:html})
+					return res.json({html:html})
 				})
 			})
 		})
 	})
 })
 
-router.post("/consul-step-acts",(req,res)=>{
-	var data = req.body,
-		steps = {}
+/*
+	Renderiza una vista con la informacion detallada de un niñ@
+		Informacion 
+			Personal
+			Padres
+			Etapas
+			Historial Actividades
+			Actividades Validadas
+	Request Data {String} id: Id niñ@
+	Response: Render 'infoChildren'
+*/
+router.get("/info-children/:id",(req,res)=>{
+	var id = req.params.id,
+		data = {}
 
-	models.activity.find({stepActivity:data.stepStep},(err,stepActs) =>{
-		if(err) return res.json({err:err})
-		if(stepActs.length < 1) return res.json({err:{message:"Not Activities"}})
-		steps = stepActs
-		return res.json({msg : "Consult Complete", steps :steps})
+	models.children.findOne({idChildren : id})
+	.populate("idParent.idParent")
+	.exec((err, children) => {
+		if (err) {res.json(err)}
+		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:2})}
+			
+		data.child = children
+		data.parents = children.idParent.map(objParent => {return objParent.idParent})
+
+		models.activityhistory.find({idChildren: children._id})
+		.sort({date:-1})
+		.populate("idActivity idUser idStep")
+		.exec((err, activitiesH) => {
+			if (err) return res.json({err:err})
+			if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
+			data.historys = activitiesH
+
+			models.activityvalid.find({idChildren: children._id})
+			.sort({date:-1})
+			.populate("idActivity idUser idStep")
+			.exec((err, activitiesV) => {
+				if (err) return res.json({err:err})
+				if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
+				if(activitiesV) {
+					data.valids = activitiesV
+					models.stepvalid.find({idChildren:children._id})
+					.sort({date:-1})
+					.populate("idStep idUser")
+					.exec((err,stepvalidChild) =>{
+						if(err) return res.json({err:err})
+						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
+						if(stepvalidChild){
+							data.stepvalids = stepvalidChild
+							res.render("infoChildren",{infoChildren: data})
+						}
+					})
+				}
+			})
+		})
 	})
 })
 
+
+/*
+	Genera y Retorna los Reportes Generales
+	Request Data {String} reportGeneral: reporte a generar
+	Response {String}: html del reporte solicitado
+*/
 router.post("/general",(req,res)=>{
 	var report = req.body.reportGeneral
 
@@ -131,58 +121,56 @@ router.post("/general",(req,res)=>{
 	if(report == 0){
 		pathView = pathView + "listChildren.jade"
 
+		models.children.find({},function(err,childrens){
+			if (err) {res.json(err)}
+			if(!childrens.length) return res.json({"msg":"No hay Niños Registrados", statusCode:2})
+			var html = compileFileReport(pathView,childrens)
+			return res.json({html:html})
+		})
 	}else if(report == 1){
 		pathView = pathView + "listTeacher.jade"
 
+		models.adminuser.find({typeUser:1})
+		.populate("idUser")
+		.exec(function(err,teachers){
+			if (err) {res.json(err)}
+			if(!teachers.length) return res.json({"msg":"No hay Profesores Registrados", statusCode:2})
+			var html = compileFileReport(pathView,teachers)
+			return res.json({html:html})
+		})
 	}else if(report == 2){
 		pathView = pathView + "listSteps.jade"
 
+		models.stepvalid.find()
+		.populate("idChildren idUser idStep")
+		.exec(function(err,stepsValid){
+			if (err) {res.json(err)}
+			if(!stepsValid.length) return res.jsonv({"msg":"No hay Niñ@s Registrados", statusCode:2})
+
+			var data = {}
+			stepsValid.forEach(function(stepValid){
+				if(!data[stepValid.idStep.stepStep]) data[stepValid.idStep.stepStep] = []
+				data[stepValid.idStep.stepStep].push(stepValid)
+			})
+			var html = compileFileReport(pathView,data)
+			return res.json({html:html})
+		})
 	}else{
 		return res.json({"msg":"Este Reporte No Existe", statusCode:1})
 	}
-
-	var info = {}
-
-	models.activityhistory.find({})
-	.sort({idChildren : 1})
-	.populate("idChildren idUser idActivity")
-	.exec((err,acthistory) =>{
-		if (err) return res.json({err:err})
-		if(!acthistory) return res.json({err:{"msg":"Childrens not found"}})
-		//.acthistory = acthistory
-
-		models.activityvalid.find({})
-		.sort({idChildren : 1})
-		.populate("idChildren idUser idActivity")
-		.exec((err,actvalid) =>{
-			if (err) return res.json({err:err})
-			if(!actvalid) return res.json({err:{"message":"Childrens not found"}})
-			//.actvalid = actvalid
-
-			models.stepvalid.find({})
-			.sort({idStep : 1})
-			.populate("idChildren idStep")
-			.exec((err, stepvalid) => {
-				if (err) return res.json({err:{message:err}})
-				if (!stepvalid) return res.json({"msg":"Stephis not found"})
-
-				var data = {}
-
-				stepvalid.forEach(sv => {
-					if(!data[sv.idChildren.idChildren]) data[sv.idChildren.idChildren] = []
-					var dataAux = {}
-					dataAux[sv.idStep.stepStep] = sv
-					data[sv.idChildren.idChildren].push(dataAux)
-				})
-
-
-				info.stepvalid = stepvalid
-				info.data = data
-				return res.json({msg : "Consult Complete", statusCode : 0, info : info})
-			})
-		})
-	})
 })
+
+/*
+	Retorna compilado(html) un archivo Jade
+	@param {String} view: path del archivo jade
+	@param {Object} data: datos para renderizar el template
+	@return {String}: String html del template
+*/
+function compileFileReport(view,data){
+	var fn = jade.compileFile(view,{})
+	var html = fn({data: data})
+	return html
+}
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

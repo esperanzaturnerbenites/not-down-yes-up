@@ -6,12 +6,41 @@ var CTE = {
 	}
 }
 
-document.addEventListener("DOMContentLoaded", function () {
+$(document).ready(function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
 	})
 })
 
+/*
+	Genera un mensaje Visual en el Navegador
+
+	@function createMessage 
+	Genera la Estructura HTML del Mensaje
+	@param {Object} data: 
+		@property msg {String}: Texto a mostrar.
+		@property type {Number}: Tipo de Mensaje.
+			0: Correcto.
+			1: Incorrecto.
+			2: Informacion.
+		@property time {Number}: Tiempo durante el cual se mostrara el mensaje
+		@default time 3000ms
+	@return {HTMLElement} Node DOM
+
+	@function show
+	Agrega al DOM el Mesaje
+	@param {Object} data: 
+		@property msg {String}: Texto a mostrar.
+		@property type {Number}: Tipo de Mensaje.
+			0: Correcto.
+			1: Incorrecto.
+			2: Informacion.
+		@property time {Number}: Tiempo durante el cual se mostrara el mensaje
+		@default time 3000ms
+
+	@function hide
+	Remueve del DOM el Mesaje
+*/
 function NotificationC (){
 	var contenedorPrincipal = document.body
 
@@ -45,27 +74,30 @@ function NotificationC (){
 		contenedorPrincipal.appendChild(contenedorMSG)
 		setTimeout(this.hide.bind(this), time)
 	}
+
 	this.hide = function (){
 		contenedorPrincipal.removeChild(contenedorPrincipal.lastChild)
 	}
 }
 
+
+/*
+	Abstraccion de la interfaz 'SpeechSynthesisUtterance' de la 'Web Speech API' (Convierte texto a voz)
+	@function toVoice
+		@param {String} text: texto a convertir a voz.
+*/
 function Text (){
-	/*
-		Abstraccion de la interfaz 'SpeechSynthesisUtterance' de la 'Web Speech API'
-		Convierte texto a voz
-	*/
 	this.toVoice = function (text){
 		var msg = new SpeechSynthesisUtterance(),
 			voices = window.speechSynthesis.getVoices()
 
 		msg.voice = voices[4]
-		msg.voiceURI = 'native'
+		msg.voiceURI = "native"
 		msg.volume = 1
 		msg.rate = 1
 		msg.pitch = 1
 		msg.text = text
-		msg.lang = 'es-ES'
+		msg.lang = "es-ES"
 
 		speechSynthesis.speak(msg)
 	}

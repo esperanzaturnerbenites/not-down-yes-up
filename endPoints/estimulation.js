@@ -1,10 +1,8 @@
 var express = require("express"),
 	models = require("./../models"),
-	mongoose = require("mongoose"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
-	querystring = require("querystring"),
-	ObjectId = mongoose.Types.ObjectId
+	querystring = require("querystring")
 
 
 router.use(bodyParser.urlencoded({extended:false}))
@@ -45,7 +43,6 @@ router.get("/infoChildren/:id",(req,res)=>{
 				.exec((err, actsvalid) => {
 					if(err) return res.json({err:err})
 					dataChildren.actsvalid = actsvalid
-					//console.log(dataChildren.actsvalid.length)
 					return res.render("continueOne",{childrenAct:dataChildren})
 				})
 			}else {return res.render("continueOne",{childrenAct:dataChildren})}
@@ -60,7 +57,6 @@ router.get("/steps",(req,res)=>{
 	.sort({stepStep:1})
 	.exec((err, stepDB) => {
 		step = stepDB
-		//console.dir(step)
 		res.render("stepMenu",{steps:step})
 	})
 })
@@ -119,7 +115,6 @@ router.post("/consul-step",(req,res)=>{
 		.exec((err, activities) => {
 			if(err) return res.json({err:err})
 			data.activities = activities
-			//console.log(data)
 			if(activities) return res.json({data : data})
 		})
 
@@ -141,7 +136,6 @@ router.post("/valid-activity-parcial",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
-	//console.log(user)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser
@@ -182,7 +176,6 @@ router.post("/valid-activity-complete",(req,res)=>{
 		numberStep = req.body.stepActivity,
 		user = req.user
 
-	//console.log(user._id)
 	data.idUser = user._id
 	data.nameUser = user.nameUser
 	data.lastnameUser = user.lastnameUser

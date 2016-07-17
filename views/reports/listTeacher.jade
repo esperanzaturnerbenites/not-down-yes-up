@@ -1,0 +1,34 @@
+//- Listado de Profesores
+//- POST /reports/general
+
+section.consul.consulQuery
+	h3 Listado General PROFESORES
+	article.consulTable
+		table
+			thead
+				tr
+					th ID
+					th NOMBRES
+					th APELLIDOS
+					th EDAD
+					th TELEFONO
+					th CELULAR
+					th EMAIL
+					th DIRECCION
+					th CENTRO
+					th USUARIO
+			tbody
+				each adminuser in data
+					- var teacher = adminuser.idUser
+					tr
+						td 
+							a(href="/admin/info-user/#{teacher.idUser}" target="blank") #{teacher.idUser}
+						td #{teacher.nameUser}
+						td #{teacher.lastnameUser}
+						td #{teacher.ageUser}
+						td #{teacher.telUser}
+						td #{teacher.celUser}
+						td #{teacher.emailUser}
+						td #{teacher.addressUser}
+						td #{teacher.centerUser}
+						td #{adminuser.userUser}
