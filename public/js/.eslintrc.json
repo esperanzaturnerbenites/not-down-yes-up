@@ -8,6 +8,7 @@
         "NotificationC" : true,
         "notification" : true,
         "CTE" : true,
+        "google" : true,
         "io" : true
         },
     "extends": "eslint:recommended",

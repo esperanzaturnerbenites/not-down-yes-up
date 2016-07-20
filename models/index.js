@@ -58,7 +58,7 @@ const userSchema = new Mongoose.Schema({
 		abilityChildren: {type:String},
 		debilityChildren: {type:String},
 		statusChildrenEstimulation: {type:Number, default:0},
-		statusChildren: {type:Number, default:0},
+		statusChildren: {type:Number, default:1},
 		observationChildren: [{
 			date:{type:Date, default:Date.now},
 			observation: {type:String, default:"Registro Inicial"},

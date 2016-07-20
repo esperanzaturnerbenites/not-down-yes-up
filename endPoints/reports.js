@@ -91,7 +91,7 @@ router.get("/info-children/:id",(req,res)=>{
 		.exec((err, activitiesH) => {
 			if (err) return res.json({err:err})
 			if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
-			data.historys = activitiesH
+			data.histories = activitiesH
 
 			models.activityvalid.find({idChildren: children._id})
 			.sort({date:-1})
@@ -100,7 +100,7 @@ router.get("/info-children/:id",(req,res)=>{
 				if (err) return res.json({err:err})
 				if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
 				if(activitiesV) {
-					data.valids = activitiesV
+					data.activitiesValid = activitiesV
 					models.stepvalid.find({idChildren:children._id})
 					.sort({date:-1})
 					.populate("idStep idUser")
@@ -108,7 +108,10 @@ router.get("/info-children/:id",(req,res)=>{
 						if(err) return res.json({err:err})
 						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
 						if(stepvalidChild){
-							data.stepvalids = stepvalidChild
+							console.log("------------------")
+							console.log(stepvalidChild)
+							console.log("------------------")
+							data.stepsValid = stepvalidChild
 							res.render("infoChildren",{infoChildren: data})
 						}
 					})

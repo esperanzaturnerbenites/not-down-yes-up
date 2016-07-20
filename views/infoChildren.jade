@@ -11,9 +11,9 @@ block content
 				ul
 					li.headerTab(data-ref="#contentTab1") INFORMACIÓN NIÑ@
 					li.headerTab(data-ref="#contentTab2") DATOS FAMILIARES
-					li.headerTab(data-ref="#contentTab3") ETAPAS
-					li.headerTab(data-ref="#contentTab4") ACTIVIDADES VALIDADAS
-					li.headerTab(data-ref="#contentTab5") HISTORIAL ACTIVIDADES
+					li.headerTab(data-ref="#contentTab3" data-function="drawChartStep") ETAPAS
+					li.headerTab(data-ref="#contentTab4" data-function="drawChartActvityValid") ACTIVIDADES VALIDADAS
+					li.headerTab(data-ref="#contentTab5" data-function="drawChartActivityHistory") HISTORIAL ACTIVIDADES
 
 		article
 			section.contentTab#contentTab1.hide.continue.continueViewMore
@@ -358,7 +358,7 @@ block content
 
 			section.contentTab#contentTab3.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ETAPAS
-				if (infoChildren.stepvalids.length)
+				if (infoChildren.stepsValid.length)
 					table
 						thead
 							tr
@@ -371,7 +371,7 @@ block content
 								th USUARIO
 						tbody
 							- var n = 0
-							- for (stepvalid of infoChildren.stepvalids)
+							- for (stepvalid of infoChildren.stepsValid)
 								-if (stepvalid.statusStep == 0)
 									- var statusValidS = "No Completada"
 								-if (stepvalid.statusStep == 1)
@@ -390,7 +390,7 @@ block content
 
 			section.contentTab#contentTab4.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ACTIVIDADES
-				if (infoChildren.valids.length > 0)
+				if (infoChildren.activitiesValid.length > 0)
 					table
 						thead
 							tr
@@ -405,7 +405,7 @@ block content
 								th USUARIO
 						tbody
 							- var n = 0
-							- for (valid of infoChildren.valids)
+							- for (valid of infoChildren.activitiesValid)
 								-if (valid.statusActivity == 0)
 									- var statusValid = "No Completada"
 								-if (valid.statusActivity == 1)
@@ -426,7 +426,7 @@ block content
 
 			section.contentTab#contentTab5.hide.continue.continueViewMore
 				h2 HISTORIAL DE ACTIVIDADES
-				if (infoChildren.historys.length > 0)
+				if (infoChildren.histories.length > 0)
 					table
 						thead
 							tr
@@ -441,7 +441,7 @@ block content
 								th USUARIO
 						tbody
 							- var n = 0
-							- for (history of infoChildren.historys)
+							- for (history of infoChildren.histories)
 								-if (history.statusActivity == 0)
 									- var statusHis = "Pendiente"
 								-if (history.statusActivity == 1)
@@ -460,4 +460,8 @@ block content
 				else
 					h2 No tiene actividades.
 
+		section#containerChart
+		script.
+			var dataTemplate = !{JSON.stringify(infoChildren)}
+		script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
 		script(src="/js/reports.js")

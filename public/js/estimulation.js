@@ -137,7 +137,7 @@ $("#validActClic").on("click",(event) => {
 				$("#formValidChildrenParcial").remove()
 			})
 
-			$("#buttonValidActParcial",clone).on("submit",(event)=>{
+			$("#formValidChildrenParcial",clone).on("submit",(event)=>{
 				event.preventDefault()
 
 				if(confirm("Validación parcial de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
@@ -204,7 +204,7 @@ $("#validActClicDef").on("click",(event) => {
 				$("#formValidChildren").remove()
 			})
 
-			$("#buttonValidAct",clone).on("submit", (event)=>{
+			$("#formValidChildren",clone).on("submit", (event)=>{
 				event.preventDefault()
 				if(confirm("Validación FINAL de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
 					$.ajax({
@@ -370,7 +370,7 @@ $("#continueStepAll").click(() => {
 $("#audioPrinc").prop("volume", 0.1)
 $("#audioPrinc").trigger("play")
 
-var socket = io.connect("http://192.168.0.4:8000/")
+var socket = io.connect("http://192.168.0.3:8000/")
 
 
 var room = $("input[name=idUserAuthenticate]").val()

@@ -1,3 +1,5 @@
+google.charts.load("current", {packages: ["corechart", "bar"]})
+
 var notification = new NotificationC()
 
 /*
@@ -8,6 +10,8 @@ var notification = new NotificationC()
 $(".headerTab").on("click",function() {
 	$(".contentTab").addClass("hide")
 	$($(this).data("ref")).removeClass("hide")
+	var fnString = $(this).data("function")
+	if(fnString) eval(fnString)()
 })
 
 /*
@@ -149,3 +153,119 @@ $("#consulActStep").change(() => {
 		}
 	})
 })
+
+function drawChartStep(){
+
+	var steps = dataTemplate.stepsValid
+	var data = steps.map(element => {return [element.idStep.nameStep,element.scoreStep]})
+
+	var headerChart = [["Etapa", "Puntaje"]],
+		dataChart = headerChart.concat(data)
+
+	var data = google.visualization.arrayToDataTable(dataChart)
+
+	var options = {
+		title: "Avance Por Etapas",
+		chartArea: {width: "50%"},
+		"fill-color":"black",
+		hAxis: {
+			title: "Puntaje",
+			minValue: 0
+		},
+		vAxis: {
+			title: "Etapas",
+			minValue: 0
+		}
+	}
+
+	var chart = new google.visualization.BarChart(document.getElementById("containerChart"))
+
+	chart.draw(data, options)
+}
+function drawChartActvityValid(){
+
+	var activitiesValid = dataTemplate.activitiesValid
+	var data = activitiesValid.map(
+		element => {
+			return [
+				element.idActivity.nameActivity + " - " + element.idStep.nameStep,
+				element.scoreTeachActivity,
+				element.scoreSystemActivity]
+			})
+
+	var headerChart = [["Actividad", "Puntaje Docente", "Puntaje Sistema"]],
+		dataChart = headerChart.concat(data)
+
+	var data = google.visualization.arrayToDataTable(dataChart)
+
+	var options = {
+		title: "Avance por Actividades",
+		chartArea: {width: "50%"},
+		hAxis: {
+			title: "Puntaje",
+			minValue: 0,
+			textStyle: {
+				bold: true,
+				fontSize: 12,
+				color: "#4d4d4d"
+			},
+			titleTextStyle: {
+				bold: true,
+				fontSize: 18,
+				color: "#4d4d4d"
+			}
+		},
+		vAxis: {
+			title: "Actividad",
+			textStyle: {
+				fontSize: 14,
+				bold: true,
+				color: "#848484"
+			},
+			titleTextStyle: {
+				fontSize: 14,
+				bold: true,
+				color: "#848484"
+			}
+		}
+	}
+	var chart = new google.visualization.BarChart(document.getElementById("containerChart"))
+	chart.draw(data, options)
+}
+
+function drawChartActivityHistory(){
+
+	var dataGeneral = {}
+
+	var headerChart = [["Fecha", "Puntaje Docente", "Puntaje Sistema"]]
+
+	dataTemplate.histories.forEach(element => {
+		if(!dataGeneral[element.idActivity.stepActivity]) dataGeneral[element.idActivity.stepActivity] = []
+		dataGeneral[element.idActivity.stepActivity].push({history:element})
+	})
+	for (var hs in dataGeneral){
+		dataGeneral[hs].data = []
+		dataGeneral[hs].forEach(element => {
+			element.data = [element.history.date,element.history.scoreTeachActivity,element.history.scoreSystemActivity]
+			dataGeneral[hs].data.push([element.history.date,element.history.scoreTeachActivity,element.history.scoreSystemActivity])
+
+		})
+	}
+	console.log(dataGeneral)
+
+	var data = google.visualization.arrayToDataTable([
+		["Fecha", "Puntaje Profe", "Puntaje Sistema"],
+		["2016-07-04",  3,5],
+		["2016-07-09",  7,4],
+		["2016-07-20",  10,8]
+	])
+
+	var options = {
+		title: "Hitorial de Actividades",
+		hAxis: {title: "Fecha",  titleTextStyle: {color: "#333"}},
+		vAxis: {title: "Puntaje", minValue: 0}
+	}
+
+	var chart = new google.visualization.AreaChart(document.getElementById("containerChart"));
+	chart.draw(data, options)
+}
