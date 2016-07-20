@@ -2,7 +2,7 @@ template#consulQueryChildrenValid
 
 	form#formValidChildren.validAct
 		fieldset
-			legend Validar Etapa
+			legend Validación Final Actividad
 			article
 				label Docente: 
 				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
@@ -50,7 +50,7 @@ template#consulQueryChildrenValid
 				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
 			
 			article.validActButton
-				button#buttonValidAct(type='button')
+				button(type='submit')
 					span Validar
 
 				button#buttonCancelValidAct(type='button')

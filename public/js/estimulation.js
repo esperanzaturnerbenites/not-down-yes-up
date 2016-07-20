@@ -29,7 +29,7 @@ $("#formAddChildAct").on("submit",(event) => {
 		success: function(childrens){
 			if (childrens.err) return notification.show({msg:childrens.err.message, type:1})
 			if(childrens.nameChildren != null) {
-				if(childrens.statusChildren == 3){
+				if(childrens.statusChildren == 0){
 					notification.show({msg:"¡Niñ@ Retirado. No puede realizar actividades!", type:2})
 				} else {
 					var clone = getClone("#consulQueryAddChild"),
@@ -137,7 +137,9 @@ $("#validActClic").on("click",(event) => {
 				$("#formValidChildrenParcial").remove()
 			})
 
-			$("#buttonValidActParcial",clone).click(()=>{
+			$("#buttonValidActParcial",clone).on("submit",(event)=>{
+				event.preventDefault()
+
 				if(confirm("Validación parcial de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
 					$.ajax({
 						url: "/estimulation/valid-activity-parcial",
@@ -202,8 +204,9 @@ $("#validActClicDef").on("click",(event) => {
 				$("#formValidChildren").remove()
 			})
 
-			$("#buttonValidAct",clone).click(()=>{
-				if(confirm("Validación DEFINITIVA de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
+			$("#buttonValidAct",clone).on("submit", (event)=>{
+				event.preventDefault()
+				if(confirm("Validación FINAL de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
 					$.ajax({
 						url: "/estimulation/valid-activity-complete",
 						async : false,
@@ -256,20 +259,12 @@ $("#restarActClic").click(()=>{
 })
 
 $("#continueViewMore").click(() => {
-	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
+	var msg = "¡Consulta éxitosa!",
 		type = 0
+	$("#results")[0].scrollIntoView()
 	notification.show({msg:msg, type:type})
 	$("#resultStepActs").empty()
 	var clone = getClone("#consulQueryDataChild")
-	renderResultDataResult(clone)
-})
-
-$("#continueStepAll").click(() => {
-	var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
-		type = 0
-	$("#resultStepActs").empty()
-	notification.show({msg:msg, type:type})
-	var clone = getClone("#consulQueryDataActOne")
 	renderResultDataResult(clone)
 })
 
@@ -321,7 +316,7 @@ $("#continueActAll").click((event) => {
 							idChildren : $("#idChildren").val()},
 					type : "POST",
 					success: function(result){
-						var msg = "¡Consulta éxitosa! Resultados En la parte inferior",
+						var msg = "¡Consulta éxitosa!",
 							type = 0
 						$("#resultStepActs").empty()
 						notification.show({msg:msg, type:type})
@@ -352,12 +347,24 @@ $("#continueActAll").click((event) => {
 							
 						}
 						renderResultDataStep(cloneA)
+						$("#results")[0].scrollIntoView()
 					}
 				})
 			})
 		}
 	})
 	renderResultDataResult(clone)
+	$("#results")[0].scrollIntoView()
+})
+
+$("#continueStepAll").click(() => {
+	var msg = "¡Consulta éxitosa!",
+		type = 0
+	$("#resultStepActs").empty()
+	notification.show({msg:msg, type:type})
+	var clone = getClone("#consulQueryDataActOne")
+	renderResultDataResult(clone)
+	$("#results")[0].scrollIntoView()
 })
 
 $("#audioPrinc").prop("volume", 0.1)

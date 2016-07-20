@@ -84,7 +84,9 @@ passport.use(new LocalStrategy( (username, password, done) => {
 		if (err) return done(null, false, { message: err})
 		if (!user){
 			return done(null, false, { message: "Unknown user"})
-		}else if(user.statusUser != CTE.STATUS_USER.ACTIVE) {return done(null, false, { message: "User disabled"})}
+		}else if(user.statusUser != CTE.STATUS_USER.ACTIVE) {
+			return done(null, false, { message: "User disabled"})
+		}
 		else if (password === passwordEncrypted) {
 			if (username === user.userUser && password === passwordEncrypted) {
 				return done(null,user)
@@ -115,6 +117,7 @@ mongoose.connect("mongodb://localhost/centerestimulation")
 
 app.use((req,res,next) => {
 	res.locals.user = req.user
+	res.locals.CTE = CTE
 	next()
 })
 

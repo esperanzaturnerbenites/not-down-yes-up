@@ -32,6 +32,53 @@ $(document).ready(function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
 	})
+	$("[data-equal-to]").change(function(event){
+		var reference = $(this).data("equal-to")
+		if($(reference).val()){
+			if($(reference).val() != $(this).val()){
+				$(reference).val("")
+				$(this).val("")
+				
+			}
+		}
+		
+	})
+	$("[data-valid-exists]").change(function(event){
+		var data = $(this).data("valid-exists").split(","),
+			collection = data[0],
+			ifDeleteInExists = eval(data[1]),
+			ifDeleteInNotExists = eval(data[2]),
+			data = {}
+
+		if(collection == "children"){
+			data.query = {idChildren: $(this).val()}
+		}else if(collection == "user"){
+			data.query = {idUser: $(this).val()}
+		}else if(collection == "adminuser"){
+			data.query = {userUser: $(this).val()}
+		}else{
+			return "Verifiquela coleccion"
+		}
+		$.ajax({
+			url: "/api/" + collection,
+			contentType: "application/json",
+			data : JSON.stringify(data),
+			type : "POST",
+			success: (response) => {
+				if(response.documents.length){
+					//Existe
+					if(ifDeleteInExists){
+						$(this).val("")
+					}
+				}else{
+					//No Existe
+					if(ifDeleteInNotExists){
+						$(this).val("")
+					}
+				}
+			}
+		})
+	})
 })
 
 /*
@@ -101,7 +148,6 @@ function NotificationC (){
 		contenedorPrincipal.removeChild(contenedorPrincipal.lastChild)
 	}
 }
-
 
 /*
 	Abstraccion de la interfaz 'SpeechSynthesisUtterance' de la 'Web Speech API' (Convierte texto a voz)

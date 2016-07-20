@@ -29,7 +29,6 @@ function filter(body,files){
 
 router.get("/menu-admin",(req,res)=>{return res.render("menuAdmin")})
 router.get("/admin-users",(req,res)=>{return res.render("adminUsers")})
-router.get("/admin-childrens",(req,res)=>{return res.render("adminChildrens")})
 router.get("/valid-step",(req,res)=>{return res.render("validStep")})
 router.get("/backup",(req,res)=>{return res.render("backup")})
 
@@ -265,7 +264,7 @@ router.get("/info-children/:id",(req,res)=>{
 		data = {}
 
 	models.children.findOne({idChildren:id})
-	.populate('idParent.idParent')
+	.populate("idParent.idParent")
 	.exec((err,childrenFind) =>{
 		if(err) return res.json({err:err})
 		if(!childrenFind) return res.json({err:{message:"Children not exist"}})
@@ -373,6 +372,15 @@ router.post("/register-user",upload.any(),(req,res)=>{
 			}
 		})
 	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
+})
+
+router.get("/admin-childrens",(req,res)=>{
+	models.step.find({},(err,steps) => {
+		if(err) return res.json({message:err})
+		if(steps){
+			return res.render("adminChildrens", {steps:steps})
+		}
+	})
 })
 
 router.post("/update-user",upload.any(),(req,res)=>{
@@ -799,7 +807,7 @@ router.post("/delete-step",(req,res)=>{
 	})
 })
 
-router.post("/valid-children",(req,res)=>{
+/*router.post("/valid-children",(req,res)=>{
 	var data = req.body
 
 	models.children.findOne({idChildren : data.validChildren},(err,exists) => {
@@ -807,9 +815,9 @@ router.post("/valid-children",(req,res)=>{
 		if(exists) res.json({valid:false, msg:"¡Niñ@ ya existe!", statusCode:2})
 		else res.json({valid:true, msg:"", statusCode:1})
 	})
-})
+})*/
 
-router.post("/valid-user",(req,res)=>{
+/*router.post("/valid-user",(req,res)=>{
 	var data = req.body
 
 	models.user.findOne({idUser : data.validUser},(err,exists) => {
@@ -820,7 +828,7 @@ router.post("/valid-user",(req,res)=>{
 			res.json({valid:true, msg:"", statusCode:1})
 		}
 	})
-})
+})*/
 
 router.post("/valid-step",(req,res)=>{
 	var data = req.body
@@ -847,7 +855,7 @@ router.post("/valid-step",(req,res)=>{
 					(err,doc) => {
 						models.children.findOneAndUpdate(
 						{idChildren : children.idChildren},
-						{$set:{statusChildren:2}},
+						{$set:{statusChildrenEstimulation:2}},
 						(err,activity) => {
 							if(err) return res.json({err:err})
 							if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})
@@ -899,15 +907,36 @@ router.post("/register-newuser",(req,res)=>{
 
 router.post("/find-all",(req,res)=>{
 	var data = req.body
-	if(data.typeUser == "2"){
+	if(data.typeConsult == "4"){
 		models.adminuser.find({typeUser : {$ne : "2"}})
 		.populate("idUser")
 		.exec((err,users) =>{
 			if(err) return res.json({err:err})
 			res.json(users)
 		})
-	}else{
-		models.adminuser.find({typeUser : data.typeUser})
+	}else if(data.typeConsult == "3"){
+		models.adminuser.find({statusUser : 0, typeUser : {$ne : "2"}})
+		.populate("idUser")
+		.exec((err,users) =>{
+			if(err) return res.json({err:err})
+			res.json(users)
+		})
+	}else if(data.typeConsult == "2"){
+		models.adminuser.find({statusUser :1, typeUser : {$ne : "2"}})
+		.populate("idUser")
+		.exec((err,users) =>{
+			if(err) return res.json({err:err})
+			res.json(users)
+		})
+	}else if(data.typeConsult == "1"){
+		models.adminuser.find({typeUser : 1})
+		.populate("idUser")
+		.exec((err,users) =>{
+			if(err) return res.json({err:err})
+			res.json(users)
+		})
+	}else if(data.typeConsult == "0"){
+		models.adminuser.find({typeUser : 0})
 		.populate("idUser")
 		.exec((err,users) =>{
 			if(err) return res.json({err:err})
@@ -915,13 +944,33 @@ router.post("/find-all",(req,res)=>{
 		})
 	}
 })
-
+/*
 router.post("/inactivate-children",(req,res)=>{
 	var data = req.body
 	
 	models.children.findOneAndUpdate(
 		{idChildren : data.adminUpdChildren},
 		{$set:{statusChildren:3, observationChildren:data.observationChildren}},
+		(err,doc) => {
+			if(err) return res.json({err:err})
+			if(doc) return res.json({msg:"¡Estado actualizado con éxito!", statusCode:0})
+			if(!doc) return res.json({msg:"Niñ@ no existe!", statusCode:2})
+		})
+})*/
+
+router.post("/status-children",(req,res)=>{
+	var data = req.body,
+		statusEstimulation
+
+	if(data.statusChildren == 0){
+		statusEstimulation = 3
+	}else if(data.statusChildren == 1){
+		statusEstimulation = 0
+	}
+	
+	models.children.findOneAndUpdate(
+		{idChildren : data.adminUpdChildren},
+		{$set:{statusChildren:data.statusChildren, statusChildrenEstimulation:statusEstimulation, observationChildren:data.observationChildren}},
 		(err,doc) => {
 			if(err) return res.json({err:err})
 			if(doc) return res.json({msg:"¡Estado actualizado con éxito!", statusCode:0})

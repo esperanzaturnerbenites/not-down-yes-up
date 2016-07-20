@@ -14,20 +14,27 @@ router.post("/:collection",(req, res) => {
 		model = mongoose.model(collection),
 		data = req.body,
 		query = data.query ? data.query : {},
-		fn = data.fn ? functions[data.fn] : false,
+		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
 		params = data.params ? data.params : {},
 		projection = data.projection ? data.projection : {}
 
-	model.find(query,projection)
-		.populate('user parent activity children')
-		.exec((err,documents) => {
-			if (err) return res.json({err:err})
-			params.data = documents
-			if(fn){
-				var returnFn = fn(params)
-			}
-			return res.json({documents:documents,returnFn:returnFn})
-		})
+	var promise = fn(params)
+	promise.then(
+		data => {
+			model.find(query,projection)
+				.populate("user parent activity children")
+				.exec((err,documents) => {
+					if (err) return res.json({err:err})
+					params.data = documents
+					return res.json({documents:documents,returnFn:data.data})
+				})
+			
+		},
+		err => {
+			return res.json({message:err.message})
+		}
+		)
+
 })
 
 router.put("/:collection",(req, res) => {
@@ -36,15 +43,24 @@ router.put("/:collection",(req, res) => {
 		data = req.body,
 		query = data.query ? data.query : {},
 		dataUpdate = data.data ? data.data : {},
-		fn = data.fn ? functions[data.fn] : false,
+		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
 		params = data.params ? data.params : {}
 
-	if(fn) fn(params,dataUpdate,res)
+	var promise = fn(params,dataUpdate,res)
 
-	model.update(query,{$set:dataUpdate},function(err,status) {
-		if (err) return res.json({err:err})
-		return res.json({msg:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
-	})
+	promise.then(
+		data => {
+			model.update(query,dataUpdate,function(err,status) {
+				if (err) return res.json({err:err})
+				if (status.nModified) return res.json({msg:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
+				if (!status.nModified) return res.json({msg:"Actualizacion Incompleta",statusCode:CTE.STATUS_CODE.NOT_OK,status:status})
+			})
+		},
+		err => {
+			console.log("callback reject")
+			return res.json({msg:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
+		}
+	)
 })
 
 router.delete("/:collection",(req, res) => {
@@ -53,22 +69,25 @@ router.delete("/:collection",(req, res) => {
 		data = req.body,
 		query = data.query ? data.query : {},
 		dataUpdate = data.data ? data.data : {},
-		fn = data.fn ? functions[data.fn] : false,
+		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
 		params = data.params ? data.params : {}
 
-	console.log(".......")
-	console.log(1)
-	console.log(".......")
-	if(fn) fn(params,dataUpdate,res)
-	console.log(".......")
-	console.log(2)
-	console.log(".......")
-	console.log(query)
+	var promise = fn(params,dataUpdate,res)
 
-	model.remove(query,function(err,status) {
-		if (err) return res.json({err:err})
-		return res.json({msg:"Eliminacion Completa.",statusCode:CTE.STATUS_CODE.OK,status:status})
-	})
+	promise.then(
+		data => {
+			console.log("callback resolve")
+			model.remove(query,function(err,status) {
+				if (err) return res.json({err:err})
+				return res.json({msg:"Eliminacion Completa.",statusCode:CTE.STATUS_CODE.OK,status:status})
+			})
+		},
+		err => {
+			console.log("callback reject")
+			return res.json({msg:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
+		}
+
+	)
 })
 
 module.exports = router

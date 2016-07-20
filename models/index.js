@@ -1,6 +1,7 @@
 //Requerir Mongoose
 var Mongoose = require("mongoose"),
-	Schema = Mongoose.Schema
+	Schema = Mongoose.Schema,
+	CTE = require("../CTE")
 
 //Crear Esquemas
 const userSchema = new Mongoose.Schema({
@@ -56,8 +57,13 @@ const userSchema = new Mongoose.Schema({
 		hearingaidChildren: {type:Number},
 		abilityChildren: {type:String},
 		debilityChildren: {type:String},
+		statusChildrenEstimulation: {type:Number, default:0},
 		statusChildren: {type:Number, default:0},
-		observationChildren: {type:String, default:"Sin Observaciones..."},
+		observationChildren: [{
+			date:{type:Date, default:Date.now},
+			observation: {type:String, default:"Registro Inicial"},
+			status:{type:Number, default:CTE.STATUS_USER.ACTIVE}
+		}],
 		dateStart: {type:Date, default:Date.now},
 		dateEnd: {type:Date, default:Date.now},
 		idParent: [{idParent:{type:Schema.ObjectId, ref: "parent"}, relationshipParent:{type:Number}}]

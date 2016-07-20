@@ -1,29 +1,32 @@
 extends templates/template.jade
 block title
-  title Salvar Info ¡No Down, Yes Up!
+	title Salvar Info ¡No Down, Yes Up!
 block exit
-  button
-    a(href='/admin/menu-admin') VOLVER
+	button
+		a(href='/admin/menu-admin') VOLVER
 block content
-  section.register
-    h3 Salvar la Información
-    article.data
-      
-      form(action="/admin/backup/" method="POST")
-        fieldset
-          legend Backup Info
-          section
-            p
-              span Recuerde realizar el backup del sistema de manera periódica para evitar posibles pérdidas de información.
-            button
-              span Realizar Backup
+	section.register
+		h3 Salvar la Información
+		article.data
+			
+			form(action="/admin/backup/" method="POST")
+				fieldset
+					legend Backup Info
+					section
+						p
+							span Recuerde realizar el backup del sistema de manera periódica para evitar posibles pérdidas de información.
+						button
+							span Realizar Backup
 
-      form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
-        fieldset
-          legend Restaurar Info
-          section
-            input(type="file" name="data" accept=".tar" required)
-            button(type="submit")
-              span Realizar Restauracion
-      
-  script(src="/js/app.js")
+			form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
+				fieldset
+					legend Restaurar Info
+					section
+						article
+							p Only Developer
+						article
+							input(type="file" name="data" accept=".tar" required disabled)
+							button(type="submit" disabled)
+								span Realizar Restauracion
+			
+	script(src="/js/app.js")

@@ -8,7 +8,7 @@ section.consul.consulQuery
 			span Generar PDF
 	article.consulTable
 		each step in data
-			h2 Etapa:  #{step.idStep}
+			h2 Etapa: #{step.idStep}
 			table
 				thead
 					tr
@@ -16,6 +16,7 @@ section.consul.consulQuery
 						th NOMBRES
 						th APELLIDOS
 						th ESTADO NIÑ@
+						th ESTADO CURSOS
 						th ESTADO ETAPA
 						th PUNTUACION
 						th OBSERVACION
@@ -24,13 +25,33 @@ section.consul.consulQuery
 				tbody
 					each stepValid in step
 						- var children = stepValid.idChildren
+						
+						if (stepValid.statusStep == 0)
+							-var statusStep = "Pendiente"
+						if (stepValid.statusStep == 1)
+							-var statusStep = "Completada"
+
+						if (children.statusChildren == 0)
+							-var statusChildren = "ACTIVO"
+						if (children.statusChildren == 1)
+							-var statusChildren = "INACTIVO"
+
+						if (children.statusChildrenEstimulation == 0)
+							-var statusChildrenEstimulation = "Registrado"
+						if (children.statusChildrenEstimulation == 1)
+							-var statusChildrenEstimulation = "En Cursos"
+						if (children.statusChildrenEstimulation == 2)
+							-var statusChildrenEstimulation = "Calificado"
+						if (children.statusChildrenEstimulation == 3)
+							-var statusChildrenEstimulation = "Retirado"
 						tr
 							td
 								a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
 							td #{children.nameChildren}
 							td #{children.lastnameChildren}
-							td #{children.statusChildren}
-							td #{stepValid.statusStep}
+							td #{statusChildren}
+							td #{statusChildrenEstimulation}
+							td #{statusStep}
 							td #{stepValid.scoreStep}
 							td #{stepValid.observationStep}
 							td #{stepValid.date}

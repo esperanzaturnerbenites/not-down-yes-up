@@ -1,11 +1,11 @@
-extends templates/template.jade
+extends templates/template.jade 
 block title
 	title Administración de Usuarios en ¡No Down, Yes Up!
 block exit
 	button
 		a(href='/admin/menu-admin') VOLVER
 block content
-	section.register
+	section.register 
 		h3 Administración de Usuarios
 		article.data
 
@@ -13,10 +13,12 @@ block content
 				fieldset
 					legend Ver Usuarios
 					article
-						select#typeUser(name='typeUser')
+						select#typeConsult(name='typeConsult')
 							option(value='0', selected='') Administradores
 							option(value='1') Docentes
-							option(value='2') Todos
+							option(value='2') Activos
+							option(value='3') Inactivos
+							option(value='4') Todos
 						button(type='submit')
 							span Buscar
 						
@@ -27,8 +29,8 @@ block content
 				fieldset
 					legend Nuevo Usuario del Sistema
 					article
-						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required='')
-						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required='')
+						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required data-valid-exists="user,false,true")
+						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required data-valid-exists="adminuser,true,false")
 					article
 						label(for='typeUser') Tipo de usuario: 
 						select#typeUser(name='typeUser')
@@ -44,7 +46,7 @@ block content
 				fieldset
 					legend Actualizar Contraseña
 					article
-						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required='')
+						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
 					article
 						input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
 						input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
@@ -55,7 +57,7 @@ block content
 				fieldset
 					legend Actualizar Rol
 					section
-						input#adminRolIdUser(type='text', name='adminRolIdUser', placeholder='Usuario', required='')
+						input#adminRolIdUser(type='text', name='adminRolIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
 						select#rolUser(name='rolUser')
 							option(value='0', selected='') Administrador
 							option(value='1') Docente
@@ -66,7 +68,7 @@ block content
 				fieldset
 					legend Actualizar Estado
 					section
-						input#adminStaIdUser(type='text', name='adminStaIdUser', placeholder='Usuario', required='')
+						input#adminStaIdUser(type='text', name='adminStaIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
 						select#statusUser(name='statusUser')
 							option(value='0', selected='') Inactivo
 							option(value='1') Activo
@@ -77,7 +79,7 @@ block content
 				fieldset
 					legend Eliminar Usuario Sistema
 					section
-						input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required='')
+						input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
 						button#formOpeUserDel(type='submit')
 							span Eliminar
 			
@@ -85,7 +87,7 @@ block content
 				fieldset
 					legend Docente/Administrador(s)
 					section
-						input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required='')
+						input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required data-valid-exists="user,false,true")
 						button#formOpeTeachAdminInfo
 							span Ver Info
 						button#formOpeTeachAdminUpd
@@ -94,6 +96,6 @@ block content
 							span Eliminar
 
 			article#showResultTeachAdmin
-			include templatesQuery/updateUser.jade
-			
-	script(src="/js/app.js")
+			//include templatesQuery/updateUser.jade
+
+	script(src="/js/administracionUsuarios.js")

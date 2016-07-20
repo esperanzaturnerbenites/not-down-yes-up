@@ -47,3 +47,71 @@
 		notification.show({msg:result.msg, type:result.statusCode})
 	}
 })*/
+
+/*$.ajax({
+	url: "/admin/found-users",
+	async : false, 
+	data : $("#adminOpeTeachAdmin").serialize(),
+	type : "POST",
+	success: function(result){
+		if (result.err) return notification.show({msg:result.err.message, type:1})
+		notification.show({msg:result.msg, type:result.statusCode})
+		if(result._id){
+			window.open("/admin/info-user/" + $("#adminOpeTeachAdmin").val())
+		}
+	}
+})*/
+
+/*$.ajax({
+	url: "/admin/found-users",
+	async : false, 
+	data : $("#adminOpeTeachAdmin").serialize(),
+	type : "POST",
+	success: function(result){
+		if (result.err) return notification.show({msg:result.err.message, type:1})
+		notification.show({msg:result.msg, type:result.statusCode})
+		if(result._id){
+			window.open("/admin/register-user/" + $("#adminOpeTeachAdmin").val())
+		}
+	}
+})*/
+
+/*$.ajax({
+	url: "/admin/found-childrens",
+	async : false, 
+	data : $("#adminInfoChildren").serialize(),
+	type : "POST",
+	success: function(result){
+		if (result.err) return notification.show({msg:result.err.message, type:1})
+		notification.show({msg:result.msg, type:result.statusCode})
+		if(result._id){
+			window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+		}
+	}
+})*/
+
+/*$.ajax({
+	url: "/admin/found-childrens",
+	async : false, 
+	data : $("#adminInfoChildren").serialize(),
+	type : "POST",
+	success: function(result){
+		if (result.err) return notification.show({msg:result.err.message, type:1})
+		notification.show({msg:result.msg, type:result.statusCode})
+		if(result._id){
+			window.open("/admin/register-children/" + params)
+		}
+		//console.log(result)
+	}
+})*/
+
+/*$.ajax({
+	url: "/admin/status-children",
+	async : false, 
+	data : $(this).serialize(),
+	type : "POST",
+	success: function(result){
+		if (result.err) return notification.show({msg:result.err.message, type:1})
+		notification.show({msg:result.msg, type:result.statusCode})
+	}
+})*/

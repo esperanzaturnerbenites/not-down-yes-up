@@ -1,5 +1,4 @@
 template#consulQueryDataChild
-	h1 DATOS BÁSICOS DEL NIÑ@
 	section.continue.continueViewMore
 		article.consulName
 			p
@@ -119,14 +118,22 @@ template#consulQueryDataChild
 					b Fecha de Ingreso: 
 				span #{childrenAct.dateStart}
 			if (childrenAct.statusChildren == 0)
-				- var statusChildren = "Registrado"
+				- var statusChildren = "INACTIVO"
 			if (childrenAct.statusChildren == 1)
-				- var statusChildren = "En Cursos"
-			if (childrenAct.statusChildren == 2)
-				- var statusChildren = "Calificado"
-			if (childrenAct.statusChildren == 3)
-				- var statusChildren = "Retirado/Inactivo"
+				- var statusChildren = "ACTIVO"
+			if (childrenAct.statusChildrenEstimulation == 0)
+				- var statusChildrenEstimulation = "Registrado"
+			if (childrenAct.statusChildrenEstimulation == 1)
+				- var statusChildrenEstimulation = "En Cursos"
+			if (childrenAct.statusChildrenEstimulation == 2)
+				- var statusChildrenEstimulation = "Calificado"
+			if (childrenAct.statusChildrenEstimulation == 3)
+				- var statusChildrenEstimulation = "Retirado/Inactivo"
 			p
 				span
-					b Estado Actual: 
+					b Estado: 
 				span #{statusChildren}
+			p
+				span
+					b Estado Cursos: 
+				span #{statusChildrenEstimulation}

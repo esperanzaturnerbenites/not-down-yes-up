@@ -1,8 +1,11 @@
 var express = require("express"),
 	models = require("./../models"),
+	CTE = require("./../CTE"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
 	jade = require("jade")
+
+console.log(jade)
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -51,7 +54,7 @@ router.post("/consult-step-act",(req,res)=>{
 					steps.activities = activities
 					var fn = jade.compileFile(view,{})
 					var html = fn({data: steps})
-					return res.json({html:html})
+					return res.json({html:html,data:steps})
 				})
 			})
 		})

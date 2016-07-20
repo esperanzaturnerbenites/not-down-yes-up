@@ -17,6 +17,7 @@ section.consul.consulQuery
 					th NOMBRE
 					th EDAD
 					th ESTADO
+					th ESTADO CURSOS
 					- var numeroActividad = 1
 						while numeroActividad <= data.countActivities
 							th Actividad #{numeroActividad++}
@@ -29,6 +30,11 @@ section.consul.consulQuery
 						td #{children.nameChildren} #{children.lastnameChildren}
 						td #{children.ageChildren}
 						td #{children.statusChildren}
+						td #{children.statusChildrenEstimulation}
 						- var numeroActividad = 1
 							while numeroActividad <= data.countActivities
-								td Sin Iniciar #{numeroActividad++}
+								if data.activitiesValid[numeroActividad]
+									td #{Utils.STATUS_ACTIVITY.getString(data.activitiesValid[numeroActividad].statusActivity)}
+								else
+									td Sin Iniciar
+								- numeroActividad++

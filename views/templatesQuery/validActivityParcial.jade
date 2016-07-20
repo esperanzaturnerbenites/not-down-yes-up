@@ -2,7 +2,7 @@ template#consulQueryChildrenValidParcial
 
 	form#formValidChildrenParcial.validAct
 		fieldset
-			legend Validar Etapa
+			legend Validación Actividad
 			article
 				label Docente: 
 				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
@@ -26,7 +26,7 @@ template#consulQueryChildrenValidParcial
 				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
 			
 			article.validActButton
-				button#buttonValidActParcial(type='button')
+				button(type='submit')
 					span Validar
 
 				button#buttonCancelValidActParcial(type='button')

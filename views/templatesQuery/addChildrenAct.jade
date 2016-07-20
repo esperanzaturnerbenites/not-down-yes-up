@@ -20,18 +20,21 @@ template#consulQueryAddChild
 						b #{n}: 
 						span #{guide}
 				button#review
-					span Repaso
+					span Actividad de Apoyo
 
 	section#reviewChild.flex.actGroupReview.hide
 		fieldset
 			legend Aprendamos Juntos
 			article.flex
+				-var cantImgReview = activity.imgActivity.length
+				-var select = Math.floor((Math.random() * (cantImgReview - 0)) + 0)
+				
 				- var aDesc = 0
 				if (activity.uniqueImageActivity == 1)
 					- var a = 1
 				else
 					- var a = 0
-				-for (var a; a < activity.imgActivity.length; a++)
+				-for (var a; a < 4; a++)
 					article#imgReviewAudio.imgReview
 						h1.h1-3#descImg #{activity.imgDescriptionActivity[aDesc]}
 						img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')

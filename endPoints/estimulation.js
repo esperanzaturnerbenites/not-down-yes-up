@@ -159,7 +159,7 @@ router.post("/valid-activity-parcial",(req,res)=>{
 
 					models.children.findOneAndUpdate(
 					{idChildren : children.idChildren},
-					{$set:{statusChildren:1}},
+					{$set:{statusChildrenEstimulation:1}},
 					(err,doc) => {
 						if(err) return res.json({err:err})
 						if(doc) return res.json({msg:"¡Validación Parcial Exitosa!",statusCode : 0, activity : activity})
@@ -220,7 +220,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 										(err,doc) => {
 											models.children.findOneAndUpdate(
 											{idChildren : children.idChildren},
-											{$set:{statusChildren:1}},
+											{$set:{statusChildrenEstimulation:1}},
 											(err,docChild) => {
 												if(err) return res.json({err:err})
 												if(docChild) return res.json({msg:"¡Validación Semestral Exitosa (Actualización)!", statusCode:0, activity : doc})
@@ -230,7 +230,7 @@ router.post("/valid-activity-complete",(req,res)=>{
 									models.activityvalid.create(data, function (err,activity) {
 										models.children.findOneAndUpdate(
 											{idChildren : children.idChildren},
-											{$set:{statusChildren:1}},
+											{$set:{statusChildrenEstimulation:1}},
 											(err,docChild) => {
 												if(err) return res.json({err:err})
 												if(docChild) return res.json({msg:"¡Validación Semestral Exitosa (Primera vez)!", statusCode:0, activity : activity})

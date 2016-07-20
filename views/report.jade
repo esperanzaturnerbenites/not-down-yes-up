@@ -32,15 +32,14 @@ block content
 				fieldset.consul.consulAvanced
 					legend Consulta por Edades
 					article
-						label(for='consulAge') Edad en Meses: 
+						label(for='consulAge') Tipo de Consulta: 
 						select#consulAge(name='consulAge')
 							option(value='eq' select) Exacta
 							option(value='gt') Mayor Que
 							option(value='lt') Menor Que
-						label Mes: 
-						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', value='0', min='0', max='48', placeholder='Meses')
-						label#consulIdConsulAvanced2Label.hide Mes:
-						input#consulIdConsulAvanced2.hide(type='number', name='consulIdConsulAvanced2', value='0', min='0', max='48', placeholder='Meses')
+					article
+						label Edad en Meses: 
+						input#consulIdConsulAvanced(type='number', name='consulIdConsulAvanced', value='0', min='0', max='48', placeholder='Meses', required)
 					button.buttons#buttonReportAges(type='submit')
 						span Consultar
 
@@ -81,6 +80,14 @@ block content
 							span Consultar
 					else
 						h2 No existen actividades
+
+			
+			form#finalReport
+				fieldset.consul.consulAvanced
+					legend Reporte Final
+					input#idChildrenFinal(type='number', name='idChildrenFinal', min='1111', placeholder='Identificación Niñ@', required)
+					button.buttons(type='submit')
+						span Generar Reporte Final
 
 		section#showResultsReport
 

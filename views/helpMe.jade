@@ -37,10 +37,15 @@ html(lang='es')
 							ul
 								li(data-id='admest' data-reference="#estActs") ACTIVIDADES
 							ul
+								li(data-id='admest' data-reference="#estDevAct") DESARROLLAR ACTIVIDAD
+							ul
 								li(data-id='admest' data-reference="#estElec") TAPETE ELECTRÓNICO
 
 			section#menuAllHelp
 				nav#allUsers.menuDesc.hide
+					ul
+						li(data-id = 'question' data-reference = '#allPaginaPrincipal') PÁGINA PRINCIPAL
+						p#allPaginaPrincipal.menuHelpQuestion.hide PÁGINA PRINCIPAL #allPaginaPrincipal
 					ul
 						li(data-id = 'question' data-reference = '#allLogin') LOGUEO
 						p#allLogin.menuHelpQuestion.hide LOGUEO #allLogin Un mamut chiquitito quería olar probaba y probaba y no podía volar una palomita su amiga lo quiso ayudar y de un quinto piso lo hizo saltar ¿y que paso? mierda el mamut se hizo erda mierda el mamut se hizo mierda Un mamut chiquitito quería fumar probaba y probaba y no podía fumar un perro su amigo lo quiso ayudar y 500 cigarrillos lo hizo fumar ¿y que paso? cáncer al mamut le dio cáncer cáncer al mamut le dio cáncer Un mamut chiquitito quería tomar probaba y probaba y no podía tomar un oso su amigo lo quiso ayudar y cien litros de whisky le hizo tomar ¿y que paso? cirrosis al mamut le dio cirrosis cirrosis al mamut le dio cirrosis Un mamatu chiquitito quería debutar probaba y probaba y no podía debutar un burro su amigo lo quiso ayudar y con cien prostitutas lo hizo debutar ¿y que paso? sida al mamut le dio ida sida al mamut le dio sida Un mamut chiquitito se quería drogar probaba y probaba y no se podía drogar un gato su amigo lo quiso ayudar y diez lineas de coca le hizo probar ¿y que paso? sobredosis el mamut con sobredosis sobredosis el mamut con sobredosis y ahora que le paso se murió el mamut se murió se murió el mamut se murió 
@@ -48,10 +53,16 @@ html(lang='es')
 						li(data-id = 'question' data-reference = '#allUnlogin') DESLOGUEO
 						p#allUnlogin.menuHelpQuestion.hide #allUnlogin
 					ul
+						li(data-id = 'question' data-reference = '#allMenuPrincipal') MENÚ PRINCIPAL
+						p#allMenuPrincipal.menuHelpQuestion.hide #allMenuPrincipal
+					ul
 						li(data-id = 'question' data-reference = '#allHelpQuestion') AYUDA
 						p#allHelpQuestion.menuHelpQuestion.hide #allHelpQuestion
 			section#menuAdminHelp
 				nav#admUsers.menuDesc.hide
+					ul
+						li(data-id = 'question' data-reference = '#admMenuPrincipalAdmin') MENÚ PRINCIPAL ADMINISTRACIÓN
+						p#admMenuPrincipalAdmin.menuHelpQuestion.hide #admMenuPrincipalAdmin
 					ul
 						li(data-id = 'question' data-reference = '#admRegisterUser') REGISTRAR USUARI@ NUEV@
 						p#admRegisterUser.menuHelpQuestion.hide #admRegisterUser
@@ -62,16 +73,16 @@ html(lang='es')
 						li(data-id = 'question' data-reference = '#admDetailUser') DETALLAR UN(A) USUARI@
 						p#admDetailUser.menuHelpQuestion.hide #admDetailUser
 					ul
-						li(data-id = 'question' data-reference = '#admUpdateUser') ACTUALIZAR UN(A) USUARI@S
+						li(data-id = 'question' data-reference = '#admUpdateUser') ACTUALIZAR UN(A) USUARI@
 						p#admUpdateUser.menuHelpQuestion.hide #admUpdateUser
 					ul
-						li(data-id = 'question' data-reference = '#admDeleteUser') ELIMINAR UN(A) USUARI@S
+						li(data-id = 'question' data-reference = '#admDeleteUser') ELIMINAR UN(A) USUARI@
 						p#admDeleteUser.menuHelpQuestion.hide #admDeleteUser
 					ul
-						li(data-id = 'question' data-reference = '#admNewRol') ASIGNAR NUEVO USUARIO DE LOGUEO
+						li(data-id = 'question' data-reference = '#admNewRol') ASIGNAR NUEVO USUARIO DE AUTENTICACIÓN
 						p#admNewRol.menuHelpQuestion.hide #admNewRol
 					ul
-						li(data-id = 'question' data-reference = '#admDeleteLogin') ELIMINAR USUARIO DE LOGUEO
+						li(data-id = 'question' data-reference = '#admDeleteLogin') ELIMINAR USUARIO DE AUTENTICACIÓN
 						p#admDeleteLogin.menuHelpQuestion.hide #admDeleteLogin
 					ul
 						li(data-id = 'question' data-reference = '#admUpdatePass') ACTUALIZAR CONTRASEÑA
@@ -87,9 +98,6 @@ html(lang='es')
 						li(data-id = 'question' data-reference = '#admRegisterChild') REGISTRAR NIÑ@ NUEV@
 						p#admRegisterChild.menuHelpQuestion.hide #admRegisterChild
 					ul
-						li(data-id = 'question' data-reference = '#admConsultChild') CONSULTAR NIÑ@S
-						p#admConsultChild.menuHelpQuestion.hide #admConsultChild
-					ul
 						li(data-id = 'question' data-reference = '#admDetailChild') DETALLAR UN(A) NIÑ@
 						p#admDetailChild.menuHelpQuestion.hide #admDetailChild
 					ul
@@ -98,6 +106,9 @@ html(lang='es')
 					ul
 						li(data-id = 'question' data-reference = '#admDeleteChild') ELIMINAR UN(A) NIÑ@S
 						p#admDeleteChild.menuHelpQuestion.hide #admDeleteChild
+					ul
+						li(data-id = 'question' data-reference = '#admStatusChild') CAMBIAR ESTADO NIÑO/A
+						p#admStatusChild.menuHelpQuestion.hide #admStatusChild
 					ul
 						li(data-id = 'question' data-reference = '#admValidStep') VALIDAR ETAPA
 						p#admValidStep.menuHelpQuestion.hide #admValidStep
@@ -112,26 +123,29 @@ html(lang='es')
 						li(data-id = 'question' data-reference = '#admReportAge') CONSULTA POR EDADES
 						p#admReportAge.menuHelpQuestion.hide #admReportAge
 					ul
-						li(data-id = 'question' data-reference = '#admReportStep') CONSULTA POR ETAPA
+						li(data-id = 'question' data-reference = '#admReportStep') CONSULTA POR ETAPAS
 						p#admReportStep.menuHelpQuestion.hide #admReportStep
 					ul
 						li(data-id = 'question' data-reference = '#admReportActivity') CONSULTA POR ACTIVIDAD
 						p#admReportActivity.menuHelpQuestion.hide #admReportActivity
 					ul
-						li(data-id = 'question' data-reference = '#admReportIndicator') CONSULTA POR INDICADORES
-						p#admReportIndicator.menuHelpQuestion.hide #admReportIndicator
+						li(data-id = 'question' data-reference = '#admReportFinal') GENERACIÓN DE REPORTE FINAL
+						p#admReportFinal.menuHelpQuestion.hide #admReportFinal
 				nav#admBackups.menuDesc.hide
 					ul
 						li(data-id = 'question' data-reference = '#admSaveBackup') SALVAR INFORMACIÓN (BACKUPS)
 						p#admSaveBackup.menuHelpQuestion.hide #admSaveBackup
 					ul
-						li(data-id = 'question' data-reference = '#admRecoveryBackup') RECUPERAR INFORMACIÓN DE BACKUPS PREVIOS
+						li(data-id = 'question' data-reference = '#admRecoveryBackup') RESTAURAR BACKUPS (RECUPERAR INFORMACIÓN)
 						p#admRecoveryBackup.menuHelpQuestion.hide #admRecoveryBackup
 			section#menuEstimulationHelp
 				nav#estGeneral.menuDesc.hide
 					ul
 						li(data-id = 'question' data-reference = '#estEstimulation') ENTRAR AL CENTRO DE ESTIMULACIÓN
 						p#estEstimulation.menuHelpQuestion.hide #estEstimulation
+					ul
+						li(data-id = 'question' data-reference = '#estMenuEstimulation') MENÚ PRINCIPAL ESTIMULACIÓN
+						p#estMenuEstimulation.menuHelpQuestion.hide #estMenuEstimulation
 				nav#estSteps.menuDesc.hide
 					ul
 						li(data-id = 'question' data-reference = '#estViewSteps') VER LAS ETAPAS
@@ -147,29 +161,54 @@ html(lang='es')
 						li(data-id = 'question' data-reference = '#estEnterActivity') INGRESAR A UNA ACTIVIDAD
 						p#estEnterActivity.menuHelpQuestion.hide #estEnterActivity
 					ul
-						li(data-id = 'question' data-reference = '#estMenuActivity') MENÚ DE UNA ACTIVIDAD
-						p#estMenuActivity.menuHelpQuestion.hide #estMenuActivity
-					ul
 						li(data-id = 'question' data-reference = '#estStartActivity') INICIAR ACTIVIDAD
 						p#estStartActivity.menuHelpQuestion.hide #estStartActivity
+					ul
+						li(data-id = 'question' data-reference = '#estMenuActivity') MENÚ DE UNA ACTIVIDAD
+						p#estMenuActivity.menuHelpQuestion.hide #estMenuActivity
 					ul
 						li(data-id = 'question' data-reference = '#estRestartActivity') REINICIAR O CANCELAR ACTIVIDAD
 						p#estRestartActivity.menuHelpQuestion.hide #estRestartActivity
 					ul
-						li(data-id = 'question' data-reference = '#estDetailActivity') DETALLAR ACTIVIDAD
-						p#estDetailActivity.menuHelpQuestion.hide #estDetailActivity
+						li(data-id = 'question' data-reference = '#estDetailChild') DETALLAR UN(A) NIÑ@
+						p#estDetailChild.menuHelpQuestion.hide #estDetailChild
 					ul
-						li(data-id = 'question' data-reference = '#estDevelopActivity') DESARROLLAR ACTIVIDAD
-						p#estDevelopActivity.menuHelpQuestion.hide #estDevelopActivity
+						li(data-id = 'question' data-reference = '#estSupportActivity') ACTIVIDAD DE APOYO
+						p#estSupportActivity.menuHelpQuestion.hide #estSupportActivity
 					ul
 						li(data-id = 'question' data-reference = '#estValidParcial') VALIDACIÓN PARCIAL DE UNA ACTIVIDAD
 						p#estValidParcial.menuHelpQuestion.hide #estValidParcial
 					ul
 						li(data-id = 'question' data-reference = '#estValidDefinitive') VALIDACIÓN FINAL DE UNA ACTIVIDAD
 						p#estValidDefinitive.menuHelpQuestion.hide #estValidDefinitive
+				nav#estDevAct.menuDesc.hide
 					ul
-						li(data-id = 'question' data-reference = '#estDetailChild') DETALLAR UN(A) NIÑ@
-						p#estDetailChild.menuHelpQuestion.hide #estDetailChild
+						li(data-id = 'question' data-reference = '#estAccessConectRug') ACCESO A ConectionRUG
+						p#estAccessConectRug.menuHelpQuestion.hide #estAccessConectRug
+					ul
+						li(data-id = 'question' data-reference = '#estValidConectRug') VALIDACIONES EN ConectionRUG
+						p#estValidConectRug.menuHelpQuestion.hide #estValidConectRug
+					ul
+						li(data-id = 'question' data-reference = '#estConnectRug') CONEXIÓN DE TAPETE
+						p#estConnectRug.menuHelpQuestion.hide #estConnectRug
+					ul
+						li(data-id = 'question' data-reference = '#estSelectRecords') SELECCIÓN DE FICHAS
+						p#estSelectRecords.menuHelpQuestion.hide #estSelectRecords
+					ul
+						li(data-id = 'question' data-reference = '#estLocationRecords') UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)
+						p#estLocationRecords.menuHelpQuestion.hide #estLocationRecords
+					ul
+						li(data-id = 'question' data-reference = '#estGuideTeacher') GUÍA DOCENTE
+						p#estGuideTeacher.menuHelpQuestion.hide #estGuideTeacher
+					ul
+						li(data-id = 'question' data-reference = '#estGuideChilderns') GUÍA NIÑ@S
+						p#estGuideChilderns.menuHelpQuestion.hide #estGuideChilderns
+					ul
+						li(data-id = 'question' data-reference = '#estImagesActivity') IMÁGENES
+						p#estImagesActivity.menuHelpQuestion.hide #estImagesActivity
+					ul
+						li(data-id = 'question' data-reference = '#estAnswerActivity') RESPUESTA
+						p#estAnswerActivity.menuHelpQuestion.hide #estAnswerActivity
 				nav#estElec.menuDesc.hide
 					ul
 						li(data-id = 'question' data-reference = '#estRugDescription') DESCRIPCIÓN
@@ -177,12 +216,6 @@ html(lang='es')
 					ul
 						li(data-id = 'question' data-reference = '#estRugConection') CONEXIÓN
 						p#estRugConection.menuHelpQuestion.hide #estRugConection
-					ul
-						li(data-id = 'question' data-reference = '#estRugSelectRecord') SELECCIÓN DE FICHAS
-						p#estRugSelectRecord.menuHelpQuestion.hide #estRugSelectRecord
-					ul
-						li(data-id = 'question' data-reference = '#estRuglocationRecord') UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)
-						p#estRuglocationRecord.menuHelpQuestion.hide #estRuglocationRecord
 					ul
 						li(data-id = 'question' data-reference = '#estRugCare') CUIDADO
 						p#estRugCare.menuHelpQuestion.hide #estRugCare

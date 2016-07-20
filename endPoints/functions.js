@@ -5,40 +5,66 @@ var jade = require("jade"),
 	models = require("../models")
 
 function renderReportAge(params){
-	var fn = jade.compileFile(params.view,{})
-	var html = fn({data: params.data})
-	return html
+	return new Promise(function(resolve,reject){
+		var fn = jade.compileFile(params.view,{})
+		var html = fn({data: params.data})
+		resolve({data:html})
+	})
+}
+function addObservationChildren(params){
+	return new Promise(function(resolve,reject){
+		models.children.update(
+			{idChildren:params.idChildren},
+			{
+				$push: {
+					observationChildren: {
+						observation: "observacion completada",
+						status: 1
+					}
+				}
+			},
+			function(err,children){
+				if(err) reject(err)
+				resolve({message:"Observacion Añadida"})
+			})
+	})
+}
+
+function defaulFn(){
+	return Promise.resolve("Success")
 }
 
 function checkActivities(params,data,res){
-	var userUser = params.userUser
+	return new Promise(function(resolve,reject){
+		var userUser = params.userUser
 
-	models.adminuser.findOne({userUser:userUser},function(err,adminuser){
-		console.log("-------")
-		console.log(adminuser)
-		console.log("-------")
-		models.activityhistory.count({idUser:adminuser._id},function(err,status){
-			console.log(status)
-			if(!status){
-				var msg = {
-					msg: "Eliminacion incorrecta, Inactive el Usuario",
-					statusCode: CTE.STATUS_CODE.NOT_OK
+		models.adminuser.findOne({userUser:userUser},function(err,adminuser){
+			console.log(adminuser)
+			models.activityhistory.count({idUser:adminuser._id},function(err,status){
+				if(status){
+					console.log("reject")
+					reject({message: "El Usuario Tiene actividades Iniciadas. Inactivelo."})
+				}else{
+					console.log("resolve")
+					resolve({message: "El usuario se puede Eliminar"})
 				}
-				return res.json(msg)
-			}
-			console.log(".......")
-			console.log(2)
-			console.log(".......")
+			})
 		})
+
 	})
 }
 
 function encryptPass(params,data,res){
-	data.passUser = cryptr.encrypt(params.passUser)
+	return new Promise(function(resolve,reject){
+		data.passUser = cryptr.encrypt(params.passUser)
+		resolve({message:"Encriptacion Correcta"})
+	})
 }
 
 module.exports = {
 	renderReportAge: renderReportAge,
 	checkActivities: checkActivities,
-	encryptPass: encryptPass
+	encryptPass: encryptPass,
+	addObservationChildren: addObservationChildren,
+	defaulFn: defaulFn
 }

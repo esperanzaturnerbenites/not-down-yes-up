@@ -76,17 +76,26 @@ block content
 							span Fecha Ingreso: 
 						span #{infoChildren.child.dateStart}
 					if (infoChildren.child.statusChildren == 0)
-						- var statusChildren = "Registrado"
+						- var statusChildren = "INACTIVO"
 					if (infoChildren.child.statusChildren == 1)
-						- var statusChildren = "En Cursos"
-					if (infoChildren.child.statusChildren == 2)
-						- var statusChildren = "Calificado"
-					if (infoChildren.child.statusChildren == 3)
-						- var statusChildren = "Retirado/Inactivo"
+						- var statusChildren = "ACTIVO"
+					
+					if (infoChildren.child.statusChildrenEstimulation == 0)
+						- var statusChildrenEstimulation = "Registrado"
+					if (infoChildren.child.statusChildrenEstimulation == 1)
+						- var statusChildrenEstimulation = "En Cursos"
+					if (infoChildren.child.statusChildrenEstimulation == 2)
+						- var statusChildrenEstimulation = "Calificado"
+					if (infoChildren.child.statusChildrenEstimulation == 3)
+						- var statusChildrenEstimulation = "Retirado"
 					p
 						b
 							span Estado: 
 						span #{statusChildren}
+					p
+						b
+							span Estado Estimulación: 
+						span #{statusChildrenEstimulation}
 					p
 						b
 							span Observaciones: 

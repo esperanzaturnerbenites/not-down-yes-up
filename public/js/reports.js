@@ -57,7 +57,6 @@ $("#ageConsul").submit(function (event) {
 		contentType: "application/json",
 		data : JSON.stringify(data),
 		success: function(response){
-			console.log(response)
 			$("#showResultsReport").html(response.returnFn)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
@@ -114,6 +113,39 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 		success: function(result){
 			$("#showResultsReport").html(result.html)
 			$("#showResultsReport")[0].scrollIntoView()
+		}
+	})
+})
+
+
+/////////////******************* luzma hizo ---- revisar
+/*
+	Crear select de actividades
+	form#formConsulActStepsReport
+	Si sucede un evento chage en el select de etapas (#consulActStep), se genera otro select (#consulAct) con sus actividades correspondientes.
+	Resquest POST /api/:collection
+*/
+$("#consulActStep").change(() => {
+	$.ajax({
+		url: "/api/activity",
+		type : "POST",
+		contentType: "application/json",
+		data : JSON.stringify({
+			query:{
+				stepActivity : $("#consulActStep").val()
+			}
+		}),
+		success: function(respose){
+			$("#consulAct").empty()
+			if(respose.documents.length){
+				for(var activity of respose.documents){
+					$("#consulAct ").append(
+						$("<option>",{
+							html: "Actividad: " + activity.activityActivity + " - " + activity.nameActivity,
+							value: activity.activityActivity})
+					)
+				}
+			}
 		}
 	})
 })
