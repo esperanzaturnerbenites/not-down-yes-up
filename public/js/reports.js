@@ -1,5 +1,5 @@
-google.charts.load("current", {packages: ["corechart", "bar"]})
-
+google.charts.load("current", {packages: ["corechart", "bar","calendar"]})
+ 
 var notification = new NotificationC()
 
 /*
@@ -36,6 +36,28 @@ $("#consultGeneral").submit(function (event) {
 	})
 })
 
+$("#calendarActivities").submit(function (event) {
+	event.preventDefault()
+	var dateInit = new Date($("#dateInit").val().split()),
+		dateEnd = new Date($("#dateEnd").val().split())
+	$.ajax({
+		url: "/api/activityhistory",
+		type : "POST",
+		contentType: "application/json",
+		data : JSON.stringify({
+			query:{
+				date: {
+					$gte: dateInit.toISOString(),
+					$lte: dateEnd.toISOString()
+				}
+			},
+			projection: {
+				date:1
+			}
+		}),
+		success: function(response){drawCalendarActivities(response.documents)}
+	})
+})
 /*
 	Consulta Por Edades
 	form#ageConsul
@@ -154,6 +176,69 @@ $("#consulActStep").change(() => {
 	})
 })
 
+if(typeof dataTemplate != "undefined"){
+	var dataGeneral = {}
+
+	dataTemplate.histories.forEach(element => {
+		if(!dataGeneral[element.idActivity.stepActivity]) dataGeneral[element.idActivity.stepActivity] = []
+		dataGeneral[element.idActivity.stepActivity].push(element)
+	})
+}
+
+$("#tableActivitiesValid tbody tr").click(function(){
+	var step = $(this).data("ref-step"),
+		activity = $(this).data("ref-activity")
+	drawChartActivityHistory(step,activity)
+})
+
+function drawCalendarActivities(documents){
+	window.documents = documents
+	console.log(documents)
+	var dataChart = documents.map(element => {return [new Date(element.date),3000]})
+
+	var dataTable = new google.visualization.DataTable()
+	dataTable.addColumn({ type: "date", id: "Date" })
+	dataTable.addColumn({ type: "number", id: "Won/Loss" })
+	dataTable.addRows(dataChart)
+	/*dataTable.addRows([
+		[ new Date(2012, 3, 13), 37032 ],
+		[ new Date(2012, 3, 14), 38024 ],
+		[ new Date(2012, 3, 15), 38024 ],
+		[ new Date(2012, 3, 16), 38108 ],
+		[ new Date(2012, 3, 17), 38229 ],
+		// Many rows omitted for brevity.
+		[ new Date(2013, 9, 4), 38177 ],
+		[ new Date(2013, 9, 5), 38705 ],
+		[ new Date(2013, 9, 12), 38210 ],
+		[ new Date(2013, 9, 13), 38029 ],
+		[ new Date(2013, 9, 19), 38823 ],
+		[ new Date(2013, 9, 23), 38345 ],
+		[ new Date(2013, 9, 24), 38436 ],
+		[ new Date(2013, 9, 30), 38447 ]
+	])*/
+
+	var chart = new google.visualization.Calendar(document.getElementById("showResultsReport"))
+
+	var options = {
+		title: "Calendario de Actividades",
+		height: 350,
+		calendar: {
+			//cellSize: 16,
+			cellColor: {
+				stroke: '#76a7fa',
+				strokeOpacity: 0.5,
+				strokeWidth: 1
+			}
+		},
+		noDataPattern: {
+			backgroundColor: '#76a7fa',
+			color: '#a0c3ff'
+		}
+	}
+
+	chart.draw(dataTable, options);
+}
+
 function drawChartStep(){
 
 	var steps = dataTemplate.stepsValid
@@ -182,6 +267,7 @@ function drawChartStep(){
 
 	chart.draw(data, options)
 }
+
 function drawChartActvityValid(){
 
 	var activitiesValid = dataTemplate.activitiesValid
@@ -233,32 +319,25 @@ function drawChartActvityValid(){
 	chart.draw(data, options)
 }
 
-function drawChartActivityHistory(){
-
-	var dataGeneral = {}
+function drawChartActivityHistory(step,activity){
 
 	var headerChart = [["Fecha", "Puntaje Docente", "Puntaje Sistema"]]
+	var dataStep = dataGeneral[step]
 
-	dataTemplate.histories.forEach(element => {
-		if(!dataGeneral[element.idActivity.stepActivity]) dataGeneral[element.idActivity.stepActivity] = []
-		dataGeneral[element.idActivity.stepActivity].push({history:element})
+	var dataFilter = dataStep.filter(function(history){return history.idActivity.activityActivity == activity})
+
+	var dataChart = dataFilter.map(function(history){
+		var date = new Date(history.date)
+		return [
+			date.toLocaleString("es-CO",{hour12:true}),
+			history.scoreTeachActivity,
+			history.scoreSystemActivity
+		]
 	})
-	for (var hs in dataGeneral){
-		dataGeneral[hs].data = []
-		dataGeneral[hs].forEach(element => {
-			element.data = [element.history.date,element.history.scoreTeachActivity,element.history.scoreSystemActivity]
-			dataGeneral[hs].data.push([element.history.date,element.history.scoreTeachActivity,element.history.scoreSystemActivity])
 
-		})
-	}
-	console.log(dataGeneral)
+	dataChart = headerChart.concat(dataChart)
 
-	var data = google.visualization.arrayToDataTable([
-		["Fecha", "Puntaje Profe", "Puntaje Sistema"],
-		["2016-07-04",  3,5],
-		["2016-07-09",  7,4],
-		["2016-07-20",  10,8]
-	])
+	var data = google.visualization.arrayToDataTable(dataChart)
 
 	var options = {
 		title: "Hitorial de Actividades",
@@ -266,6 +345,6 @@ function drawChartActivityHistory(){
 		vAxis: {title: "Puntaje", minValue: 0}
 	}
 
-	var chart = new google.visualization.AreaChart(document.getElementById("containerChart"));
+	var chart = new google.visualization.AreaChart(document.getElementById("containerChart"))
 	chart.draw(data, options)
 }

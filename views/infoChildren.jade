@@ -13,7 +13,7 @@ block content
 					li.headerTab(data-ref="#contentTab2") DATOS FAMILIARES
 					li.headerTab(data-ref="#contentTab3" data-function="drawChartStep") ETAPAS
 					li.headerTab(data-ref="#contentTab4" data-function="drawChartActvityValid") ACTIVIDADES VALIDADAS
-					li.headerTab(data-ref="#contentTab5" data-function="drawChartActivityHistory") HISTORIAL ACTIVIDADES
+					li.headerTab(data-ref="#contentTab5") HISTORIAL ACTIVIDADES
 
 		article
 			section.contentTab#contentTab1.hide.continue.continueViewMore
@@ -427,7 +427,7 @@ block content
 			section.contentTab#contentTab5.hide.continue.continueViewMore
 				h2 HISTORIAL DE ACTIVIDADES
 				if (infoChildren.histories.length > 0)
-					table
+					table#tableActivitiesValid
 						thead
 							tr
 								th N
@@ -447,7 +447,7 @@ block content
 								-if (history.statusActivity == 1)
 									- var statusHis = "Completada"
 								- n++
-								tr
+								tr(data-ref-step="#{history.idStep.stepStep}" data-ref-activity="#{history.idActivity.activityActivity}")
 									td #{n}
 									td #{history.idActivity.nameActivity}
 									td #{history.idStep.stepStep}
@@ -463,5 +463,4 @@ block content
 		section#containerChart
 		script.
 			var dataTemplate = !{JSON.stringify(infoChildren)}
-		script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
 		script(src="/js/reports.js")

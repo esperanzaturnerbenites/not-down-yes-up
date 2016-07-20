@@ -1,4 +1,4 @@
-extends templates/template.jade
+extends templates/template.jade 
 block title
 	title Consultas en ¡No Down, Yes Up!
 block exit
@@ -25,7 +25,16 @@ block content
 				fieldset.consul.consulChildren
 					legend Consulta por Nin@
 					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
-					button#buttonConsulIdChildrenx.buttons(type='submit')
+					button(type='submit')
+						span Consulta
+
+			form#calendarActivities
+				fieldset.consul.consulChildren
+					legend Calendario Actividades
+					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
+					input#dateInit(type='date' name='dateInit' placeholder='Fecha Inicial', required)
+					input#dateEnd(type='date' name='dateEnd' placeholder='Fecha Inicial', required)
+					button(type='submit')
 						span Consultar
 
 			form#ageConsul

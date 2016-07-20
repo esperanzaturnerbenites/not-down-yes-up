@@ -1,3 +1,12 @@
+Date.prototype.toHour12 = function () {
+	/*
+		Formatea un Object Date en Tiempo (12 horas)
+	*/
+	return this.toLocaleTimeString("es-CO",{hour12:true})
+		.replace("p. m.","pm")
+		.replace("a. m.","am")
+}
+
 $.ajaxSetup({
 	headers: {"Desktop-App": "false"}
 })

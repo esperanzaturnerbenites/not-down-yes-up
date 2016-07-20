@@ -4,7 +4,7 @@ $("#formOpeChildrenInfo").click(function(event){
 
 $("#formOpeChildrenUpd").click(function(event){
 	window.open("/admin/register-children/" + $("#adminInfoChildren").val())
-})
+}) 
 
 /* Validaar que el niñ@ exista */
 $("#formOpeStatusChildren").submit(function(event){

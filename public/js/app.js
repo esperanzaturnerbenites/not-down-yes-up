@@ -1,9 +1,3 @@
-function getClone(selector){
-	var t = document.querySelector(selector)
-	//var t = document.querySelector("#consulQueryGeneralAvanced")
-	return document.importNode(t.content,true)
-}
-
 /*
 	Validacion de ids
 		Validadcion Frontend
@@ -86,42 +80,6 @@ $("#formValidChildren").on("submit",(event) => {
 	})*/
 })
 
-function renderResultTeachAdmin(node){
-	$("#showResults").empty()
-	$("#showResults").append(node)
-
-}
-function renderResultChildren(node){
-	$("#showResultChildren").html("")
-	$("#showResultChildren").append(node)
-}
-
-function renderResultValidAdmin(node){
-	$("#showResultValid").html("")
-	$("#showResultValid").append(node)
-}
-
-function funcStatusAct(status){
-	var statusText = ""
-	if(status == 0)
-		statusText = "No Completado"
-	if(status == 1)
-		statusText = "Completado"
-	return statusText
-}
-
-function typeUserFind(type){
-	var typeU = ""
-	if(type == "0"){
-		typeU = "Administrador"
-		return typeU
-	}else if(type == "1"){
-		typeU = "Docente"
-		return typeU
-	}
-}
-
-//Asigna un escuchador de evento --- Cuando suceda el evento
 if(eval($("#editingChildren").val())){
 	/*Edicion de niñ@s*/
 	$("#formAddChildren").attr("action","/admin/update-children")
@@ -163,25 +121,3 @@ if(eval($("#editingUser").val())){
 		})
 	})
 }
-
-$("#formOpeChildrenDel").on("click.",(event) => {
-	event.preventDefault()
-	$.ajax({
-		url: "/admin/delete-childrens",
-		async : false, 
-		data : $("#formOpeChildren").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			notification.show({msg:result.msg, type:result.statusCode})
-		}
-	})
-})
-
-$("[data-id = adminActivities]").on("click", function() {
-	var selector = $(this).data("reference")
-	$(".selector-hide").addClass("hide")
-	if(selector){
-		$(selector).removeClass("hide")
-	}
-})
