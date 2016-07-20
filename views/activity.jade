@@ -15,15 +15,100 @@ block desc
 			span #{activity.activityActivity}
 		h3 #{activity.nameActivity}
 		button#restarActClic(type='button')
-			span Reiniciar Actividad
+			a(onclick="location.reload()") Reiniciar Actividad
 		button#validActClic(disabled)
 			span Validación Parcial
 		button#validActClicDef(disabled)
 			span Validación Final
 
 	section#showValidAct.validAct
-	include templatesQuery/validActivityDef.jade
-	include templatesQuery/validActivityParcial.jade
+	form#formValidChildren.hide.validAct
+		fieldset
+			legend Validación Final Actividad
+			article
+				label Docente: 
+				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
+			article#dataNameChild
+			
+			article
+				label Resultado Sistema 
+				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
+			
+			article
+				label Puntuación Docente 
+				input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
+			
+			article
+				label Estado de la Actividad 
+				select#statusActivity(name='statusActivity')
+					option(value='0', selected='') No Completada
+					option(value='1') Completada
+
+			article
+				label Apoyo Máximo 
+				select#backingMaxActivity(name='backingMaxActivity')
+					option(value='0', selected='') No Requiere
+					option(value='1') L: Logrado
+					option(value='2') LP: Logro Parcialmente Obtenido
+					option(value='3') P: Planeado
+			
+			article
+				label Apoyo Mínimo 
+				select#backingMinActivity(name='backingMinActivity')
+					option(value='0', selected='') No Requiere
+					option(value='1') L: Logrado
+					option(value='2') LP: Logro Parcialmente Obtenido
+					option(value='3') P: Planeado
+			
+			article
+				label D. Funcional 
+				select#backingDFunctionActivity(name='backingDFunctionActivity')
+					option(value='0', selected='') No Requiere
+					option(value='1') L: Logrado
+					option(value='2') LP: Logro Parcialmente Obtenido
+					option(value='3') P: Planeado
+			
+			article
+				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
+			
+			article.validActButton
+				button(type='submit')
+					span Validar
+
+				button#buttonCancelValidAct(type='button')
+					span Cancelar
+
+	form#formValidChildrenParcial.hide.validAct
+		fieldset
+			legend Validación Actividad
+			article
+				label Docente: 
+				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
+			article#dataNameChildParcial
+			
+			article
+				label Resultado Sistema 
+				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
+			
+			article
+				label Puntuación Docente 
+				input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
+			
+			article
+				label Estado de la Actividad 
+				select#statusActivity(name='statusActivity')
+					option(value='0', selected='') Pendiente
+					option(value='1') Completada
+			
+			article
+				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
+			
+			article.validActButton
+				button(type='submit')
+					span Validar
+
+				button#buttonCancelValidActParcial(type='button')
+					span Cancelar
 
 	section.actDesc
 		p #{activity.descriptionActivity}

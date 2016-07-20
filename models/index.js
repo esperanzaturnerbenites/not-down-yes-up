@@ -203,7 +203,10 @@ userSchema.pre("save",function (next) {
 adminuserSchema.pre("save",function (next) {
 	models.adminuser.findOne({userUser : this.userUser}, (err, adminuser) => {
 		if (adminuser) next(new Error("¡Usuario de logueo ya existe!"))
-		else next()
+		models.adminuser.findOne({idUser : this.idUser,typeUser:this.typeUser}, (err, adminuser) => {
+			if (adminuser) next(new Error("El usuario Ya tiene un usuari ode este tipo"))
+			else next()
+		})
 	})
 })
 

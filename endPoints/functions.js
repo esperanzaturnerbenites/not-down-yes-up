@@ -12,9 +12,18 @@ function renderReportAge(params){
 	})
 }
 
+function checkNewAdminUser(params,info){
+	info.passUser = cryptr.encrypt(info.passUser)
+	return new Promise(function(resolve,reject){
+		models.user.findOne({idUser:params.idUser},function(err,user){
+			if(!user) return reject({message:"EL usuario No existe"})
+			info.idUser = user._id
+			resolve({data:{message:"Usuario Creado"}})
+		})
+	})
+}
 function renderListUser(params){
 	return new Promise(function(resolve,reject){
-		console.log(params)
 		models.adminuser.find(params.query)
 		.populate("idUser")
 		.exec(function(err,adminuser){
@@ -80,5 +89,6 @@ module.exports = {
 	encryptPass: encryptPass,
 	addObservationChildren: addObservationChildren,
 	renderListUser: renderListUser,
+	checkNewAdminUser: checkNewAdminUser,
 	defaulFn: defaulFn
 }

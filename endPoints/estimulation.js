@@ -7,15 +7,54 @@ var express = require("express"),
 
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
+/* OK */
+router.get("/steps",(req,res)=>{
+	var step = {}
 
+	models.step.find({})
+	.sort({stepStep:1})
+	.exec((err, stepDB) => {
+		step = stepDB
+		res.render("stepMenu",{steps:step})
+	})
+})
+
+/* OK */
+router.get("/steps/:step",(req,res)=>{
+	const numberStep = parseInt(req.params.step)
+	var step = {}
+
+	models.step.findOne({stepStep:numberStep}, (err, stepDB) => {
+		step = stepDB
+		models.activity.find({stepActivity:numberStep})
+		.sort({activityActivity:1})
+		.exec((err, activities) => {
+			step.activities = activities
+			res.render("stepDetail",{step:step})
+		})
+	})
+})
+
+/* OK */
+router.get("/steps/:step/:activity",(req,res)=>{
+	const numberStep = parseInt(req.params.step),
+		numberActivity = parseInt(req.params.activity)
+	var activity = {}
+
+	models.activity.findOne({stepActivity : numberStep, activityActivity : numberActivity}, (err, activityDB) => {
+		activity = activityDB
+
+		models.step.findOne({step : activityDB.stepActivity}, (err, stepDB) => {
+			activity.step = stepDB
+			res.render("activity",{activity:activity, user:req.user})
+		})
+	})
+})
+
+/* OK */
 router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher"/*,{user :req.user}*/)})
 
-router.get("/continue-one",(req,res)=>{res.render("continueOne")})
-
-router.get("/continue-group",(req,res)=>{res.render("continueGroup")})
-
-router.get("/continue/continue-detail-one",(req,res)=>{res.render("continueDetailOne")})
-
+/* OK */
 router.get("/infoChildren/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}
@@ -50,46 +89,7 @@ router.get("/infoChildren/:id",(req,res)=>{
 	})
 })
 
-router.get("/steps",(req,res)=>{
-	var step = {}
-
-	models.step.find({})
-	.sort({stepStep:1})
-	.exec((err, stepDB) => {
-		step = stepDB
-		res.render("stepMenu",{steps:step})
-	})
-})
-
-router.get("/steps/:step",(req,res)=>{
-	const numberStep = parseInt(req.params.step)
-	var step = {}
-
-	models.step.findOne({stepStep:numberStep}, (err, stepDB) => {
-		step = stepDB
-		models.activity.find({stepActivity:numberStep})
-		.sort({activityActivity:1})
-		.exec((err, activities) => {
-			step.activities = activities
-			res.render("stepDetail",{step:step})
-		})
-	})
-})
-
-router.get("/steps/:step/:activity",(req,res)=>{
-	const numberStep = parseInt(req.params.step),
-		numberActivity = parseInt(req.params.activity)
-	var activity = {}
-
-	models.activity.findOne({stepActivity : numberStep, activityActivity : numberActivity}, (err, activityDB) => {
-		activity = activityDB
-
-		models.step.findOne({step : activityDB.stepActivity}, (err, stepDB) => {
-			activity.step = stepDB
-			res.render("activity",{activity:activity, user:req.user})
-		})
-	})
-})
+router.get("/continue-one",(req,res)=>{res.render("continueOne")})
 
 router.post("/found-step",(req,res)=>{
 	var data = req.body

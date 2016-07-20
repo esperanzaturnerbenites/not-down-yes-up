@@ -44,6 +44,31 @@ $("#formNewUser").submit(function(event){
 
 	if($("#passUser").val() == $("#newPassConfirmUser").val()){
 		$.ajax({
+			url: "/api/new/adminuser",
+			contentType : "application/json", 
+			data : JSON.stringify({
+				info:{
+					"idUser": $("#idUser").val(),
+					"userUser": $("#userUser").val(),
+					"typeUser": $("#typeUser").val(),
+					"passUser": $("#passUser").val(),
+					"statusUser" : CTE.STATUS_USER.ACTIVE
+				},
+				fn:"checkNewAdminUser",
+				params:{
+					"idUser": $("#idUser").val(),
+					"userUser": $("#userUser").val(),
+					"typeUser": $("#typeUser").val()
+				}
+			}),
+			type : "POST",
+			success: function(result){
+				if (result.err) return notification.show({msg:result.err.message, type:1})
+				$("#formNewUser").trigger("reset")
+				notification.show({msg:result.msg, type:result.statusCode})
+			}
+		})
+		/*$.ajax({
 			url: "/admin/register-newuser",
 			async : false, 
 			data : $(this).serialize(),
@@ -56,7 +81,7 @@ $("#formNewUser").submit(function(event){
 				$("#newPassConfirmUser").val("")
 				notification.show({msg:result.msg, type:result.statusCode})
 			}
-		})
+		})*/
 	}else{
 		var msg = "¡Contraseña no coincide!"
 		notification.show({msg:msg, type:1})

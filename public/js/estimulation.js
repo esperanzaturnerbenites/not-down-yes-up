@@ -112,6 +112,7 @@ $("#formAddChildAct").on("submit",(event) => {
 })
 
 $("#validActClic").on("click",(event) => {
+	$("#formValidChildrenParcial").toggleClass("hide")
 	event.preventDefault()
 
 	$.ajax({
@@ -155,19 +156,6 @@ $("#validActClic").on("click",(event) => {
 							location.reload(true)
 						}
 					})
-					/*$("#formInicAct").remove()
-					$("#nameChild").remove()
-					$("#nameChild1").remove()
-					$("#nameChild2").remove()
-					$("#formValidChildrenParcial").remove()
-					$("#fieldsetGuide").remove()
-					$("#idChildren").val("")
-					$("#idChildren").prop("readonly", false)
-					$("#numberPin").val("")
-					$("#numberPin").prop("readonly", false)
-					$("#validActClicDef").prop("disabled", true)
-					$("#validActClic").prop("disabled", true)*/
-
 				}
 			})
 
@@ -179,6 +167,7 @@ $("#validActClic").on("click",(event) => {
 })
 
 $("#validActClicDef").on("click",(event) => {
+	$("#formValidChildren").toggleClass("hide")
 	event.preventDefault()
 
 	$.ajax({
@@ -221,18 +210,6 @@ $("#validActClicDef").on("click",(event) => {
 							location.reload(true)
 						}
 					})
-					/*$("#formInicAct").remove()
-					$("#nameChild").remove()
-					$("#nameChild1").remove()
-					$("#nameChild2").remove()
-					$("#formValidChildren").remove()
-					$("#fieldsetGuide").remove()
-					$("#idChildren").val("")
-					$("#idChildren").prop("readonly", false)
-					$("#numberPin").val("")
-					$("#numberPin").prop("readonly", false)
-					$("#validActClicDef").prop("disabled", true)
-					$("#validActClic").prop("disabled", true)*/
 				}
 			})
 
@@ -241,21 +218,6 @@ $("#validActClicDef").on("click",(event) => {
 			renderResultValid(clone)
 		}
 	})
-})
-
-$("#restarActClic").click(()=>{
-	$("#formInicAct").remove()
-	$("#nameChild").remove()
-	$("#nameChild1").remove()
-	$("#nameChild2").remove()
-	$("#formValidChildren").remove()
-	$("#fieldsetGuide").remove()
-	$("#idChildren").val("")
-	$("#idChildren").prop("readonly", false)
-	$("#numberPin").val("")
-	$("#numberPin").prop("readonly", false)
-	$("#validActClicDef").prop("disabled", true)
-	$("#validActClic").prop("disabled", true)
 })
 
 $("#continueViewMore").click(() => {

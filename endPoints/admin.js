@@ -458,31 +458,6 @@ router.get("/reports",(req,res)=>{
 	})
 })
 
-router.post("/found-all-step-activities",(req,res)=>{
-	var data = {}
-
-	models.step.find({})
-	.sort({stepStep:1})
-	.exec((err,steps)=>{
-		if(err) return res.json({err:err})
-		if(!steps.length) return res.json({msg:"Not Steps",statusCode:0})
-		if(steps.length){
-			data.steps = steps
-
-			models.activity.find({stepActivity:steps[0].stepStep})
-			.sort({activityActivity:1})
-			.exec((err,activities)=>{
-				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
-				if(activities){
-					data.activities = activities
-					res.json({data:data})
-				}
-			})
-		}
-	})
-})
-
 router.post("/valid-step",(req,res)=>{
 	var data = req.body
 
@@ -520,42 +495,6 @@ router.post("/valid-step",(req,res)=>{
 			})
 		})
 	})
-})
-
-router.post("/register-newuser",(req,res)=>{
-	var data = req.body
-
-	if(data.passUser == data.newPassConfirmUser){
-		data.passUser = cryptr.encrypt(data.passUser)
-
-		models.adminuser.findOne({userUser : data.userUser}, (err, adminFind) => {
-			if(err) return res.json({err:err})
-			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
-			if(!adminFind){
-
-				models.user.findOne({idUser : data.idUser},(err,user) => {
-					if(err) return res.json({err:err})
-					if(!user) return res.json({msg:"¡Usuario no existe!", statusCode:2})
-					if(user){
-
-						models.adminuser.findOne({idUser:user._id, typeUser:data.typeUser}, (err, admType) => {
-							if(err) return res.json({err:err})
-							if(admType) return res.json({msg:"¡Usuario ya tiene asignado este rol!", statusCode:2})
-							
-							data.idUser = user._id
-
-							models.adminuser.create(data, function (err, adminuser) {
-								if(err) return res.json({err:err})
-								if(adminuser) return res.json({msg:"¡Usuario de logueo registrado con éxito!", statusCode : 0})
-							})
-						})
-					}
-				})
-			}
-		})
-
-		
-	}else return res.json({msg:"¡Contraseña no coincide!", statusCode : 1})
 })
 
 router.post("/show-valid-step",(req,res)=>{

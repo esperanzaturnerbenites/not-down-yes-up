@@ -9,13 +9,51 @@ var express = require("express"),
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
+router.post("/new/:collection",(req, res) => {
+	var collection = req.params.collection,
+		model = mongoose.model(collection),
+		data = req.body,
+
+		/*Fn(Busquedas/Creacion) Funcion ha ejecutar*/
+		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
+
+		/*Params(Busquedas/Creacion) Parametro de la Funcion ha ejecutar*/
+		params = data.params ? data.params : {},
+		
+		/*info(Busquedas) Campos ha seleccionar*/
+		info = data.info ? data.info : {}
+
+	var promise = fn(params,info)
+	promise.then(
+		data => {
+			model.create(info,(err,documents) => {
+				if (err) return res.json({err:err})
+				return res.json({documents:documents})
+			})
+			
+		},
+		err => {
+			return res.json({message:err.message})
+		}
+		)
+
+})
+
 router.post("/:collection",(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,
+
+		/*Query(Busquedas) Consulta a realizar*/
 		query = data.query ? data.query : {},
+
+		/*Fn(Busquedas/Creacion) Funcion ha ejecutar*/
 		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
+
+		/*Params(Busquedas/Creacion) Parametro de la Funcion ha ejecutar*/
 		params = data.params ? data.params : {},
+		
+		/*Projection(Busquedas) Campos ha seleccionar*/
 		projection = data.projection ? data.projection : {}
 
 	var promise = fn(params)

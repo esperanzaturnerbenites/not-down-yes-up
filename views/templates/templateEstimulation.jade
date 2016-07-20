@@ -21,15 +21,12 @@ html(lang='es')
 				form#formAddChildAct
 					fieldset
 						legend ¿Con cuál niñ@ nos divertiremos ahora?
-						input#idChildren(type='number' name='idChildren' min='1111' placeholder='Identificación Niño' required)
+						input#idChildren(type='number' name='idChildren' min='1111' placeholder='Identificación Niño' required data-valid-exists="children,false,true")
 						article
 							button(type='submit')
 								span Iniciar Actividad
 				section#showChildrensCont.childShow
 				include ../templatesQuery/addChildrenAct.jade
-
-				section#selectChildrens
-				include ../templatesQuery/selectChildrenAct.jade
 
 			block activity
 		script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
