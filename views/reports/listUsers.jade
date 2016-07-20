@@ -1,0 +1,25 @@
+article#articleFindAll.consul.consulQuery
+	p.consulTableP
+		h3 RESULTADOS
+	article.consulTable
+		table#consulUser
+			thead
+				tr
+					th ID
+					th USUARIO
+					th USUARIO DE LOGUEO
+					th TIPO
+					th ESTADO
+					th FECHA CREACIÓN
+					th EDITAR
+			tbody
+				each adminuser in data
+					td 
+						a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
+					td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastUser}
+					td #{adminuser.userUser}
+					td #{adminuser.typeUser}
+					td #{adminuser.statusUser}
+					td #{adminuser.dateUser}
+					td
+						a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar

@@ -16,8 +16,6 @@ var express = require("express"),
 router.use(bodyParser.urlencoded({extended:true}))
 router.use(bodyParser.json())
 
-
-
 function filter(body,files){
 	if (files){
 		files.forEach(file => {
@@ -54,7 +52,7 @@ router.post("/id-exists",(req,res)=>{
 	})
 })
 
-/* Children */
+/* OK */
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
@@ -114,6 +112,7 @@ var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	}
 }
 
+/* OK */
 var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 
 
@@ -142,14 +141,13 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	})
 }
 
+/* OK */
 router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 
 	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
 		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
 		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
 		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
-
-	//return res.json(req.files)
 
 	var defaultImage = "defaultUser.png",
 		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
@@ -231,6 +229,7 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 	}
 })
 
+/* OK */
 router.get("/register-children/:id?",(req,res)=>{
 	var id = req.params.id
 
@@ -243,7 +242,7 @@ router.get("/register-children/:id?",(req,res)=>{
 		var mom = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 0}),
 			dad = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 1}),
 			cure = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 2})
-		//return res.json(mom)
+
 		res.render("registerChildren",
 			{
 				data: {
@@ -259,6 +258,7 @@ router.get("/register-children/:id?",(req,res)=>{
 	})
 })
 
+/* OK */
 router.get("/info-children/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
@@ -305,9 +305,7 @@ router.get("/info-children/:id",(req,res)=>{
 		}
 	})
 })
-/* Children */
 
-/* User */
 router.get("/register-user/:id?",(req,res)=>{
 	var id = req.params.id
 	if(!id) return res.render("registerUserRol")
@@ -397,6 +395,7 @@ router.post("/update-user",upload.any(),(req,res)=>{
 		})
 })
 
+/* OK */
 router.get("/info-user/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
@@ -432,99 +431,12 @@ router.get("/info-user/:id",(req,res)=>{
 						})
 					})
 				}else return res.render("infoUserRol",{infoUser: data})
-
-				
-				/*models.activityhistory.find({idUser:adminuserTeacher._id})
-				.populate("idChildren idActivity")
-				.sort({idChildren:1})
-				.exec((err,hisact) =>{
-					if(err) return res.json({err:err})
-					if(!hisact) return res.json({err:{message:"No tiene actividades"}})
-					if(hisact){
-						data.children = hisact
-						data.childrens = hisact.map(his => {
-							return his.idChildren
-						})
-						res.render("infoUserRol",{infoUser: data})
-					}
-				})*/
-
-				/*models.activityhistory.aggregate([
-					{$group:{_id:"idChildren"}}]),
-					function(err,doc){
-						models.activityhistory.populate(doc,{"path":"idChildren"},function(err,doc){
-							if(err) return res.json({err:err})
-							if(doc){
-								data.children = doc
-								res.render("infoUserRol",{infoUser: data})
-							}
-						})
-					}*/
-
-
-			})
-		}
-	})
-})
-/* User */
-
-router.get("/admin-steps",(req,res)=>{
-	var data = {}
-
-	models.step.find({})
-	.sort({stepStep:1})
-	.exec((err,steps)=>{
-		if(err) return res.json({err:err})
-		if(!steps.length){
-			//return res.json({msg:"Not Steps",statusCode:0})
-			return res.render("adminSteps")
-		}
-		console.log(steps)
-		if(steps.length){
-			data.steps = steps
-
-			models.activity.find({stepActivity:steps[0].stepStep})
-			.sort({activityActivity:1})
-			.exec((err,activities)=>{
-				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
-				if(activities){
-					data.activities = activities
-					res.render("adminSteps",{user :req.user, data:data})
-				}
 			})
 		}
 	})
 })
 
-router.get("/admin-activities",(req,res)=>{
-	var data = {}
-
-	models.step.find({})
-	.sort({stepStep:1})
-	.exec((err,steps)=>{
-		if(err) return res.json({err:err})
-		if(!steps.length){
-			//return res.json({msg:"Not Steps",statusCode:0})
-			return res.render("adminActs")
-		}
-		if(steps.length){
-			data.steps = steps
-
-			models.activity.find({stepActivity:steps[0].stepStep})
-			.sort({activityActivity:1})
-			.exec((err,activities)=>{
-				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
-				if(activities){
-					data.activities = activities
-					res.render("adminActs",{user :req.user, data:data})
-				}
-			})
-		}
-	})
-})
-
+/* OK */
 router.get("/reports",(req,res)=>{
 	var data = {}
 
@@ -543,27 +455,6 @@ router.get("/reports",(req,res)=>{
 				}
 			})
 		}
-	})
-})
-
-
-router.post("/found-users",(req,res)=>{
-	var data = req.body
-
-	models.user.findOne({idUser : data.adminOpeTeachAdmin}, (err,user) => {
-		if(err) return res.json({err:err})
-		if(user) return res.json(user)
-		return res.json({msg:"¡Usuario no existe!", statusCode:2})
-	})
-})
-
-router.post("/found-childrens",(req,res)=>{
-	var data = req.body
-
-	models.children.findOne({idChildren : data.adminInfoChildren}, (err,children) => {
-		if(err) return res.json({err:err})
-		if(children) return res.json(children)
-		return res.json({msg:"¡Niñ@ no existe!", statusCode:2})
 	})
 })
 
@@ -591,244 +482,6 @@ router.post("/found-all-step-activities",(req,res)=>{
 		}
 	})
 })
-
-router.post("/found-steps-acts",(req,res)=>{
-	var data = req.body
-
-	models.step.findOne({stepStep:data.stepStep},(err,steps)=>{
-		if(err) return res.json({err:err})
-		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
-		data.steps = steps
-
-		models.activity.find({stepActivity:steps.stepStep})
-		.sort({activityActivity:1})
-		.exec((err,activities)=>{
-			if(err) return res.json({err:err})
-			if(!activities) return res.json({msg:"Not Activities",statusCode:0})
-			if(activities){
-				data.activities = activities
-				res.json({data:data})
-			}
-		})
-	})
-})
-
-router.post("/consul-step-acts",(req,res)=>{
-	var data = req.body,
-		steps = {}
-
-	models.activity.find({stepActivity:data.stepStep})
-	.sort({activityActivity:1})
-	.exec((err,stepActs) =>{
-		if(err) return res.json({err:err})
-		if(stepActs.length < 1) return res.json({err:{message:"Not Activities"}})
-		steps = stepActs
-		return res.json({msg : "Consult Complete", steps :steps})
-	})
-})
-
-router.post("/consul-acts",(req,res)=>{
-	var data = req.body,
-		activities = {}
-
-	models.activity.findOne({stepActivity:data.stepActivityEdit, activityActivity:data.activityActivityEdit},(err,acts) =>{
-		if(err) return res.json({err:err})
-		if(acts.length < 1) return res.json({err:{message:"Not Activities"}})
-		activities = acts
-		return res.json({msg : "Consult Complete", activities :activities})
-	})
-})
-
-router.post("/update-pass",(req,res)=>{
-	var data = req.body
-	
-	if(data.adminIdUser == "Developer"){
-		return res.json({err:{message:"¡Contraseña no puede ser actualizada!"}})
-	}else{
-		models.adminuser.findOneAndUpdate(
-			{userUser : data.adminIdUser},
-			{$set:{passUser:cryptr.encrypt(data.adminPassUser)}},
-			(err,doc) => {
-				if(err) return res.json({err:err})
-				if(doc) return res.json({msg:"¡Contraseña actualizada con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
-			})
-	}
-})
-
-router.post("/update-rol",(req,res)=>{
-	var data = req.body
-	
-	if(data.adminRolIdUser == "Developer" || data.adminRolIdUser == req.user.userUser){
-		return res.json({err:{message:"Rol no puede ser actualizado!"}})
-	}else{
-		models.adminuser.findOneAndUpdate(
-			{userUser : data.adminRolIdUser},
-			{$set:{typeUser:data.rolUser}},
-			(err,doc) => {
-				if(err) return res.json({err:err})
-				if(doc) return res.json({msg:"Rol actualizado con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
-			})
-	}
-})
-
-router.post("/update-status",(req,res)=>{
-	var data = req.body
-	
-	if(data.adminStaIdUser == "Developer" || data.adminStaIdUser == req.user.userUser){
-		return res.json({err:{message:"¡Estado no puede ser actualizado!"}})
-	}else{
-		models.adminuser.findOneAndUpdate(
-			{userUser : data.adminStaIdUser},
-			{$set:{statusUser:data.statusUser}},
-			(err,doc) => {
-				if(err) return res.json({err:err})
-				if(doc) return res.json({msg:"Estado actualizado con éxito!", statusCode:0, adminuser : doc})
-				if(!doc) return res.json({msg:"¡Usuario de logueo no existe!", statusCode:2})
-			})
-	}
-})
-
-router.post("/update-teachAdmin",(req,res)=>{
-	var data = req.body
-
-	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,exists) => {
-		if(err) return res.json({err:err})
-		if(exists){
-			res.json({valid:true, msg:"",statusCode:1})
-		}else{
-			res.json({valid:false, msg:"User not found",statusCode:0})
-		}
-	})
-})
-
-//Delete children --- Metodo Agregate **********************************************
-router.post("/delete-childrens",(req,res)=>{
-	var data = req.body
-
-	models.children.findOne({idChildren : data.adminOpeChildren},(err,children) => {
-		if(err) return res.json({err:err})
-		if(children){
-			children.remove()
-		}else{
-			return res.json({msg:"¡Niñ@ no existe!", statusCode : 2})
-		}
-	})
-})
-
-router.post("/delete-users",(req,res)=>{
-	var data = req.body
-
-	if(data.adminOpeIdUser == "Developer"){
-		return res.json({err:{message:"¡Usuario no puede ser eliminado"}})
-	}else{
-		models.adminuser.findOne({userUser:data.adminOpeIdUser, _id:{$ne : req.user._id}},(err,userD) => {
-			if(err) return res.json({err:err})
-			if(userD){
-				models.activityhistory.find({idUser:userD._id},(err,acthis) =>{
-					if(err) return res.json({err:err})
-					if(acthis || userD.typeUser == 0) return res.json({err:{message:"¡Usuario no puede ser eliminado, INACTÍVELO!"}})
-					models.adminuser.remove({userUser:data.adminOpeIdUser},(err) => {
-						if(err) return res.json({err:err})
-						return res.json({msg:"¡Usuario eiminado con éxito!", statusCode:0})
-					})
-				})
-			}else return res.json({msg:"¡Usuario no existe!",statusCode:2})
-		})
-	}
-})
-
-router.post("/delete-teachadmin",(req,res)=>{
-	var data = req.body
-
-	models.user.findOne({idUser : data.adminOpeTeachAdmin},(err,user) => {
-		if(err) return res.json({err:err})
-		if(user){
-			models.adminuser.find({idUser:user._id},(err,adminU) => {
-				var userhis = [],
-					userteach = 0
-
-				for(var admin of adminU){
-					if(admin.typeUser == 1){userteach++}
-
-					models.activityhistory.find({idUser:admin._id},(err,acthisFind) => {
-						if(err) return res.json({err:err})
-						if(acthisFind){
-							userhis.push(admin._id)
-						}
-					})
-				}
-
-				if(userhis.length == 0 && userteach > 0){
-					models.user.remove({idUser : data.adminOpeTeachAdmin},(err) => {
-						if(err) return res.json({err:err})
-
-						models.adminuser.remove({idUser : user._id},(err) => {
-							if(err) return res.json({err:err})
-							return res.json({msg:"¡Usuario eliminado con éxito!", statusCode:0})
-						})
-					})
-				}else return res.json({err:{message:"¡Usuario no puede ser eliminado, INACTÍVELO!"}})
-			})
-
-		}else return res.json({msg:"¡Usuario no existe!",statusCode:2})
-	})
-})
-
-router.post("/delete-activity",(req,res)=>{
-	var data = req.body
-
-	models.activity.findOne({stepActivity:data.stepActivityDel, activityActivity:data.activityActivityDel},(err,step) => {
-		if(err) return res.json({err:err})
-		if(step){
-			models.activity.remove({stepActivity:data.stepActivityDel, activityActivity:data.activityActivityDel},(err) => {
-				if(err) return res.json({err:err})
-				return res.json({msg:"¡Actividad eliminada con éxito!", statusCode:0})
-			})
-		}else return res.json({msg:"¡Actividad no existe!",statusCode:2})
-	})
-})
-
-router.post("/delete-step",(req,res)=>{
-	var data = req.body
-
-	models.step.findOne({stepStep:data.stepDel},(err,step) => {
-		if(err) return res.json({err:err})
-		if(step){
-			models.step.remove({stepStep:data.stepDel},(err) => {
-				if(err) return res.json({err:err})
-				models.activity.remove({stepActivity:data.stepDel},(err) => {
-					if(err) return res.json({err:err})
-					return res.json({msg:"Etapa eliminada con éxito!", statusCode:0})
-				})
-			})
-		}else return res.json({msg:"¡Etapa no existe!",statusCode:2})
-	})
-})
-
-/*router.post("/valid-children",(req,res)=>{
-	var data = req.body
-
-	models.children.findOne({idChildren : data.validChildren},(err,exists) => {
-		if(err) return res.json({err:err})
-		if(exists) res.json({valid:false, msg:"¡Niñ@ ya existe!", statusCode:2})
-		else res.json({valid:true, msg:"", statusCode:1})
-	})
-})*/
-
-/*router.post("/valid-user",(req,res)=>{
-	var data = req.body
-
-	models.user.findOne({idUser : data.validUser},(err,exists) => {
-		if(err) return res.json({err:err})
-		if(exists){
-			res.json({valid:false, msg:"¡Usuario ya existe!", statusCode:2})
-		}else{
-			res.json({valid:true, msg:"", statusCode:1})
-		}
-	})
-})*/
 
 router.post("/valid-step",(req,res)=>{
 	var data = req.body
@@ -905,79 +558,6 @@ router.post("/register-newuser",(req,res)=>{
 	}else return res.json({msg:"¡Contraseña no coincide!", statusCode : 1})
 })
 
-router.post("/find-all",(req,res)=>{
-	var data = req.body
-	if(data.typeConsult == "4"){
-		models.adminuser.find({typeUser : {$ne : "2"}})
-		.populate("idUser")
-		.exec((err,users) =>{
-			if(err) return res.json({err:err})
-			res.json(users)
-		})
-	}else if(data.typeConsult == "3"){
-		models.adminuser.find({statusUser : 0, typeUser : {$ne : "2"}})
-		.populate("idUser")
-		.exec((err,users) =>{
-			if(err) return res.json({err:err})
-			res.json(users)
-		})
-	}else if(data.typeConsult == "2"){
-		models.adminuser.find({statusUser :1, typeUser : {$ne : "2"}})
-		.populate("idUser")
-		.exec((err,users) =>{
-			if(err) return res.json({err:err})
-			res.json(users)
-		})
-	}else if(data.typeConsult == "1"){
-		models.adminuser.find({typeUser : 1})
-		.populate("idUser")
-		.exec((err,users) =>{
-			if(err) return res.json({err:err})
-			res.json(users)
-		})
-	}else if(data.typeConsult == "0"){
-		models.adminuser.find({typeUser : 0})
-		.populate("idUser")
-		.exec((err,users) =>{
-			if(err) return res.json({err:err})
-			res.json(users)
-		})
-	}
-})
-/*
-router.post("/inactivate-children",(req,res)=>{
-	var data = req.body
-	
-	models.children.findOneAndUpdate(
-		{idChildren : data.adminUpdChildren},
-		{$set:{statusChildren:3, observationChildren:data.observationChildren}},
-		(err,doc) => {
-			if(err) return res.json({err:err})
-			if(doc) return res.json({msg:"¡Estado actualizado con éxito!", statusCode:0})
-			if(!doc) return res.json({msg:"Niñ@ no existe!", statusCode:2})
-		})
-})*/
-
-router.post("/status-children",(req,res)=>{
-	var data = req.body,
-		statusEstimulation
-
-	if(data.statusChildren == 0){
-		statusEstimulation = 3
-	}else if(data.statusChildren == 1){
-		statusEstimulation = 0
-	}
-	
-	models.children.findOneAndUpdate(
-		{idChildren : data.adminUpdChildren},
-		{$set:{statusChildren:data.statusChildren, statusChildrenEstimulation:statusEstimulation, observationChildren:data.observationChildren}},
-		(err,doc) => {
-			if(err) return res.json({err:err})
-			if(doc) return res.json({msg:"¡Estado actualizado con éxito!", statusCode:0})
-			if(!doc) return res.json({msg:"Niñ@ no existe!", statusCode:2})
-		})
-})
-
 router.post("/show-valid-step",(req,res)=>{
 	var data = req.body
 
@@ -999,67 +579,6 @@ router.post("/show-valid-step",(req,res)=>{
 	})
 })
 
-router.post("/add-step",(req,res)=>{
-	var data = req.body
-
-	data.urlStep = "/estimulation/steps/" + data.stepStep
-		
-	models.step.findOne({stepStep : data.stepStep}, (err, step) => {
-		if(err) return res.json({err:err})
-		if(step) return res.json({err:{message:"¡Etapa ya existe!, Etapa: " + step.stepStep + ": " + step.nameStep}})
-		models.step.create(data, function (err, stepC) {
-			if(err) return res.json({err:err})
-			if(stepC) return res.json({msg:"¡Etapa registrada con éxito!", statusCode:0})
-			
-		})
-	})
-})
-
-router.post("/save-edit-step",(req,res)=>{
-	var data = req.body
-
-	models.step.findOneAndUpdate(
-		{stepStep : data.stepStepEdit},
-		{$set:{nameStep:data.nameStep, descriptionStep:data.descriptionStep}
-		},
-		(err,doc) => {
-			if(err) return res.json({err:err})
-			if(doc) return res.json({msg:"¡Etapa actualizada con éxito!", statusCode:0})
-			if(!doc) return res.json({msg:"¡Etapa no existe!", statusCode:2})
-		})
-})
-
-router.post("/add-activity",(req,res)=>{
-	var data = req.body
-
-	data.imgActivity = "/img/imgacts/activities/step" + data.stepActivity + "act" + data.activityActivity + ".png"
-	data.urlActivity = "/estimulation/steps/" + data.stepActivity + "/" + data.activityActivity
-		
-	models.activity.findOne({stepActivity : data.stepActivity, activityActivity:data.activityActivity}, (err, acts) => {
-		if(err) return res.json({err:err})
-		if(acts) return res.json({err:{message:"¡Actividad ya existe!, Actividad: " + acts.activityActivity + ": " + acts.nameActivity}})
-		models.activity.create(data, function (err, actC) {
-			if(err) return res.json({err:err})
-			if(actC) return res.json({msg:"¡Actividad registrada con éxito!", statusCode:0})
-			
-		})
-	})
-})
-
-router.post("/save-edit-activity",(req,res)=>{
-	var data = req.body
-
-	models.activity.findOneAndUpdate(
-		{stepActivity : data.stepActivityEdit, activityActivity : data.activityActivityEdit},
-		{$set:{nameActivity:data.nameActivity, descriptionActivity:data.descriptionActivity, guidesActivity:data.guideActivity}
-		},
-		(err,doc) => {
-			if(err) return res.json({err:err})
-			if(doc) return res.json({msg:"¡Actividad actualizada con éxito!", statusCode:0})
-			if(!doc) return res.json({msg:"¡Actividad no existe!", statusCode:2})
-		})
-})
-
 router.post("/backup",(req,res)=>{
 	res.writeHead(200, {"Content-Type": "application/x-tar"})
 	backup({
@@ -1073,7 +592,7 @@ router.post("/backup",(req,res)=>{
 router.post("/restore",uploadBackup.single("data"),(req,res)=>{
 	var file = fs.createReadStream(req.file.path)
 	restore({
-		uri: "mongodb://localhost/dbtest", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
+		uri: "mongodb://localhost/centerestimulation", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
 		stream: file, // send this stream into db
 		callback: function(err) { // callback after restore
 			if(err) return res.json({err:err})
@@ -1082,7 +601,6 @@ router.post("/restore",uploadBackup.single("data"),(req,res)=>{
 		}
 	})
 })
-
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

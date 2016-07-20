@@ -21,10 +21,7 @@ block content
 							option(value='4') Todos
 						button(type='submit')
 							span Buscar
-						
-					article#showResults
-				include templatesQuery/findAllUsers.jade
-			
+
 			form#formNewUser
 				fieldset
 					legend Nuevo Usuario del Sistema
@@ -83,19 +80,6 @@ block content
 						button#formOpeUserDel(type='submit')
 							span Eliminar
 			
-			form#formOpeTeachAdmin
-				fieldset
-					legend Docente/Administrador(s)
-					section
-						input#adminOpeTeachAdmin(type='number', name='adminOpeTeachAdmin', min='1111', placeholder='Cédula Usuario', required data-valid-exists="user,false,true")
-						button#formOpeTeachAdminInfo
-							span Ver Info
-						button#formOpeTeachAdminUpd
-							span Actualizar
-						button#formOpeTeachAdminDel
-							span Eliminar
-
 			article#showResultTeachAdmin
-			//include templatesQuery/updateUser.jade
 
 	script(src="/js/administracionUsuarios.js")

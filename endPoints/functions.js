@@ -11,6 +11,19 @@ function renderReportAge(params){
 		resolve({data:html})
 	})
 }
+
+function renderListUser(params){
+	return new Promise(function(resolve,reject){
+		console.log(params)
+		models.adminuser.find(params.query)
+		.populate("idUser")
+		.exec(function(err,adminuser){
+			var fn = jade.compileFile(params.view,{})
+			var html = fn({data: adminuser})
+			resolve({data:html})
+		})
+	})
+}
 function addObservationChildren(params){
 	return new Promise(function(resolve,reject){
 		models.children.update(
@@ -66,5 +79,6 @@ module.exports = {
 	checkActivities: checkActivities,
 	encryptPass: encryptPass,
 	addObservationChildren: addObservationChildren,
+	renderListUser: renderListUser,
 	defaulFn: defaulFn
 }
