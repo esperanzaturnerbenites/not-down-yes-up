@@ -161,6 +161,36 @@ const models = {
 	step: Mongoose.model("step", stepSchema)
 }
 
+activityvalidSchema.pre("save",function(next) {
+	var that = this
+	models.activityvalid.findOne(
+		{idChildren : this.idChildren,idActivity : this.idActivity,idStep : this.idStep},
+		(err, activityvalid) => {
+			var dataUpdate = {
+				statusActivity: that.statusActivity,
+				scoreSystemActivity: that.scoreSystemActivity,
+				scoreTeachActivity: that.scoreTeachActivity,
+				backingMaxActivity: that.backingMaxActivity,
+				backingMinActivity: that.backingMinActivity,
+				backingDFunctionActivity: that.backingDFunctionActivity,
+				observationActivity: that.observationActivity,
+				date: that.date
+			}
+			if(activityvalid){
+				models.activityvalid.update(
+					{idChildren : this.idChildren,idActivity : this.idActivity,idStep : this.idStep},
+					{$set:dataUpdate},
+					function(err,document){
+						if(err) return next(err)
+						next(new Error("Debe Actualizar el activityvalid"))
+					}
+				)
+			}
+			else next()
+		}
+	)
+})
+
 childrenSchema.pre("save",function (next) {
 	models.children.findOne({idChildren : this.idChildren}, (err, children) => {
 		if(children) next(new Error("¡Niñ@ ya existe!"))

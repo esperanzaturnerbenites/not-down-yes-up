@@ -16,17 +16,35 @@ function checkNewAdminUser(params,info){
 	info.passUser = cryptr.encrypt(info.passUser)
 	return new Promise(function(resolve,reject){
 		models.user.findOne({idUser:params.idUser},function(err,user){
-			if(!user) return reject({message:"EL usuario No existe"})
+			if(err) return reject(err)
+			if(!user) return reject({message:"El usuario No existe"})
 			info.idUser = user._id
 			resolve({data:{message:"Usuario Creado"}})
 		})
 	})
 }
+
+function checkCountActivities(params,info){
+	return new Promise(function(resolve,reject){
+		models.activityhistory.count(
+			{idChildren:params.idChildren,idActivity:params.idActivity,idStep:params.idStep},
+			function(err,count){
+				if(err) return reject(err)
+				if(count < CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY){
+					reject({message:"Debe COmpletar por lo minimo " + CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY + " actividdes parciales"})
+				}else{
+					resolve({message:"correcto"})
+				}
+			})
+	})
+}
+
 function renderListUser(params){
 	return new Promise(function(resolve,reject){
 		models.adminuser.find(params.query)
 		.populate("idUser")
 		.exec(function(err,adminuser){
+			if(err) return reject(err)
 			var fn = jade.compileFile(params.view,{})
 			var html = fn({data: adminuser})
 			resolve({data:html})
@@ -46,7 +64,7 @@ function addObservationChildren(params){
 				}
 			},
 			function(err,children){
-				if(err) reject(err)
+				if(err) return reject(err)
 				resolve({message:"Observacion Añadida"})
 			})
 	})
@@ -61,13 +79,12 @@ function checkActivities(params,data,res){
 		var userUser = params.userUser
 
 		models.adminuser.findOne({userUser:userUser},function(err,adminuser){
-			console.log(adminuser)
+			if(err) return reject(err)
 			models.activityhistory.count({idUser:adminuser._id},function(err,status){
+				if(err) return reject(err)
 				if(status){
-					console.log("reject")
 					reject({message: "El Usuario Tiene actividades Iniciadas. Inactivelo."})
 				}else{
-					console.log("resolve")
 					resolve({message: "El usuario se puede Eliminar"})
 				}
 			})
@@ -90,5 +107,6 @@ module.exports = {
 	addObservationChildren: addObservationChildren,
 	renderListUser: renderListUser,
 	checkNewAdminUser: checkNewAdminUser,
+	checkCountActivities: checkCountActivities,
 	defaulFn: defaulFn
 }

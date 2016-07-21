@@ -6,7 +6,6 @@ $("#formOpeChildrenUpd").click(function(event){
 	window.open("/admin/register-children/" + $("#adminInfoChildren").val())
 }) 
 
-/* Validaar que el niñ@ exista */
 $("#formOpeStatusChildren").submit(function(event){
 	event.preventDefault()
 	if(confirm("Se cambiará el estado del niñ@ " + $("#adminUpdChildren").val() + ". ¿Desea continuar?")){
@@ -93,16 +92,6 @@ $("#formOpeValidChildren").submit(function(event){
 									.prop("name", "actScore" + num)
 									.val(activity.scoreTeachActivity))
 							data.append(a, a2, a3)
-
-
-							/*var infoActivity = clone.querySelector("#infoActivity")
-							infoActivity.querySelector("#nameActivity1").innerHTML = "Actividad 1: " + activities[0].idActivity.nameActivity
-							infoActivity.querySelector("#actStatus1").value = funcStatusAct(activities[0].statusActivity)
-							infoActivity.querySelector("#actScore1").value = activities[0].scoreTeachActivity
-							infoActivity.querySelector("#nameActivity2").innerHTML = "Actividad 1: " + activities[1].idActivity.nameActivity
-							infoActivity.querySelector("#actStatus2").value = funcStatusAct(activities[1].statusActivity)
-							infoActivity.querySelector("#actScore2").value = activities[1].scoreTeachActivity
-							*/
 						}
 
 						var scoreStepValid = scoreS/num

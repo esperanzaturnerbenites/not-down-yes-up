@@ -27,7 +27,7 @@ router.post("/new/:collection",(req, res) => {
 	promise.then(
 		data => {
 			model.create(info,(err,documents) => {
-				if (err) return res.json({err:err})
+				if (err) return res.json(err)
 				return res.json({documents:documents})
 			})
 			

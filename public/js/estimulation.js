@@ -5,8 +5,8 @@ $("#startActivity").submit(function(event){
 		async : false,
 		data : {
 			idChildren: $("#idChildren").val(),
-			idActivity: activityCurrent.activityActivity,
-			idStep: activityCurrent.stepActivity
+			idActivity: j_activityCurrent.activityActivity,
+			idStep: j_activityCurrent.stepActivity
 		},
 		type : "POST",
 		success: function(response){
@@ -15,9 +15,73 @@ $("#startActivity").submit(function(event){
 
 			$("#validatePartialActivity").click(showFormValidatePartialActivity)
 			$("#validateFinalActivity").click(showFormValidateFinalActivity)
+
+			$("#formValidateFinalActivity").submit(validateFinalActivity)
+			$("#formValidatePartialActivity").submit(validatePartialActivity)
 		}
 	})
 })
+
+/* Creo o Actualizar */
+/* Actualizar el estado de estimulacion del niñ@ -> 1 */
+function validateFinalActivity(event){
+	event.preventDefault()
+	$.ajax({
+		url: "/api/new/activityvalid",
+		contentType: "application/json",
+		data : JSON.stringify({
+			info: {
+				statusActivity: $("#statusActivity",$(this)).val(),
+				scoreSystemActivity: $("#scoreSystemActivity",$(this)).val(),
+				scoreTeachActivity: $("#scoreTeachActivity",$(this)).val(),
+				backingMaxActivity: $("#backingMaxActivity",$(this)).val(),
+				backingMinActivity: $("#backingMinActivity",$(this)).val(),
+				backingDFunctionActivity: $("#backingDFunctionActivity",$(this)).val(),
+				observationActivity: $("#observationActivity",$(this)).val(),
+				idActivity: j_activityCurrent._id,
+				idStep: j_stepCurrent._id,
+				idUser: j_userCurrent._id,
+				idChildren: j_childrenCurrent._id
+			},
+			fn:"checkCountActivities",
+			params:{
+				idChildren: j_childrenCurrent._id,
+				idActivity: j_activityCurrent._id,
+				idStep: j_stepCurrent._id
+			}
+		}),
+		type : "POST",
+		success: function(response){
+			console.log(response)
+		}
+	})
+}
+
+/* Actualizar el estado de estimulacion del niñ@ -> 1 */
+function validatePartialActivity(event){
+	event.preventDefault()
+	$.ajax({
+		url: "/api/new/activityhistory",
+		contentType: "application/json",
+		data : JSON.stringify({
+			info: {
+				statusActivity: $("#statusActivity",$(this)).val(),
+				scoreSystemActivity: $("#scoreSystemActivity",$(this)).val(),
+				scoreTeachActivity: $("#scoreTeachActivity",$(this)).val(),
+				observationActivity: $("#observationActivity",$(this)).val(),
+				idActivity: j_activityCurrent._id,
+				idStep: j_stepCurrent._id,
+				idUser: j_userCurrent._id,
+				idChildren: j_childrenCurrent._id
+			}
+		}),
+		type : "POST",
+		success: function(response){
+			console.log(response)
+		}
+	})
+
+}
 
 function showFormValidatePartialActivity(){
 	$("#formValidatePartialActivity").toggleClass("hide")

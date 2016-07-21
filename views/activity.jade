@@ -30,7 +30,7 @@ html(lang='es')
 				button#validateFinalActivity(disabled)
 					span Validación Final
 
-			form(method="POST" action="/estimulation/validatePartialActivity")#formValidatePartialActivity.hide.validAct
+			form(method="POST" action="/estimulation/validateFinalActivity")#formValidateFinalActivity.hide.validAct
 				fieldset
 					legend Validación Final Actividad
 					article
@@ -83,7 +83,7 @@ html(lang='es')
 						button(type='submit')
 							span Validar
 
-			form(method="POST" action="/estimulation/validateFinalActivity")#formValidateFinalActivity.hide.validAct
+			form(method="POST" action="/estimulation/validatePartialActivity")#formValidatePartialActivity.hide.validAct
 				fieldset
 					legend Validación Actividad
 					article
@@ -128,8 +128,11 @@ html(lang='es')
 			//include templatesQuery/addChildrenAct.jade
 
 			//include templatesQuery/activityChildrenAct.jade
+		
 		script.
-			var activityCurrent = !{JSON.stringify(activity)}
+			var j_activityCurrent = !{JSON.stringify(activity)}
+			var j_stepCurrent = !{JSON.stringify(step)}
+			var j_userCurrent = !{JSON.stringify(user)}
 		script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
 		script(src="/js/lib/socket.io-1.4.5.js")
 		script(src="/js/lib/jquery-2.2.0.min.js")

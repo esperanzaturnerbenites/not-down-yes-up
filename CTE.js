@@ -23,6 +23,7 @@ const CTE = {
 		USERNAME:"Developer",
 		PASSWORD: "Developer"
 	},
+	MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY:3,
 	BASE_PATH_LOG : "logs/",
 	BASE_NAME_LOG : "log-year-month.log"
 }
