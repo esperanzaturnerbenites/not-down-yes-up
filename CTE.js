@@ -42,6 +42,7 @@ CTE.STATUS_ACTIVITY.getString = function(status){
 	}
 	return statusString
 }
+
 CTE.STATUS_CODE.getString = function(status) {
 	var statusString = ""
 	if(status == CTE.STATUS_CODE.OK){
@@ -55,6 +56,7 @@ CTE.STATUS_CODE.getString = function(status) {
 	}
 	return statusString
 }
+
 CTE.TYPE_USER.getString = function(type) {
 	var typeString = ""
 	if(type == CTE.TYPE_USER.ADMINISTRATOR){
@@ -68,6 +70,7 @@ CTE.TYPE_USER.getString = function(type) {
 	}
 	return typeString
 }
+
 CTE.STATUS_USER.getString = function(status) {
 	var statusString = ""
 	if(status == CTE.STATUS_USER.INACTIVE){
@@ -79,4 +82,5 @@ CTE.STATUS_USER.getString = function(status) {
 	}
 	return statusString
 }
+
 module.exports = CTE

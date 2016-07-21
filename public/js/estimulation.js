@@ -1,11 +1,61 @@
+$("#startActivity").submit(function(event){
+	event.preventDefault()
+	$.ajax({
+		url: "/estimulation/startActivity",
+		async : false,
+		data : {
+			idChildren: $("#idChildren").val(),
+			idActivity: activityCurrent.activityActivity,
+			idStep: activityCurrent.stepActivity
+		},
+		type : "POST",
+		success: function(response){
+			$("#contentActivity").html(response.html)
+			$("#validatePartialActivity,#validateFinalActivity").attr("disabled",false)
+
+			$("#validatePartialActivity").click(showFormValidatePartialActivity)
+			$("#validateFinalActivity").click(showFormValidateFinalActivity)
+		}
+	})
+})
+
+function showFormValidatePartialActivity(){
+	$("#formValidatePartialActivity").toggleClass("hide")
+	$("#formValidateFinalActivity").addClass("hide")
+}
+
+function showFormValidateFinalActivity(){
+	$("#formValidatePartialActivity").addClass("hide")
+	$("#formValidateFinalActivity").toggleClass("hide")
+}
+
+$("#audioPrinc").prop("volume", 0.1)
+$("#audioPrinc").trigger("play")
+
+//var socket = io.connect("http://192.168.0.3:8000/")
+var socket = io.connect()
+
+var room = $("input[name=idUserAuthenticate]").val()
+
+socket.on("connect", function() {
+	socket.emit("room", room)
+})
+
+socket.on("message", function(data) {
+	console.log("Message:", data)
+})
+
+socket.on("response", function (data) {
+	notification.show({msg:data.message, type:data.statusCode})
+})
+
+//-----------------------------------//
+
 function getClone(selector){
 	var t = document.querySelector(selector)
 	return document.importNode(t.content,true)
 }
 
-function renderResults(node){$("#showChildrensCont").html(""); $("#showChildrensCont").append(node)}
-function renderResultAct(node){$("#activityChildrens").html(""); $("#activityChildrens").append(node)}
-function renderResultValid(node){$("#showValidAct").html(""); $("#showValidAct").append(node)}
 function renderResultDataResult(node){$("#results").html(""); $("#results").append(node)}
 function renderResultDataStep(node){$("#resultStepActs").html(""); $("#resultStepActs").append(node)}
 
@@ -17,208 +67,6 @@ function funcStatusAct(status){
 		statusText = "Completado"
 	return statusText
 }
-
-$("#formAddChildAct").on("submit",(event) => {
-	event.preventDefault()
-
-	$.ajax({
-		url: "/estimulation/found-children",
-		async : false,
-		data : $("#formAddChildAct").serialize(),
-		type : "POST",
-		success: function(childrens){
-			if (childrens.err) return notification.show({msg:childrens.err.message, type:1})
-			if(childrens.nameChildren != null) {
-				if(childrens.statusChildren == 0){
-					notification.show({msg:"¡Niñ@ Retirado. No puede realizar actividades!", type:2})
-				} else {
-					var clone = getClone("#consulQueryAddChild"),
-						cloneAct = getClone("#consulQueryActivityChild")
-					var data = $(clone.querySelector("#showChildrens")),
-						dataAct = $(clone.querySelector("#activityChildrens"))
-
-					var pName = $("<p>").attr({id:childrens.idChildren}).append(
-							$("<span>",{html : "Nombre: " +  childrens.nameChildren + " " + childrens.lastnameChildren})
-						),
-						pId = $("<p>").attr({id:childrens.idChildren}).append(
-							$("<span>",{html :  "ID: " + childrens.idChildren})
-						),
-						imgChild = $("<article>",{class : "imgPhoto"}).append(
-							$("<img>",{src:"/img/users/"+childrens.imgChildren})
-							).click(() => {
-								window.open("/estimulation/infoChildren/" + $("#idChildren").val())
-							})//,
-						//button = $("<button>")
-							//.attr("id","infoChildren")
-							//.attr("type","button")
-							//.click(() => {
-							//	window.open("/estimulation/infoChildren/" + $("#idChildren").val())
-							//})
-							//.append($("<span>", {html : "Info: " + childrens.nameChildren}))
-					data.append(pName,pId, imgChild)
-
-					$("#cancelAddChildren",clone).click(()=>{
-						$("#formValidChildren").remove()
-						$("#formInicAct").remove()
-						$("#nameChild").remove()
-						$("#nameChild1").remove()
-						$("#nameChild2").remove()
-						$("#fieldsetGuide").remove()
-						$("#idChildren").prop("readonly", false)
-						$("#idChildren").val("")
-						$("#numberPin").prop("readonly", false)
-						$("#numberPin").val("")
-						$("#validActClicDef").prop("disabled", true)
-						$("#validActClic").prop("disabled", true)
-					})
-					renderResults(clone)
-					renderResultAct(cloneAct)
-
-					$("#idChildren").prop("readonly", true)
-					$("#numberPin").prop("readonly", true)
-					$("#validActClicDef").prop("disabled", false)
-					$("#validActClic").prop("disabled", false)
-
-					$("#connectRug").click(function(){
-						$.ajax({
-							url: "/estimulation/arduino/connect",
-							async : true,
-							type : "POST",
-							data : {numberPin : $("#numberPin").val()},
-							success: response => {
-								notification.show({msg:response.message, type:response.statusCode})
-							}
-						})
-					})
-					$("#disconnectRug").click(function(){
-						$.ajax({
-							url: "/estimulation/arduino/disconnect",
-							async : true,
-							type : "POST",
-							success: response => {
-								notification.show({msg:response.message, type:response.statusCode})
-							}
-						})
-					})
-					$("#review").click((event) => {
-						event.preventDefault
-						$("#reviewChild").toggleClass("hide")
-
-					})
-				}
-			}
-		}
-	})
-})
-
-$("#validActClic").on("click",(event) => {
-	$("#formValidChildrenParcial").toggleClass("hide")
-	event.preventDefault()
-
-	$.ajax({
-		url: "/estimulation/found-children",
-		async : false,
-		data : $("#formAddChildAct").serialize(),
-		type : "POST",
-		success: function(result){
-			if (result.err) return notification.show({msg:result.err.message, type:1})
-			var clone = getClone("#consulQueryChildrenValidParcial")
-
-			var data = $(clone.querySelector("#dataNameChildParcial"))
-
-			var label = $("<label>",{html : "Identificación Niñ@: "}),
-				input = $("<input>",{html : result.idChildren})
-						.prop("type", "number")
-						.attr({id:"idChildren"})
-						.prop("readonly", true)
-						.prop("name", "idChildren")
-						.val(result.idChildren)
-
-			$("#buttonCancelValidActParcial",clone).click(()=>{
-				$("#formValidChildrenParcial").remove()
-			})
-
-			$("#formValidChildrenParcial",clone).on("submit",(event)=>{
-				event.preventDefault()
-
-				if(confirm("Validación parcial de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
-					$.ajax({
-						url: "/estimulation/valid-activity-parcial",
-						async : false,
-						data : {actGeneral : ($("#formValidChildrenParcial")).serialize(),
-								stepActivity : $("#numberStep").val(),
-								activityActivity : $("#numberActivity").val()},
-						type : "POST",
-						success: function(activity){
-							if (activity.err) return notification.show({msg:activity.err.message, type:1})
-							notification.show({msg:activity.msg, type:activity.statusCode})
-							//console.log(activity)
-							location.reload(true)
-						}
-					})
-				}
-			})
-
-			data.append(label)
-			data.append(input)
-			renderResultValid(clone)
-		}
-	})
-})
-
-$("#validActClicDef").on("click",(event) => {
-	$("#formValidChildren").toggleClass("hide")
-	event.preventDefault()
-
-	$.ajax({
-		url: "/estimulation/found-children",
-		async : false,
-		data : $("#formAddChildAct").serialize(),
-		type : "POST",
-		success: function(result){
-
-			var clone = getClone("#consulQueryChildrenValid"),
-
-				data = $(clone.querySelector("#dataNameChild")),
-
-				label = $("<label>",{html : "Identificación Niñ@: "}),
-				input = $("<input>",{html : result.idChildren})
-				.prop("type", "number")
-				.attr({id:"idChildren"})
-				.prop("readonly", true)
-				.prop("name", "idChildren")
-				.val(result.idChildren)
-
-			$("#buttonCancelValidAct",clone).click(()=>{
-				$("#formValidChildren").remove()
-			})
-
-			$("#formValidChildren",clone).on("submit", (event)=>{
-				event.preventDefault()
-				if(confirm("Validación FINAL de actividad a: " + $("#idChildren").val() +". ¿Desea continuar?")){
-					$.ajax({
-						url: "/estimulation/valid-activity-complete",
-						async : false,
-						data : {actGeneral : ($("#formValidChildren")).serialize(),
-								stepActivity : $("#numberStep").val(),
-								activityActivity : $("#numberActivity").val()},
-						type : "POST",
-						success: function(activity){
-							if (activity.err) return notification.show({msg:activity.err.message, type:1})
-							notification.show({msg:activity.msg, type:activity.statusCode})
-							//console.log(activity)
-							location.reload(true)
-						}
-					})
-				}
-			})
-
-			data.append(label)
-			data.append(input)
-			renderResultValid(clone)
-		}
-	})
-})
 
 $("#continueViewMore").click(() => {
 	var msg = "¡Consulta éxitosa!",
@@ -327,24 +175,4 @@ $("#continueStepAll").click(() => {
 	var clone = getClone("#consulQueryDataActOne")
 	renderResultDataResult(clone)
 	$("#results")[0].scrollIntoView()
-})
-
-$("#audioPrinc").prop("volume", 0.1)
-$("#audioPrinc").trigger("play")
-
-var socket = io.connect("http://192.168.0.3:8000/")
-
-
-var room = $("input[name=idUserAuthenticate]").val()
-
-socket.on("connect", function() {
-	socket.emit("room", room)
-})
-
-socket.on("message", function(data) {
-	console.log("Message:", data)
-})
-
-socket.on("response", function (data) {
-	notification.show({msg:data.message, type:data.statusCode})
 })

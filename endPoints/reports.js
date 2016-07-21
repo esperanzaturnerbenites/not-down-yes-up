@@ -5,8 +5,6 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	jade = require("jade")
 
-console.log(jade)
-
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/consult-step-act",(req,res)=>{

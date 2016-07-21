@@ -1,118 +1,137 @@
-extends templates/templateEstimulation.jade
-block title
-	title Etapa #{activity.stepActivity} - Actividad #{activity.activityActivity}
-block a-exit
-	button(onclick="history.back()") VOLVER
+doctype html
+html(lang='es')
+	head
+		meta(charset='UTF-8')
+		title Etapa #{activity.stepActivity} - Actividad #{activity.activityActivity}
+		link(rel='stylesheet' href='/css/styles.css')
+	body.backgroundF
+		input(type="hidden" name="idUserAuthenticate" value="#{user.idUser}")
+		audio#audioPrinc(src='/audio/principal.mp3')
+		section.container
+			section.centerEstimulation.help
+				h2.exit
+					button(onclick="history.back()") VOLVER
+				a(href="/users/help-me" target="blank")
+					img(src="/img/help.png" alt="")
 
-block desc
-	section.activity
-		input(type="hidden" value="#{activity.activityActivity}" id="numberActivity")
-		input(type="hidden" value="#{activity.stepActivity}" id="numberStep")
-		p
-			span ETAPA 
-			span #{activity.stepActivity} 
-			span - ACTIVIDAD 
-			span #{activity.activityActivity}
-		h3 #{activity.nameActivity}
-		button#restarActClic(type='button')
-			a(onclick="location.reload()") Reiniciar Actividad
-		button#validActClic(disabled)
-			span Validación Parcial
-		button#validActClicDef(disabled)
-			span Validación Final
+			section.activity
+				input(type="hidden" value="#{activity.activityActivity}" id="numberActivity")
+				input(type="hidden" value="#{activity.stepActivity}" id="numberStep")
+				p
+					span ETAPA 
+					span #{activity.stepActivity} 
+					span - ACTIVIDAD 
+					span #{activity.activityActivity}
+				h3 #{activity.nameActivity}
+				button#restarActClic(type='button')
+					a(onclick="location.reload()") Reiniciar Actividad
+				button#validatePartialActivity(disabled)
+					span Validación Parcial
+				button#validateFinalActivity(disabled)
+					span Validación Final
 
-	section#showValidAct.validAct
-	form#formValidChildren.hide.validAct
-		fieldset
-			legend Validación Final Actividad
-			article
-				label Docente: 
-				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
-			article#dataNameChild
-			
-			article
-				label Resultado Sistema 
-				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
-			
-			article
-				label Puntuación Docente 
-				input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
-			
-			article
-				label Estado de la Actividad 
-				select#statusActivity(name='statusActivity')
-					option(value='0', selected='') No Completada
-					option(value='1') Completada
+			form(method="POST" action="/estimulation/validatePartialActivity")#formValidatePartialActivity.hide.validAct
+				fieldset
+					legend Validación Final Actividad
+					article
+						label Docente: 
+						input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
+					article#dataNameChild
+					
+					article
+						label Resultado Sistema 
+						input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
+					
+					article
+						label Puntuación Docente 
+						input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
+					
+					article
+						label Estado de la Actividad 
+						select#statusActivity(name='statusActivity')
+							option(value='0', selected='') No Completada
+							option(value='1') Completada
 
-			article
-				label Apoyo Máximo 
-				select#backingMaxActivity(name='backingMaxActivity')
-					option(value='0', selected='') No Requiere
-					option(value='1') L: Logrado
-					option(value='2') LP: Logro Parcialmente Obtenido
-					option(value='3') P: Planeado
-			
-			article
-				label Apoyo Mínimo 
-				select#backingMinActivity(name='backingMinActivity')
-					option(value='0', selected='') No Requiere
-					option(value='1') L: Logrado
-					option(value='2') LP: Logro Parcialmente Obtenido
-					option(value='3') P: Planeado
-			
-			article
-				label D. Funcional 
-				select#backingDFunctionActivity(name='backingDFunctionActivity')
-					option(value='0', selected='') No Requiere
-					option(value='1') L: Logrado
-					option(value='2') LP: Logro Parcialmente Obtenido
-					option(value='3') P: Planeado
-			
-			article
-				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
-			
-			article.validActButton
-				button(type='submit')
-					span Validar
+					article
+						label Apoyo Máximo 
+						select#backingMaxActivity(name='backingMaxActivity')
+							option(value='0', selected='') No Requiere
+							option(value='1') L: Logrado
+							option(value='2') LP: Logro Parcialmente Obtenido
+							option(value='3') P: Planeado
+					
+					article
+						label Apoyo Mínimo 
+						select#backingMinActivity(name='backingMinActivity')
+							option(value='0', selected='') No Requiere
+							option(value='1') L: Logrado
+							option(value='2') LP: Logro Parcialmente Obtenido
+							option(value='3') P: Planeado
+					
+					article
+						label D. Funcional 
+						select#backingDFunctionActivity(name='backingDFunctionActivity')
+							option(value='0', selected='') No Requiere
+							option(value='1') L: Logrado
+							option(value='2') LP: Logro Parcialmente Obtenido
+							option(value='3') P: Planeado
+					
+					article
+						textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
+					
+					article.validActButton
+						button(type='submit')
+							span Validar
 
-				button#buttonCancelValidAct(type='button')
-					span Cancelar
+			form(method="POST" action="/estimulation/validateFinalActivity")#formValidateFinalActivity.hide.validAct
+				fieldset
+					legend Validación Actividad
+					article
+						label Docente: 
+						input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
+					article#dataNameChildParcial
 
-	form#formValidChildrenParcial.hide.validAct
-		fieldset
-			legend Validación Actividad
-			article
-				label Docente: 
-				input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
-			article#dataNameChildParcial
-			
-			article
-				label Resultado Sistema 
-				input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
-			
-			article
-				label Puntuación Docente 
-				input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
-			
-			article
-				label Estado de la Actividad 
-				select#statusActivity(name='statusActivity')
-					option(value='0', selected='') Pendiente
-					option(value='1') Completada
-			
-			article
-				textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
-			
-			article.validActButton
-				button(type='submit')
-					span Validar
+					article
+						label Resultado Sistema 
+						input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
 
-				button#buttonCancelValidActParcial(type='button')
-					span Cancelar
+					article
+						label Puntuación Docente 
+						input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
 
-	section.actDesc
-		p #{activity.descriptionActivity}
+					article
+						label Estado de la Actividad 
+						select#statusActivity(name='statusActivity')
+							option(value='0', selected='') Pendiente
+							option(value='1') Completada
 
-block activity
-	section#activityChildrens.actContent
-	include templatesQuery/activityChildrenAct.jade
+					article
+						textarea#observationActivity(name='observationActivity' placeholder='Observaciones...' required)
+
+					article.validActButton
+						button(type='submit')
+							span Validar
+
+			section.actDesc
+				p #{activity.descriptionActivity}
+
+			section.actGroup
+				form#startActivity
+					fieldset
+						legend ¿Con cuál niñ@ nos divertiremos ahora?
+						input#idChildren(type='number' name='idChildren' min='1111' placeholder='Identificación Niño' required data-valid-exists="children,false,true")
+						article
+							button(type='submit')
+								span Iniciar Actividad
+
+			section#contentActivity
+			//include templatesQuery/addChildrenAct.jade
+
+			//include templatesQuery/activityChildrenAct.jade
+		script.
+			var activityCurrent = !{JSON.stringify(activity)}
+		script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+		script(src="/js/lib/socket.io-1.4.5.js")
+		script(src="/js/lib/jquery-2.2.0.min.js")
+		script(src="/js/main.js")
+		script(src="/js/estimulation.js")

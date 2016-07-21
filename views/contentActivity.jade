@@ -1,0 +1,130 @@
+section.flex
+	article.showChildrens
+		form#formInicAct
+			fieldset
+				legend Niñ@ Actual
+				article#showChildrens.showChildrens
+					p #{children.nameChildren} #{children.lastnameChildren}
+					p #{children.idChildren}
+					p #{children.ageChildren}
+					//img(src="/img/users/#{children.imgChildren}")
+
+	article.showChildrens
+		fieldset#fieldsetGuide
+			legend Guía
+			-var n = 0
+			for guide in activity.guidesActivity
+				-n++
+				p 
+					b #{n}: 
+					span #{guide}
+			button#review
+				span Actividad de Apoyo
+
+section#reviewChild.flex.actGroupReview.hide
+	fieldset
+		legend Aprendamos Juntos
+		article.flex
+			-var cantImgReview = activity.imgActivity.length
+			-var select = Math.floor((Math.random() * (cantImgReview - 0)) + 0)
+			
+			- var aDesc = 0
+			if (activity.uniqueImageActivity == 1)
+				- var a = 1
+			else
+				- var a = 0
+			-for (var a; a < 4; a++)
+				article#imgReviewAudio.imgReview
+					h1.h1-3#descImg #{activity.imgDescriptionActivity[aDesc]}
+					img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
+				- aDesc++
+
+article#nameChild
+	section
+		h1 ¡LÉEME!
+		-var n = 0
+		for guide in activity.guidesChildActivity
+			article.actContentGuidesChild
+				-n++
+				h1 #{n} 
+				p 
+					span #{guide}
+
+	section#aswerAct.hide
+		h1 ¿CÓMO TE FUÉ?
+		img(src='/img/imgacts/activities/espera.png', alt='')
+		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity', readonly)
+
+article#nameChild1.actCentral
+	-if (activity.scriptActivity)
+		-var scritp = activity.scriptActivity
+	-else
+		-var scritp = false
+	h1 ¡ESCÚCHAME!
+	img.img#imgAct(src='/img/imgacts/activities/listen.png', alt='Listen')
+
+	section.actCentralImg
+		-var cantImg = activity.imgActivity.length
+		-var cantImgI = activity.imgActivityIncorrect.length
+		-var cantAudio = activity.audioActivity.length
+		-var select = Math.floor((Math.random() * (cantImg - 0)) + 0)
+		-var selectI = Math.floor((Math.random() * (cantImgI - 0)) + 0)
+		-var selectI2 = Math.floor((Math.random() * (cantImgI - 0)) + 0)
+		-var selectAudio = Math.floor((Math.random() * (cantAudio - 0)) + 0)
+
+		-if (activity.audioActivity.length)
+			img.imgAudio#imgAudio(src='/img/imgacts/activities/play.png', alt='Play')
+			audio#audioAct(src='#{activity.audioActivity[selectAudio]}')
+
+
+		-if (cantImgI > 0)
+			section#imgActAudio.imgReview
+				img(src='#{activity.imgActivityIncorrect[selectI]}', alt='.:: ... ::.')
+				h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI]}
+			section#imgActAudio.imgReview
+				img(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
+				h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+			section#imgActAudio.imgReview
+				img(src='#{activity.imgActivityIncorrect[selectI2]}', alt='.:: ... ::.')
+				h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI2]}
+		-else if (activity.onlyTextActivity == 1)
+			section#imgActAudio.imgReview
+				h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+		-else if (activity.uniqueImageActivity == 1)
+			section
+				img#uniqueImgAct(src='#{activity.imgActivity[0]}', alt='.:: ... ::.')
+		-else
+			section#imgActAudio.imgReview
+				img#uniqueImgAct(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
+				h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+script(src="/js/scripts.js")
+script.
+	var text = new Text()
+	var guides = !{JSON.stringify(activity.guidesChildActivity)}
+	$("#imgAct").click(() => {
+		for(var guide of guides){
+			text.toVoice(guide)
+		}
+	})
+	var play = false
+	$("#imgAudio").click(() => {
+		if(play == true){
+			$("#audioAct").trigger("pause")
+			play = false
+		}else{
+			$("#audioAct").trigger("play")
+			play = true
+		}
+	})
+	$("[id = imgActAudio]").on("click", function() {
+		var idVoice = $("#audioImgActivity", $(this)).text()
+		console.log(idVoice)
+		text.toVoice(idVoice)
+	})
+	var script = !{scritp}
+	if(script) script()
+
+	$("[id = imgReviewAudio]").on("click", function() {
+		var idVoice = $("#descImg",$(this)).text()
+		text.toVoice(idVoice)
+	})

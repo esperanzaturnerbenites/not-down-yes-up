@@ -2,12 +2,35 @@ var express = require("express"),
 	models = require("./../models"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
+	jade = require("jade"),
 	querystring = require("querystring")
-
 
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
-/* OK */
+
+router.post("/validatePartialActivity",(req,res)=>{
+	var data = req.body
+	console.log(data)
+	res.json(data)
+})
+router.post("/validateFinalActivity",(req,res)=>{
+	var data = req.body
+	console.log(data)
+	res.json(data)
+})
+router.post("/startActivity",(req,res)=>{
+	var data = req.body
+	var fn = jade.compileFile("views/contentActivity.jade",{})
+	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		models.activity.findOne({activityActivity:data.idActivity,stepActivity:data.idStep},function(err,activity){
+			var html = fn({activity: activity,children: children})
+			return res.json({html: html})
+		})
+
+	})
+})
+
+/* OK */ 
 router.get("/steps",(req,res)=>{
 	var step = {}
 
