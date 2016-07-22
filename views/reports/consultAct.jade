@@ -1,7 +1,7 @@
 //- 
 //- POST /reports/general
 
-section.consul.consulQuery
+section.consul.consulQuery 
 	h3 RESULTADO CONSULTA
 	p
 		b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
@@ -29,46 +29,24 @@ section.consul.consulQuery
 					th observation
 					th date
 			tbody
-				- var numeroActividad = 1
-				while data.countActivities <= numeroActividad
-					if data.activitiesValid.length != 0
-						if data.activitiesValid.idActivity.activityActivity == numeroActividad
-							- var activityValid = data.activitiesValid
-							- var children = activityValid.idChildren
-							tr
-								td 
-									a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
-								td #{children.nameChildren} #{children.lastnameChildren}
-								td #{children.ageChildren}
-								td #{children.statusChildren}
-								td #{activityValid.idActivity.activityActivity} 
-								td #{activityValid.idActivity.nameActivity}
-								td #{activityValid.statusActivity}
-								td #{activityValid.scoreSystemActivity}
-								td #{activityValid.scoreTeachActivity}
-								td #{activityValid.backingMaxActivity}
-								td #{activityValid.backingMinActivity}
-								td #{activityValid.backingDFunctionActivity}
-								td #{activityValid.observationActivity}
-								td #{activityValid.date}
-					else
-						- var children = data.stepsValid[0].idChildren
+				each activityValid in data.activitiesValid
+					- var children = activityValid.idChildren
+					tr
 						td 
 							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
 						td #{children.nameChildren} #{children.lastnameChildren}
 						td #{children.ageChildren}
 						td #{children.statusChildren}
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-						td Sin Iniciar
-					span [Borrar #{numeroActividad++}]
+						td #{activityValid.idActivity.activityActivity} 
+						td #{activityValid.idActivity.nameActivity}
+						td #{activityValid.statusActivity}
+						td #{activityValid.scoreSystemActivity}
+						td #{activityValid.scoreTeachActivity}
+						td #{activityValid.backingMaxActivity}
+						td #{activityValid.backingMinActivity}
+						td #{activityValid.backingDFunctionActivity}
+						td #{activityValid.observationActivity}
+						td #{activityValid.date}
 
 
 

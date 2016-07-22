@@ -2,7 +2,8 @@ var express = require("express"),
 	models = require("./../models"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
-	jade = require("jade")
+	jade = require("jade"),
+	functions = require("./functions")
 
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
@@ -65,6 +66,50 @@ router.get("/steps/:step/:activity",(req,res)=>{
 router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher"/*,{user :req.user}*/)})
 
 /* OK */
+router.post("/info-children/view-more",(req,res)=>{
+	var view = "views/reportsEstimulation/",
+		query,
+		fieldsPopulate,
+		fieldsSort = {},
+		collection,
+		func = false,
+		data = req.body,
+		dataJade = {}
+
+	if(data.typeReport == 1){
+		view = view + "infoChildren.jade"
+		collection = "children"
+		query = {_id:data.idChildren}
+		fieldsPopulate = "idParent"
+	}else if(data.typeReport == 2){
+		collection = "activityhistory"
+		query = {idChildren:data.idChildren}
+		view = view + "historyActivities.jade"
+		fieldsPopulate = "idChildren idStep idActivity idUser"
+		fieldsSort = {date:-1,idStep:-1}
+		func = functions["groupHistoryActivitiesByStep"]
+	}else if(data.typeReport == 3){
+		collection = "activityvalid"
+		query = {idChildren:data.idChildren}
+		view = view + "activityValids.jade"
+		fieldsPopulate = "idChildren idStep idActivity idUser"
+		fieldsSort = {date:-1}
+	}else{
+		return res.json({html:"<p>El Reporte No Existe</p>"})
+	}
+
+	models[collection].find(query)
+	.populate(fieldsPopulate)
+	.sort(fieldsSort)
+	.exec(function(err,documents){
+		dataJade = documents
+		if(func) dataJade.filterData = func(documents)
+		if(err) res.json(err)
+		var fn = jade.compileFile(view,{})
+		var html = fn({data: dataJade})
+		return res.json({html:html})
+	})
+})
 router.get("/info-children/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}

@@ -1,0 +1,26 @@
+- var activitiesValid = data
+section.continue.continueProgressLogros
+	article.consulTable
+		table
+			thead
+				tr
+					th INGRESO
+					th ACTIVIDAD
+					th ESTADO
+					th PUNT DOCENTE
+					th PUNT SISTEMA
+					th OBSERVACIONES
+					th DOCENTE
+					th FECHA
+			tbody
+				- var ingreso = 1
+				each activityValid in activitiesValid
+					td #{ingreso}
+					td #{activityValid.idActivity.nameActivity}
+					td #{activityValid.statusActivity}
+					td #{activityValid.scoreTeachActivity}
+					td #{activityValid.scoreSystemActivity}
+					td #{activityValid.observationActivity}
+					td #{activityValid.idUser.userUser}
+					td #{activityValid.date}
+					- ingreso++

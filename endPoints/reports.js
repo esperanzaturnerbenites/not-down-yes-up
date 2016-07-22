@@ -44,8 +44,7 @@ router.post("/consult-step-act",(req,res)=>{
 				.sort({idChildren : 1})
 				.exec((err,activitiesValid) =>{
 					if (err) return res.json(err)
-
-
+					
 					steps.activitiesValid = activitiesValid
 
 					steps.countActivities = activities.length

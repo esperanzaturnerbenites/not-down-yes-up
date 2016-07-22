@@ -12,6 +12,8 @@ $("#startActivity").submit(function(event){
 		success: function(response){
 			$("#contentActivity").html(response.html)
 			$("#validatePartialActivity,#validateFinalActivity").attr("disabled",false)
+			
+			$("#review").click(activityReview)
 
 			$("#validatePartialActivity").click(showFormValidatePartialActivity)
 			$("#validateFinalActivity").click(showFormValidateFinalActivity)
@@ -83,6 +85,10 @@ function validatePartialActivity(event){
 
 }
 
+function activityReview(){
+	$("#reviewChild").toggleClass("hide")
+}
+
 function showFormValidatePartialActivity(){
 	$("#formValidatePartialActivity").toggleClass("hide")
 	$("#formValidateFinalActivity").addClass("hide")
@@ -131,6 +137,34 @@ function funcStatusAct(status){
 		statusText = "Completado"
 	return statusText
 }
+
+// continueViewMore -> viewInforChildren
+// continueActAll ->  viewHistoryActivities
+// continueStepAll -> viewValidsActivities
+
+// InformacionChildren
+$(".viewMore").click(function(){
+	var typeReport = $(this).data("type-data")
+	$.ajax({
+		url: "/estimulation/info-children/view-more",
+		data: {
+			typeReport: typeReport,
+			idChildren: j_currentChildren._id
+		},
+		type : "POST",
+		success: function(response){
+			console.log(response)
+			$("#resultViewMore").html(response.html)
+		}
+	})
+})
+$("#viewInforChildren").click(() => {})
+
+// HistorialActividades
+$("#viewHistoryActivities").click(() => {})
+
+// actividades validadas
+$("#viewValidsActivities").click(() => {})
 
 $("#continueViewMore").click(() => {
 	var msg = "¡Consulta éxitosa!",

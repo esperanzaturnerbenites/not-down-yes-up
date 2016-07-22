@@ -1,0 +1,132 @@
+- var children = data[0]
+h1 DATOS BÁSICOS DEL NIÑ@
+section.continue.continueViewMore
+	article.consulName
+		p
+			span
+				b NOMBRE: 
+			span #{children.nameChildren} #{children.lastnameChildren}
+		article.img
+			img#consulRImg(src='/img/users/#{children.imgChildren}', alt='Foto')
+		p
+			span
+				b Número de Identificación: 
+			span #{children.idChildren}
+		p
+			span
+				b Sexo: 
+				if (children.genderChildren == 0)
+					- var gender = "Niña"
+				if (children.genderChildren == 1)
+					- var gender = "Niño"
+			span #{gender}
+		p
+			span
+				b Edad: 
+			span #{children.ageChildren} meses
+		p
+			span
+				b Fecha Nacimiento: 
+			span #{children.birthdateChildren}
+		p
+			span
+				b Lugar de Nacimiento: 
+			span #{children.birthplaceChildren}
+	article.consulData
+		p
+			span
+				b Vive con: 
+				if (children.liveSon == 0)
+					- var liveson = "Ambos Padres"
+				if (children.liveSon == 1)
+					- var liveson = "Mamá" 
+				if (children.liveSon == 2)
+					- var liveson = "Papá" 
+				if (children.liveSon == 3)
+					- var liveson = "Otro Cuidador" 
+			span #{liveson}
+		p
+			span
+				b Mamá: 
+			span #{children.idParent[0].nameParent} #{children.idParent[0].lastnameParent}
+		p
+			span
+				b Papá: 
+			span #{children.idParent[1].nameParent} #{children.idParent[1].lastnameParent}
+		p
+			span
+				b Cuidador: 
+			span #{children.idParent[2].nameParent} #{children.idParent[2].lastnameParent}
+		p
+			span
+				b Dirección: 
+			span #{children.addressChildren} #{children.districtChildren} #{children.localityChildren} #{children.departamentChildren} 
+		p
+			span
+				b Teléfono: 
+			if (children.liveSon == 0)
+				- var tel = children.idParent[0].celParent
+			if (children.liveSon == 1)
+				- var tel = children.idParent[0].celParent
+			if (children.liveSon == 2)
+				- var tel = children.idParent[1].celParent
+			if (children.liveSon == 3)
+				- var tel = children.idParent[2].celParent
+			span #{tel}
+		p
+			span
+				b Estrato Casa: 
+			span #{children.levelhomeChildren}
+	article.consulData
+		p
+			span
+				b EPS: 
+			span #{children.epsChildren}
+		p
+			span
+				b APB: 
+			span #{children.apbChildren}
+		p
+			span
+				b Condiciones de Salud: 
+			span #{children.healthChildren}
+		p
+			span
+				b Habilidades: 
+			span #{children.abilityChildren}
+		p
+			span
+				b Debilidades: 
+			span #{children.debilityChildren}
+		p
+			span
+				b Usa Gafas: 
+			if (children.glassesChildren == 0)
+				- var glass = "No"
+			else
+				- var glass = "Si"
+			span #{glass}
+		p
+			span
+				b Usa Audífonos: 
+			if (children.hearingaidChildren == 0)
+				- var hearing = "No"
+			else
+				- var hearing = "Si"
+			span #{hearing}
+		p
+			span
+				b Fecha de Ingreso: 
+			span #{children.dateStart}
+		if (children.statusChildren == 0)
+			- var statusChildren = "Registrado"
+		if (children.statusChildren == 1)
+			- var statusChildren = "En Cursos"
+		if (children.statusChildren == 2)
+			- var statusChildren = "Calificado"
+		if (children.statusChildren == 3)
+			- var statusChildren = "Retirado/Inactivo"
+		p
+			span
+				b Estado Actual: 
+			span #{statusChildren}

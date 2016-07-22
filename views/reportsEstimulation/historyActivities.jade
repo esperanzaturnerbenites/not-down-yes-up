@@ -1,0 +1,27 @@
+- var activityHistories = data.filterData
+section.continue.continueHistoryAct
+	article
+		h3 HISTORIAL DE ACTIVIDADES
+		each activitiesHistory, stepStep in activityHistories
+			section.consulTable
+				h2 ETAPA #{stepStep}: #{activitiesHistory[0].idStep.nameStep}
+				table 
+					thead
+						tr
+							th ACTIVIDAD
+							th PUNTAJE DOCENTE
+							th PUNTAJE SISTEMA
+							th ESTADO
+							th OBSERVACIONES
+							th DOCENTE
+							th FECHA
+					tbody.more
+						each activityHistory in activitiesHistory
+							tr
+								td #{activityHistory.idActivity.nameActivity}
+								td #{activityHistory.scoreTeachActivity}
+								td #{activityHistory.scoreSystemActivity}
+								td #{activityHistory.statusActivity}
+								td #{activityHistory.observationActivity}
+								td #{activityHistory.idUser.userUser}
+								td #{activityHistory.date}

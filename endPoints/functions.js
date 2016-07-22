@@ -100,12 +100,25 @@ function encryptPass(params,data,res){
 	})
 }
 
+/* estimulation.js */
+function groupHistoryActivitiesByStep(historyActivities){
+	var dataFilter = {}
+	historyActivities.forEach(activityHistory => {
+		if(!dataFilter[activityHistory.idStep.stepStep]) dataFilter[activityHistory.idStep.stepStep] = []
+		dataFilter[activityHistory.idStep.stepStep].push(activityHistory)
+	})
+	return dataFilter
+}
+/* estimulation.js */
+
+
 module.exports = {
 	renderReportAge: renderReportAge,
 	checkActivities: checkActivities,
 	encryptPass: encryptPass,
 	addObservationChildren: addObservationChildren,
 	renderListUser: renderListUser,
+	groupHistoryActivitiesByStep: groupHistoryActivitiesByStep,
 	checkNewAdminUser: checkNewAdminUser,
 	checkCountActivities: checkCountActivities,
 	defaulFn: defaulFn

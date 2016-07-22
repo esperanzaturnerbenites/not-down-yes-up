@@ -53,6 +53,7 @@ router.post("/id-exists",(req,res)=>{
 })
 
 /* OK */
+/* OK */
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
@@ -143,11 +144,16 @@ var updateChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 
 /* OK */
 router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
+	var data = req.body,
+		dataChildren = data.children,
+		dataMom = data.mom,
+		dataDad = data.dad,
+		dataCare = data.care
 
-	var fileChildren =  req.files.find(e => {return e.fieldname == "imgChildren"}),
-		fileMom = req.files.find(e => {return e.fieldname == "imgMom"}),
-		fileDad =  req.files.find(e => {return e.fieldname == "imgDad"}),
-		fileCure =  req.files.find(e => {return e.fieldname == "imgCure"})
+	var fileChildren =  req.files.find(e => {return e.fieldname == "children[imgChildren]"}),
+		fileMom = req.files.find(e => {return e.fieldname == "mom[imgMom]"}),
+		fileDad =  req.files.find(e => {return e.fieldname == "dad[imgDad]"}),
+		fileCure =  req.files.find(e => {return e.fieldname == "care[imgCure]"})
 
 	var defaultImage = "defaultUser.png",
 		imgChildren =  fileChildren ? fileChildren.filename : defaultImage,
@@ -155,73 +161,12 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 		imgDad =  fileDad ? fileDad.filename : defaultImage,
 		imgCure =  fileCure ? fileCure.filename : defaultImage
 
-	var data = req.body,
-		dataChildren = {
-			abilityChildren : data.abilityChildren,
-			addressChildren : data.addressChildren,
-			ageChildren : data.ageChildren,
-			apbChildren : data.apbChildren,
-			birthdateChildren : new Date(data.birthdateChildren.split("-")),
-			birthplaceChildren : data.birthplaceChildren,
-			debilityChildren : data.debilityChildren,
-			departamentChildren : data.departamentChildren,
-			districtChildren : data.districtChildren,
-			epsChildren : data.epsChildren,
-			genderChildren : data.genderChildren,
-			glassesChildren : data.glassesChildren,
-			healthChildren : data.healthChildren,
-			hearingaidChildren : data.hearingaidChildren,
-			idChildren : data.idChildren,
-			imgChildren : imgChildren,
-			lastnameChildren : data.lastnameChildren,
-			levelhomeChildren : data.levelhomeChildren,
-			liveSon : data.liveSon,
-			localityChildren : data.localityChildren,
-			municipalityChildren : data.municipalityChildren,
-			nameChildren : data.nameChildren
-		},
-		dataMom = {
-			imgParent : imgMom,
-			birthdateParent : new Date(data.birthdateParent[0].split("-")),
-			celParent : data.celParent[0],
-			emailParent : data.emailParent[0],
-			idExpeditionParent : data.idExpeditionParent[0],
-			idParent : data.idParent[0],
-			jobParent : data.jobParent[0],
-			lastnameParent : data.lastnameParent[0],
-			nameParent : data.nameParent[0],
-			professionParent : data.professionParent[0],
-			relationshipParent : 0,
-			studyParent : data.studyParent[0],
-			telParent : data.telParent[0]
-		},
-		dataDad = {
-			imgParent : imgDad,
-			birthdateParent : new Date(data.birthdateParent[1].split("-")),
-			celParent : data.celParent[1],
-			emailParent : data.emailParent[1],
-			idExpeditionParent : data.idExpeditionParent[1],
-			idParent : data.idParent[1],
-			jobParent : data.jobParent[1],
-			lastnameParent : data.lastnameParent[1],
-			nameParent : data.nameParent[1],
-			professionParent : data.professionParent[1],
-			relationshipParent : 1,
-			studyParent : data.studyParent[1],
-			telParent : data.telParent[1]
-		},
-		dataCare = {
-			imgParent : imgCure,
-			birthdateParent : new Date(data.birthdateParent[2].split("-")),
-			celParent : data.celParent[2],
-			emailParent : data.emailParent[2],
-			idExpeditionParent : data.idExpeditionParent[2],
-			idParent : data.idParent[2],
-			lastnameParent : data.lastnameParent[2],
-			nameParent : data.nameParent[2],
-			relationshipParent : 2,
-			telParent : data.telParent[2]
-		}
+	dataChildren.imgChildren =  imgChildren
+	dataMom.imgParent =  imgMom
+	dataDad.imgParent =  imgDad
+	dataCare.imgParent =  imgCure
+
+	//return res.json(dataChildren)
 	if(eval(data.editingChildren)){
 		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
 	}else{
@@ -316,62 +261,6 @@ router.get("/register-user/:id?",(req,res)=>{
 	})
 })
 
-router.post("/register-user",upload.any(),(req,res)=>{
-	var dataUser = {
-			validUser : req.body.validUser,
-			idUser : req.body.idUser,
-			expeditionUser : req.body.expeditionUser,
-			nameUser : req.body.nameUser,
-			lastnameUser : req.body.lastnameUser,
-			ageUser : req.body.ageUser,
-			imgUser : req.body.imgUser,
-			telUser : req.body.telUser,
-			celUser : req.body.celUser,
-			emailUser : req.body.emailUser,
-			addressUser : req.body.addressUser,
-			districtUser : req.body.districtUser,
-			localityUser : req.body.localityUser,
-			municipalityUser : req.body.municipalityUser,
-			departamentUser : req.body.departamentUser,
-			studyUser : req.body.studyUser,
-			professionUser : req.body.professionUser,
-			experienceUser : req.body.experienceUser,
-			centerUser : req.body.centerUser
-		},
-		dataUserAdmin = {
-			typeUser :req.body.typeUser,
-			userUser :req.body.userUser,
-			passUser :cryptr.encrypt(req.body.passUser),
-			passConfirmUser :cryptr.encrypt(req.body.passConfirmUser)
-		}
-
-	var fileUser =  req.files.find(e => {return e.fieldname == "imgUser"})
-
-	var defaultImage = "defaultUser.png"
-	dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
-
-	if(dataUserAdmin.passUser == dataUserAdmin.passConfirmUser){
-
-		models.adminuser.findOne({userUser : dataUserAdmin.userUser}, (err, adminFind) => {
-			if(err) return res.json({err:err})
-			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
-			if(!adminFind){
-				models.user.create(dataUser, function (err, user) {
-					if(err) return res.json({err:err})
-					dataUserAdmin.idUser = user._id
-					dataUserAdmin.statusUser = 1
-					delete dataUserAdmin.passConfirmUser
-					
-					models.adminuser.create(dataUserAdmin, function (err, adminuser) {
-						if(err) return res.json({err:err})
-						return res.redirect("/admin/menu-admin")
-					})
-				})
-			}
-		})
-	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
-})
-
 router.get("/admin-childrens",(req,res)=>{
 	models.step.find({},(err,steps) => {
 		if(err) return res.json({message:err})
@@ -381,9 +270,54 @@ router.get("/admin-childrens",(req,res)=>{
 	})
 })
 
-router.post("/update-user",upload.any(),(req,res)=>{
-	
-	var dataUser = filter(req.body)
+router.post(["/register-user","/update-user"],upload.any(),(req,res)=>{
+	var data = req.body,
+		dataUser = data.user,
+		dataAdminuser = data.adminuser
+
+	var defaultImage = "defaultUser.png",
+		fileUser =  req.files.find(e => {return e.fieldname == "user[imgUser]"})
+
+	if(eval(data.editingUser)){
+		if(fileUser){
+			dataUser.imgUser = fileUser.filename
+		}else{
+			delete dataUser.imgUser
+		}
+		updateUser(dataUser,req,res)
+	}else{
+		dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
+		createUser(dataUser,dataAdminuser,req,res)
+	}
+})
+
+function createUser(dataUser,dataAdminuser,req,res){
+	if(dataAdminuser.passUser == dataAdminuser.passConfirmUser){
+		dataAdminuser.passUser = cryptr.encrypt(dataAdminuser.passUser)
+
+		models.adminuser.findOne({userUser : dataAdminuser.userUser}, (err, adminFind) => {
+			if(err) return res.json({err:err})
+			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
+			if(!adminFind){
+				models.user.create(dataUser, function (err, user) {
+					if(err) return res.json({err:err})
+					dataAdminuser.idUser = user._id
+					dataAdminuser.statusUser = 1
+					delete dataAdminuser.passConfirmUser
+					
+					models.adminuser.create(dataAdminuser, function (err, adminuser) {
+						if(err) return res.json({err:err})
+						return res.redirect("/admin/menu-admin")
+					})
+				})
+			}
+		})
+	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
+}
+
+function updateUser(dataUser,req,res){
+	delete dataUser.userUser
+	delete dataUser.passUser
 
 	models.user.update(
 		{idUser : dataUser.idUser},
@@ -393,7 +327,8 @@ router.post("/update-user",upload.any(),(req,res)=>{
 			req.flash("success","¡Usuario actualizado con éxito!")
 			return res.redirect("/admin/menu-admin")
 		})
-})
+}
+
 
 /* OK */
 router.get("/info-user/:id",(req,res)=>{

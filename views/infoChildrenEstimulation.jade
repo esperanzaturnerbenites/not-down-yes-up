@@ -22,7 +22,7 @@ block content
 			article.img
 					img(src='/img/users/#{childrenAct.imgChildren}', alt='Foto')
 			section
-				button#continueViewMore(type='button')
+				button.viewMore#viewInforChildren(type='button' data-type-data="1")
 					span Ver Más
 		article.activities
 			h3 Historial de Actividades (Progreso)
@@ -46,7 +46,7 @@ block content
 			else 
 				h2 No se encontraron actividades
 			section.more
-				button#continueActAll(type='button')
+				button.viewMore#viewHistoryActivities(type='button' data-type-data="2")
 					span Ver Todo
 		article.continueLogros
 			h3 Últimos Logros Alcanzados
@@ -77,7 +77,7 @@ block content
 
 
 			section.more
-				button#continueStepAll(type='button')
+				button.viewMore#viewValidsActivities(type='button' data-type-data="3")
 					span Ver Todo
 		article.contActivities
 			h3 Última actividad accedida:
@@ -106,13 +106,7 @@ block content
 			else 
 				h2 No se encontraron actividades completadas
 	
-	section#dataChildren.hidde
-
+	section#resultViewMore
 	
-	section#results.continue
-	include templatesQuery/dataChild.jade
-	include templatesQuery/dataActAll.jade
-	include templatesQuery/dataActOne.jade
-
-	section.continue#resultStepActs
-	include templatesQuery/dataStepDetail.jade
+	script.
+		var j_currentChildren = !{JSON.stringify(childrenAct)}

@@ -1,5 +1,5 @@
 $("#formOpeChildrenInfo").click(function(event){ 
-	window.open("/admin/info-children/" + $("#adminInfoChildren").val())
+	window.open("/reports/info-children/" + $("#adminInfoChildren").val())
 })
 
 $("#formOpeChildrenUpd").click(function(event){
