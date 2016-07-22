@@ -22,7 +22,8 @@ section.consul.consulQuery
 						while numeroActividad <= data.countActivities
 							th Actividad #{numeroActividad++}
 			tbody
-				each stepValid in data.stepsValid
+				- var stepsValid = data.dataCustom
+				each stepValid in stepsValid
 					- var children = stepValid.idChildren
 					tr
 						td 

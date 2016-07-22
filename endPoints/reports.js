@@ -3,7 +3,8 @@ var express = require("express"),
 	CTE = require("./../CTE"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
-	jade = require("jade")
+	jade = require("jade"),
+	functions = require("./functions")
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -46,11 +47,14 @@ router.post("/consult-step-act",(req,res)=>{
 					if (err) return res.json(err)
 					
 					steps.activitiesValid = activitiesValid
-
 					steps.countActivities = activities.length
 					steps.activities = activities
+					
+					var localsJade = Object.assign({},res.locals)
+					localsJade.dataCustom = steps
+
 					var fn = jade.compileFile(view,{})
-					var html = fn({data: steps})
+					var html = fn({data: localsJade})
 					return res.json({html:html,data:steps})
 				})
 			})
@@ -132,61 +136,55 @@ router.post("/general",(req,res)=>{
 			1: Listado General Profesores
 			2: Listado por Etapas
 	*/
-	var pathView = "views/reports/"
+	var pathView = "views/reports/",
+		fieldsPopulate = "",
+		collection = "",
+		func = false,
+		query = {}
 
 	if(report == 0){
 		pathView = pathView + "listChildren.jade"
+		fieldsPopulate = ""
+		collection = "children"
 
-		models.children.find({},function(err,childrens){
-			if (err) {res.json(err)}
-			if(!childrens.length) return res.json({"msg":"No hay Niños Registrados", statusCode:2})
-			var html = compileFileReport(pathView,childrens)
-			return res.json({html:html})
-		})
 	}else if(report == 1){
 		pathView = pathView + "listTeacher.jade"
-
-		models.adminuser.find({typeUser:1})
-		.populate("idUser")
-		.exec(function(err,teachers){
-			if (err) {res.json(err)}
-			if(!teachers.length) return res.json({"msg":"No hay Profesores Registrados", statusCode:2})
-			var html = compileFileReport(pathView,teachers)
-			return res.json({html:html})
-		})
+		fieldsPopulate = "idUser"
+		collection = "adminuser"
+		query = {typeUser:CTE.TYPE_USER.TEACHER}
+		
 	}else if(report == 2){
 		pathView = pathView + "listSteps.jade"
-
-		models.stepvalid.find()
-		.populate("idChildren idUser idStep")
-		.exec(function(err,stepsValid){
-			if (err) {res.json(err)}
-			if(!stepsValid.length) return res.jsonv({"msg":"No hay Niñ@s Registrados", statusCode:2})
-
-			var data = {}
-			stepsValid.forEach(function(stepValid){
-				if(!data[stepValid.idStep.stepStep]) data[stepValid.idStep.stepStep] = []
-				data[stepValid.idStep.stepStep].push(stepValid)
-			})
-			var html = compileFileReport(pathView,data)
-			return res.json({html:html})
-		})
+		fieldsPopulate = "idChildren idUser idStep"
+		collection = "stepvalid"
+		func = functions["groupStepsValids"]
 	}else{
 		return res.json({"msg":"Este Reporte No Existe", statusCode:1})
 	}
-})
 
-/*
-	Retorna compilado(html) un archivo Jade
-	@param {String} view: path del archivo jade
-	@param {Object} data: datos para renderizar el template
-	@return {String}: String html del template
-*/
-function compileFileReport(view,data){
-	var fn = jade.compileFile(view,{})
-	var html = fn({data: data})
-	return html
-}
+	models[collection].find(query)
+	.populate(fieldsPopulate)
+	.exec(function(err,documents){
+		if (err) {res.json(err)}
+		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:2})
+
+		//var localsJade = Object.assign({},res.locals)
+		var localsJade = res.locals
+		localsJade.dataCustom = documents
+
+		console.log("..........................")
+		console.log(localsJade)
+		console.log("..........................")
+
+
+		if(func) localsJade.dataCustomFilter = func(documents)
+
+		//return res.json(localsJade)
+		var fn = jade.compileFile(pathView,{})
+		var html = fn({data: localsJade})
+		return res.json({html:html})
+	})
+})
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

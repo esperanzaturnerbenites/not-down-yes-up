@@ -25,8 +25,8 @@ block content
 					article
 						input#adminUpdChildren(type='number', name='adminUpdChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-exists="children,false,true")
 						select#statusChildren(name='statusChildren')
-							option(value='#{CTE.STATUS_USER.INACTIVE}', selected='') #{CTE.STATUS_USER.getString(CTE.STATUS_USER.INACTIVE)}
-							option(value='#{CTE.STATUS_USER.ACTIVE}') #{CTE.STATUS_USER.getString(CTE.STATUS_USER.ACTIVE)}
+							each status, nstatus in CTE.STATUS_USER
+								option(value='#{status}', selected='') #{parserCustom(status,"STATUS_USER")}
 					article
 						textarea#observationChildren(name='observationChildren' placeholder='Observaciones...' required)
 					article

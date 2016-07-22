@@ -103,6 +103,14 @@ function encryptPass(params,data,res){
 		resolve({message:"Encriptacion Correcta"})
 	})
 }
+function groupStepsValids(stepsValid){
+	var data = {}
+	stepsValid.forEach(function(stepValid){
+		if(!data[stepValid.idStep.stepStep]) data[stepValid.idStep.stepStep] = []
+		data[stepValid.idStep.stepStep].push(stepValid)
+	})
+	return data
+}
 
 /* estimulation.js */
 function groupHistoryActivitiesByStep(historyActivities){
@@ -132,5 +140,6 @@ module.exports = {
 	groupHistoryActivitiesByStep: groupHistoryActivitiesByStep,
 	parserCustom: parserCustom,
 	renderListUser: renderListUser,
+	groupStepsValids: groupStepsValids,
 	renderReportAge: renderReportAge
 }

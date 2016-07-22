@@ -19,20 +19,8 @@ section.consul.consulQuery
 					th ESTADO CURSOS
 					th FECHA REGISTRO
 			tbody
-				each children in data
-					if (children.statusChildren == 0)
-						-var statusChildren = "ACTIVO"
-					if (children.statusChildren == 1)
-						-var statusChildren = "INACTIVO"
-
-					if (children.statusChildrenEstimulation == 0)
-						-var statusChildrenEstimulation = "Registrado"
-					if (children.statusChildrenEstimulation == 1)
-						-var statusChildrenEstimulation = "En Cursos"
-					if (children.statusChildrenEstimulation == 2)
-						-var statusChildrenEstimulation = "Calificado"
-					if (children.statusChildrenEstimulation == 3)
-						-var statusChildrenEstimulation = "Retirado"
+				- var childrens = data.dataCustom
+				each children in childrens
 					tr
 						td
 							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
@@ -40,6 +28,6 @@ section.consul.consulQuery
 						td #{children.lastnameChildren}
 						td #{children.ageChildren}
 						td #{children.epsChildren}
-						td #{statusChildren}
-						td #{statusChildrenEstimulation}
+						td #{parserCustom(children.statusChildren,"STATUS_USER")}
+						td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ACTIVITY")}
 						td #{children.dateStart}

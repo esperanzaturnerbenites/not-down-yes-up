@@ -29,7 +29,8 @@ section.consul.consulQuery
 					th observation
 					th date
 			tbody
-				each activityValid in data.activitiesValid
+				- var activitiesValid = data.dataCustom
+				each activityValid in activitiesValid
 					- var children = activityValid.idChildren
 					tr
 						td 

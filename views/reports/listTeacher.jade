@@ -21,7 +21,8 @@ section.consul.consulQuery
 					th CENTRO
 					th USUARIO
 			tbody
-				each adminuser in data
+				-var adminusers = data.dataCustom
+				each adminuser in adminusers
 					- var teacher = adminuser.idUser
 					tr
 						td 
