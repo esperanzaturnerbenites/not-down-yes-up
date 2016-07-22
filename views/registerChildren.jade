@@ -125,15 +125,9 @@ block content
 							article
 								label(for='studyParent') Nivel de Estudios
 								select#studyParent(name='mom[studyParent]' data-value="#{mom.studyParent}")
-									option(value='0', selected='') Básica Primaria
-									option(value='1') Básica Secundaria
-									option(value='2') Bachiller
-									option(value='3') Técnico Profesional
-									option(value='4') Tecnólogo
-									option(value='5') Profesional
-									option(value='6') Especialización
-									option(value='7') Maestría
-									option(value='8') Doctorado
+									each level,nombreLevel in CTE.LEVEL_STUDY
+										option(value='#{level}', selected='') #{parserCustom(level,"LEVEL_STUDY")}
+
 							input#professionParent(type='text', name='mom[professionParent]', value="#{mom.professionParent}" placeholder='Título adquirido')
 							input#jobParent(type='text', name='mom[jobParent]', value="#{mom.jobParent}" placeholder='Ocupación')
 				fieldset.dad
@@ -164,15 +158,9 @@ block content
 							article
 								label(for='studyParent') Nivel de Estudios
 								select#studyParent(name='dad[studyParent]' data-value="#{dad.studyParent}")
-									option(value='0', selected='') Básica Primaria
-									option(value='1') Básica Secundaria
-									option(value='2') Bachiller
-									option(value='3') Técnico Profesional
-									option(value='4') Tecnólogo
-									option(value='5') Profesional
-									option(value='6') Especialización
-									option(value='7') Maestría
-									option(value='8') Doctorado
+									each level,nombreLevel in CTE.LEVEL_STUDY
+										option(value='#{level}', selected='') #{parserCustom(level,"LEVEL_STUDY")}
+										
 							input#professionParent(type='text', name='dad[professionParent]', value="#{dad.professionParent}" placeholder='Título adquirido')
 							input#jobParent(type='text', name='dad[jobParent]', value="#{dad.jobParent}" placeholder='Ocupación')
 				fieldset.care

@@ -69,6 +69,24 @@ $(document).ready(function () {
 			return "Verifiquela coleccion"
 		}
 		$.ajax({
+			url: "/admin/id-exists",
+			data : {id: $(this).val()},
+			type : "POST",
+			success: (response) => {
+				if(response.statusCode != CTE.STATUS_CODE.OK){
+					//Existe
+					if(ifDeleteInExists){
+						$(this).val("")
+					}
+				}else{
+					//No Existe
+					if(ifDeleteInNotExists){
+						$(this).val("")
+					}
+				}
+			}
+		})
+		/*$.ajax({
 			url: "/api/" + collection,
 			contentType: "application/json",
 			data : JSON.stringify(data),
@@ -86,7 +104,7 @@ $(document).ready(function () {
 					}
 				}
 			}
-		})
+		})*/
 	})
 })
 

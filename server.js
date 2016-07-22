@@ -9,6 +9,7 @@ const express = require("express"),
 	//Requerir mongous
 	mongoose = require("mongoose"),
 	models = require("./models"),
+	functions = require("./endPoints/functions"),
 
 	//modulo para parse peticiones
 	bodyParser = require("body-parser"),
@@ -118,6 +119,7 @@ mongoose.connect("mongodb://localhost/centerestimulation")
 app.use((req,res,next) => {
 	res.locals.user = req.user
 	res.locals.CTE = CTE
+	res.locals.parserCustom = functions.parserCustom
 	res.locals.pretty = true
 	next()
 })

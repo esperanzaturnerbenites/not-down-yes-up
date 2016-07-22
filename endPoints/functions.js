@@ -4,6 +4,10 @@ var jade = require("jade"),
 	CTE = require("../CTE"),
 	models = require("../models")
 
+Date.prototype.getStringCustom = function(){
+	return this.toLocaleString("es-CO",{hour12:true})
+}
+
 function renderReportAge(params){
 	return new Promise(function(resolve,reject){
 		var fn = jade.compileFile(params.view,{})
@@ -111,15 +115,22 @@ function groupHistoryActivitiesByStep(historyActivities){
 }
 /* estimulation.js */
 
+/* templates jade */
+function parserCustom(data,cte){
+	return CTE.FN[cte].getString(data)
+}
+/* templates jade */
+
 
 module.exports = {
-	renderReportAge: renderReportAge,
-	checkActivities: checkActivities,
-	encryptPass: encryptPass,
 	addObservationChildren: addObservationChildren,
-	renderListUser: renderListUser,
-	groupHistoryActivitiesByStep: groupHistoryActivitiesByStep,
-	checkNewAdminUser: checkNewAdminUser,
+	checkActivities: checkActivities,
 	checkCountActivities: checkCountActivities,
-	defaulFn: defaulFn
+	checkNewAdminUser: checkNewAdminUser,
+	defaulFn: defaulFn,
+	encryptPass: encryptPass,
+	groupHistoryActivitiesByStep: groupHistoryActivitiesByStep,
+	parserCustom: parserCustom,
+	renderListUser: renderListUser,
+	renderReportAge: renderReportAge
 }

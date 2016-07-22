@@ -11,42 +11,33 @@ block content
 				article
 					h2 DATOS PERSONALES
 					p
-						b
-							span Identificación: 
+						b #[span Identificación: ]
 						span #{infoUser.user.idUser}
 					p
-						b
-							span Lugar de Expedición: 
+						b #[span Lugar de Expedición: ]
 						span #{infoUser.user.expeditionUser}
 					p
-						b
-							span Nombres: 
+						b #[span Nombres: ]
 						span #{infoUser.user.nameUser}
 					p
-						b
-							span Apellidos: 
+						b #[span Apellidos: ]
 						span #{infoUser.user.lastnameUser}
 					p
-						b
-							span Edad: 
+						b #[span Edad: ]
 						span #{infoUser.user.ageUser}
 				article
 					h2 DATOS DE CONTACTO
 					p
-						b
-							span Teléfono: 
+						b #[span Teléfono: ]
 						span #{infoUser.user.telUser}
 					p
-						b
-							span Celular: 
+						b #[span Celular: ]
 						span #{infoUser.user.celUser}
 					p
-						b
-							span Email: 
+						b #[span Email: ]
 						span #{infoUser.user.emailUser}
 					p
-						b
-							span Dirección: 
+						b #[span Dirección: ]
 						span #{infoUser.user.addressUser} #{infoUser.user.districtUser} #{infoUser.user.localityUser}
 					p
 						span #{infoUser.user.municipalityUser} #{infoUser.user.departamentUser}
@@ -55,28 +46,11 @@ block content
 						img(src='/img/users/#{infoUser.user.imgUser}', alt='Foto')
 				article
 					h2 DATOS PROFESIONALES
-					if (infoUser.user.studyUser == 0)
-						- var study = "Básica Primaria"
-					if (infoUser.user.studyUser == 1)
-						- var study = "Básica Secundaria"
-					if (infoUser.user.studyUser == 2)
-						- var study = "Bachiller"
-					if (infoUser.user.studyUser == 3)
-						- var study = "Técnico Profesional"
-					if (infoUser.user.studyUser == 4)
-						- var study = "Tecnólogo"
-					if (infoUser.user.studyUser == 5)
-						- var study = "Profesional"
-					if (infoUser.user.studyUser == 6)
-						- var study = "Especialización"
-					if (infoUser.user.studyUser == 7)
-						- var study = "Maestría"
-					if (infoUser.user.studyUser == 8)
-						- var study = "Doctorado"
 					p
 						b
 							span Nivel Educativo: 
 						span #{study}
+						span #{parserCustom(infoUser.user.studyUser,"LEVEL_STUDY")}
 					p
 						b
 							span Profesión: 
@@ -101,21 +75,13 @@ block content
 						tbody
 							- var n = 0
 							- for (admins of infoUser.admin)
-								-if (admins.typeUser == 0)
-									- var type = "Administrador"
-								-if (admins.typeUser == 1)
-									- var type = "Docente"
-								-if (admins.statusUser == 0)
-									- var status = "Inactivo"
-								-if (admins.statusUser == 1)
-									- var status = "Activo"
 								- n++
 
 								tr
 									td #{n}
 									td #{admins.userUser}
-									td #{type}
-									td #{status}
+									td #{parserCustom(admins.typeUser,"TYPE_USER")}
+									td #{parserCustom(admins.statusUser,"STATUS_USER")}
 				article
 					h2 NIÑOS ASIGNADOS
 					if (infoUser.childrens)

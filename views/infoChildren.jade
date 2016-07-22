@@ -20,152 +20,94 @@ block content
 				article
 					h2 DATOS PERSONALES
 					p
-						b
-							span Identificación: 
+						b #[span Identificación: ]
 						span #{infoChildren.child.idChildren}
 					p
-						b
-							span Nombres: 
+						b #[span Nombres: ]
 						span #{infoChildren.child.nameChildren}
 					p
-						b
-							span Apellidos: 
+						b #[span Apellidos: ]
 						span #{infoChildren.child.lastnameChildren}
 					p
-						b
-							span Edad: 
+						b #[span Edad: ]
 						span #{infoChildren.child.ageChildren}
 					p
-						b
-							span Género: 
+						b #[span Género: ]
 						span #{gender}
 					p
-						b
-							span Fecha Nacimiento: 
-						span #{infoChildren.child.birthdateChildren}
+						b #[span Fecha Nacimiento: ]
+						span #{new Date(infoChildren.child.birthdateChildren).getStringCustom()}
 					p
-						b
-							span Lugar Nacimiento: 
+						b #[span Lugar Nacimiento: ]
 						span #{infoChildren.child.birthplaceChildren}
 				article
 					h2 DATOS PERSONALES
 					p
-						b
-							span Edad (Meses): 
+						b #[span Edad (Meses): ]
 						span #{infoChildren.child.ageChildren}
-					if (infoChildren.child.genderChildren == 0)
-						- var gender = "Niña"
-					if (infoChildren.child.genderChildren == 1)
-						- var gender = "Niño"
 					p
-						b
-							span Género: 
-						span #{gender}
-					if (infoChildren.child.liveSon == 0)
-						- var liveson = "Mamá"
-					if (infoChildren.child.liveSon == 1)
-						- var liveson = "Papá"
-					if (infoChildren.child.liveSon == 2)
-						- var liveson = "Otro Cuidador"
+						b #[span Género: ]
+						span #{parserCustom(infoChildren.child.genderChildren,"GENDER_CHILD")}
 					p
-						b
-							span Vive con: 
-						span #{liveson}
+						b #[span Vive con: ]
+						span #{parserCustom(infoChildren.child.liveSon,"LIVE_SON")}
 					p
-						b
-							span Fecha Ingreso: 
-						span #{infoChildren.child.dateStart}
-					if (infoChildren.child.statusChildren == 0)
-						- var statusChildren = "INACTIVO"
-					if (infoChildren.child.statusChildren == 1)
-						- var statusChildren = "ACTIVO"
-					
-					if (infoChildren.child.statusChildrenEstimulation == 0)
-						- var statusChildrenEstimulation = "Registrado"
-					if (infoChildren.child.statusChildrenEstimulation == 1)
-						- var statusChildrenEstimulation = "En Cursos"
-					if (infoChildren.child.statusChildrenEstimulation == 2)
-						- var statusChildrenEstimulation = "Calificado"
-					if (infoChildren.child.statusChildrenEstimulation == 3)
-						- var statusChildrenEstimulation = "Retirado"
+						b #[span Fecha Ingreso:]
+						span #{new Date(infoChildren.child.dateStart).getStringCustom()}
 					p
-						b
-							span Estado: 
-						span #{statusChildren}
+						b #[span Estado: ]
+						span #{parserCustom(infoChildren.child.statusChildren,"STATUS_USER")}
 					p
-						b
-							span Estado Estimulación: 
-						span #{statusChildrenEstimulation}
+						b #[span Estado Estimulación: ]
+						span #{parserCustom(infoChildren.child.statusChildrenEstimulation,"STATUS_ACTIVITY")}
 					p
-						b
-							span Observaciones: 
+						b #[span Observaciones: ]
 						span #{infoChildren.child.observationChildren}
 				article.img
 					img(src='/img/users/#{infoChildren.child.imgChildren}', alt='Foto')
 				article
 					h2 DATOS DE CONTACTO
 					p
-						b
-							span Dirección: 
+						b #[span Dirección: ]
 						span #{infoChildren.child.addressChildren}
 					p
-						b
-							span Barrio: 
+						b #[span Barrio: ]
 						span #{infoChildren.child.districtChildren}
 					p
-						b
-							span Localidad: 
+						b #[span Localidad: ]
 						span #{infoChildren.child.localityChildren}
 					p
-						b
-							span Municipio: 
+						b #[span Municipio: ]
 						span #{infoChildren.child.municipalityChildren}
 					p
-						b
-							span Departamento: 
+						b #[span Departamento: ]
 						span #{infoChildren.child.departamentChildren}
 					p
-						b
-							span Nivel Socioeconómico: 
+						b #[span Nivel Socioeconómico: ]
 						span #{infoChildren.child.levelhomeChildren}
 				article
 					h2 DATOS DE SALUD
 
 					p
-						b
-							span Salud: 
+						b #[span Salud: ]
 						span #{infoChildren.child.healthChildren}
 					p
-						b
-							span EPS: 
+						b #[span EPS: ]
 						span #{infoChildren.child.epsChildren}
 					p
-						b
-							span APB: 
+						b #[span APB: ]
 						span #{infoChildren.child.apbChildren}
-					if (infoChildren.child.glassesChildren == 0)
-						- var glasses = "No"
-					if (infoChildren.child.glassesChildren == 1)
-						- var glasses = "Si"
 					p
-						b
-							span Usa Gafas: 
-						span #{glasses}
-					if (infoChildren.child.hearingaidChildren == 0)
-						- var hearingaid = "No"
-					if (infoChildren.child.hearingaidChildren == 1)
-						- var hearingaid = "Si"
+						b #[span Usa Gafas: ]
+						span #{parserCustom(infoChildren.child.glassesChildren,"YES_OR_NOT")}
 					p
-						b
-							span Usa Audífonos: 
-						span #{hearingaid}
+						b #[span Usa Audífonos: ]
+						span #{parserCustom(infoChildren.child.hearingaidChildren,"YES_OR_NOT")}
 					p
-						b
-							span Habilidades: 
+						b #[span Habilidades: ]
 						span #{infoChildren.child.abilityChildren}
 					p
-						b
-							span Debilidades: 
+						b #[span Debilidades: ]
 						span #{infoChildren.child.debilityChildren}
 
 			section.contentTab#contentTab2.hide.continue.continueViewMore
@@ -174,186 +116,100 @@ block content
 					article.img
 						img(src='/img/users/#{infoChildren.parents[0].imgParent}', alt='Foto')
 					p
-						b
-							span Mamá: 
+						b #[span Mamá: ]
 						span #{infoChildren.parents[0].nameParent} #{infoChildren.parents[0].lastnameParent}
 					p
-						b
-							span Identificación: 
+						b #[span Identificación: ]
 						span #{infoChildren.parents[0].idParent}
 					p
-						b
-							span Lugar Expedición: 
+						b #[span Lugar Expedición: ]
 						span #{infoChildren.parents[0].idExpeditionParent}
 					p
-						b
-							span Fecha Nacimiento: 
-						span #{infoChildren.parents[0].birthdateParent}
+						b #[span Fecha Nacimiento: ]
+						span #{new Date(infoChildren.parents[0].birthdateParent).getStringCustom()}
 					p
-						b
-							span Teléfono: 
+						b #[span Teléfono: ]
 						span #{infoChildren.parents[0].telParent}
 					p
-						b
-							span Celular: 
+						b #[span Celular: ]
 						span #{infoChildren.parents[0].celParent}
 					p
-						b
-							span Email: 
+						b #[span Email: ]
 						span #{infoChildren.parents[0].emailParent}
-					if (infoChildren.parents[0].studyParent == 0)
-						- var studyP = "Básica Primaria"
-					if (infoChildren.parents[0].studyParent == 1)
-						- var studyP = "Básica Secundaria"
-					if (infoChildren.parents[0].studyParent == 2)
-						- var studyP = "Bachiller"
-					if (infoChildren.parents[0].studyParent == 3)
-						- var studyP = "Técnico Profesional"
-					if (infoChildren.parents[0].studyParent == 4)
-						- var studyP = "Tecnólogo"
-					if (infoChildren.parents[0].studyParent == 5)
-						- var studyP = "Profesional"
-					if (infoChildren.parents[0].studyParent == 6)
-						- var studyP = "Especialización"
-					if (infoChildren.parents[0].studyParent == 7)
-						- var studyP = "Maestría"
-					if (infoChildren.parents[0].studyParent == 8)
-						- var studyP = "Doctorado"
 					p
-						b
-							span Nivel Educativo: 
-						span #{studyP}
+						b #[span Nivel Educativo: ]
+						span #{parserCustom(infoChildren.parents[0].studyParent,"LEVEL_STUDY")}
 					p
-						b
-							span Profesión: 
+						b #[span Profesión: ]
 						span #{infoChildren.parents[0].professionParent}
 					p
-						b
-							span Ocupación: 
+						b #[span Ocupación: ]
 						span #{infoChildren.parents[0].jobParent}
 				article
 					h2 PAPÁ
 					article.img
 						img(src='/img/users/#{infoChildren.parents[1].imgParent}', alt='Foto')
 					p
-						b
-							span Papá: 
+						b #[span Papá: ]
 						span #{infoChildren.parents[1].nameParent} #{infoChildren.parents[1].lastnameParent}
 					p
-						b
-							span Identificación: 
+						b #[span Identificación: ]
 						span #{infoChildren.parents[1].idParent}
 					p
-						b
-							span Lugar Expedición: 
+						b #[span Lugar Expedición: ]
 						span #{infoChildren.parents[1].idExpeditionParent}
 					p
-						b
-							span Fecha Nacimiento: 
-						span #{infoChildren.parents[1].birthdateParent}
+						b #[span Fecha Nacimiento: ]
+
+						span #{new Date(infoChildren.parents[1].birthdateParent).getStringCustom()}
 					p
-						b
-							span Teléfono: 
+						b #[span Teléfono: ]
 						span #{infoChildren.parents[1].telParent}
 					p
-						b
-							span Celular: 
+						b #[span Celular: ]
 						span #{infoChildren.parents[1].celParent}
 					p
-						b
-							span Email: 
+						b #[span Email: ]
 						span #{infoChildren.parents[1].emailParent}
-					if (infoChildren.parents[1].studyParent == 0)
-						- var studyP = "Básica Primaria"
-					if (infoChildren.parents[1].studyParent == 1)
-						- var studyP = "Básica Secundaria"
-					if (infoChildren.parents[1].studyParent == 2)
-						- var studyP = "Bachiller"
-					if (infoChildren.parents[1].studyParent == 3)
-						- var studyP = "Técnico Profesional"
-					if (infoChildren.parents[1].studyParent == 4)
-						- var studyP = "Tecnólogo"
-					if (infoChildren.parents[1].studyParent == 5)
-						- var studyP = "Profesional"
-					if (infoChildren.parents[1].studyParent == 6)
-						- var studyP = "Especialización"
-					if (infoChildren.parents[1].studyParent == 7)
-						- var studyP = "Maestría"
-					if (infoChildren.parents[1].studyParent == 8)
-						- var studyP = "Doctorado"
 					p
-						b
-							span Nivel Educativo: 
-						span #{studyP}
+						b #[span Nivel Educativo: ]
+						span #{parserCustom(infoChildren.parents[1].studyParent,"LEVEL_STUDY")}
 					p
-						b
-							span Profesión: 
+						b #[span Profesión: ]
 						span #{infoChildren.parents[1].professionParent}
 					p
-						b
-							span Ocupación: 
+						b #[span Ocupación: ]
 						span #{infoChildren.parents[1].jobParent}
 				article
 					h2 CUIDADOR
 					article.img
 						img(src='/img/users/#{infoChildren.parents[2].imgParent}', alt='Foto')
 					p
-						b
-							span Cuidador: 
+						b #[span Cuidador: ]
 						span #{infoChildren.parents[2].nameParent} #{infoChildren.parents[2].lastnameParent}
 					p
-						b
-							span Identificación: 
+						b #[span Identificación: ]
 						span #{infoChildren.parents[2].idParent}
 					p
-						b
-							span Lugar Expedición: 
+						b #[span Lugar Expedición: ]
 						span #{infoChildren.parents[2].idExpeditionParent}
 					p
-						b
-							span Fecha Nacimiento: 
-						span #{infoChildren.parents[2].birthdateParent}
+						b #[span Fecha Nacimiento: ]
+						span #{new Date(infoChildren.parents[2].birthdateParent).getStringCustom()}
 					p
-						b
-							span Teléfono: 
+						b #[span Teléfono: ]
 						span #{infoChildren.parents[2].telParent}
 					p
-						b
-							span Celular: 
+						b #[span Celular: ]
 						span #{infoChildren.parents[2].celParent}
 					p
-						b
-							span Email: 
+						b #[span Email: ]
 						span #{infoChildren.parents[2].emailParent}
-					if (infoChildren.parents[2].studyParent == 0)
-						- var studyP = "Básica Primaria"
-					if (infoChildren.parents[2].studyParent == 1)
-						- var studyP = "Básica Secundaria"
-					if (infoChildren.parents[2].studyParent == 2)
-						- var studyP = "Bachiller"
-					if (infoChildren.parents[2].studyParent == 3)
-						- var studyP = "Técnico Profesional"
-					if (infoChildren.parents[2].studyParent == 4)
-						- var studyP = "Tecnólogo"
-					if (infoChildren.parents[2].studyParent == 5)
-						- var studyP = "Profesional"
-					if (infoChildren.parents[2].studyParent == 6)
-						- var studyP = "Especialización"
-					if (infoChildren.parents[2].studyParent == 7)
-						- var studyP = "Maestría"
-					if (infoChildren.parents[2].studyParent == 8)
-						- var studyP = "Doctorado"
 					p
-						b
-							span Nivel Educativo: 
-						span #{studyP}
-					p
-						b
-							span Profesión: 
+						b #[span Profesión: ]
 						span #{infoChildren.parents[2].professionParent}
 					p
-						b
-							span Ocupación: 
+						b #[span Ocupación: ]
 						span #{infoChildren.parents[2].jobParent}
 
 			section.contentTab#contentTab3.hide.continue.continueViewMore
@@ -383,7 +239,7 @@ block content
 									td #{statusValidS}
 									td #{stepvalid.scoreStep}
 									td #{stepvalid.observationStep}
-									td #{stepvalid.date}
+									td #{new Date(stepvalid.date).getStringCustom()}
 									td #{stepvalid.idUser.userUser}
 				else
 					h2 No tiene actividades.
@@ -419,7 +275,7 @@ block content
 									td #{valid.scoreTeachActivity}
 									td #{valid.scoreSystemActivity}
 									td #{valid.observationActivity}
-									td #{valid.date}
+									td #{new Date(valid.date).getStringCustom()}
 									td #{valid.idUser.userUser}
 				else
 					h2 No tiene actividades.
@@ -455,7 +311,7 @@ block content
 									td #{history.scoreTeachActivity}
 									td #{history.scoreSystemActivity}
 									td #{history.observationActivity}
-									td #{history.date}
+									td #{new Date(history.date).getStringCustom()}
 									td #{history.idUser.userUser}
 				else
 					h2 No tiene actividades.
