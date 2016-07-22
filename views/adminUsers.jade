@@ -14,10 +14,10 @@ block content
 					legend Ver Usuarios
 					article
 						select#typeConsult(name='typeConsult')
-							option(value='0', selected='') Administradores
-							option(value='1') Docentes
-							option(value='2') Activos
-							option(value='3') Inactivos
+							each typeUser,nUser in CTE.TYPE_USER
+								option(value='#{typeUser}', selected='') #{parserCustom(typeUser,"TYPE_USER")}
+							each statusUser,nStatus in CTE.STATUS_USER
+								option(value='#{statusUser}', selected='') #{parserCustom(statusUser,"STATUS_USER")}
 							option(value='4') Todos
 						button(type='submit')
 							span Buscar

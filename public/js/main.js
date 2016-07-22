@@ -86,25 +86,6 @@ $(document).ready(function () {
 				}
 			}
 		})
-		/*$.ajax({
-			url: "/api/" + collection,
-			contentType: "application/json",
-			data : JSON.stringify(data),
-			type : "POST",
-			success: (response) => {
-				if(response.documents.length){
-					//Existe
-					if(ifDeleteInExists){
-						$(this).val("")
-					}
-				}else{
-					//No Existe
-					if(ifDeleteInNotExists){
-						$(this).val("")
-					}
-				}
-			}
-		})*/
 	})
 })
 
