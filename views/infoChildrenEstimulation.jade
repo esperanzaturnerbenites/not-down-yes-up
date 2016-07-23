@@ -102,7 +102,7 @@ block content
 					p
 						b
 							span Fecha: 
-						span #{childrenAct.activities[0].date}
+						span #{new Date(childrenAct.activities[0].date).getStringCustom()}
 			else 
 				h2 No se encontraron actividades completadas
 	

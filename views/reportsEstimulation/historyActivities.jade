@@ -24,4 +24,4 @@ section.continue.continueHistoryAct
 								td #{activityHistory.statusActivity}
 								td #{activityHistory.observationActivity}
 								td #{activityHistory.idUser.userUser}
-								td #{activityHistory.date}
+								td #{new Date(activityHistory.date).getStringCustom()}

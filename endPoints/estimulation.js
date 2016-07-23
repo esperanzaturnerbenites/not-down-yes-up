@@ -8,6 +8,8 @@ var express = require("express"),
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
 
+router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher")})
+
 router.post("/startActivity",(req,res)=>{
 	var data = req.body
 	var fn = jade.compileFile("views/contentActivity.jade",{})
@@ -20,7 +22,6 @@ router.post("/startActivity",(req,res)=>{
 	})
 })
 
-/* OK */ 
 router.get("/steps",(req,res)=>{
 	var step = {}
 
@@ -32,7 +33,6 @@ router.get("/steps",(req,res)=>{
 	})
 })
 
-/* OK */
 router.get("/steps/:step",(req,res)=>{
 	const numberStep = parseInt(req.params.step)
 	var step = {}
@@ -48,7 +48,6 @@ router.get("/steps/:step",(req,res)=>{
 	})
 })
 
-/* OK */
 router.get("/steps/:step/:activity",(req,res)=>{
 	const numberStep = parseInt(req.params.step),
 		numberActivity = parseInt(req.params.activity)
@@ -62,10 +61,6 @@ router.get("/steps/:step/:activity",(req,res)=>{
 	})
 })
 
-/* OK */
-router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher"/*,{user :req.user}*/)})
-
-/* OK */
 router.post("/info-children/view-more",(req,res)=>{
 	var view = "views/reportsEstimulation/",
 		query,
@@ -110,6 +105,7 @@ router.post("/info-children/view-more",(req,res)=>{
 		return res.json({html:html})
 	})
 })
+
 router.get("/info-children/:id",(req,res)=>{
 	const idChildren = parseInt(req.params.id)
 	var dataChildren = {}
@@ -141,36 +137,6 @@ router.get("/info-children/:id",(req,res)=>{
 				})
 			}else {return res.render("infoChildrenEstimulation",{childrenAct:dataChildren})}
 		})
-	})
-})
-
-router.post("/found-step",(req,res)=>{
-	var data = req.body
-
-	models.stepvalid.find({idChildren : data.idChildren})
-	.populate("idStep idUser")
-	.exec((err, steps) => {
-		if(err) return res.json({err:err})
-		if(steps) return res.json({steps : steps})
-	})
-})
-
-router.post("/consul-step",(req,res)=>{
-	var data = req.body,
-		dataFind = {}
-
-	models.step.findOne({stepStep : data.step}, (err, stepFind) => {
-		dataFind.steps = stepFind
-
-		models.activityhistory.find({idChildren : data.idChildren, idStep : stepFind._id})
-		.sort({date:-1})
-		.populate("idActivity idUser")
-		.exec((err, activities) => {
-			if(err) return res.json({err:err})
-			data.activities = activities
-			if(activities) return res.json({data : data})
-		})
-
 	})
 })
 

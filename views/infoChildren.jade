@@ -32,9 +32,6 @@ block content
 						b #[span Edad: ]
 						span #{infoChildren.child.ageChildren}
 					p
-						b #[span Género: ]
-						span #{gender}
-					p
 						b #[span Fecha Nacimiento: ]
 						span #{new Date(infoChildren.child.birthdateChildren).getStringCustom()}
 					p
@@ -59,7 +56,7 @@ block content
 						span #{parserCustom(infoChildren.child.statusChildren,"STATUS_USER")}
 					p
 						b #[span Estado Estimulación: ]
-						span #{parserCustom(infoChildren.child.statusChildrenEstimulation,"STATUS_ACTIVITY")}
+						span #{parserCustom(infoChildren.child.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
 					p
 						b #[span Observaciones: ]
 						span #{infoChildren.child.observationChildren}

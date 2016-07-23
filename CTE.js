@@ -21,7 +21,7 @@ const CTE = {
 		GIRL: 0,
 		BOY: 1
 	},
-	STATUS_ACTIVITY:{
+	STATUS_ESTIMULATION:{
 		REGISTER : 0,
 		IN_PROGRESS : 1,
 		QUALIFIED : 2,
@@ -32,10 +32,10 @@ const CTE = {
 		DAD:1,
 		CARE:2
 	},
-	/*STATUS_ACTIVITY: {
+	STATUS_ACTIVITY: {
 		UNCOMPLETED:0,
 		COMPLETED:1
-	}*/
+	},
 	FIRST_USER: {
 		USERNAME:"Developer",
 		PASSWORD: "Developer"
@@ -55,6 +55,7 @@ const CTE = {
 	BASE_PATH_LOG : "logs/",
 	BASE_NAME_LOG : "log-year-month.log",
 	FN: {
+		STATUS_ESTIMULATION: {},
 		STATUS_ACTIVITY: {},
 		STATUS_CODE: {},
 		TYPE_USER: {},
@@ -68,13 +69,24 @@ const CTE = {
 
 CTE.FN.STATUS_ACTIVITY.getString = function(status){
 	var statusString = ""
-	if(status == CTE.STATUS_ACTIVITY.REGISTER){
+	if(status == CTE.STATUS_ACTIVITY.UNCOMPLETED){
+		statusString = "Sin Completar"
+	}else if(status == CTE.STATUS_ACTIVITY.COMPLETED){
+		statusString = "Completada"
+	}else{
+		statusString = "Sin Estado"
+	}
+	return statusString
+}
+CTE.FN.STATUS_ESTIMULATION.getString = function(status){
+	var statusString = ""
+	if(status == CTE.STATUS_ESTIMULATION.REGISTER){
 		statusString = "Registrado"
-	}else if(status == CTE.STATUS_ACTIVITY.IN_PROGRESS){
+	}else if(status == CTE.STATUS_ESTIMULATION.IN_PROGRESS){
 		statusString = "En Cursos"
-	}else if(status == CTE.STATUS_ACTIVITY.QUALIFIED){
+	}else if(status == CTE.STATUS_ESTIMULATION.QUALIFIED){
 		statusString = "Calificado"
-	}else if(status == CTE.STATUS_ACTIVITY.RETIRED){
+	}else if(status == CTE.STATUS_ESTIMULATION.RETIRED){
 		statusString = "Retirado"
 	}else{
 		statusString = "Sin Estado"

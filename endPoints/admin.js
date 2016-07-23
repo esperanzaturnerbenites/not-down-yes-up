@@ -161,15 +161,30 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 		imgDad =  fileDad ? fileDad.filename : defaultImage,
 		imgCure =  fileCure ? fileCure.filename : defaultImage
 
-	dataChildren.imgChildren =  imgChildren
-	dataMom.imgParent =  imgMom
-	dataDad.imgParent =  imgDad
-	dataCare.imgParent =  imgCure
+
+
+
 
 	//return res.json(dataChildren)
 	if(eval(data.editingChildren)){
+		if(fileChildren){dataChildren.imgChildren = fileChildren.filename}
+		else{delete dataChildren.imgChildren}
+
+		if(fileMom){dataMom.imgParent = fileMom.filename}
+		else{delete dataMom.imgParent}
+
+		if(fileDad){dataDad.imgParent = fileDad.filename}
+		else{delete dataDad.imgParent}
+
+		if(fileCure){dataCare.imgParent = fileCure.filename}
+		else{delete dataCare.imgParent}
+
 		updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
 	}else{
+		dataChildren.imgChildren =  imgChildren
+		dataMom.imgParent =  imgMom
+		dataDad.imgParent =  imgDad
+		dataCare.imgParent =  imgCure
 		createChildren(dataChildren,dataMom,dataDad,dataCare,req,res)
 	}
 })

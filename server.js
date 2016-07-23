@@ -120,9 +120,6 @@ app.use((req,res,next) => {
 	res.locals.user = req.user
 	res.locals.CTE = CTE
 	res.locals.parserCustom = functions.parserCustom
-	console.log("-----------------------")
-	console.log(res.locals)
-	console.log("-----------------------")
 	res.locals.pretty = true
 	next()
 })

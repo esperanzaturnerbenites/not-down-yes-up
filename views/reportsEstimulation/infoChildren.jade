@@ -3,121 +3,73 @@ h1 DATOS BÁSICOS DEL NIÑ@
 section.continue.continueViewMore
 	article.consulName
 		p
-			span
-				b NOMBRE: 
+			b #[span NOMBRE: ]
 			span #{children.nameChildren} #{children.lastnameChildren}
 		article.img
 			img#consulRImg(src='/img/users/#{children.imgChildren}', alt='Foto')
 		p
-			span
-				b Número de Identificación: 
+			b #[span Número de Identificación: ]
 			span #{children.idChildren}
 		p
-			span
-				b Sexo: 
-				if (children.genderChildren == 0)
-					- var gender = "Niña"
-				if (children.genderChildren == 1)
-					- var gender = "Niño"
-			span #{gender}
+			b #[span Sexo: ]
+			span #{parserCustom(children.genderChildren,"GENDER_CHILD")}
 		p
-			span
-				b Edad: 
+			b #[span Edad: ]
 			span #{children.ageChildren} meses
 		p
-			span
-				b Fecha Nacimiento: 
-			span #{children.birthdateChildren}
+			b #[span Fecha Nacimiento: ]
+			span #{new Date(children.birthdateChildren).getStringCustom()}
 		p
-			span
-				b Lugar de Nacimiento: 
+			b #[span Lugar de Nacimiento: ]
 			span #{children.birthplaceChildren}
 	article.consulData
 		p
-			span
-				b Vive con: 
-				if (children.liveSon == 0)
-					- var liveson = "Ambos Padres"
-				if (children.liveSon == 1)
-					- var liveson = "Mamá" 
-				if (children.liveSon == 2)
-					- var liveson = "Papá" 
-				if (children.liveSon == 3)
-					- var liveson = "Otro Cuidador" 
-			span #{liveson}
+			b #[span Vive con: ]
+			span #{parserCustom(children.liveSon,"LIVE_SON")}
 		p
-			span
-				b Mamá: 
+			b #[span Mamá: ]
 			span #{children.idParent[0].nameParent} #{children.idParent[0].lastnameParent}
 		p
-			span
-				b Papá: 
+			b #[span Papá: ]
 			span #{children.idParent[1].nameParent} #{children.idParent[1].lastnameParent}
 		p
-			span
-				b Cuidador: 
+			b #[span Cuidador: ]
 			span #{children.idParent[2].nameParent} #{children.idParent[2].lastnameParent}
 		p
-			span
-				b Dirección: 
+			b #[span Dirección: ]
 			span #{children.addressChildren} #{children.districtChildren} #{children.localityChildren} #{children.departamentChildren} 
 		p
-			span
-				b Teléfono: 
-			if (children.liveSon == 0)
-				- var tel = children.idParent[0].celParent
-			if (children.liveSon == 1)
-				- var tel = children.idParent[0].celParent
-			if (children.liveSon == 2)
-				- var tel = children.idParent[1].celParent
-			if (children.liveSon == 3)
-				- var tel = children.idParent[2].celParent
-			span #{tel}
+			b #[span Teléfono: ]
+			span Ver Familiares.
 		p
-			span
-				b Estrato Casa: 
+			b #[span Estrato Casa: ]
 			span #{children.levelhomeChildren}
 	article.consulData
 		p
-			span
-				b EPS: 
+			b #[span EPS: ]
 			span #{children.epsChildren}
 		p
-			span
-				b APB: 
+			b #[span APB: ]
 			span #{children.apbChildren}
 		p
-			span
-				b Condiciones de Salud: 
+			b #[span Condiciones de Salud: ]
 			span #{children.healthChildren}
 		p
-			span
-				b Habilidades: 
+			b #[span Habilidades: ]
 			span #{children.abilityChildren}
 		p
-			span
-				b Debilidades: 
+			b #[span Debilidades: ]
 			span #{children.debilityChildren}
 		p
-			span
-				b Usa Gafas: 
-			if (children.glassesChildren == 0)
-				- var glass = "No"
-			else
-				- var glass = "Si"
-			span #{glass}
+			b #[span Usa Gafas: ]
+			span #{parserCustom(children.glassesChildren,"YES_OR_NOT")}
 		p
-			span
-				b Usa Audífonos: 
-			if (children.hearingaidChildren == 0)
-				- var hearing = "No"
-			else
-				- var hearing = "Si"
-			span #{hearing}
+			b #[span Usa Audífonos: ]
+			span #{parserCustom(children.hearingaidChildren,"YES_OR_NOT")}
 		p
-			span
-				b Fecha de Ingreso: 
-			span #{children.dateStart}
+			b #[span Fecha de Ingreso: ]
+			span #{new Date(children.dateStart).getStringCustom()}
+
 		if (children.statusChildren == 0)
 			- var statusChildren = "Registrado"
 		if (children.statusChildren == 1)
@@ -127,6 +79,5 @@ section.continue.continueViewMore
 		if (children.statusChildren == 3)
 			- var statusChildren = "Retirado/Inactivo"
 		p
-			span
-				b Estado Actual: 
+			b #[span Estado Actual: ]
 			span #{statusChildren}

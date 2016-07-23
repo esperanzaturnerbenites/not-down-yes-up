@@ -47,7 +47,7 @@ section.consul.consulQuery
 						td #{activityValid.backingMinActivity}
 						td #{activityValid.backingDFunctionActivity}
 						td #{activityValid.observationActivity}
-						td #{activityValid.date}
+						td #{new Date(activityValid.date).getStringCustom()}
 
 
 

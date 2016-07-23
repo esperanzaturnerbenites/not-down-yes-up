@@ -22,5 +22,5 @@ section.continue.continueProgressLogros
 					td #{activityValid.scoreSystemActivity}
 					td #{activityValid.observationActivity}
 					td #{activityValid.idUser.userUser}
-					td #{activityValid.date}
+					td #{new Date(activityValid.date).getStringCustom()}
 					- ingreso++

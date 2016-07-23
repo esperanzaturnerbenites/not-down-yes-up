@@ -20,6 +20,6 @@ article#articleFindAll.consul.consulQuery
 					td #{adminuser.userUser}
 					td #{adminuser.typeUser}
 					td #{adminuser.statusUser}
-					td #{adminuser.dateUser}
+					td #{new Date(adminuser.dateUser).getStringCustom()}
 					td
 						a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar

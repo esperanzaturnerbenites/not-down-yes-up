@@ -45,16 +45,20 @@ router.post("/consult-step-act",(req,res)=>{
 				.sort({idChildren : 1})
 				.exec((err,activitiesValid) =>{
 					if (err) return res.json(err)
+
 					
 					steps.activitiesValid = activitiesValid
 					steps.countActivities = activities.length
 					steps.activities = activities
 					
-					var localsJade = Object.assign({},res.locals)
-					localsJade.dataCustom = steps
+					var locals = {
+						dataCustom: steps,
+						parserCustom: functions.parserCustom,
+						CTE: CTE
+					}
 
 					var fn = jade.compileFile(view,{})
-					var html = fn({data: localsJade})
+					var html = fn({data: locals})
 					return res.json({html:html,data:steps})
 				})
 			})
@@ -109,9 +113,6 @@ router.get("/info-children/:id",(req,res)=>{
 						if(err) return res.json({err:err})
 						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
 						if(stepvalidChild){
-							console.log("------------------")
-							console.log(stepvalidChild)
-							console.log("------------------")
 							data.stepsValid = stepvalidChild
 							res.render("infoChildren",{infoChildren: data})
 						}
@@ -168,20 +169,15 @@ router.post("/general",(req,res)=>{
 		if (err) {res.json(err)}
 		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:2})
 
-		//var localsJade = Object.assign({},res.locals)
-		var localsJade = res.locals
-		localsJade.dataCustom = documents
+		var locals = {
+			dataCustom: documents,
+			parserCustom: functions.parserCustom,
+			CTE: CTE
+		}
 
-		console.log("..........................")
-		console.log(localsJade)
-		console.log("..........................")
-
-
-		if(func) localsJade.dataCustomFilter = func(documents)
-
-		//return res.json(localsJade)
+		if(func) locals.dataCustomFilter = func(documents)
 		var fn = jade.compileFile(pathView,{})
-		var html = fn({data: localsJade})
+		var html = fn({data: locals})
 		return res.json({html:html})
 	})
 })

@@ -28,6 +28,6 @@ section.consul.consulQuery
 						td #{children.lastnameChildren}
 						td #{children.ageChildren}
 						td #{children.epsChildren}
-						td #{parserCustom(children.statusChildren,"STATUS_USER")}
-						td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ACTIVITY")}
-						td #{children.dateStart}
+						td #{data.parserCustom(children.statusChildren,"STATUS_USER")}
+						td #{data.parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
+						td #{new Date(children.dateStart).getStringCustom()}

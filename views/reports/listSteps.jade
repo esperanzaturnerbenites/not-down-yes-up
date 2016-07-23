@@ -37,9 +37,9 @@ section.consul.consulQuery
 							td #{children.nameChildren}
 							td #{children.lastnameChildren}
 							td #{parserCustom(children.statusChildren,"STATUS_USER")}
-							td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ACTIVITY")}
+							td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
 							td #{statusStep}
 							td #{stepValid.scoreStep}
 							td #{stepValid.observationStep}
-							td #{stepValid.date}
+							td #{new Date(stepValid.date).getStringCustom()}
 							td #{stepValid.idUser.userUser}
