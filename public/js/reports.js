@@ -1,5 +1,5 @@
 google.charts.load("current", {packages: ["corechart", "bar","calendar"]})
- 
+
 var notification = new NotificationC()
 
 /*
@@ -200,22 +200,6 @@ function drawCalendarActivities(documents){
 	dataTable.addColumn({ type: "date", id: "Date" })
 	dataTable.addColumn({ type: "number", id: "Won/Loss" })
 	dataTable.addRows(dataChart)
-	/*dataTable.addRows([
-		[ new Date(2012, 3, 13), 37032 ],
-		[ new Date(2012, 3, 14), 38024 ],
-		[ new Date(2012, 3, 15), 38024 ],
-		[ new Date(2012, 3, 16), 38108 ],
-		[ new Date(2012, 3, 17), 38229 ],
-		// Many rows omitted for brevity.
-		[ new Date(2013, 9, 4), 38177 ],
-		[ new Date(2013, 9, 5), 38705 ],
-		[ new Date(2013, 9, 12), 38210 ],
-		[ new Date(2013, 9, 13), 38029 ],
-		[ new Date(2013, 9, 19), 38823 ],
-		[ new Date(2013, 9, 23), 38345 ],
-		[ new Date(2013, 9, 24), 38436 ],
-		[ new Date(2013, 9, 30), 38447 ]
-	])*/
 
 	var chart = new google.visualization.Calendar(document.getElementById("showResultsReport"))
 
@@ -243,6 +227,8 @@ function drawChartStep(){
 
 	var steps = dataTemplate.stepsValid
 	var data = steps.map(element => {return [element.idStep.nameStep,element.scoreStep]})
+
+	if(!data.length) return notification.show({msg:"No hay Datos Para la Graficas",type:CTE.STATUS_CODE.INFORMATION})
 
 	var headerChart = [["Etapa", "Puntaje"]],
 		dataChart = headerChart.concat(data)
@@ -278,6 +264,8 @@ function drawChartActvityValid(){
 				element.scoreTeachActivity,
 				element.scoreSystemActivity]
 			})
+
+	if(!data.length) return notification.show({msg:"No hay Datos Para la Graficas",type:CTE.STATUS_CODE.INFORMATION})
 
 	var headerChart = [["Actividad", "Puntaje Docente", "Puntaje Sistema"]],
 		dataChart = headerChart.concat(data)
@@ -334,6 +322,8 @@ function drawChartActivityHistory(step,activity){
 			history.scoreSystemActivity
 		]
 	})
+
+	if(!dataChart.length) return notification.show({msg:"No hay Datos Para la Graficas",type:CTE.STATUS_CODE.INFORMATION})
 
 	dataChart = headerChart.concat(dataChart)
 

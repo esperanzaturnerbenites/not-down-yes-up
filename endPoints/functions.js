@@ -2,7 +2,12 @@ var jade = require("jade"),
 	Cryptr = require("cryptr"),
 	cryptr = new Cryptr(process.env.SECRETKEY),
 	CTE = require("../CTE"),
-	models = require("../models")
+	models = require("../models"),
+	localsJade = {
+		parserCustom: parserCustom,
+		CTE: CTE
+	}
+
 
 Date.prototype.getStringCustom = function(){
 	return this.toLocaleString("es-CO",{hour12:true})
@@ -11,7 +16,8 @@ Date.prototype.getStringCustom = function(){
 function renderReportAge(params){
 	return new Promise(function(resolve,reject){
 		var fn = jade.compileFile(params.view,{})
-		var html = fn({data: params.data})
+		localsJade.dataCustom = params.data
+		var html = fn(localsJade)
 		resolve({data:html})
 	})
 }
@@ -49,8 +55,9 @@ function renderListUser(params){
 		.populate("idUser")
 		.exec(function(err,adminuser){
 			if(err) return reject(err)
+			localsJade.dataCustom = adminuser
 			var fn = jade.compileFile(params.view,{})
-			var html = fn({data: adminuser})
+			var html = fn(localsJade)
 			resolve({data:html})
 		})
 	})

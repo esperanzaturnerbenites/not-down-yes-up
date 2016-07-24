@@ -19,7 +19,7 @@ section.consul.consulQuery
 					th ESTADO CURSOS
 					th FECHA REGISTRO
 			tbody
-				- var childrens = data.dataCustom
+				- var childrens = dataCustom
 				each children in childrens
 					tr
 						td
@@ -28,6 +28,6 @@ section.consul.consulQuery
 						td #{children.lastnameChildren}
 						td #{children.ageChildren}
 						td #{children.epsChildren}
-						td #{data.parserCustom(children.statusChildren,"STATUS_USER")}
-						td #{data.parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
+						td #{parserCustom(children.statusChildren,"STATUS_USER")}
+						td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
 						td #{new Date(children.dateStart).getStringCustom()}

@@ -3,7 +3,12 @@ var express = require("express"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
 	jade = require("jade"),
-	functions = require("./functions")
+	functions = require("./functions"),
+	CTE = require("./../CTE"),
+	localsJade = {
+		parserCustom: functions.parserCustom,
+		CTE: CTE
+	}
 
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
@@ -14,9 +19,15 @@ router.post("/startActivity",(req,res)=>{
 	var data = req.body
 	var fn = jade.compileFile("views/contentActivity.jade",{})
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		if(!children) return res.json({message:"Niño no Existe",statusCode:CTE.STATUS_CODE.INFORMATION})
 		models.activity.findOne({activityActivity:data.idActivity,stepActivity:data.idStep},function(err,activity){
-			var html = fn({activity: activity,children: children})
-			return res.json({html: html})
+			if(!activity) return res.json({message:"No Existe la actividad",statusCode:CTE.STATUS_CODE.INFORMATION})
+			
+			localsJade.activity = activity
+			localsJade.children = children
+
+			var html = fn(localsJade)
+			return res.json({html: html,message:"Correcto",statusCode:CTE.STATUS_CODE.OK})
 		})
 
 	})
@@ -97,11 +108,11 @@ router.post("/info-children/view-more",(req,res)=>{
 	.populate(fieldsPopulate)
 	.sort(fieldsSort)
 	.exec(function(err,documents){
-		dataJade = documents
-		if(func) dataJade.filterData = func(documents)
+		localsJade.dataCustom = documents
+		if(func) localsJade.dataCustomFilter = func(documents)
 		if(err) res.json(err)
 		var fn = jade.compileFile(view,{})
-		var html = fn({data: dataJade})
+		var html = fn(localsJade)
 		return res.json({html:html})
 	})
 })

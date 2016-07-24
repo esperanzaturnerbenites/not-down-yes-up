@@ -81,14 +81,14 @@ app.use(passport.session())
 //Definicion de estrategia de logueo
 passport.use(new LocalStrategy( (username, password, done) => {
 	models.adminuser.findOne({ userUser: username }, (err,user) => {
-		var passwordEncrypted = cryptr.decrypt(user.passUser)
 		if (err) return done(null, false, { message: err})
-		if (!user){
-			return done(null, false, { message: "Unknown user"})
-		}else if(user.statusUser != CTE.STATUS_USER.ACTIVE) {
+		if (!user) return done(null, false, { message: "Unknown user"})
+
+		var passwordEncrypted = cryptr.decrypt(user.passUser)
+	
+		if(user.statusUser != CTE.STATUS_USER.ACTIVE) {
 			return done(null, false, { message: "User disabled"})
-		}
-		else if (password === passwordEncrypted) {
+		}else if (password === passwordEncrypted) {
 			if (username === user.userUser && password === passwordEncrypted) {
 				return done(null,user)
 			}
@@ -124,7 +124,7 @@ app.use((req,res,next) => {
 	next()
 })
 
-app.use("/api",api)
+app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),api)
 app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
 app.use("/users",userURLUsers)
 app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)

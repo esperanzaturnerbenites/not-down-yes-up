@@ -4,7 +4,11 @@ var express = require("express"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
 	jade = require("jade"),
-	functions = require("./functions")
+	functions = require("./functions"),
+	localsJade = {
+		parserCustom: functions.parserCustom,
+		CTE: CTE
+	}
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -26,7 +30,7 @@ router.post("/consult-step-act",(req,res)=>{
 		.populate("idChildren idUser idStep")
 		.exec((err, stephis) => {
 			if (err) return res.json(err)
-			if (!stephis) return res.json({"msg":"Stephis not found"})
+			if (!stephis.length) return res.json({"msg":"Stephis not found"})
 			steps.stepsValid = stephis
 			var idsChild = stephis.map(e => {return {idChildren:e.idChildren._id}})
 
@@ -35,7 +39,7 @@ router.post("/consult-step-act",(req,res)=>{
 
 			models.activity.find(queryActivity,(err,activities) =>{
 				if(err) return res.json({err:err})
-				if(!activities) return res.json({err:{message:"Not Activities"}})
+				if(!activities.length) return res.json({err:{message:"Not Activities"}})
 
 				var queryStepActivity = {idStep:step._id, $or:idsChild}
 				if(report == 1) queryStepActivity.idActivity = activities[0]._id
@@ -45,20 +49,15 @@ router.post("/consult-step-act",(req,res)=>{
 				.sort({idChildren : 1})
 				.exec((err,activitiesValid) =>{
 					if (err) return res.json(err)
-
 					
 					steps.activitiesValid = activitiesValid
 					steps.countActivities = activities.length
 					steps.activities = activities
 					
-					var locals = {
-						dataCustom: steps,
-						parserCustom: functions.parserCustom,
-						CTE: CTE
-					}
+					localsJade.dataCustom =  steps
 
 					var fn = jade.compileFile(view,{})
-					var html = fn({data: locals})
+					var html = fn(localsJade)
 					return res.json({html:html,data:steps})
 				})
 			})
@@ -85,7 +84,7 @@ router.get("/info-children/:id",(req,res)=>{
 	.populate("idParent.idParent")
 	.exec((err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:2})}
+		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
 			
 		data.child = children
 		data.parents = children.idParent.map(objParent => {return objParent.idParent})
@@ -160,24 +159,20 @@ router.post("/general",(req,res)=>{
 		collection = "stepvalid"
 		func = functions["groupStepsValids"]
 	}else{
-		return res.json({"msg":"Este Reporte No Existe", statusCode:1})
+		return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})
 	}
 
 	models[collection].find(query)
 	.populate(fieldsPopulate)
 	.exec(function(err,documents){
 		if (err) {res.json(err)}
-		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:2})
+		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:CTE.STATUS_CODE.INFORMATION})
 
-		var locals = {
-			dataCustom: documents,
-			parserCustom: functions.parserCustom,
-			CTE: CTE
-		}
+		localsJade.dataCustom = documents
 
-		if(func) locals.dataCustomFilter = func(documents)
+		if(func) localsJade.dataCustomFilter = func(documents)
 		var fn = jade.compileFile(pathView,{})
-		var html = fn({data: locals})
+		var html = fn(localsJade)
 		return res.json({html:html})
 	})
 })

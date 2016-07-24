@@ -30,30 +30,6 @@ router.get("/admin-users",(req,res)=>{return res.render("adminUsers")})
 router.get("/valid-step",(req,res)=>{return res.render("validStep")})
 router.get("/backup",(req,res)=>{return res.render("backup")})
 
-/*
-	Valida que un id(Identificacion) no se encuentre Registrada
-	Request Data {String} id: id a Validar
-	Response {Object}: Resultado de la validacion
-		@property {String} msg: Menaje de Validacion
-		@property {Number} statusCode: Estado de la Validacion
-*/
-router.post("/id-exists",(req,res)=>{
-	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
-
-	models.user.findOne({idUser : req.body.id}, (err, user) => {
-		if(user) return res.json(message)
-		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
-			if(parent) return res.json(message)
-			models.children.findOne({idChildren : req.body.id}, (err, children) => {
-				if(children) return res.json(message)
-				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
-			})
-		})
-	})
-})
-
-/* OK */
-/* OK */
 var createChildren =  (dataChildren,dataMom,dataDad,dataCare,req,res) => {
 	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
@@ -392,13 +368,13 @@ router.get("/reports",(req,res)=>{
 
 	models.step.find({},(err,steps)=>{
 		if(err) return res.json({err:err})
-		if(!steps) return res.json({msg:"Not Steps",statusCode:0})
+		if(!steps) return res.json({msg:"Not Steps",statusCode:CTE.STATUS_CODE.OK})
 		if(steps){
 			data.steps = steps
 
 			models.activity.find({stepActivity:1},(err,activities)=>{
 				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:0})
+				if(!activities) return res.json({msg:"Not Activities",statusCode:CTE.STATUS_CODE.OK})
 				if(activities){
 					data.activities = activities
 					res.render("report", {reportData:data})
@@ -436,7 +412,7 @@ router.post("/valid-step",(req,res)=>{
 						{$set:{statusChildrenEstimulation:2}},
 						(err,activity) => {
 							if(err) return res.json({err:err})
-							if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:0, activity:doc})
+							if(doc) return res.json({msg:"¡Validación Semestral de Etapa Exitosa!", statusCode:CTE.STATUS_CODE.OK, activity:doc})
 						})
 
 
@@ -452,7 +428,7 @@ router.post("/show-valid-step",(req,res)=>{
 
 	models.children.findOne({idChildren : data.idChildren}, (err,children) => {
 		if(err) return res.json({err:err})
-		if(!children) return res.json({msg:"¡Niño no existe!", statusCode:2})
+		if(!children) return res.json({msg:"¡Niño no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})
 
 		models.step.findOne({stepStep : data.step}, (err,stepFind) => {
 			if(err) return res.json({err:err})
@@ -462,7 +438,7 @@ router.post("/show-valid-step",(req,res)=>{
 			.populate("idActivity idUser idChildren")
 			.exec((err, activitiesvalid) => {
 				if (err) return res.json({err: err})
-				return res.json({msg:"¡Correcto!", statusCode:0, activitiesvalid:activitiesvalid, children:children, step:stepFind})
+				return res.json({msg:"¡Correcto!", statusCode:CTE.STATUS_CODE.OK, activitiesvalid:activitiesvalid, children:children, step:stepFind})
 			})
 		})
 	})

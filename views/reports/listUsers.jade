@@ -13,7 +13,7 @@ article#articleFindAll.consul.consulQuery
 					th FECHA CREACIÓN
 					th EDITAR
 			tbody
-				each adminuser in data
+				each adminuser in dataCustom
 					td 
 						a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
 					td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastUser}

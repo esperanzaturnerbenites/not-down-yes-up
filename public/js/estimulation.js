@@ -111,11 +111,17 @@ socket.on("connect", function() {
 	socket.emit("room", room)
 })
 
-socket.on("message", function(data) {
-	console.log("Message:", data)
-})
-
-socket.on("response", function (data) {
+socket.on("arduino:data", function (data) {
+	var scoreSystemActivity = 0,
+		srcImage = "/img/imgacts/activities/sad.png"
+	if(data.statusCode == CTE.STATUS_CODE.OK){
+		scoreSystemActivity = 10
+		srcImage = "/img/imgacts/activities/smile.png"
+	}
+	$("#aswerAct").removeClass("hide")
+	$("#aswerAct #scoreSystemActivity").val(scoreSystemActivity)
+	$("#aswerAct img").attr("src",srcImage)
+	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
 	notification.show({msg:data.message, type:data.statusCode})
 })
 

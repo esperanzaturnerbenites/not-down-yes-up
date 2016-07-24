@@ -883,40 +883,54 @@
 		"route": "No Aplica",
 		"reference": "estValidConectRug",
 		"includes" :["3.4.1"],
-		"image" :"![IMAGEN VALIDACIONES EN ConectionRUG](/img/help/3.4.1.png)",
+		"image" :"![IMAGEN VALIDACIONES EN ConectionRUG](/img/help/3.4.2.png)",
 		"description" :"Validaciones previas para el correcto funcionamiento del tapete electrónico.",
 		"guides" :[
 			"Para el correcto funcionamiento del tapete, debe hacer unas validaciones previas al inicio de una actividad.",
 			"Autenticación de usuario: Al iniciar la aplicación ConectionRUG, aparece la ventana de autenticación, debe digitar su usuario y contraseña para poder continuar (A).",
-			"El sistema valida que el usuario conectado en ConectionRUG corresponda al mismo usuario que conectado en ¡Not Down, Yes Up! para el desarrollo de la actividad.",
 			"Acceso a Internet: Antes de hacer la conexión, debe validar que se encuentre conectado a Internet. Para esto verifique en el ícono de Acceso a Internet se encuentre en color verde, o ponga el cursor sobre el ícono para que aparezca el estado (B).",
-			"Si el ícono de Acceso a Internet se encuentra en rojo, significa que no está conectado a Internet.",
-			".",
+			"Si el ícono de Acceso a Internet se encuentra en rojo, significa que no está conectado a Internet."
 		],
 		"warnings" :[
-			"Verifique su conexión a Internet."
+			"Verifique su conexión a Internet.",
 			"Verifique que su usuario y contraseña sean correctos."
 		]
 	},
+	//**********************************************Revisar***************************************************
 	{
-		"name" : "CONEXIÓN DE TAPETE",
+		"name" : "CONEXIÓN/DESCONEXIÓN DE TAPETE",
 		"id" : "3.4.3",
 		"route": "No Aplica",
 		"reference": "estConnectRug",
 		"includes" :["3.4.1"],
-		"image" :"![IMAGEN CONEXIÓN DE TAPETE](/img/help/3.4.1.png)",
+		"image" :"![IMAGEN CONEXIÓN/DESCONEXIÓN DE TAPETE](/img/help/3.4.3.png)",
 		"description" :"Conexión del tapete electrónico.",
 		"guides" :[
 			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
-			"Autenticación de usuario: Al iniciar la aplicación ConectionRUG, aparece la ventana de autenticación, debe digitar su usuario y contraseña para poder continuar (A).",
-			"El sistema valida que el usuario conectado en ConectionRUG corresponda al mismo usuario que conectado en ¡Not Down, Yes Up! para el desarrollo de la actividad.",
-			"Acceso a Internet: Antes de hacer la conexión, debe validar que se encuentre conectado a Internet. Para esto verifique en el ícono de Acceso a Internet se encuentre en color verde, o ponga el cursor sobre el ícono para que aparezca el estado (B).",
-			"Si el ícono de Acceso a Internet se encuentra en rojo, significa que no está conectado a Internet.",
-			".",
+			"Dar clic en el botón Conectar (A).",
+			"Esperar a que es sistema realice la conexión, cuando el ícono de conexión se encuentre en color verde, significa que ya el tapete se encuentra conectado.",
+			"Para desconectar el tapete dar clic en el botón Desconectar (B)."
 		],
 		"warnings" :[
-			"Verifique su conexión a Internet."
-			"Verifique que su usuario y contraseña sean correctos."
+			"Verifique el tapete se encuentre bien conectado al computador."
+		]
+	}
+	{
+		"name" : "SELECCIÓN DE FICHAS",
+		"id" : "3.4.4",
+		"route": "No Aplica",
+		"reference": "estSelectRecords",
+		"includes" :["3.4.1"],
+		"image" :"![IMAGEN SELECCIÓN DE FICHAS](/img/help/3.4.4.png)",
+		"description" :"Selección de fichas para la actividad.",
+		"guides" :[
+			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
+			"Dar clic en el botón Conectar (A).",
+			"Esperar a que es sistema realice la conexión, cuando el ícono de conexión se encuentre en color verde, significa que ya el tapete se encuentra conectado.",
+			"Para desconectar el tapete dar clic en el botón Desconectar (B)."
+		],
+		"warnings" :[
+			"Verifique el tapete se encuentre bien conectado al computador."
 		]
 	}
 ]

@@ -69,7 +69,7 @@ $(document).ready(function () {
 			return "Verifiquela coleccion"
 		}
 		$.ajax({
-			url: "/admin/id-exists",
+			url: "/api/id-exists",
 			data : {id: $(this).val()},
 			type : "POST",
 			success: (response) => {

@@ -1,24 +1,30 @@
 var express = require("express"),
-	models = require("./../models"),
-	mongoose = require("mongoose"),
 	router = express.Router(),
-	bodyParser = require("body-parser")
+	bodyParser = require("body-parser"),
+	CTE = require("./../CTE")
 
 router.use(bodyParser.urlencoded({extended:false}))
 router.use(bodyParser.json())
 
 router.post("/connect-server",(req, res) => {
-	console.log(req.get("Desktop-App"))
-	return res.json({messsage:"Servidor Listo!",statusCode:1})
+	return res.json({message:"Servidor Listo!",statusCode:CTE.STATUS_CODE.NOT_OK})
 })
 
 router.post("/data",(req, res) => {
 	var data = req.body,
 		room = req.user.idUser
 
-	req.io.sockets.in(room).emit("response", data)
-	req.io.sockets.emit("message", "Hola a Todos")
-	return res.json({messsage:"Información Recivida.",statusCode:1})
+	if(data.pinPress == data.pinCorrect){
+		data.message = "Muy Bien"
+		data.statusCode = CTE.STATUS_CODE.OK
+	}else{
+		data.message = "Siguelo intentando"
+		data.statusCode = CTE.STATUS_CODE.INFORMATION
+	}
+
+	req.io.sockets.in(room).emit("arduino:data", data)
+	//req.io.sockets.emit("message", "Hola a Todos")
+	return res.json({message:"Información Recibida.",statusCode:CTE.STATUS_CODE.NOT_OK})
 })
 
 module.exports = router

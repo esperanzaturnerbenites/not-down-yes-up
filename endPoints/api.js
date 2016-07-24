@@ -9,6 +9,28 @@ var express = require("express"),
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
+/*
+	Valida que un id(Identificacion) no se encuentre Registrada
+	Request Data {String} id: id a Validar
+	Response {Object}: Resultado de la validacion
+		@property {String} msg: Menaje de Validacion
+		@property {Number} statusCode: Estado de la Validacion
+*/
+router.post("/id-exists",(req,res)=>{
+	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
+
+	models.user.findOne({idUser : req.body.id}, (err, user) => {
+		if(user) return res.json(message)
+		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
+			if(parent) return res.json(message)
+			models.children.findOne({idChildren : req.body.id}, (err, children) => {
+				if(children) return res.json(message)
+				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
+			})
+		})
+	})
+})
+
 router.post("/new/:collection",(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
