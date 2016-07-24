@@ -199,6 +199,102 @@ childrenSchema.method("getData", function (){
 })
 
 
+activitySchema.method("getHistory", function (children,step){
+	var activity = this
+	return new Promise((resolve, reject) => {
+		models.activityvalid.findOne({idChildren:children._id,idStep:step._id,idActivity:activity._id})
+		.populate("idChildren idUser idStep idActivity")
+		.exec(function(err,activitiesValidDB){
+
+			models.activityhistory.find({idChildren:children._id,idStep:step._id,idActivity:activity._id})
+			.populate("idChildren idUser idStep idActivity")
+			.exec(function(err,activitiesHistoryDB){
+				resolve({activitiesValid:activitiesValidDB,activitiesHistory:activitiesHistoryDB})
+			})
+		})
+	})
+})
+
+/*
+{
+	"children": {},
+	"stepsValid": [
+		{
+			"idStep": {},
+			"idUser": {},
+			"idChildren": {},
+			"activities": [
+				{
+					"activitiesValid": [],
+					"activitiesHistory": []
+				}
+			]
+		}
+	]
+}
+*/
+childrenSchema.method("getDataAll", function (){
+	var children = this,
+		dataReturn = {}
+	return new Promise((resolvep1, rejectp1) => {
+		models.children.findOne({idChildren:children.idChildren})
+		.populate("idParent.idParent")
+		.exec(function(err,childrenDB){
+			dataReturn.children = childrenDB
+
+			models.stepvalid.find({idChildren:childrenDB._id})
+			.lean()
+			.populate("idChildren idUser idStep")
+			.exec(function(err,stepsValidDB){
+				if(!stepsValidDB.length) return rejectp1({message:"No hay Etapas Validadas"})
+
+				dataReturn.stepsValid = []
+
+				var promisesStep = []
+				var promisesActivities = []
+
+				stepsValidDB.forEach(stepValidDB => {
+					console.log("Step " + stepValidDB.idStep.stepStep)
+					console.log(stepValidDB)
+					var promiseStep = new Promise((resolvep2, rejectp2) => {
+
+						stepValidDB.activities = []
+						models.activity.find({stepActivity:stepValidDB.idStep.stepStep})
+						.exec(function(err,activitiesDB){
+
+							activitiesDB.forEach(activityDB => {
+								console.log("Activity " + activityDB.activityActivity)
+								var promiseActivity = activityDB.getHistory(children,stepValidDB.idStep)
+								.then(data => {
+									var writableActivity = activityDB.toJSON()
+
+									console.log("---------------- promise activity ----------------")
+									console.log(data)
+									console.log("---------------- promise activity ----------------")
+									writableActivity.activitiesValid = data.activitiesValid
+									writableActivity.activitiesHistory = data.activitiesHistory
+
+									stepValidDB.activities.push(writableActivity)
+								})
+								promisesActivities.push(promiseActivity)
+							})
+							dataReturn.stepsValid.push(stepValidDB)
+							Q.all(promisesActivities).then(data => {
+								resolvep2({})
+							})
+						})
+					})
+					promisesStep.push(promiseStep)
+				})
+				Q.all(promisesStep).then(data => {
+					resolvep1(dataReturn)
+				})
+			})
+		})
+	})
+})
+
+
 const models = {
 	user: Mongoose.model("user", userSchema), 
 	adminuser: Mongoose.model("adminuser", adminuserSchema),

@@ -11,9 +11,9 @@ head
 
 body.reportFinal
 	section.textCenter
-		p INFORME SEMESTRAL Y GUIA DE OBJETIVOS DEL NIN@ / JOVEN PARA EL SEMESTRE
-		p PROGRAMA IAR APOYOS A LA INCLUSIÓN EN EL AULA REGULAR
-		p IRP ICPS (Inteligencia conceptual-practica-social)
+		p #[b INFORME SEMESTRAL Y GUIA DE OBJETIVOS DEL NIN@]
+		p #[b PROGRAMA IAR APOYOS A LA INCLUSIÓN EN EL AULA REGULAR]
+		p #[b IRP ICPS (Inteligencia conceptual-practica-social)]
 
 	table
 		tbody
@@ -53,19 +53,70 @@ body.reportFinal
 			tr
 				th PROFESIONAL DE APOYO ESCOLAR
 				td
-
-	p PROFESIONALES DEL EQUIPO A CARGO DE ESTE PROCESO:
-	p RESPONSABLE DE GRUPO: MAGDA JEANNETTE MORALES H
-	p COMUNICACIÓN HABLA Y COMUNICACIÓN LENGUAJE:
-	p MOTRICIDAD FINA, GRUESA, SENSORIAL Y AUTOCUIDADO:
+			tr
+				td PROFESIONALES DEL EQUIPO A CARGO DE ESTE PROCESO:
+				td 
+			tr
+				td RESPONSABLE DE GRUPO:
+				td 
+			tr
+				td COMUNICACIÓN HABLA Y COMUNICACIÓN LENGUAJE:
+				td 
+			tr
+				td MOTRICIDAD FINA, GRUESA, SENSORIAL Y AUTOCUIDADO:
+				td 
 
 	p El objetivo de este documento es que ustedes como familia conozcan los logros obtenidos en el proceso de rehabilitación durante el semestre. Adicionalmente, les permite conocer los objetivos propuestos para el próximo periodo de evaluacion, dichos objetivos estan ajustados a la particularidad de su hijo.
 	
-	p P: Planeado L: Logrado LP: Logro obtenido parcialmente que requiere ser afianzado
+	p #[b P]: Planeado #[b L]: Logrado #[b LP]: Logro obtenido parcialmente que requiere ser afianzado
 
-	table
-		thead
-			th OBJETIVOS E INDICADORES 
-			th A.Máximo
-			th A. Mínimo
-			th D. Funcional
+
+	each stepValid in stepsValid
+		- var step = stepValid.idStep
+		- var activities = stepValid.activities
+		
+		section.reportFinalSteps
+			p #[b ETAPA #{step.stepStep}: #{step.nameStep}]
+			p #{step.descriptionStep}
+			p DISPOSITIVOS BÁSICOS DE APRENDIZAJE
+		
+			table
+				thead
+					th(width="50%") OBJETIVOS E INDICADORES 
+					th(width="16%") A.Máximo
+					th(width="16%") A. Mínimo
+					th(width="16%") D. Funcional
+
+			table.reportFinalActivity
+				tbody
+					each activity in activities
+						if activity.activitiesValid
+							- var activityValid = activity.activitiesValid
+						else
+							- var activityValid = {}
+							- activityValid.backingMaxActivity = ""
+							- activityValid.backingMinActivity = ""
+							- activityValid.backingDFunctionActivity = ""
+						tr
+							td(width="50%") #{activity.activityActivity}. #{activity.nameActivity}: #{activity.descriptionActivity}
+							td(width="16%") #{activityValid.backingMaxActivity}
+							td(width="16%") #{activityValid.backingMinActivity}
+							td(width="16%") #{activityValid.backingDFunctionActivity}
+						tr
+							td(colspan=4) #{activity.observationActivity}
+	section
+		p.firma #[b FIRMA DEL PROFESIONAL RESPONSABLE DE GRUPO]
+
+		p #[b OBSERVACIONES]
+		table.observaciones
+			tbody
+				tr
+				tr
+				tr
+
+		p.firma FIRMA DE QUIEN RECIBE EL INFORME
+
+		section.note 
+			p #[b Nota:]
+			p Se imprime este informe en base a la informacion recolectada por el software ¡Not Down, Yes Up!.
+

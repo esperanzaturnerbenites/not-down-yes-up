@@ -78,16 +78,16 @@ router.post("/consult-step-act",(req,res)=>{
 	Request Data {String} id: Id niñ@
 	Response: Render 'infoChildren'
 */
+
 router.post("/report-final/",(req,res)=>{
 	var data = req.body,
 		idChildren = data.idChildrenFinal
-		
 
 	models.children.findOne({idChildren : idChildren},(err, children) => {
 		if (err) {res.json(err)}
 		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
 		
-		children.getData().then(
+		children.getDataAll().then(
 			function(data){
 				localsJade.dataCustom = data
 				var pathView = "views/reports/reportFinal.jade"
@@ -109,7 +109,10 @@ router.post("/report-final/",(req,res)=>{
 			function(err){return res.json(err)}
 		)
 	})
+
 })
+
+
 router.get("/info-children/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
