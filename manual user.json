@@ -861,14 +861,16 @@
 		]
 	},
 
+	/*Estimulation Description Rug -------------------------------  3.4 etc................*/
+
 	/*Estimulation: ConectionRug*/
 	{
 		"name" : "ACCESO A ConectionRUG",
-		"id" : "3.4.1",
+		"id" : "3.5.1",
 		"route": "No Aplica",
 		"reference": "estAccessConectRug",
 		"includes" :[],
-		"image" :"![IMAGEN ACCESO A ConectionRUG](/img/help/3.4.1.png)",
+		"image" :"![IMAGEN ACCESO A ConectionRUG](/img/help/3.5.1.png)",
 		"description" :"Permite la conexión del tapete electrónico.",
 		"guides" :[
 			"Para el desarrollo de una actividad acceder a la aplicación de escritorio ConectionRUG.",
@@ -879,11 +881,11 @@
 	},
 	{//*********************************************** Completar***************************************************************
 		"name" : "VALIDACIONES EN ConectionRUG",
-		"id" : "3.4.2",
+		"id" : "3.5.2",
 		"route": "No Aplica",
 		"reference": "estValidConectRug",
-		"includes" :["3.4.1"],
-		"image" :"![IMAGEN VALIDACIONES EN ConectionRUG](/img/help/3.4.2.png)",
+		"includes" :["3.5.1"],
+		"image" :"![IMAGEN VALIDACIONES EN ConectionRUG](/img/help/3.5.2.png)",
 		"description" :"Validaciones previas para el correcto funcionamiento del tapete electrónico.",
 		"guides" :[
 			"Para el correcto funcionamiento del tapete, debe hacer unas validaciones previas al inicio de una actividad.",
@@ -899,11 +901,11 @@
 	//**********************************************Revisar***************************************************
 	{
 		"name" : "CONEXIÓN/DESCONEXIÓN DE TAPETE",
-		"id" : "3.4.3",
+		"id" : "3.5.3",
 		"route": "No Aplica",
 		"reference": "estConnectRug",
-		"includes" :["3.4.1"],
-		"image" :"![IMAGEN CONEXIÓN/DESCONEXIÓN DE TAPETE](/img/help/3.4.3.png)",
+		"includes" :["3.5.1"],
+		"image" :"![IMAGEN CONEXIÓN/DESCONEXIÓN DE TAPETE](/img/help/3.5.3.png)",
 		"description" :"Conexión del tapete electrónico.",
 		"guides" :[
 			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
@@ -914,23 +916,37 @@
 		"warnings" :[
 			"Verifique el tapete se encuentre bien conectado al computador."
 		]
-	}
+	},
 	{
 		"name" : "SELECCIÓN DE FICHAS",
-		"id" : "3.4.4",
+		"id" : "3.5.4",
 		"route": "No Aplica",
 		"reference": "estSelectRecords",
-		"includes" :["3.4.1"],
-		"image" :"![IMAGEN SELECCIÓN DE FICHAS](/img/help/3.4.4.png)",
+		"includes" :[],
+		"image" :"![IMAGEN SELECCIÓN DE FICHAS](/img/help/3.5.4.png)",
 		"description" :"Selección de fichas para la actividad.",
 		"guides" :[
-			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
-			"Dar clic en el botón Conectar (A).",
-			"Esperar a que es sistema realice la conexión, cuando el ícono de conexión se encuentre en color verde, significa que ya el tapete se encuentra conectado.",
-			"Para desconectar el tapete dar clic en el botón Desconectar (B)."
+			"Cada actividad a desarrollar tiene 4 fichas dedicadas, exlusivas para el uso de dicha actividad.",
+			"En el anverso cada ficha tiene una imagen referente a la actividad en desarrollo y en el reverso la referencia a la actividad (EJ: E1 - A1, donde E1 significa Etapa 1 y, donde A1, significa Actividad 1, es decir, esa ficha correspondería a la Actividad 1 de la Etapa 1.) (A).",
+			"Para desarrollar una aactividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
 		],
-		"warnings" :[
-			"Verifique el tapete se encuentre bien conectado al computador."
-		]
+		"warnings" :[]
+	},
+	{
+		"name" : "UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)",
+		"id" : "3.5.5",
+		"route": "No Aplica",
+		"reference": "estLocationRecords",
+		"includes" :[],
+		"image" :"![IMAGEN UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)](/img/help/3.5.5.png)",
+		"description" :"Ubicación de fichas en el tapete electrónico (Concordancia PIN-FICHA).",
+		"guides" :[
+			"El PIN corresponde a cada uno de los números que se encuentran en la sección Fichas del tapete electrónico (A)",
+			"Junto con el tapete electrónico vienen 4 containers, los cuales son pequeñas cajas en las que se insertan las fichas para poder desarrollar una actividad.",
+			"Al colocar los containers con sus respectivas fichas en el tapete electrónico debe tener en cuenta el PIN (número) en donde se encuentra la ficha que corresponde a la respuesta correcta, ya que ese PIN debe configurarse en ConectionRug( A).",
+			"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (A).",
+			"Para desarrollar una aactividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
+		],
+		"warnings" :[]
 	}
 ]

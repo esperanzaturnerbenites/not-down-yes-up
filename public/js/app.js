@@ -12,7 +12,7 @@ $(".idChildren,.idMom,.idDad,.idCare").change(function(){
 		otherInput = $(".idChildren,.idMom,.idDad,.idCare").not(selector)
 
 	$.ajax({
-		url: "/admin/id-exists",
+		url: "/api/id-exists",
 		data : {id: $(this).val()},
 		type : "POST",
 		success: function(response){
@@ -101,7 +101,7 @@ if(eval($("#editingUser").val())){
 	$("#formValidUser").on("submit",(event) => {
 		event.preventDefault()
 		$.ajax({
-			url: "/admin/id-exists",
+			url: "/api/id-exists",
 			data : {id:$("#validUser").val()},
 			type : "POST",
 			success: function(response){

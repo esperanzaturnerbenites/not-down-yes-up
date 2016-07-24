@@ -10,7 +10,7 @@ var express = require("express"),
 	restore = require("mongodb-restore"),
 	fs = require("fs"),
 	Cryptr = require("cryptr"),
-	cryptr = new Cryptr(process.env.SECRETKEY),
+	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("../CTE")
 
 router.use(bodyParser.urlencoded({extended:true}))

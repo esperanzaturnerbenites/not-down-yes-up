@@ -1,4 +1,4 @@
-process.env.SECRETKEY = "V8=!N*k6Q-S_Auz?CHTM2F+"
+process.env.SECRET_KEY = "V8=!N*k6Q-S_Auz?CHTM2F+"
 
 //Definir un modulo de express
 const express = require("express"),
@@ -31,7 +31,7 @@ const express = require("express"),
 	userURLReports = require("./endPoints/reports"),
 
 	Cryptr = require("cryptr"),
-	cryptr = new Cryptr(process.env.SECRETKEY),
+	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("./CTE"),
 	Log = require("./log")
 
@@ -130,6 +130,10 @@ app.use("/users",userURLUsers)
 app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
 app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
 app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
+
+app.get("/download", function(req, res) {
+	res.download(__dirname + "/temp/listChildren.pdf", "listChildren")
+})
 
 //definir carpeta para vistas
 app.set("views", __dirname + "/views")

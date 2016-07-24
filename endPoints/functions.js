@@ -1,6 +1,6 @@
 var jade = require("jade"),
 	Cryptr = require("cryptr"),
-	cryptr = new Cryptr(process.env.SECRETKEY),
+	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("../CTE"),
 	models = require("../models"),
 	localsJade = {

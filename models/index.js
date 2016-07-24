@@ -1,7 +1,8 @@
 //Requerir Mongoose
 var Mongoose = require("mongoose"),
 	Schema = Mongoose.Schema,
-	CTE = require("../CTE")
+	CTE = require("../CTE"),
+	Q = require("q")
 
 //Crear Esquemas
 const userSchema = new Mongoose.Schema({
@@ -147,6 +148,55 @@ const userSchema = new Mongoose.Schema({
 		descriptionStep: {type:String},
 		urlStep: {type:String}
 	})
+
+
+childrenSchema.method("getData", function (){
+	var children = this,
+		dataReturn = {}
+	return new Promise((resolvep1, rejectp1) => {
+		models.children.findOne({idChildren:children.idChildren})
+		.populate("idParent.idParent")
+		.exec(function(err,childrenDB){
+			dataReturn.children = childrenDB
+
+			models.stepvalid.find({idChildren:childrenDB._id})
+			.lean()
+			.populate("idChildren idUser idStep")
+			.exec(function(err,stepsValidDB){
+				if(!stepsValidDB.length) return rejectp1({message:"No hay Etapas Validadas"})
+
+				dataReturn.stepsValid = []
+
+				var promises = []
+
+				stepsValidDB.forEach(stepValidDB => {
+					var promise = new Promise((resolvep2, rejectp2) => {
+
+						models.activityvalid.find({idChildren:childrenDB._id,idStep:stepValidDB._id})
+						.populate("idChildren idUser idStep idActivity")
+						.exec(function(err,activitiesValidDB){
+							
+							stepValidDB.activitiesValid = activitiesValidDB
+
+							models.activityhistory.find({idChildren:childrenDB._id,idStep:stepValidDB._id})
+							.populate("idChildren idUser idStep idActivity")
+							.exec(function(err,activitiesHistoryDB){
+
+								stepValidDB.activitiesHistory = activitiesHistoryDB
+								dataReturn.stepsValid.push(stepValidDB)
+								resolvep2({message:"OK"})
+							})
+						})
+					})
+					promises.push(promise)
+				})
+				Q.all(promises).then(data => {
+					resolvep1(dataReturn)
+				})
+			})
+		})
+	})
+})
 
 
 const models = {

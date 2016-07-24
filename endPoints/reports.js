@@ -8,7 +8,9 @@ var express = require("express"),
 	localsJade = {
 		parserCustom: functions.parserCustom,
 		CTE: CTE
-	}
+	},
+	pdf = require("html-pdf"),
+	filename = require("filename")
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -76,6 +78,38 @@ router.post("/consult-step-act",(req,res)=>{
 	Request Data {String} id: Id niñ@
 	Response: Render 'infoChildren'
 */
+router.post("/report-final/",(req,res)=>{
+	var data = req.body,
+		idChildren = data.idChildrenFinal
+		
+
+	models.children.findOne({idChildren : idChildren},(err, children) => {
+		if (err) {res.json(err)}
+		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
+		
+		children.getData().then(
+			function(data){
+				localsJade.dataCustom = data
+				var pathView = "views/reports/reportFinal.jade"
+				var fn = jade.compileFile(pathView,{})
+				var html = fn(localsJade)
+
+				var optionsPDF = {
+					format: "Letter",
+					"orientation": "portrait",
+					"base": "http://localhost:8000",
+					"border": "2cm"
+				}
+				pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
+					if (err) return console.log(err)
+					console.log(data)
+					return res.download("public/temp/" + filename(pathView) + ".pdf")
+				})
+			},
+			function(err){return res.json(err)}
+		)
+	})
+})
 router.get("/info-children/:id",(req,res)=>{
 	var id = req.params.id,
 		data = {}
@@ -169,11 +203,24 @@ router.post("/general",(req,res)=>{
 		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:CTE.STATUS_CODE.INFORMATION})
 
 		localsJade.dataCustom = documents
+		localsJade.forPdf = true
 
 		if(func) localsJade.dataCustomFilter = func(documents)
+
 		var fn = jade.compileFile(pathView,{})
 		var html = fn(localsJade)
-		return res.json({html:html})
+		
+		var optionsPDF = {
+			format: "Letter",
+			"orientation": "landscape",
+			"base": "http://localhost:8000"
+		}
+		pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
+			if (err) return console.log(err);
+			console.log(data) // { filename: '/app/businesscard.pdf' } 
+		})
+
+		return res.json({html:html,locals:localsJade})
 	})
 })
 

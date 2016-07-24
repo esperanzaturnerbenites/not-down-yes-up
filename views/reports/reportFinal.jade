@@ -1,0 +1,71 @@
+- var children = dataCustom.children
+- var stepsValid = dataCustom.stepsValid
+
+<!DOCTYPE html>
+html(lang="en")
+head
+	meta(charset="UTF-8")
+	meta(name="viewport" content="width=device-width")
+	title Reporte Final
+	link(rel='stylesheet', href='/css/styles.css')
+
+body.reportFinal
+	section.textCenter
+		p INFORME SEMESTRAL Y GUIA DE OBJETIVOS DEL NIN@ / JOVEN PARA EL SEMESTRE
+		p PROGRAMA IAR APOYOS A LA INCLUSIÓN EN EL AULA REGULAR
+		p IRP ICPS (Inteligencia conceptual-practica-social)
+
+	table
+		tbody
+			tr
+				th NOMBRE
+				td #{children.nameChildren} #{children.lastnameChildren}
+			tr
+				th DOCUMENTO DE IDENTIDAD
+				td #{children.idChildren}
+			tr
+				th FECHA DE NACIMIENTO
+				td #{new Date(children.birthdateChildren).getStringCustom()}
+			tr
+				th EDAD CRONOLÓGICA
+				td #{children.ageChildren}
+			tr
+				th FECHA DE INGRESO AL PROGRAMA
+				td #{new Date(children.dateStart).getStringCustom()}
+			tr
+				th CONDICIONES MÉDICAS ASOCIADAS
+				td #{children.healthChildren}
+			tr
+				th NIVEL DE ESCOLARIDAD
+				td
+			tr
+				th PROGRAMA
+				td
+			tr
+				th EPS
+				td #{children.eps}
+			tr
+				th PERIODO QUE CONTEMPLA
+				td
+			tr
+				th COORDINADOR DEL EQUIPO DE TRABAJO
+				td
+			tr
+				th PROFESIONAL DE APOYO ESCOLAR
+				td
+
+	p PROFESIONALES DEL EQUIPO A CARGO DE ESTE PROCESO:
+	p RESPONSABLE DE GRUPO: MAGDA JEANNETTE MORALES H
+	p COMUNICACIÓN HABLA Y COMUNICACIÓN LENGUAJE:
+	p MOTRICIDAD FINA, GRUESA, SENSORIAL Y AUTOCUIDADO:
+
+	p El objetivo de este documento es que ustedes como familia conozcan los logros obtenidos en el proceso de rehabilitación durante el semestre. Adicionalmente, les permite conocer los objetivos propuestos para el próximo periodo de evaluacion, dichos objetivos estan ajustados a la particularidad de su hijo.
+	
+	p P: Planeado L: Logrado LP: Logro obtenido parcialmente que requiere ser afianzado
+
+	table
+		thead
+			th OBJETIVOS E INDICADORES 
+			th A.Máximo
+			th A. Mínimo
+			th D. Funcional

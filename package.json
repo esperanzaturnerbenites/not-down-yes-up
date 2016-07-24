@@ -24,6 +24,8 @@
     "cryptr": "^2.0.0",
     "express": "^4.13.4",
     "express-favicon": "^1.0.1",
+    "filename": "^0.2.1",
+    "html-pdf": "^2.0.1",
     "jade": "^1.11.0",
     "mongodb-backup": "^1.6.0",
     "mongodb-restore": "^1.5.3",

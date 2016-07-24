@@ -1,38 +1,41 @@
 //- Listado de Profesores
 //- POST /reports/general
+if forPdf
+	include ../templates/templatePdf.jade
 
-section.consul.consulQuery
-	h3 Listado General PROFESORES
-	section
-		button(type="button")
-			span Generar PDF
-	article.consulTable
-		table
-			thead
-				tr
-					th ID
-					th NOMBRES
-					th APELLIDOS
-					th EDAD
-					th TELEFONO
-					th CELULAR
-					th EMAIL
-					th DIRECCION
-					th CENTRO
-					th USUARIO
-			tbody
-				-var adminusers = dataCustom
-				each adminuser in adminusers
-					- var teacher = adminuser.idUser
+block content
+	section.consul.consulQuery
+		h3 Listado General PROFESORES
+		section
+			button(type="button")
+				span Generar PDF
+		article.consulTable
+			table
+				thead
 					tr
-						td 
-							a(href="/admin/info-user/#{teacher.idUser}" target="blank") #{teacher.idUser}
-						td #{teacher.nameUser}
-						td #{teacher.lastnameUser}
-						td #{teacher.ageUser}
-						td #{teacher.telUser}
-						td #{teacher.celUser}
-						td #{teacher.emailUser}
-						td #{teacher.addressUser}
-						td #{teacher.centerUser}
-						td #{adminuser.userUser}
+						th ID
+						th NOMBRES
+						th APELLIDOS
+						th EDAD
+						th TELEFONO
+						th CELULAR
+						th EMAIL
+						th DIRECCION
+						th CENTRO
+						th USUARIO
+				tbody
+					-var adminusers = dataCustom
+					each adminuser in adminusers
+						- var teacher = adminuser.idUser
+						tr
+							td 
+								a(href="/admin/info-user/#{teacher.idUser}" target="blank") #{teacher.idUser}
+							td #{teacher.nameUser}
+							td #{teacher.lastnameUser}
+							td #{teacher.ageUser}
+							td #{teacher.telUser}
+							td #{teacher.celUser}
+							td #{teacher.emailUser}
+							td #{teacher.addressUser}
+							td #{teacher.centerUser}
+							td #{adminuser.userUser}

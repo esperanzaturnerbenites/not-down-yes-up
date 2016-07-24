@@ -1,33 +1,37 @@
 //- Listado de Niñ@s
 //- POST /reports/general
 
-section.consul.consulQuery
-	h3 Listado General Niñ@s
-	section
-		button(type="button")
-			span Generar PDF
-	article.consulTable
-		table
-			thead
-				tr
-					th ID
-					th NOMBRES
-					th APELLIDOS
-					th EDAD
-					th EPS
-					th ESTADO
-					th ESTADO CURSOS
-					th FECHA REGISTRO
-			tbody
-				- var childrens = dataCustom
-				each children in childrens
+if forPdf
+	include ../templates/templatePdf.jade
+
+block content
+	section.consul.consulQuery
+		h3 Listado General Niñ@s
+		section
+			button(type="button")
+				span Generar PDF
+		article.consulTable
+			table
+				thead
 					tr
-						td
-							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
-						td #{children.nameChildren}
-						td #{children.lastnameChildren}
-						td #{children.ageChildren}
-						td #{children.epsChildren}
-						td #{parserCustom(children.statusChildren,"STATUS_USER")}
-						td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
-						td #{new Date(children.dateStart).getStringCustom()}
+						th ID
+						th NOMBRES
+						th APELLIDOS
+						th EDAD
+						th EPS
+						th ESTADO
+						th ESTADO CURSOS
+						th FECHA REGISTRO
+				tbody
+					- var childrens = dataCustom
+					each children in childrens
+						tr
+							td
+								a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
+							td #{children.nameChildren}
+							td #{children.lastnameChildren}
+							td #{children.ageChildren}
+							td #{children.epsChildren}
+							td #{parserCustom(children.statusChildren,"STATUS_USER")}
+							td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
+							td #{new Date(children.dateStart).getStringCustom()}
