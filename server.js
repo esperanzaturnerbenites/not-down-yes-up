@@ -41,7 +41,8 @@ models.adminuser.find((err, users) => {
 			userUser:CTE.FIRST_USER.USERNAME,
 			passUser:cryptr.encrypt(CTE.FIRST_USER.PASSWORD),
 			typeUser:CTE.TYPE_USER.DEVELOPER,
-			statusUser:CTE.STATUS_USER.ACTIVE
+			statusUser:CTE.STATUS_USER.ACTIVE,
+			untouchableUser: true
 		})
 	}
 })

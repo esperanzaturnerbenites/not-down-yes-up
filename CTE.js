@@ -67,6 +67,11 @@ const CTE = {
 	}
 }
 
+const PERMISSIONS = {
+	DEVELOPER:{},
+	TEACHER: {}
+}
+
 CTE.FN.STATUS_ACTIVITY.getString = function(status){
 	var statusString = ""
 	if(status == CTE.STATUS_ACTIVITY.UNCOMPLETED){

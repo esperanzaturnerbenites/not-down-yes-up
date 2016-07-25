@@ -23,7 +23,6 @@ router.post("/data",(req, res) => {
 	}
 
 	req.io.sockets.in(room).emit("arduino:data", data)
-	//req.io.sockets.emit("message", "Hola a Todos")
 	return res.json({message:"Información Recibida.",statusCode:CTE.STATUS_CODE.NOT_OK})
 })
 

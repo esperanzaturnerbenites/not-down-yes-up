@@ -30,6 +30,7 @@ const userSchema = new Mongoose.Schema({
 		userUser: {type:String},
 		passUser: {type:String},
 		typeUser: {type:Number},
+		untouchableUser: {type:Boolean,default:false},
 		statusUser: {type:Number},
 		dateUser: {type:Date, default:Date.now},
 		idUser: {type:Schema.ObjectId, ref: "user"}

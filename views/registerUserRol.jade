@@ -23,7 +23,7 @@ block content
 				fieldset.data.validChildren
 					legend Digita la cédula
 					article
-						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', required data-valid-exists="user,true,false")
+						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', required data-valid-id-exists="true,false")
 					article
 						button(type='submit')
 							span Iniciar Registro
@@ -87,7 +87,7 @@ block content
 									select#typeUser(name='adminuser[typeUser]')
 										option(value='0', selected) Administrador
 										option(value='1') Docente
-							input#userUser(type='text', name='adminuser[userUser]', placeholder='Usuario', required data-valid-exists="adminuser,true,false")
+							input#userUser(type='text', name='adminuser[userUser]', placeholder='Usuario', required data-valid-user-exists="true,false")
 							input#passUser(type='password', data-equal-to="#passConfirmUser" name='adminuser[passUser]', placeholder='Contraseña', required)
 							input#passConfirmUser(type='password', data-equal-to="#passUser" name='adminuser[passConfirmUser]', placeholder='Repite Contraseña', required)
 							button(type='submit' data-action="create")

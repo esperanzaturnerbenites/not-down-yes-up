@@ -59,7 +59,21 @@ block content
 						span #{parserCustom(infoChildren.child.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
 					p
 						b #[span Observaciones: ]
-						span #{infoChildren.child.observationChildren}
+					if (infoChildren.child.observationChildren.length)
+						table
+							thead
+								th Estado
+								th Observación
+								th Fecha
+							tbody
+								each observationChild in infoChildren.child.observationChildren
+									tr
+										td #{parserCustom(observationChild.status,"STATUS_USER")}
+										td #{observationChild.observation}
+										td #{new Date(observationChild.date).getStringCustom()}
+					else
+						p 
+							span Sin Observaciones
 				article.img
 					img(src='/img/users/#{infoChildren.child.imgChildren}', alt='Foto')
 				article

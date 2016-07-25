@@ -2,21 +2,21 @@
 $("#formFindAll").submit(function(event){
 	var data = {}
 
-	if($("#typeConsult").val() == "4"){
+	if($("#typeConsult").val() == "Todos"){
 		/*Todos*/
 		data.query = {typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "3"){
+	}else if($("#typeConsult").val() == "Inactivo"){
 		/*Inactivos*/
 		data.query = {statusUser : CTE.STATUS_USER.INACTIVE, typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "2"){
+	}else if($("#typeConsult").val() == "Activo"){
 		/*Activos*/
 		data.query = {statusUser :CTE.STATUS_USER.ACTIVE, typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "1"){
+	}else if($("#typeConsult").val() == "Docente"){
 		/*Docentes*/
 		data.query = {typeUser : CTE.TYPE_USER.TEACHER}
-	}else if($("#typeConsult").val() == "0"){
+	}else if($("#typeConsult").val() == "Administrador"){
 		/*Administradores*/
-		data.query = {statusUser : CTE.TYPE_USER.ADMINISTRATOR}
+		data.query = {typeUser : CTE.TYPE_USER.ADMINISTRATOR}
 	}
 
 	data.fn = "renderListUser"

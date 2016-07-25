@@ -28,7 +28,7 @@ block content
 				fieldset.data.validChildren
 					legend ¡Maravilloso! ¿Qué niñ@ conoceremos hoy?
 					article
-						input#validChildren(type='number', name='validChildren', min='1111', placeholder='Número Identificación', required data-valid-exists="children,true,false")
+						input#validChildren(type='number', name='validChildren', min='1111', placeholder='Número Identificación', required data-valid-id-exists="true,false")
 					article
 						button(type='submit')
 							span Iniciar Registro
@@ -103,7 +103,7 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idMom#idParent(type='number', name='mom[idParent]', value="#{mom.idParent}" min='1111', placeholder='Cédula Mamita', required='')
+								input.idMom#idParent(type='number',data-valid-id-exists="true,false" name='mom[idParent]', value="#{mom.idParent}" min='1111', placeholder='Cédula Mamita', required='')
 								input#idExpeditionParent(type='text', name='mom[idExpeditionParent]', value="#{mom.idExpeditionParent}" placeholder='Lugar de Expedición', required='')
 							article
 								input#nameParent(type='text', name='mom[nameParent]', value="#{mom.nameParent}" placeholder='Nombres Mamita', required='')
@@ -136,7 +136,7 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idDad#idParent(type='number', name='dad[idParent]', value="#{dad.idParent}" min='1111', placeholder='Cédula Papito', required='')
+								input.idDad#idParent(type='number',data-valid-id-exists="true,false" name='dad[idParent]', value="#{dad.idParent}" min='1111', placeholder='Cédula Papito', required='')
 								input#idExpeditionParent(type='text', name='dad[idExpeditionParent]', value="#{dad.idExpeditionParent}" placeholder='Lugar de Expedición', required='')
 							article
 								input#nameParent(type='text', name='dad[nameParent]', value="#{dad.nameParent}" placeholder='Nombres Papito', required='')
@@ -169,7 +169,7 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idCare#idParent(type='number', name="care[idParent]", value="#{cure.idParent}" min='1111', placeholder='Cédula Cuidador', required='')
+								input.idCare#idParent(type='number',data-valid-id-exists="true,false" name="care[idParent]", value="#{cure.idParent}" min='1111', placeholder='Cédula Cuidador', required='')
 								input#idExpeditionParent(type='text', name="care[idExpeditionParent]", value="#{cure.idExpeditionParent}" placeholder='Lugar de Expedición', required='')
 							article
 								input#nameParent(type='text', name="care[nameParent]", value="#{cure.nameParent}" placeholder='Nombres Cuidador', required='')

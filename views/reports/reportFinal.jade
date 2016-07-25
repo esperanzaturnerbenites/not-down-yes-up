@@ -10,13 +10,15 @@ head
 	link(rel='stylesheet', href='/css/styles.css')
 
 body.reportFinal
+	img.img(src="/img/LogoCorpSD.png")
 	section.textCenter
 		p #[b INFORME SEMESTRAL Y GUIA DE OBJETIVOS DEL NIN@]
 		p #[b PROGRAMA IAR APOYOS A LA INCLUSIÓN EN EL AULA REGULAR]
 		p #[b IRP ICPS (Inteligencia conceptual-practica-social)]
 
-	table
+	table.reportFinalHead
 		tbody
+			tr
 			tr
 				th NOMBRE
 				td #{children.nameChildren} #{children.lastnameChildren}
@@ -27,7 +29,7 @@ body.reportFinal
 				th FECHA DE NACIMIENTO
 				td #{new Date(children.birthdateChildren).getStringCustom()}
 			tr
-				th EDAD CRONOLÓGICA
+				th EDAD CRONOLÓGICA (MESES)
 				td #{children.ageChildren}
 			tr
 				th FECHA DE INGRESO AL PROGRAMA
@@ -36,17 +38,11 @@ body.reportFinal
 				th CONDICIONES MÉDICAS ASOCIADAS
 				td #{children.healthChildren}
 			tr
-				th NIVEL DE ESCOLARIDAD
-				td
-			tr
 				th PROGRAMA
-				td
+				td ¡Not Down, Yes Up!
 			tr
 				th EPS
-				td #{children.eps}
-			tr
-				th PERIODO QUE CONTEMPLA
-				td
+				td #{children.epsChildren}
 			tr
 				th COORDINADOR DEL EQUIPO DE TRABAJO
 				td
@@ -54,17 +50,17 @@ body.reportFinal
 				th PROFESIONAL DE APOYO ESCOLAR
 				td
 			tr
-				td PROFESIONALES DEL EQUIPO A CARGO DE ESTE PROCESO:
-				td 
+				th PROFESIONALES DEL EQUIPO A CARGO DE ESTE PROCESO:
+				td.firma
 			tr
-				td RESPONSABLE DE GRUPO:
-				td 
+				th RESPONSABLE DE GRUPO:
+				td.firma
 			tr
-				td COMUNICACIÓN HABLA Y COMUNICACIÓN LENGUAJE:
-				td 
+				th COMUNICACIÓN HABLA Y COMUNICACIÓN LENGUAJE:
+				td.firma
 			tr
-				td MOTRICIDAD FINA, GRUESA, SENSORIAL Y AUTOCUIDADO:
-				td 
+				th MOTRICIDAD FINA, GRUESA, SENSORIAL Y AUTOCUIDADO:
+				td.firma
 
 	p El objetivo de este documento es que ustedes como familia conozcan los logros obtenidos en el proceso de rehabilitación durante el semestre. Adicionalmente, les permite conocer los objetivos propuestos para el próximo periodo de evaluacion, dichos objetivos estan ajustados a la particularidad de su hijo.
 	
@@ -105,7 +101,8 @@ body.reportFinal
 						tr
 							td(colspan=4) #{activity.observationActivity}
 	section
-		p.firma #[b FIRMA DEL PROFESIONAL RESPONSABLE DE GRUPO]
+		article.firma
+			p #[b FIRMA DEL PROFESIONAL RESPONSABLE DE GRUPO]
 
 		p #[b OBSERVACIONES]
 		table.observaciones
@@ -114,9 +111,9 @@ body.reportFinal
 				tr
 				tr
 
-		p.firma FIRMA DE QUIEN RECIBE EL INFORME
+		article.firma
+			p #[b FIRMA DE QUIEN RECIBE EL INFORME]
 
 		section.note 
 			p #[b Nota:]
 			p Se imprime este informe en base a la informacion recolectada por el software ¡Not Down, Yes Up!.
-

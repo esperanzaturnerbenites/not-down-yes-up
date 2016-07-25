@@ -50,14 +50,15 @@ router.post("/new/:collection",(req, res) => {
 		data => {
 			model.create(info,(err,documents) => {
 				if (err) return res.json(err)
+					console.log("resolve")
 				return res.json({documents:documents})
 			})
-			
 		},
 		err => {
-			return res.json({message:err.message})
+			console.log("reject")
+			return res.json({message:err})
 		}
-		)
+	)
 
 })
 

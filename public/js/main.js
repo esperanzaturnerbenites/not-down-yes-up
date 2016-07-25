@@ -52,28 +52,69 @@ $(document).ready(function () {
 		}
 		
 	})
-	$("[data-valid-exists]").change(function(event){
-		var data = $(this).data("valid-exists").split(","),
-			collection = data[0],
-			ifDeleteInExists = eval(data[1]),
-			ifDeleteInNotExists = eval(data[2]),
-			data = {}
+	$("[data-valid-id-exists]").change(function(event){
+		var data = $(this).data("valid-id-exists").split(","),
+			ifDeleteInExists = eval(data[0]),
+			ifDeleteInNotExists = eval(data[1]),
+			collection = data[2],
+			field = data[3]
 
-		if(collection == "children"){
-			data.query = {idChildren: $(this).val()}
-		}else if(collection == "user"){
-			data.query = {idUser: $(this).val()}
-		}else if(collection == "adminuser"){
-			data.query = {userUser: $(this).val()}
+		if(collection){
+			var query = {}
+			query[field] = $(this).val()
+			$.ajax({
+				url: "/api/" + collection,
+				contentType: "application/json",
+				data : JSON.stringify({query:query}),
+				type : "POST",
+				success: (response) => {
+					if(response.documents.length){
+						//Existe
+						if(ifDeleteInExists){
+							$(this).val("")
+						}
+					}else{
+						//No Existe
+						if(ifDeleteInNotExists){
+							$(this).val("")
+						}
+					}
+				}
+			})
 		}else{
-			return "Verifiquela coleccion"
+			$.ajax({
+				url: "/api/id-exists",
+				data : {id: $(this).val()},
+				type : "POST",
+				success: (response) => {
+					if(response.statusCode != CTE.STATUS_CODE.OK){
+						//Existe
+						if(ifDeleteInExists){
+							$(this).val("")
+						}
+					}else{
+						//No Existe
+						if(ifDeleteInNotExists){
+							$(this).val("")
+						}
+					}
+				}
+			})
 		}
+
+	})
+	$("[data-valid-user-exists]").change(function(event){
+		var data = $(this).data("valid-user-exists").split(","),
+			ifDeleteInExists = eval(data[0]),
+			ifDeleteInNotExists = eval(data[1])
+
 		$.ajax({
-			url: "/api/id-exists",
-			data : {id: $(this).val()},
+			url: "/api/adminuser",
+			contentType : "application/json",
+			data : JSON.stringify({query:{userUser: $(this).val()}}),
 			type : "POST",
 			success: (response) => {
-				if(response.statusCode != CTE.STATUS_CODE.OK){
+				if(response.documents.length){
 					//Existe
 					if(ifDeleteInExists){
 						$(this).val("")

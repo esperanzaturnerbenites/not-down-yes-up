@@ -14,12 +14,13 @@ article#articleFindAll.consul.consulQuery
 					th EDITAR
 			tbody
 				each adminuser in dataCustom
-					td 
-						a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
-					td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastUser}
-					td #{adminuser.userUser}
-					td #{adminuser.typeUser}
-					td #{adminuser.statusUser}
-					td #{new Date(adminuser.dateUser).getStringCustom()}
-					td
-						a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar
+					tr
+						td 
+							a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
+						td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastUser}
+						td #{adminuser.userUser}
+						td #{parserCustom(adminuser.typeUser,"TYPE_USER")}
+						td #{parserCustom(adminuser.statusUser,"STATUS_USER")}
+						td #{new Date(adminuser.dateUser).getStringCustom()}
+						td
+							a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar

@@ -15,10 +15,11 @@ block content
 					article
 						select#typeConsult(name='typeConsult')
 							each typeUser,nUser in CTE.TYPE_USER
-								option(value='#{typeUser}', selected='') #{parserCustom(typeUser,"TYPE_USER")}
+								if (typeUser != CTE.TYPE_USER.DEVELOPER)
+									option(value='#{parserCustom(typeUser,"TYPE_USER")}') #{parserCustom(typeUser,"TYPE_USER")}
 							each statusUser,nStatus in CTE.STATUS_USER
-								option(value='#{statusUser}', selected='') #{parserCustom(statusUser,"STATUS_USER")}
-							option(value='4') Todos
+								option(value='#{parserCustom(statusUser,"STATUS_USER")}') #{parserCustom(statusUser,"STATUS_USER")}
+							option(value='Todos') Todos
 						button(type='submit')
 							span Buscar
 
@@ -26,8 +27,8 @@ block content
 				fieldset
 					legend Nuevo Usuario del Sistema
 					article
-						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required data-valid-exists="user,false,true")
-						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required data-valid-exists="adminuser,true,false")
+						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required data-valid-id-exists="false,true,user,idUser")
+						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario', required data-valid-user-exists="true,false")
 					article
 						label(for='typeUser') Tipo de usuario: 
 						select#typeUser(name='typeUser')
@@ -43,10 +44,10 @@ block content
 				fieldset
 					legend Actualizar Contraseña
 					article
-						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
+						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario', required data-valid-user-exists="false,true")
 					article
-						input#adminPassUser(type='password', name='adminPassUser', placeholder='Contraseña', required='')
-						input#adminPassConfirmUser(type='password', name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
+						input#adminPassUser(type='password', data-equal-to="#adminPassConfirmUser" name='adminPassUser', placeholder='Contraseña', required='')
+						input#adminPassConfirmUser(type='password', data-equal-to="#adminPassUser" name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
 						button(type='submit')
 							span Actualizar
 			
@@ -54,7 +55,7 @@ block content
 				fieldset
 					legend Actualizar Rol
 					section
-						input#adminRolIdUser(type='text', name='adminRolIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
+						input#adminRolIdUser(type='text', name='adminRolIdUser', placeholder='Usuario', required data-valid-user-exists="false,true")
 						select#rolUser(name='rolUser')
 							option(value='0', selected='') Administrador
 							option(value='1') Docente
@@ -65,7 +66,7 @@ block content
 				fieldset
 					legend Actualizar Estado
 					section
-						input#adminStaIdUser(type='text', name='adminStaIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
+						input#adminStaIdUser(type='text', name='adminStaIdUser', placeholder='Usuario', required data-valid-user-exists="false,true")
 						select#statusUser(name='statusUser')
 							option(value='0', selected='') Inactivo
 							option(value='1') Activo
@@ -76,7 +77,7 @@ block content
 				fieldset
 					legend Eliminar Usuario Sistema
 					section
-						input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required data-valid-exists="adminuser,false,true")
+						input#adminOpeIdUser(type='text', name='adminOpeIdUser', placeholder='Usuario', required data-valid-user-exists="false,true")
 						button#formOpeUserDel(type='submit')
 							span Eliminar
 			

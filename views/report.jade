@@ -24,14 +24,14 @@ block content
 			form#consulChildren
 				fieldset.consul.consulChildren
 					legend Consulta por Nin@
-					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
+					input#idChildren(type='number', data-valid-id-exists="false,true,children,idChildren" name='idChildren', min='1111', placeholder='Número Identificación', required)
 					button(type='submit')
 						span Consulta
 
 			form#calendarActivities
 				fieldset.consul.consulChildren
 					legend Calendario Actividades
-					input#idChildren(type='number', name='idChildren', min='1111', placeholder='Número Identificación', required)
+					input#idChildren(type='number', data-valid-id-exists="false,true,children,idChildren" name='idChildren', min='1111', placeholder='Número Identificación', required)
 					input#dateInit(type='date' name='dateInit' placeholder='Fecha Inicial', required)
 					input#dateEnd(type='date' name='dateEnd' placeholder='Fecha Inicial', required)
 					button(type='submit')
@@ -94,7 +94,7 @@ block content
 			form#finalReport(action="/reports/report-final" method="POST")
 				fieldset.consul.consulAvanced
 					legend Reporte Final
-					input#idChildrenFinal(type='number', name='idChildrenFinal', min='1111', placeholder='Identificación Niñ@', required)
+					input#idChildrenFinal(type='number', data-valid-id-exists="false,true,children,idChildren" name='idChildrenFinal', min='1111', placeholder='Identificación Niñ@', required)
 					button.buttons(type='submit')
 						span Generar Reporte Final
 

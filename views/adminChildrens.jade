@@ -12,7 +12,7 @@ block content
 				fieldset
 					legend General Niñ@s
 					section
-						input#adminInfoChildren(type='number' name='adminInfoChildren' min='1111' placeholder='Identificación Niñ@' required data-valid-exists="children,false,true")
+						input#adminInfoChildren(type='number' name='adminInfoChildren' min='1111' placeholder='Identificación Niñ@' required data-valid-id-exists="false,true,children,idChildren")
 						button(type='button')#formOpeChildrenInfo
 							span Ver Info
 						button(type='button')#formOpeChildrenUpd
@@ -23,7 +23,7 @@ block content
 					legend Cambiar Estado Niñ@
 					label *(Inactivar o Activar un/a niñ@)
 					article
-						input#adminUpdChildren(type='number', name='adminUpdChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-exists="children,false,true")
+						input#adminUpdChildren(type='number', name='adminUpdChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-id-exists="false,true,children,idChildren")
 						select#statusChildren(name='statusChildren')
 							each status, nstatus in CTE.STATUS_USER
 								option(value='#{status}', selected='') #{parserCustom(status,"STATUS_USER")}
@@ -42,7 +42,7 @@ block content
 								- for(var stepConsult of steps)
 									option(value='#{stepConsult.stepStep}') Etapa #{stepConsult.stepStep} : #{stepConsult.nameStep}
 
-							input#idChildren(type='number', name='idChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-exists="children,false,true")
+							input#idChildren(type='number', name='idChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-id-exists="false,true,children,idChildren")
 							button#formValidChildrenValid(type='button')
 								span Validar
 

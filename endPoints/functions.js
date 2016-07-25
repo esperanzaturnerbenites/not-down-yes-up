@@ -27,9 +27,15 @@ function checkNewAdminUser(params,info){
 	return new Promise(function(resolve,reject){
 		models.user.findOne({idUser:params.idUser},function(err,user){
 			if(err) return reject(err)
-			if(!user) return reject({message:"El usuario No existe"})
+			if(!user) return reject(new Error("El usuario No existe"))
 			info.idUser = user._id
-			resolve({data:{message:"Usuario Creado"}})
+			models.adminuser.findOne({idUser:user._id,typeUser:params.typeUser},function(err,adminuser){
+				console.log("holaaaa")
+				if(err) return reject(err)
+				if(adminuser) return reject(new Error("Ya existe un usuario de tipo "))
+				resolve({data:{message:"Ok"}})
+				
+			})
 		})
 	})
 }
