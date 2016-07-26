@@ -73,6 +73,22 @@ app.use(expressSession({
 	})
 }))
 
+//definir carpeta para vistas
+app.set("views", __dirname + "/views")
+
+//ruta estaticos
+app.use(express.static("public"))
+
+// parse application/x-www-form-urlencoded 
+app.use(bodyParser.urlencoded({extended:false}))
+ 
+// parse application/json 
+app.use(bodyParser.json())
+
+//Definir motor de vistas
+app.set("view engine", "jade")
+
+//Definición de rutas (URL)
 //inicializacion de passport
 app.use(passport.initialize())
 
@@ -125,36 +141,6 @@ app.use((req,res,next) => {
 	next()
 })
 
-app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),api)
-app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
-app.use("/users",userURLUsers)
-app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
-app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
-app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
-
-app.get("/download", function(req, res) {
-	res.download(__dirname + "/temp/listChildren.pdf", "listChildren")
-})
-
-//definir carpeta para vistas
-app.set("views", __dirname + "/views")
-
-//ruta estaticos
-app.use(express.static("public"))
-
-// parse application/x-www-form-urlencoded 
-app.use(bodyParser.urlencoded({extended:false}))
- 
-// parse application/json 
-app.use(bodyParser.json())
-
-//Definir motor de vistas
-app.set("view engine", "jade")
-
-//Definición de rutas (URL)
-app.get("/",(req,res)=>{
-	res.render("index")
-})
 /*app.post("/authenticate", (req, res, next) => {
 	passport.authenticate("local",{failureRedirect: "users/login"},(err, user,info) => {
 		var ifDesktopApp = eval(req.get("Desktop-App"))
@@ -192,6 +178,30 @@ app.post("/authenticate",
 			}
 		}
 	})
+
+app.get("/",(req,res)=>{
+	res.render("index")
+})
+
+app.use("/users",userURLUsers)
+
+app.use((req,res,next) => {
+	models.step.findOne({},function(err, step){
+		if (err) return next(err)
+		if(!step) return res.render("error",{error:{message:"No Existe Ninguna Etapa."}})
+		models.activity.findOne({},function(err, activity){
+			if (err) return next(err)
+			if(!activity) return res.render("error",{error:{message:"No Existe Ninguna Activitdad."}})
+			next()
+		})
+	})
+})
+
+app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),api)
+app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
+app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
+app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
+app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
 
 
 //Valida si se encuentra autenticado

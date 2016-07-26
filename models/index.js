@@ -150,56 +150,6 @@ const userSchema = new Mongoose.Schema({
 		urlStep: {type:String}
 	})
 
-
-childrenSchema.method("getData", function (){
-	var children = this,
-		dataReturn = {}
-	return new Promise((resolvep1, rejectp1) => {
-		models.children.findOne({idChildren:children.idChildren})
-		.populate("idParent.idParent")
-		.exec(function(err,childrenDB){
-			dataReturn.children = childrenDB
-
-			models.stepvalid.find({idChildren:childrenDB._id})
-			.lean()
-			.populate("idChildren idUser idStep")
-			.exec(function(err,stepsValidDB){
-				if(!stepsValidDB.length) return rejectp1({message:"No hay Etapas Validadas"})
-
-				dataReturn.stepsValid = []
-
-				var promises = []
-
-				stepsValidDB.forEach(stepValidDB => {
-					var promise = new Promise((resolvep2, rejectp2) => {
-
-						models.activityvalid.find({idChildren:childrenDB._id,idStep:stepValidDB._id})
-						.populate("idChildren idUser idStep idActivity")
-						.exec(function(err,activitiesValidDB){
-							
-							stepValidDB.activitiesValid = activitiesValidDB
-
-							models.activityhistory.find({idChildren:childrenDB._id,idStep:stepValidDB._id})
-							.populate("idChildren idUser idStep idActivity")
-							.exec(function(err,activitiesHistoryDB){
-
-								stepValidDB.activitiesHistory = activitiesHistoryDB
-								dataReturn.stepsValid.push(stepValidDB)
-								resolvep2({message:"OK"})
-							})
-						})
-					})
-					promises.push(promise)
-				})
-				Q.all(promises).then(data => {
-					resolvep1(dataReturn)
-				})
-			})
-		})
-	})
-})
-
-
 activitySchema.method("getHistory", function (children,step){
 	var activity = this
 	return new Promise((resolve, reject) => {
@@ -255,8 +205,6 @@ childrenSchema.method("getDataAll", function (){
 				var promisesActivities = []
 
 				stepsValidDB.forEach(stepValidDB => {
-					console.log("Step " + stepValidDB.idStep.stepStep)
-					console.log(stepValidDB)
 					var promiseStep = new Promise((resolvep2, rejectp2) => {
 
 						stepValidDB.activities = []
@@ -264,14 +212,10 @@ childrenSchema.method("getDataAll", function (){
 						.exec(function(err,activitiesDB){
 
 							activitiesDB.forEach(activityDB => {
-								console.log("Activity " + activityDB.activityActivity)
 								var promiseActivity = activityDB.getHistory(children,stepValidDB.idStep)
 								.then(data => {
 									var writableActivity = activityDB.toJSON()
 
-									console.log("---------------- promise activity ----------------")
-									console.log(data)
-									console.log("---------------- promise activity ----------------")
 									writableActivity.activitiesValid = data.activitiesValid
 									writableActivity.activitiesHistory = data.activitiesHistory
 

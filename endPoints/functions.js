@@ -1,5 +1,6 @@
 var jade = require("jade"),
 	Cryptr = require("cryptr"),
+	pdf = require("html-pdf"),
 	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("../CTE"),
 	models = require("../models"),
@@ -142,6 +143,22 @@ function parserCustom(data,cte){
 }
 /* templates jade */
 
+function htmlToPdf(stringHTML,nameFile,options){
+	return new Promise(function(resolve,reject){
+		var optionsDefault = {
+			format: "Letter",
+			"orientation": "portrait",
+			"base": "http://localhost:8000",
+			"border": "2cm"
+		}
+		options = options ? options : optionsDefault
+		pdf.create(stringHTML, options).toFile("public/temp/" + nameFile, function(err, data) {
+			if (err) reject(err)
+			resolve(data)
+		})
+	})
+}
+
 
 module.exports = {
 	addObservationChildren: addObservationChildren,
@@ -154,5 +171,6 @@ module.exports = {
 	parserCustom: parserCustom,
 	renderListUser: renderListUser,
 	groupStepsValids: groupStepsValids,
+	htmlToPdf: htmlToPdf,
 	renderReportAge: renderReportAge
 }

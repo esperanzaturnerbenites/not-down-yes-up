@@ -35,6 +35,19 @@ $("#consultGeneral").submit(function (event) {
 		}
 	})
 })
+$("#consultGeneralPDF").submit(function (event) {
+	event.preventDefault()
+	$.ajax({
+		url: "/reports/general",
+		type : "POST",
+		data : $(this).serialize(),
+		success: function(response){
+			window.response = response
+			$("#showResultsReport").html(response.html)
+			$("#showResultsReport")[0].scrollIntoView()
+		}
+	})
+})
 
 $("#calendarActivities").submit(function (event) {
 	event.preventDefault()
@@ -241,7 +254,11 @@ function drawChartStep(){
 		"fill-color":"black",
 		hAxis: {
 			title: "Puntaje",
-			minValue: 0
+			minValue: 0,
+			viewWindow:{
+				min:0,
+				max:10
+			}
 		},
 		vAxis: {
 			title: "Etapas",
@@ -287,6 +304,10 @@ function drawChartActvityValid(){
 				bold: true,
 				fontSize: 18,
 				color: "#4d4d4d"
+			},
+			viewWindow:{
+				min:0,
+				max:10
 			}
 		},
 		vAxis: {
@@ -330,9 +351,10 @@ function drawChartActivityHistory(step,activity){
 	var data = google.visualization.arrayToDataTable(dataChart)
 
 	var options = {
+		height:500,
 		title: "Hitorial de Actividades",
-		hAxis: {title: "Fecha",  titleTextStyle: {color: "#333"}},
-		vAxis: {title: "Puntaje", minValue: 0}
+		hAxis: {title: "Fecha",  titleTextStyle: {color: "#333"}, direction:-1,slantedText: true, slantedTextAngle: 90},
+		vAxis: {title: "Puntaje", minValue: 0,viewWindow:{min:0,max:10}}
 	}
 
 	var chart = new google.visualization.AreaChart(document.getElementById("containerChart"))

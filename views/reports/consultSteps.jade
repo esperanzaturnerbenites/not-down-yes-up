@@ -6,9 +6,6 @@ if forPdf
 block content
 	section.consul.consulQuery
 		h3 RESULTADO CONSULTA
-		p
-			b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
-		p #{data.step.descriptionStep}
 		section
 			button(type="button")
 				span Generar PDF
@@ -21,24 +18,29 @@ block content
 						th EDAD
 						th ESTADO
 						th ESTADO CURSOS
-						- var numeroActividad = 1
-							while numeroActividad <= data.countActivities
-								th Actividad #{numeroActividad++}
+						each dataChildren in dataCustom
+							- var stepsValid = dataChildren.stepsValid
+							each stepValid in stepsValid
+								-var activities = stepValid.activities
+								each activity in activities
+									th ACTIVIDAD #{activity.activityActivity}
 				tbody
-					- var stepsValid = data.dataCustom
-					each stepValid in stepsValid
-						- var children = stepValid.idChildren
+					each dataChildren in dataCustom
+						- var children = dataChildren.children
+						- var stepsValid = dataChildren.stepsValid
 						tr
-							td 
+							td
 								a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
 							td #{children.nameChildren} #{children.lastnameChildren}
 							td #{children.ageChildren}
 							td #{children.statusChildren}
 							td #{children.statusChildrenEstimulation}
-							- var numeroActividad = 1
-								while numeroActividad <= data.countActivities
-									if data.activitiesValid[numeroActividad]
-										td #{Utils.STATUS_ESTIMULATION.getString(data.activitiesValid[numeroActividad].statusActivity)}
-									else
+							each stepValid in stepsValid
+								-var activities = stepValid.activities
+								each activity in activities
+									if activity.activitiesValid
+										td #{activity.activitiesValid.statusActivity}
+									else 
 										td Sin Iniciar
-									- numeroActividad++
+
+

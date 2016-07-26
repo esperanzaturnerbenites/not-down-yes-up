@@ -54,7 +54,9 @@ function validateFinalActivity(event){
 		}),
 		type : "POST",
 		success: function(response){
-			console.log(response)
+			console.info(response)
+			$("#formValidateFinalActivity").addClass("hide")
+			if(response.documents) return notification.show({msg:"Validacion Definitiva Correcta",type:CTE.STATUS_CODE.OK})
 		}
 	})
 }
@@ -79,7 +81,8 @@ function validatePartialActivity(event){
 		}),
 		type : "POST",
 		success: function(response){
-			console.log(response)
+			$("#formValidatePartialActivity").addClass("hide")
+			if(response.documents) return notification.show({msg:"Validacion Parcial Correcta",type:CTE.STATUS_CODE.OK})
 		}
 	})
 

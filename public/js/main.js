@@ -53,11 +53,15 @@ $(document).ready(function () {
 		
 	})
 	$("[data-valid-id-exists]").change(function(event){
+		var input = $(this)
 		var data = $(this).data("valid-id-exists").split(","),
 			ifDeleteInExists = eval(data[0]),
 			ifDeleteInNotExists = eval(data[1]),
 			collection = data[2],
 			field = data[3]
+
+		var buttonSubmit = input.closest("form").find("[type=submit]")
+		buttonSubmit.prop("disabled",true)
 
 		if(collection){
 			var query = {}
@@ -79,6 +83,7 @@ $(document).ready(function () {
 							$(this).val("")
 						}
 					}
+					buttonSubmit.prop("disabled",false)
 				}
 			})
 		}else{
@@ -98,12 +103,16 @@ $(document).ready(function () {
 							$(this).val("")
 						}
 					}
+					buttonSubmit.prop("disabled",false)
 				}
 			})
 		}
-
 	})
 	$("[data-valid-user-exists]").change(function(event){
+		var input = $(this)
+		var buttonSubmit = input.closest("form").find("[type=submit]")
+		buttonSubmit.prop("disabled",true)
+
 		var data = $(this).data("valid-user-exists").split(","),
 			ifDeleteInExists = eval(data[0]),
 			ifDeleteInNotExists = eval(data[1])
@@ -125,6 +134,7 @@ $(document).ready(function () {
 						$(this).val("")
 					}
 				}
+				buttonSubmit.prop("disabled",false)
 			}
 		})
 	})

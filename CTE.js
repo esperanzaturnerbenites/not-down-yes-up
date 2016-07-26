@@ -1,4 +1,9 @@
 const CTE = { 
+	INDICATORS: {
+		L:1,
+		LP:2,
+		P:3
+	},
 	STATUS_CODE: {
 		OK:0,
 		NOT_OK:1,
@@ -62,6 +67,7 @@ const CTE = {
 		STATUS_USER: {},
 		GENDER_CHILD: {},
 		LEVEL_STUDY: {},
+		INDICATORS: {},
 		LIVE_SON: {},
 		YES_OR_NOT: {}
 	}
@@ -70,6 +76,20 @@ const CTE = {
 const PERMISSIONS = {
 	DEVELOPER:{},
 	TEACHER: {}
+}
+
+CTE.FN.INDICATORS.getString = function(indicator){
+	var indicatorString = ""
+	if(indicator == CTE.INDICATORS.L){
+		indicatorString = "L"
+	}else if(indicator == CTE.INDICATORS.P){
+		indicatorString = "P"
+	}else if(indicator == CTE.INDICATORS.LP){
+		indicatorString = "LP"
+	}else{
+		indicatorString = ""
+	}
+	return indicatorString
 }
 
 CTE.FN.STATUS_ACTIVITY.getString = function(status){

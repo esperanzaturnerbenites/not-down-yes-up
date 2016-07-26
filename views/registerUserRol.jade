@@ -23,7 +23,7 @@ block content
 				fieldset.data.validChildren
 					legend Digita la cédula
 					article
-						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', required data-valid-id-exists="true,false")
+						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', autocomplete = "off" required data-valid-id-exists="true,false")
 					article
 						button(type='submit')
 							span Iniciar Registro
@@ -35,29 +35,32 @@ block content
 						fieldset
 							legend Personal
 							article
-								input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" readonly)
-								input#expeditionUser(type='text', name='user[expeditionUser]', value="#{data.expeditionUser}" placeholder='Lugar de Expedición', required)
+								if edit
+									input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" autocomplete = "off")
+								else
+									input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" readonly)
+								input#expeditionUser(type='text', name='user[expeditionUser]', value="#{data.expeditionUser}" placeholder='Lugar de Expedición', required autocomplete = "off")
 							article
-								input#nameUser(type='text', name='user[nameUser]', value="#{data.nameUser}" placeholder='Nombres', required='')
-								input#lastnameUser(type='text', name='user[lastnameUser]', value="#{data.lastnameUser}" placeholder='Apellidos', required='')
+								input#nameUser(type='text', name='user[nameUser]', value="#{data.nameUser}" placeholder='Nombres', required='' autocomplete = "off")
+								input#lastnameUser(type='text', name='user[lastnameUser]', value="#{data.lastnameUser}" placeholder='Apellidos', required='' autocomplete = "off")
 							article
 								label(for='ageUser') Edad:
-								input#ageUser(type='number', name='user[ageUser]', value="#{data.ageUser}" min='18', max='99', placeholder='Edad' required)
+								input#ageUser(type='number', name='user[ageUser]', value="#{data.ageUser}" min='18', max='99', placeholder='Edad' required autocomplete = "off")
 							article.img
 								span Foto
 								input#imgUser(type='file', name='user[imgUser]', value='#{imgUser}', accept='image/*')
 						fieldset
 							legend Contacto
 							article
-								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='')
-								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='')
-								input#emailUser(type='email', name='user[emailUser]',value="#{data.emailUser}" placeholder='correo-usuario@abc.com', required)
+								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete="off")
+								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='' autocomplete="off")
+								input#emailUser(type='email', name='user[emailUser]',value="#{data.emailUser}" placeholder='correo-usuario@abc.com', required autocomplete="off")
 							article
-								input#addressUser(type='text', name='user[addressUser]',value="#{data.addressUser}" placeholder='Dirección', required='')
-								input#districtUser(type='text', name='user[districtUser]',value="#{data.districtUser}" placeholder='Barrio', required='')
-								input#localityUser(type='text', name='user[localityUser]',value="#{data.localityUser}" placeholder='Localidad')
-								input#districtUser(type='text', name='user[municipalityUser]',value="#{data.municipalityUser}" placeholder='Ciudad/Municipio', required='')
-								input#departamentUser(type='text', name='user[departamentUser]',value="#{data.departamentUser}" placeholder='Departamento', required='')
+								input#addressUser(type='text', name='user[addressUser]',value="#{data.addressUser}" placeholder='Dirección', required='' autocomplete="off")
+								input#districtUser(type='text', name='user[districtUser]',value="#{data.districtUser}" placeholder='Barrio', required='' autocomplete="off")
+								input#localityUser(type='text', name='user[localityUser]',value="#{data.localityUser}" placeholder='Localidad' autocomplete="off")
+								input#districtUser(type='text', name='user[municipalityUser]',value="#{data.municipalityUser}" placeholder='Ciudad/Municipio', required='' autocomplete="off")
+								input#departamentUser(type='text', name='user[departamentUser]',value="#{data.departamentUser}" placeholder='Departamento', required='' autocomplete="off")
 						fieldset
 							legend Profesión
 							article
@@ -72,11 +75,11 @@ block content
 									option(value='6') Especialización
 									option(value='7') Maestría
 									option(value='8') Doctorado
-							input#professionUser(type='text', value="#{data.professionUser}" name='user[professionUser]', placeholder='Título adquirido', required)
+							input#professionUser(type='text', value="#{data.professionUser}" name='user[professionUser]', placeholder='Título adquirido', required autocomplete="off")
 							label(for='experienceUser') Experiencia en meses:
-							input#experienceUser(type='number', value="#{data.experienceUser}" name='user[experienceUser]', min='0', max='999', placeholder='Experiencia en meses', required)
+							input#experienceUser(type='number', value="#{data.experienceUser}" name='user[experienceUser]', min='0', max='999', placeholder='Experiencia en meses', required autocomplete="off")
 							article
-							input#centerUser(type='text', value="#{data.centerUser}" name='user[centerUser]', placeholder='Centro Zonal', required)
+							input#centerUser(type='text', value="#{data.centerUser}" name='user[centerUser]', placeholder='Centro Zonal', required autocomplete="off")
 
 				fieldset.userAdmin.data.user
 					legend Confirmar Registro
@@ -87,9 +90,9 @@ block content
 									select#typeUser(name='adminuser[typeUser]')
 										option(value='0', selected) Administrador
 										option(value='1') Docente
-							input#userUser(type='text', name='adminuser[userUser]', placeholder='Usuario', required data-valid-user-exists="true,false")
-							input#passUser(type='password', data-equal-to="#passConfirmUser" name='adminuser[passUser]', placeholder='Contraseña', required)
-							input#passConfirmUser(type='password', data-equal-to="#passUser" name='adminuser[passConfirmUser]', placeholder='Repite Contraseña', required)
+							input#userUser(type='text', name='adminuser[userUser]', placeholder='Usuario', required data-valid-user-exists="true,false" autocomplete="off")
+							input#passUser(type='password', data-equal-to="#passConfirmUser" name='adminuser[passUser]', placeholder='Contraseña', required autocomplete="off")
+							input#passConfirmUser(type='password', data-equal-to="#passUser" name='adminuser[passConfirmUser]', placeholder='Repite Contraseña', required autocomplete="off")
 							button(type='submit' data-action="create")
 								span Registrar
 						else

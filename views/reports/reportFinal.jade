@@ -95,9 +95,9 @@ body.reportFinal
 							- activityValid.backingDFunctionActivity = ""
 						tr
 							td(width="50%") #{activity.activityActivity}. #{activity.nameActivity}: #{activity.descriptionActivity}
-							td(width="16%") #{activityValid.backingMaxActivity}
-							td(width="16%") #{activityValid.backingMinActivity}
-							td(width="16%") #{activityValid.backingDFunctionActivity}
+							td(width="16%") #{parserCustom(activityValid.backingMaxActivity,"INDICATORS")}
+							td(width="16%") #{parserCustom(activityValid.backingMinActivity,"INDICATORS")}
+							td(width="16%") #{parserCustom(activityValid.backingDFunctionActivity,"INDICATORS")}
 						tr
 							td(colspan=4) #{activity.observationActivity}
 	section

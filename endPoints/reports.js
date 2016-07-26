@@ -6,64 +6,54 @@ var express = require("express"),
 	jade = require("jade"),
 	functions = require("./functions"),
 	localsJade = {
+		dataGeneral:{},
 		parserCustom: functions.parserCustom,
 		CTE: CTE
 	},
 	pdf = require("html-pdf"),
+	Q = require("q"),
 	filename = require("filename")
 
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
-		steps = {}
+		promises = []
 
-	var report = data.consulAct ? 1 : 2
+	var numberStep = data.consulStep
+	var numberActivity = data.consulAct
+
+	var report = numberActivity ? 1 : 2
+
 
 	var view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
 
-	models.step.findOne({stepStep:data.consulStep},(err,step) => {
-		if(err) return res.json({err:err})
-		if(!step) return res.json({err:{message:"Not steps"}})
-		steps.step = step
+	var dataChildrens = []
 
-		models.stepvalid.find({idStep:step._id})
-		.sort({idChildren : 1})
-		.populate("idChildren idUser idStep")
-		.exec((err, stephis) => {
-			if (err) return res.json(err)
-			if (!stephis.length) return res.json({"msg":"Stephis not found"})
-			steps.stepsValid = stephis
-			var idsChild = stephis.map(e => {return {idChildren:e.idChildren._id}})
-
-			var queryActivity = {stepActivity:step.stepStep}
-			if(report == 1) queryActivity.activityActivity = data.consulAct
-
-			models.activity.find(queryActivity,(err,activities) =>{
-				if(err) return res.json({err:err})
-				if(!activities.length) return res.json({err:{message:"Not Activities"}})
-
-				var queryStepActivity = {idStep:step._id, $or:idsChild}
-				if(report == 1) queryStepActivity.idActivity = activities[0]._id
-
-				models.activityvalid.find(queryStepActivity)
-				.populate("idActivity idChildren idUser")
-				.sort({idChildren : 1})
-				.exec((err,activitiesValid) =>{
-					if (err) return res.json(err)
-					
-					steps.activitiesValid = activitiesValid
-					steps.countActivities = activities.length
-					steps.activities = activities
-					
-					localsJade.dataCustom =  steps
-
-					var fn = jade.compileFile(view,{})
-					var html = fn(localsJade)
-					return res.json({html:html,data:steps})
-				})
-			})
+	models.children.find({},(err,childrens) => {
+		childrens.forEach(children => {
+			var promise = children.getDataAll().then(
+				function(data){
+					dataChildrens.push(data)
+				},
+				function(err){}
+			)
+			promises.push(promise)
 		})
+		Q.all(promises).then(
+			function(data){
+				localsJade.dataCustom = dataChildrens
+				localsJade.dataGeneral.numberStep = numberStep
+				localsJade.dataGeneral.numberActivity = numberActivity
+
+				//return res.json(localsJade)
+
+				var fn = jade.compileFile(view,{})
+				var html = fn(localsJade)
+				return res.json({html:html})
+			},
+			function(err){console.log("reject")}
+		)
 	})
 })
 
@@ -94,17 +84,11 @@ router.post("/report-final/",(req,res)=>{
 				var fn = jade.compileFile(pathView,{})
 				var html = fn(localsJade)
 
-				var optionsPDF = {
-					format: "Letter",
-					"orientation": "portrait",
-					"base": "http://localhost:8000",
-					"border": "2cm"
-				}
-				pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
-					if (err) return console.log(err)
-					console.log(data)
-					return res.download("public/temp/" + filename(pathView) + ".pdf")
-				})
+				var nameFilePdf = filename(pathView) + ".pdf"
+				functions.htmlToPdf(html,nameFilePdf).then(
+					function(data){return res.download("public/temp/" + nameFilePdf)},
+					function(err){return res.json(err)}
+				)
 			},
 			function(err){return res.json(err)}
 		)

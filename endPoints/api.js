@@ -79,8 +79,9 @@ router.post("/:collection",(req, res) => {
 		/*Projection(Busquedas) Campos ha seleccionar*/
 		projection = data.projection ? data.projection : {}
 
+	/*
 	var promise = fn(params)
-	promise.then(
+	promise.then( 
 		data => {
 			model.find(query,projection)
 				.populate("user parent activity children")
@@ -94,8 +95,23 @@ router.post("/:collection",(req, res) => {
 		err => {
 			return res.json({message:err.message})
 		}
+	)
+	*/
+	model.find(query,projection)
+	.populate("user parent activity children")
+	.exec((err,documents) => {
+		if (err) return res.json({err:err})
+		params.data = documents
+		var promise = fn(params)
+		promise.then( 
+			data => {
+				return res.json({documents:documents,returnFn:data.data})
+			},
+			err => {
+				return res.json({message:err.message})
+			}
 		)
-
+	})
 })
 
 router.put("/:collection",(req, res) => {

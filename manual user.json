@@ -61,7 +61,7 @@
 		"guides" :[
 			"Para salir del sistema debe encontrarse en el menú principal (A).",
 			"Dar clic en el botón SALIR que se envuentra en la parte superior izquierda (B).",
-			"En el cuadro emergente, dar clic en Aceptar (C)."
+			"En el cuadro emergente, dar clic en Aceptar."
 		],
 		"warnings" :[
 			"Verifique que se encuentre en el menú principal."
@@ -90,7 +90,8 @@
 		"image" :"![IMAGEN AYÚDA](/img/help/1.5.png)",
 		"description" :"Ofrece una ayuda que contiene la información completa acerca de las opciones a las que los usuarios autenticados pueden acceder.",
 		"guides" :[
-			"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niño con signo de Pregunta en la parte superior (A)."
+			"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niña con un globo en el cual tiene un signo de Pregunta (A).",
+			"Este ícono es visible en todas las ventanas del software."
 		],
 		"warnings" :[]
 	},
@@ -105,7 +106,7 @@
 		"image" :"![IMAGEN MENÚ PRINCIPAL ADMINISTRACIÓN](/img/help/2.1.png)",
 		"description" :"Permite acceder a todas las opciones del administrador.",
 		"guides" :[
-			"Al autenticarse en el sistema con un usuario de tipo Administrador automáticamente se carga el Menú Principal del Administrador."
+			"Al autenticarse en el sistema con un usuario de tipo Administrador automáticamente se carga el Menú Principal del Administrador (A)."
 		],
 		"warnings" :[
 			"Verifique que se ha autenticado con un usuario de tipo Administrador."
@@ -151,15 +152,17 @@
 			"Dar clic en la lista desplegable y seleccionar la opción que quiere consultar (C).",
 			"Dar clic en el botón Buscar (D).",
 			"Hay 5 opciones de consulta:",
-			"Primera opción, Administradores: Muestra todos los usuarios de tipo administrador que se encuentran registrados.",
-			"Segunda opción, Docentes: Muestra todos los usuarios de tipo docente que se encuentran registrados.",
-			"Tercera opción, Activos: Muestra todos los usuarios activos que se encuentran registrados.",
-			"Cuarta opción, Inactivos: Muestra todos los usuarios inactvos que se encuentran registrados.",
+			"Primera opción, Administrador: Muestra todos los usuarios de tipo administrador que se encuentran registrados.",
+			"Segunda opción, Docente: Muestra todos los usuarios de tipo docente que se encuentran registrados.",
+			"Tercera opción, Activo: Muestra todos los usuarios activos que se encuentran registrados.",
+			"Cuarta opción, Inactivo: Muestra todos los usuarios inactvos que se encuentran registrados.",
 			"Quinta opción, Todos: Muestra todos los usuarios registrados sin discriminación.",
+			"El ID de cada usuario es un link para ver información mas detallada del mismo y el campo Editar de cada usuario permite modificar la información de dicho usuario (E).",
 			"Para regresar al Menú Principal dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (E)."
 		],
 		"warnings" :[]
 	},
+	//Modificar ***************************************************************
 	{
 		"name" : "DETALLAR UN USUARIO",
 		"id" : "2.1.4",
@@ -174,12 +177,13 @@
 			"Digitar el número de cédula del usuario que quiere consultar (C).",
 			"Dar clic en el botón Ver Info (E).",
 			"Se abre una nueva pestaña donde se muestra toda la información del usuario (E).",
-			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (F)." 
+			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de cédula sea correcto."
 		]
 	},
+	//Modificar ***************************************************************
 	{
 		"name" : "ACTUALIZAR UN USUARIO",
 		"id" : "2.1.5",
@@ -198,7 +202,7 @@
 			"Dar clic en Actualizar (F).",
 			"El botón Limpiar, elimina toda la información que haya digitado en el formulario (G).",
 			"El botón Cancelar, cancela la actualización de datos, no guarda la información modificada y redirecciona al Menú Principal (H)." 
-			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (I)." 
+			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de cédula sea correcto."
@@ -213,12 +217,8 @@
 		"image" :"![IMAGEN ELIMINAR UN USUARIO](/img/help/2.1.6.png)",
 		"description" :"Permite eliminar un usuario.",
 		"guides" :[
-			"Dar clic en la opción ADMIN USUARI@S del menú principal (A).",
-			"Ubique visualmente la sección Docente/Administrador(s) (B).",
-			"Digitar el número de cédula del usuario que quiere eliminar (C).",
-			"Dar clic en el botón Eliminar (D).",
-			"En el cuadro emergente, dar clic en Aceptar (E)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (F)." 
+			"Un usuario no puede ser eliminado.",
+			"Un administrador puede inactivar a un usuario para que no pueda acceder al sistema." 
 		],
 		"warnings" :[
 			"Verifique que el número de cédula sea correcto."
@@ -238,8 +238,8 @@
 			"Digitar el número de cédula del usuario al que quiere asignar el nuevo usuario de autenticación(C).",
 			"Escriba el nuevo usuario de autenticación y contraseña que serán asignados y seleccionar en la lista desplegable el tipo de usuario que le asiganará (D).",
 			"Dar clic en Crear (E).",
-			"En el cuadro emergente, dar clic en Aceptar (F)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)." 
+			"En el cuadro emergente, dar clic en Aceptar",
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de cédula sea correcto.",
@@ -261,8 +261,8 @@
 			"Escribir el usuario de autenticación que quiere eliminar (C).",
 			"Escriba el nuevo usuario de autenticación y contraseña que serán asignados y seleccionar en la lista desplegable el tipo de usuario que le asiganará (D).",
 			"Dar clic en Crear (E).",
-			"En el cuadro emergente, dar clic en Aceptar (F)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)." 
+			"En el cuadro emergente, dar clic en Aceptar."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana " 
 		],
 		"warnings" :[
 			"Verifique que el número de cédula sea correcto.",
@@ -284,8 +284,8 @@
 			"Escribir el usuario de autenticación que quiere eliminar (C).",
 			"Escriba el usuario de autenticación y la nueva contraseña que le será asignada (D).",
 			"Dar clic en Actualizar (E).",
-			"En el cuadro emergente, dar clic en Aceptar (F)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)." 
+			"En el cuadro emergente, dar clic en Aceptar."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana " 
 		],
 		"warnings" :[
 			"Verifique que el usuario de autenticación sea correcto.",
@@ -306,8 +306,8 @@
 			"Escribir el usuario de autenticación al que quiere cambiar el rol (C).",
 			"En la lista desplegable seleccionar el tipo de usuario que quiere asignar (D).",
 			"Dar clic en Actualizar (E).",
-			"En el cuadro emergente, dar clic en Aceptar (F)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)." 
+			"En el cuadro emergente, dar clic en Aceptar."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana " 
 		],
 		"warnings" :[
 			"Verifique que el usuario de autenticación sea correcto.",
@@ -328,8 +328,8 @@
 			"Escribir el usuario de autenticación al que quiere cambiar el estado (C).",
 			"En la lista desplegable seleccionar el estado que quiere asignar (D).",
 			"Dar clic en Actualizar (E).",
-			"En el cuadro emergente, dar clic en Aceptar (F)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)."
+			"En el cuadro emergente, dar clic en Aceptar."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[
 			"Verifique que el usuario de autenticación sea correcto."
@@ -382,8 +382,7 @@
 			"Opción ETAPAS, muestra la información de las etapas (H).",
 			"Opción ACTIVIDADES VALIDADAS, muestra la información de las actividades validadas (I).",
 			"Opción HISTORIAL DE ACTIVIDADES, muestra el historial de todas las actividades que ha desarrollado el/la niño/a (J).",
-			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (K).",
-			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN NIÑ@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (L)." 
+			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN NIÑ@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto."
@@ -407,7 +406,7 @@
 			"Dar clic en Actualizar (F).",
 			"El botón Limpiar, elimina toda la información que haya digitado en el formulario (G).",
 			"El botón Cancelar, cancela la actualización de datos, no guarda la información modificada y redirecciona al Menú Principal (H)." 
-			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN NIÑ@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (I)." 
+			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN NIÑ@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto."
@@ -444,8 +443,8 @@
 			"En la lista desplegable seleccionar el estado que quiere asignar (D).",
 			"Escribir las observaciones necesarias (E).",
 			"Dar clic en Cambiar Estado (F).",
-			"En el cuadro emergente, dar clic en Aceptar (G)."
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (H)."
+			"En el cuadro emergente, dar clic en Aceptar."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto."
@@ -465,11 +464,11 @@
 			"En la lista desplegable seleccionar la etapa a validar (C).",
 			"Digitar el número de identificación del/la niño/a (D).",
 			"Dar clic en Validar (E).",
-			"Verificar la información y escribir las observaciones necesarias (F).",
+			"Verificar la información que aparece y escribir las observaciones necesarias (F).",
 			"Dar clic en Validar Etapa (G).",
-			"En el cuadro emergente, dar clic en Aceptar (H)."
+			"En el cuadro emergente, dar clic en Aceptar."
 			"El botón Cancelar, cancela la validación sin guardar ningún dato (I)." 
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (J)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto.",
@@ -496,8 +495,8 @@
 			"Opción Listado General Profesores muestra todos los usuarios/as tipo Docente registrados en el sistema."
 			"Opción Listado por Etapas muestra por cada etapa existente una tabla con la lista de niños/as en esa etapa."
 			"El ID de cada niño/usuario es un link para ver información mas detallada del mismo (F).",
-			"Puede exportar el reporte a un archivo PDF al dar clic en el botón Generar PDF (F).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)."
+			"Puede exportar el reporte a un archivo PDF al dar clic en el botón Generar PDF (G).",
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto."
@@ -524,7 +523,7 @@
 			"Opción ACTIVIDADES VALIDADAS, muestra la información de las actividades validadas (I).",
 			"Opción HISTORIAL DE ACTIVIDADES, muestra el historial de todas las actividades que ha desarrollado el/la niño/a (J).",
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (K).",
-			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (L)." 
+			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana." 
 		],
 		"warnings" :[
 			"Verifique que el número de identificación sea correcto."
@@ -549,7 +548,7 @@
 			"Opción Menor Que consulta todos los niños/as que tienen una edad menor a la especificada (H).",
 			"El ID de cada niño es un link para ver información mas detallada del mismo (I).",
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (J).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (K)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[]
 	},
@@ -568,7 +567,7 @@
 			"Dar clic en Consultar (D).",
 			"El ID de cada niño es un link para ver información mas detallada del mismo (E).",
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (F).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[]
 	},
@@ -587,7 +586,7 @@
 			"Dar clic en Consultar (D).",
 			"El ID de cada niño es un link para ver información mas detallada del mismo (E).",
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (F).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (G)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[]
 	},
@@ -605,7 +604,7 @@
 			"Digite el número de identificación del niño/a (C).",
 			"Dar clic en Generar Reporte Final (D).",
 			"Se genera un archivo en PDF que se descarga automáticamente (E).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (F)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[]
 	},
@@ -624,7 +623,7 @@
 			"Dar clic en el botón Realizar Backup (B).",
 			"Automáticamente se descarga un archivo correspondiente al backup en la carpeta de Descargas (Download) (C).",
 			"Guardar el archivo del backup en una carpeta segura (D).",
-			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (E)."
+			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings" :[]
 	},
@@ -767,8 +766,8 @@
 			"Niño/a Actual: Muestra el nombre, identificación y foto del/la niño/a sesleccionado. Tambien permite ver información detallada del/la niño/a y cancelar la actividad (E)."
 			"Guía: Muestra la guía del profesor para desarrollar la actividad. También permite desarrollar la actividad de apoyo (F)."
 			"Contenedor actividad: Es el espacio que observará el/la niño/a durante la actividad. Se divide en 2, ¡LÉEME! y ¡ESCÚCHAME!:"
-			"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad (G)."
-			"¡ESCÚCHAME!: Permite escuchar la guía del/la niño/a. Y muestra las imágenes para el desarrollo de la actividad (H)."
+			"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad. Permite escuchar la guía del/la niño/a. (G)."
+			"¡ESCÚCHAME!: Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (H)."
 		],
 		"warnings" :[]
 	},{
@@ -862,6 +861,64 @@
 	},
 
 	/*Estimulation Description Rug -------------------------------  3.4 etc................*/
+	{
+		"name" : "DESCRIPCIÓN",
+		"id" : "3.4.1",
+		"route": "No Aplica",
+		"reference": "estRugDescription",
+		"includes" :[],
+		"image" :"![IMAGEN DESCRIPCIÓN](/img/help/3.4.1.png)",
+		"description" :"Conozca lo que es el tapete electrónico.",
+		"guides" :[
+			"El tapete electrónico es una herramienta diseñada para el desarrollo de las actividades en ¡Not Down, Yes Up!.",
+			"Este permite la interacción directa entre el/la niño/a y el software ofreciendo una estimulación mas completa.",
+			"El tapete esta diseñado con elementos reciclados en pro de generar un aporte positivo al medio ambiente.",
+			"Toda actividad desarrollada por los/las niños/as con el tapete debe ser bajo la supervisión de un adulto responsable, previamente capacitado para el uso del mismo.",
+			"El tapete cuenta con la seccion de fichas, que es la parte con la cual el/a niño/a va a interactuar (A).",
+			"En esta sección hay 4 espacios o lugares marcados con un número consecutivo de 1 hasta 4 (B).",
+			"En estos espacios se ubican los contenedores con sus fichas correspondientes (C) "
+		],
+		"warnings" :[]
+	},
+	{
+		"name" : "CONEXIÓN",
+		"id" : "3.4.2",
+		"route": "No Aplica",
+		"reference": "estRugConection",
+		"includes" :[],
+		"image" :"![IMAGEN CONEXIÓN](/img/help/3.4.2.png)",
+		"description" :"Muestra la forma de conectar el tapete electrónico.",
+		"guides" :[
+			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
+			"Debe tener en cuenta que el cable USB del tapete tiene un largor de 1.5 metros."
+		],
+		"warnings" :[]
+	},
+	{
+		"name" : "CUIDADO Y SEGURIDAD",
+		"id" : "3.4.3",
+		"route": "No Aplica",
+		"reference": "estRugCareSecurity",
+		"includes" :[],
+		"image" :"![IMAGEN CUIDADO Y SEGURIDAD](/img/help/3.4.3.png)",
+		"description" :"Permite conocer las indicaciones de cuidado y seguridad del tapete electrónico.",
+		"guides" :[
+			"Debe tener en cuenta que este tapete es completamente hecho a mano humana, con productos reutilizables libres de contaminación.",
+			"Para un mayor cuidado, no permita que sea utilizado por personas que no tengan la capacitación adecuada para su uso.",
+			"Tampoco permita que los/las niños/as jueguen con el tapete como si fuera un juguete regular.",
+			"Siempre que los/as niños/as interactúen con el tapete vigile que se le este dando un uso adecuado.",
+			"El tapete esta diseñado para recibir presión sobre la sección de fichas, pero esta presión debe ser considerable, no pueden ser golpes fuertes.",
+			"El tapete no debe caerse ni mojarse o humedecerse.",
+			"No debe halar nunca el cable USB.",
+			"Prefereiblemente, mantenga la torre del computador en suelo mientras se realizan las actividades con el tapete electrónico.",
+			"El tapete electrónico está correctamente diseñado para que ningún circuito eléctrico este visible o accesible al usuario final.",
+			"Nunca intente desatapar el tapete electrónico ni manipular sus circuitos eléctricos.",
+			"Siempre, al terminar de usar en tapete, debe guardarse en su empaque original.",
+			"Si el tapete electrónico presenta alguna falla o daño llame al desarrollador."
+		],
+		"warnings" :[]
+	}
+
 
 	/*Estimulation: ConectionRug*/
 	{
@@ -886,7 +943,7 @@
 		"reference": "estValidConectRug",
 		"includes" :["3.5.1"],
 		"image" :"![IMAGEN VALIDACIONES EN ConectionRUG](/img/help/3.5.2.png)",
-		"description" :"Validaciones previas para el correcto funcionamiento del tapete electrónico.",
+		"description" :"Conozca las validaciones previas para el correcto funcionamiento del tapete electrónico.",
 		"guides" :[
 			"Para el correcto funcionamiento del tapete, debe hacer unas validaciones previas al inicio de una actividad.",
 			"Autenticación de usuario: Al iniciar la aplicación ConectionRUG, aparece la ventana de autenticación, debe digitar su usuario y contraseña para poder continuar (A).",
@@ -898,17 +955,50 @@
 			"Verifique que su usuario y contraseña sean correctos."
 		]
 	},
+	{
+		"name" : "SELECCIÓN DE FICHAS",
+		"id" : "3.5.3",
+		"route": "No Aplica",
+		"reference": "estSelectRecords",
+		"includes" :[],
+		"image" :"![IMAGEN SELECCIÓN DE FICHAS](/img/help/3.5.3.png)",
+		"description" :"Selección de fichas para la actividad.",
+		"guides" :[
+			"Cada actividad a desarrollar tiene 4 fichas dedicadas, exlusivas para el uso de dicha actividad.",
+			"En el anverso cada ficha tiene una imagen referente a la actividad en desarrollo y en el reverso la referencia a la actividad (EJ: E1 - A1, donde E1 significa Etapa 1 y, donde A1, significa Actividad 1, es decir, esa ficha correspondería a la Actividad 1 de la Etapa 1.) (A).",
+			"Para desarrollar una actividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
+		],
+		"warnings" :[]
+	},
+	{
+		"name" : "UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)",
+		"id" : "3.5.4",
+		"route": "No Aplica",
+		"reference": "estLocationRecords",
+		"includes" :[],
+		"image" :"![IMAGEN UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)](/img/help/3.5.4.png)",
+		"description" :"Ubicación de fichas en el tapete electrónico (Concordancia PIN-FICHA).",
+		"guides" :[
+			"El PIN corresponde a cada uno de los números que se encuentran en la sección Fichas del tapete electrónico (A)",
+			"Junto con el tapete electrónico vienen 4 containers, los cuales son pequeñas cajas en las que se insertan las fichas para poder desarrollar una actividad.",
+			"Al colocar los containers con sus respectivas fichas en el tapete electrónico debe tener en cuenta el PIN (número) en donde se encuentra la ficha que corresponde a la respuesta correcta, ya que ese PIN debe configurarse en ConectionRug( A).",
+			"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (B).",
+			"Tras haber iniciado la actividad a desarrollar y haber ubicado los containers con sus respectivas fichas correspondientes a la actividad debe ubicar la ficha correcta, validar el PIN en el cual se encuentra y configurarlo en la opción PIN de ConectionRug y luego dar clic en el botón Conectar (C)."
+		],
+		"warnings" :[]
+	},
 	//**********************************************Revisar***************************************************
 	{
 		"name" : "CONEXIÓN/DESCONEXIÓN DE TAPETE",
-		"id" : "3.5.3",
+		"id" : "3.5.5",
 		"route": "No Aplica",
 		"reference": "estConnectRug",
 		"includes" :["3.5.1"],
-		"image" :"![IMAGEN CONEXIÓN/DESCONEXIÓN DE TAPETE](/img/help/3.5.3.png)",
+		"image" :"![IMAGEN CONEXIÓN/DESCONEXIÓN DE TAPETE](/img/help/3.5.5.png)",
 		"description" :"Conexión del tapete electrónico.",
 		"guides" :[
 			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
+			"Seleccionar el PIN correcto en las lista desplegable PIN (Ver: UBICACIÓN DE FICHAS (Concordancia PIN-FICHA))",
 			"Dar clic en el botón Conectar (A).",
 			"Esperar a que es sistema realice la conexión, cuando el ícono de conexión se encuentre en color verde, significa que ya el tapete se encuentra conectado.",
 			"Para desconectar el tapete dar clic en el botón Desconectar (B)."
@@ -918,35 +1008,72 @@
 		]
 	},
 	{
-		"name" : "SELECCIÓN DE FICHAS",
-		"id" : "3.5.4",
+		"name" : "GUÍA DOCENTE",
+		"id" : "3.5.6",
 		"route": "No Aplica",
-		"reference": "estSelectRecords",
-		"includes" :[],
-		"image" :"![IMAGEN SELECCIÓN DE FICHAS](/img/help/3.5.4.png)",
-		"description" :"Selección de fichas para la actividad.",
+		"reference": "estGuideTeacher",
+		"includes" :["3.3.3"],
+		"image" :"![IMAGEN GUÍA DOCENTE](/img/help/3.5.6.png)",
+		"description" :"Descripción de la Guía de los Docentes.",
 		"guides" :[
-			"Cada actividad a desarrollar tiene 4 fichas dedicadas, exlusivas para el uso de dicha actividad.",
-			"En el anverso cada ficha tiene una imagen referente a la actividad en desarrollo y en el reverso la referencia a la actividad (EJ: E1 - A1, donde E1 significa Etapa 1 y, donde A1, significa Actividad 1, es decir, esa ficha correspondería a la Actividad 1 de la Etapa 1.) (A).",
-			"Para desarrollar una aactividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
+			"La guía de los docentes contiene los pasos para la realización de la actividad que se inició.",
+			"Ubique visualmente la sección Guía (A).",
+			"Allí puede leer cada uno de los pasos que debe tener en cuenta para el desarrollo correcto de la actividad."
 		],
 		"warnings" :[]
 	},
 	{
-		"name" : "UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)",
-		"id" : "3.5.5",
+		"name" : "GUÍA NIÑOS/AS",
+		"id" : "3.5.7",
 		"route": "No Aplica",
-		"reference": "estLocationRecords",
-		"includes" :[],
-		"image" :"![IMAGEN UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)](/img/help/3.5.5.png)",
-		"description" :"Ubicación de fichas en el tapete electrónico (Concordancia PIN-FICHA).",
+		"reference": "estGuideTeacher",
+		"includes" :["3.3.3"],
+		"image" :"![IMAGEN GUÍA NIÑOS/AS](/img/help/3.5.7.png)",
+		"description" :"Descripción de la Guía de los Niños/as.",
 		"guides" :[
-			"El PIN corresponde a cada uno de los números que se encuentran en la sección Fichas del tapete electrónico (A)",
-			"Junto con el tapete electrónico vienen 4 containers, los cuales son pequeñas cajas en las que se insertan las fichas para poder desarrollar una actividad.",
-			"Al colocar los containers con sus respectivas fichas en el tapete electrónico debe tener en cuenta el PIN (número) en donde se encuentra la ficha que corresponde a la respuesta correcta, ya que ese PIN debe configurarse en ConectionRug( A).",
-			"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (A).",
-			"Para desarrollar una aactividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
+			"La guía de los/las niños/as contiene los pasos para la realización de la actividad que se inició.",
+			"Ubique visualmente la sección ¡LÉEME! (A).",
+			"Allí se pueden leer cada uno de los pasos o indicaciones que se le deben dar al/la niño/a para el desarrollo correcto de la actividad.",
+			"Para que el sistema lea esta guía y pueda ser escuchada por los/las niños/as debe dar clic en el ícono Reproducir que se encuentra debajo de ¡LÉEME!."
 		],
 		"warnings" :[]
+	},
+	{
+		"name" : "IMÁGENES",
+		"id" : "3.5.8",
+		"route": "No Aplica",
+		"reference": "estImagesActivity",
+		"includes" :["3.3.3"],
+		"image" :"![IMAGEN IMÁGENES](/img/help/3.5.8.png)",
+		"description" :"Imágenes en la sección ¡ESCÚCHAME!.",
+		"guides" :[
+			"Las imágenes que se muestran en la sección ¡ESCÚCHAME! se cargan dependiendo de cada actividad.",
+			"Pueden ser desde 1 hasta 3 imágenes las mostradas en esta sección (A).",
+			"Dependiendo de la actividad, junto a la imagen puede aparecer un ícono de reproducción de audio requerido para el desarrollo de la actividad, al dar clic en el sonara una canción o un cuento dependiendo de la actividad. (B)",
+			"Al pasar el cursor sobre cada imagen esta agranda su tamaño . (C)"
+			"Al dar clic sobre cada imagen el sistema lee su descripción y dependiendo de cada actividad oculta o muestra dicha imagen."
+		],
+		"warnings" :[
+			"Siempre antes de iniciar a desarrollar una actividad, lea la Guía del Docente."
+		]
+	},
+	{
+		"name" : "RESPUESTA",
+		"id" : "3.5.9",
+		"route": "No Aplica",
+		"reference": "estAnswerActivity",
+		"includes" :["3.3.3"],
+		"image" :"![IMAGEN RESPUESTA](/img/help/3.5.9.png)",
+		"description" :"Respuesta del software al desarrollar una actividad.",
+		"guides" :[
+			"Tras realizar una actividad sólo existen dos posibles resultados.",
+			"Que el niño presione la ficha correcta:.",
+			"Al presionarse la ficha correcta el tapete se ilumina, muestra un mensaje que dice '¡Muy Bien!' y se despliega una sección en el software que muestra una imagen de una carita feliz y un campo con la puntuación obtenida que para este caso es 10 (A).",
+			"Que el niño presione la ficha incorrecta:.",
+			"Al presionarse una ficha incorrecta el tapete no se ilumina, muestra un mensaje que dice 'Sigue Intentando' y se despliega una sección en el software que muestra una imagen de una carita apenada y un campo con la puntuación obtenida que para este caso es 0 (B)."
+		],
+		"warnings" :[
+			"Verifique la correcta conexión del tapete."
+		]
 	}
 ]
