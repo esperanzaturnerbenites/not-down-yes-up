@@ -184,9 +184,17 @@ activitySchema.method("getHistory", function (children,step){
 	]
 }
 */
-childrenSchema.method("getDataAll", function (){
+childrenSchema.method("getDataAll", function (options){
 	var children = this,
 		dataReturn = {}
+
+
+	var filterSteps = options.filters.steps ? options.filters.steps: false,
+		filterActivities = options.filters.activities ? options.filters.activities: false
+
+	console.log(filterSteps)
+	console.log(filterActivities)
+
 	return new Promise((resolvep1, rejectp1) => {
 		models.children.findOne({idChildren:children.idChildren})
 		.populate("idParent.idParent")
@@ -232,6 +240,8 @@ childrenSchema.method("getDataAll", function (){
 					promisesStep.push(promiseStep)
 				})
 				Q.all(promisesStep).then(data => {
+					if(filterSteps) dataReturn.stepsValid = dataReturn.stepsValid.filter(e => {return filterSteps.indexOf(e.idStep.stepStep) >= 0})
+					if(filterActivities) dataReturn.stepsValid.forEach(sv => {sv.activities = sv.activities.filter(e => {return filterActivities.indexOf(e.activityActivity) >= 0})})
 					resolvep1(dataReturn)
 				})
 			})

@@ -4,8 +4,6 @@
 section.consul.consulQuery 
 	h3 RESULTADO CONSULTA
 	p
-		b ETAPA #{data.step.stepStep}: #{data.step.nameStep}
-	p #{data.step.descriptionStep}
 	section#buttons
 	section
 		button(type="button")
@@ -21,33 +19,30 @@ section.consul.consulQuery
 					th N. ACTIVIDAD
 					th NOMBRE ACTIVIDAD
 					th ESTADO
-					th scoreSystem
-					th scoreTeach
-					th backingMax
-					th backingMin
-					th backingDFunction
-					th observation
-					th date
+					th PUNTAJE SISTEMA
+					th PUNTAJE DOCENTE
+					th APOYO MÁXIMO
+					th APOYO MÍNIMO
+					th D FUNCIONAL
+					th OBSERVACIÓN
+					th FECHA VALIDACIÓN
 			tbody
-				- var activitiesValid = data.dataCustom
-				each activityValid in activitiesValid
-					- var children = activityValid.idChildren
+				each dataChildren in dataCustom
+					- var children = dataChildren.children
+					- var activityValid = dataChildren.stepsValid[0].activities[0].activitiesValid
 					tr
 						td 
 							a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
 						td #{children.nameChildren} #{children.lastnameChildren}
 						td #{children.ageChildren}
-						td #{children.statusChildren}
+						td #{parserCustom(children.statusChildren,"STATUS_USER")}
 						td #{activityValid.idActivity.activityActivity} 
 						td #{activityValid.idActivity.nameActivity}
-						td #{activityValid.statusActivity}
+						td #{parserCustom(activityValid.statusActivity,"STATUS_ACTIVITY")}
 						td #{activityValid.scoreSystemActivity}
 						td #{activityValid.scoreTeachActivity}
-						td #{activityValid.backingMaxActivity}
-						td #{activityValid.backingMinActivity}
-						td #{activityValid.backingDFunctionActivity}
+						td #{parserCustom(activityValid.backingMaxActivity,"INDICATORS")}
+						td #{parserCustom(activityValid.backingMinActivity,"INDICATORS")}
+						td #{parserCustom(activityValid.backingDFunctionActivity,"INDICATORS")}
 						td #{activityValid.observationActivity}
 						td #{new Date(activityValid.date).getStringCustom()}
-
-
-

@@ -20,19 +20,31 @@ router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
 		promises = []
 
-	var numberStep = data.consulStep
-	var numberActivity = data.consulAct
+	var numberStep = parseInt(data.consulStep)
+	var numberActivity = parseInt(data.consulAct)
 
 	var report = numberActivity ? 1 : 2
 
 
 	var view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
 
+	var filters
+	if(numberActivity){
+		filters = {
+			steps:[numberStep],
+			activities:[numberActivity]
+		}
+	}else{
+		filters = {steps:[numberStep]}
+	}
+
 	var dataChildrens = []
 
 	models.children.find({},(err,childrens) => {
 		childrens.forEach(children => {
-			var promise = children.getDataAll().then(
+			var promise = children.getDataAll({
+				filters:filters
+			}).then(
 				function(data){
 					dataChildrens.push(data)
 				},
@@ -50,7 +62,7 @@ router.post("/consult-step-act",(req,res)=>{
 
 				var fn = jade.compileFile(view,{})
 				var html = fn(localsJade)
-				return res.json({html:html})
+				return res.json({html:html,localsJade:localsJade})
 			},
 			function(err){console.log("reject")}
 		)
