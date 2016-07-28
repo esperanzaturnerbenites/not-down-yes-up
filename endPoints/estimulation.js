@@ -33,6 +33,38 @@ router.post("/startActivity",(req,res)=>{
 	})
 })
 
+router.post("/valid-activity",(req,res)=>{
+	var data = req.body
+
+	models.activityhistory.count(
+		{idChildren:data.idChildren,idActivity:data.idActivity,idStep:data.idStep},
+		function(err,count){
+			if(err) return res.json(err)
+			if(count < CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY){
+				res.json({message:"Debe COmpletar por lo minimo " + CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY + " actividdes parciales"})
+			}else{
+				models.activityvalid.findOne({idChildren:data.idChildren,idActivity:data.idActivity,idStep:data.idStep},function(err,activityvalid){
+					if(activityvalid){
+						activityvalid.update({$set:data},function(err,updateActivityvalid){
+							res.json({message:"Validación Actividad Actualizada",type:CTE.STATUS_CODE.OK})
+						})
+					}else{
+						models.activityvalid.create(data,function(err,newActivityvalid){
+							models.children.update(
+								{_id:data.idChildren},
+								{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.IN_PROGRESS}},
+								function(err,update){
+									if(err) return res.json({message:"Validación Actividad Completada, No se Actualizo el estado del niñ@",type:CTE.STATUS_CODE.OK})
+									return res.json({message:"Validación Actividad Completada",type:CTE.STATUS_CODE.OK})
+								}
+							)
+						})
+					}
+				})
+			}
+		})
+})
+
 router.get("/steps",(req,res)=>{
 	var step = {}
 

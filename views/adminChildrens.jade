@@ -33,9 +33,9 @@ block content
 						button(type='submit')
 							span Cambiar Estado
 
-			form#formOpeValidChildren
+			form#formPreValidStep
 				fieldset
-					legend Validar Estapa
+					legend Verificación de Etapa
 					- if(steps.length)
 						article
 							select#step(name='step')
@@ -43,11 +43,28 @@ block content
 									option(value='#{stepConsult.stepStep}') Etapa #{stepConsult.stepStep} : #{stepConsult.nameStep}
 
 							input#idChildren(type='number', name='idChildren', min='1111', placeholder='Identificación Niñ@', required data-valid-id-exists="false,true,children,idChildren")
-							button#formValidChildrenValid(type='button')
+							button(type='submit')
 								span Validar
-
 					- else
 						h2 No hay actividades validadas
+			form#formValidStep.hide
+				fieldset
+					legend Validar Estapa
+					input#idChildren(type='hidden' name='idChildren')
+					input#stepStep(type='hidden' name='stepStep')
+					article
+						label(for="scoreStep") Puntaje
+						input#scoreStep(type='number' name='scoreStep' placeholder='Puntaje' required)
+					article
+						label(for="statusStep") Estado
+						select#statusStep(name='statusStep')
+							each value,name in CTE.STATUS_ACTIVITY
+								option(value='#{value}') #{parserCustom(value,"STATUS_ACTIVITY")}
+					article
+						textarea#observationStep(name='observationStep' required placeholder="Observaciones...")
+					article
+						button(type='submit')
+							span Validar
 
 		article#showResultValid
 	script(src="/js/administracionChildrens.js")

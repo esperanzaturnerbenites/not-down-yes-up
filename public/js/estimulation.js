@@ -29,32 +29,22 @@ $("#startActivity").submit(function(event){
 function validateFinalActivity(event){
 	event.preventDefault()
 	$.ajax({
-		url: "/api/new/activityvalid",
-		contentType: "application/json",
-		data : JSON.stringify({
-			info: {
-				statusActivity: $("#statusActivity",$(this)).val(),
-				scoreSystemActivity: $("#scoreSystemActivity",$(this)).val(),
-				scoreTeachActivity: $("#scoreTeachActivity",$(this)).val(),
-				backingMaxActivity: $("#backingMaxActivity",$(this)).val(),
-				backingMinActivity: $("#backingMinActivity",$(this)).val(),
-				backingDFunctionActivity: $("#backingDFunctionActivity",$(this)).val(),
-				observationActivity: $("#observationActivity",$(this)).val(),
-				idActivity: j_activityCurrent._id,
-				idStep: j_stepCurrent._id,
-				idUser: j_userCurrent._id,
-				idChildren: j_childrenCurrent._id
-			},
-			fn:"checkCountActivities",
-			params:{
-				idChildren: j_childrenCurrent._id,
-				idActivity: j_activityCurrent._id,
-				idStep: j_stepCurrent._id
-			}
-		}),
+		url: "/estimulation/valid-activity",
+		data: {
+			statusActivity: $("#statusActivity",$(this)).val(),
+			scoreSystemActivity: $("#scoreSystemActivity",$(this)).val(),
+			scoreTeachActivity: $("#scoreTeachActivity",$(this)).val(),
+			backingMaxActivity: $("#backingMaxActivity",$(this)).val(),
+			backingMinActivity: $("#backingMinActivity",$(this)).val(),
+			backingDFunctionActivity: $("#backingDFunctionActivity",$(this)).val(),
+			observationActivity: $("#observationActivity",$(this)).val(),
+			idActivity: j_activityCurrent._id,
+			idStep: j_stepCurrent._id,
+			idUser: j_userCurrent._id,
+			idChildren: j_childrenCurrent._id
+		},
 		type : "POST",
 		success: function(response){
-			console.info(response)
 			$("#formValidateFinalActivity").addClass("hide")
 			if(response.documents) return notification.show({msg:"Validacion Definitiva Correcta",type:CTE.STATUS_CODE.OK})
 		}
@@ -124,6 +114,7 @@ socket.on("arduino:data", function (data) {
 	$("#aswerAct").removeClass("hide")
 	$("#aswerAct #scoreSystemActivity").val(scoreSystemActivity)
 	$("#aswerAct img").attr("src",srcImage)
+	$("#aswerAct audio").trigger("play")
 	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
 	notification.show({msg:data.message, type:data.statusCode})
 })

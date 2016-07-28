@@ -11,7 +11,14 @@ var express = require("express"),
 	fs = require("fs"),
 	Cryptr = require("cryptr"),
 	cryptr = new Cryptr(process.env.SECRET_KEY),
-	CTE = require("../CTE")
+	CTE = require("../CTE"),
+	jade = require("jade"),
+	functions = require("./functions"),
+	localsJade = {
+		dataGeneral:{},
+		parserCustom: functions.parserCustom,
+		CTE: CTE
+	}
 
 router.use(bodyParser.urlencoded({extended:true}))
 router.use(bodyParser.json())
@@ -370,6 +377,62 @@ router.get("/reports",(req,res)=>{
 	})
 })
 
+router.post("/valid-step",(req,res)=>{
+	var data = req.body
+	//res.json(data)
+
+	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		models.step.findOne({stepStep:data.stepStep},function(err,step){
+			console.log(step)
+			models.stepvalid.findOne({idChildren:children._id,idStep:step._id},function(err,stepValid){
+				
+				data.idUser = req.user._id
+				data.idChildren = children._id
+				data.idStep = step._id
+
+				if(stepValid){
+					stepValid.update({$set:data},function(err,updateStepValid){
+						res.json({message:"Validación Actualizada",type:CTE.STATUS_CODE.OK})
+					})
+				}else{
+					models.stepvalid.create(data,function(err,newStepValid){
+						children.update(
+							{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.QUALIFIED}},
+							function(err,update){
+								if(err) return res.json({message:"Validación Etapa Completada, No se Actualizo el estado del niñ@",type:CTE.STATUS_CODE.OK})
+								return res.json({message:"Validación Etapa Completada",type:CTE.STATUS_CODE.OK})
+							}
+						)
+					})
+				}
+			})
+		})
+	})
+})
+
+router.post("/pre-valid-step",(req,res)=>{
+	var data = req.body,
+		dataChildrens = [],
+		filters = {
+			steps:[parseInt(data.step)]
+		}
+
+	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		children.getDataAll({
+			filters:filters
+		}).then(
+			function(data){
+				dataChildrens.push(data)
+				localsJade.dataCustom = dataChildrens
+
+				var fn = jade.compileFile("views/reports/consultAct.jade",{})
+				var html = fn(localsJade)
+				return res.json({html:html,localsJade:localsJade})
+			},
+			function(err){}
+		)
+	})
+})
 router.post("/backup",(req,res)=>{
 	res.writeHead(200, {"Content-Type": "application/x-tar"})
 	backup({

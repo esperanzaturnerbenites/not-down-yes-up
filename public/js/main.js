@@ -10,11 +10,20 @@ Date.prototype.toHour12 = function () {
 $.ajaxSetup({
 	headers: {"Desktop-App": "false"}
 })
-const CTE = {
+const CTE = { 
+	INDICATORS: {
+		L:1,
+		LP:2,
+		P:3
+	},
 	STATUS_CODE: {
 		OK:0,
 		NOT_OK:1,
 		INFORMATION:2
+	},
+	YES_OR_NOT: {
+		NO: 0,
+		YES: 1
 	},
 	TYPE_USER: {
 		ADMINISTRATOR: 0,
@@ -25,15 +34,54 @@ const CTE = {
 		INACTIVE: 0,
 		ACTIVE: 1
 	},
-	STATUS_CHILDREN:{
+	GENDER_CHILD:{
+		GIRL: 0,
+		BOY: 1
+	},
+	STATUS_ESTIMULATION:{
 		REGISTER : 0,
 		IN_PROGRESS : 1,
 		QUALIFIED : 2,
 		RETIRED : 3
 	},
+	LIVE_SON: {
+		MOM:0,
+		DAD:1,
+		CARE:2
+	},
+	STATUS_ACTIVITY: {
+		UNCOMPLETED:0,
+		COMPLETED:1
+	},
 	FIRST_USER: {
 		USERNAME:"Developer",
 		PASSWORD: "Developer"
+	},
+	LEVEL_STUDY:{
+		"BASIC_PRIMARY" :0,
+		"BASIC_HIGH_SCHOOL" :1,
+		"BACHELOR" :2,
+		"PROFESSIONAL_TECHNICIAN" :3,
+		"TECHNOLOGIST" :4,
+		"PROFESSIONAL" :5,
+		"SPECIALIZATION" :6,
+		"MASTERS_DEGREE" :7,
+		"DOCTORATE" :8
+	},
+	MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY:3,
+	BASE_PATH_LOG : "logs/",
+	BASE_NAME_LOG : "log-year-month.log",
+	FN: {
+		STATUS_ESTIMULATION: {},
+		STATUS_ACTIVITY: {},
+		STATUS_CODE: {},
+		TYPE_USER: {},
+		STATUS_USER: {},
+		GENDER_CHILD: {},
+		LEVEL_STUDY: {},
+		INDICATORS: {},
+		LIVE_SON: {},
+		YES_OR_NOT: {}
 	}
 }
 var notification = new NotificationC()
