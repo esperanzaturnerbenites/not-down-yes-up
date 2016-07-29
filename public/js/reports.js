@@ -159,6 +159,21 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 	})
 })
 
+$("#childrensToTeacherConsul").submit(function(event){
+	event.preventDefault()
+
+	$.ajax({
+		url: "/reports/consult-teacher-activities",
+		type : "POST",
+		data : $(this).serialize(),
+		success: function(result){
+			$("#showResultsReport").html("")
+			$("#showResultsReport").html(result.html)
+			$("#showResultsReport")[0].scrollIntoView()
+		}
+	})
+})
+
 
 /////////////******************* luzma hizo ---- revisar
 /*

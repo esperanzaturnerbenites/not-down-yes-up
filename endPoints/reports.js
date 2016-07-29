@@ -12,9 +12,67 @@ var express = require("express"),
 	},
 	pdf = require("html-pdf"),
 	Q = require("q"),
-	filename = require("filename")
+	filename = require("filename"),
+	mongoose = require("mongoose")
 
 router.use(bodyParser.urlencoded({extended:false}))
+
+router.post("/consult-teacher-activities",(req,res)=>{
+	var data = req.body,
+		promises = [],
+		view = "views/reports/consultChildrensToTeacher.jade",
+		numberStep = parseInt(data.consulTeacherStep),
+		filters = {steps:[numberStep]}
+
+	var dataChildrens = []
+
+	models.step.findOne({stepStep:numberStep},function(err,stepFind){
+		models.activityhistory.aggregate([
+			{$match: {idUser:mongoose.Types.ObjectId(data.consulTeacher),idStep:stepFind._id}},
+			{$group: {
+				_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
+				scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
+				scoreAvgTeachActivity: {$avg:"$scoreTeachActivity"},
+				max: {$max:"$scoreTeachActivity"},
+				min: {$min:"$scoreTeachActivity"},
+				documents: { $push: "$$ROOT" }
+			}}
+		], function (err, hisact) {
+			if(hisact){
+				models.children.populate(hisact, {path: "_id.idChildren"},(err, hisactP) => {
+					return res.json(hisact)
+					var childrens = hisactP.map(his => {
+						return his._id
+					})
+					childrens.forEach(children => {
+						var promise = children.getDataAll({
+							filters:filters
+						}).then(
+							function(data){
+								dataChildrens.push(data)
+							},
+							function(err){}
+						)
+						promises.push(promise)
+					})
+					Q.all(promises).then(
+						function(data){
+							localsJade.dataCustom = dataChildrens
+							
+							var fn = jade.compileFile(view,{})
+							var html = fn(localsJade)
+							return res.json(localsJade)
+							return res.json({html:html,localsJade:localsJade})
+						},
+						function(err){console.log("reject")}
+					)
+				})
+			}
+		})
+		
+	})
+
+})
 
 router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
@@ -34,9 +92,7 @@ router.post("/consult-step-act",(req,res)=>{
 
 	}else{
 		view = "views/reports/listSteps.jade"
-
 	}
-
 
 	var filters
 	if(numberActivity){
@@ -251,7 +307,7 @@ router.post("/general",(req,res)=>{
 			"base": "http://localhost:8000"
 		}
 		pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
-			if (err) return console.log(err);
+			if (err) return console.log(err)
 			console.log(data) // { filename: '/app/businesscard.pdf' } 
 		})
 

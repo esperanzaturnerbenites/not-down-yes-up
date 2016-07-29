@@ -187,12 +187,18 @@ activitySchema.method("getHistory", function (children,step){
 }
 */
 childrenSchema.method("getDataAll", function (options){
+	options = options ? options : {}
+
 	var children = this,
 		dataReturn = {}
 
+	var filterSteps = false,
+		filterActivities = false
 
-	var filterSteps = options.filters.steps ? options.filters.steps: false,
+	if(options.filters){
+		filterSteps = options.filters.steps ? options.filters.steps: false,
 		filterActivities = options.filters.activities ? options.filters.activities: false
+	}
 
 	console.log(filterSteps)
 	console.log(filterActivities)

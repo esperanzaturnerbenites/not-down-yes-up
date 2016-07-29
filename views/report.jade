@@ -80,14 +80,14 @@ block content
 					button.buttons#buttonReportAges(type='submit')
 						span Consultar
 
-			form#ChildrensToTeacherConsul
+			form#childrensToTeacherConsul
 				fieldset.consul.consulAvanced
 					legend Consulta de Niñ@s por Docente
 					article
 						label(for='consulTeacher') Docente: 
 						select#consulTeacher(name='consulTeacher')
 							-for (user of reportData.adminusers)
-								option(value=user.userUser select) #{user.userUser}: #{user.idUser.nameUser} #{user.idUser.lastnameUser}
+								option(value=user._id select) #{user.userUser}: #{user.idUser.nameUser} #{user.idUser.lastnameUser}
 					article
 						label(for='consulTeacherStep') Etapa: 
 						select#consulTeacherStep(name='consulTeacherStep')
