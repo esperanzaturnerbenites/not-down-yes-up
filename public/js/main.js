@@ -89,6 +89,20 @@ $(document).ready(function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
 	})
+	$("[data-toggle-select]").change(function(event){
+		var ids = $(this).data("toggle-select").split(",")
+		var reference = ids[0],
+			toDisabled = ids[1],
+			valueSelect = $(this).val()
+		if(valueSelect == 1){
+			$(reference).removeClass("hide")
+			$(toDisabled).attr("disabled",false)
+		}else{
+			$(reference).addClass("hide")
+			$(toDisabled).attr("disabled",true)
+		}
+		
+	})
 	$("[data-equal-to]").change(function(event){
 		var reference = $(this).data("equal-to")
 		if($(reference).val()){

@@ -23,6 +23,7 @@ block content
 						th DIRECCION
 						th CENTRO
 						th USUARIO
+						th ESTADO
 				tbody
 					-var adminusers = dataCustom
 					each adminuser in adminusers
@@ -39,3 +40,4 @@ block content
 							td #{teacher.addressUser}
 							td #{teacher.centerUser}
 							td #{adminuser.userUser}
+							td #{parserCustom(adminuser.statusUser,"STATUS_USER")}

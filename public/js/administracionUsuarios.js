@@ -2,21 +2,33 @@
 $("#formFindAll").submit(function(event){
 	var data = {}
 
-	if($("#typeConsult").val() == "Todos"){
-		/*Todos*/
+	if($("#typeConsult").val() == "T" && $("#typeConsulStatusUser").val() == "T"){
+		/*Todos-Todos*/
 		data.query = {typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "Inactivo"){
-		/*Inactivos*/
+	}else if($("#typeConsult").val() == "T" && $("#typeConsulStatusUser").val() == "Inactivo"){
+		/*Todos-Inactivo*/
 		data.query = {statusUser : CTE.STATUS_USER.INACTIVE, typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "Activo"){
-		/*Activos*/
+	}else if($("#typeConsult").val() == "T" && $("#typeConsulStatusUser").val() == "Activo"){
+		/*Todos-Activos*/
 		data.query = {statusUser :CTE.STATUS_USER.ACTIVE, typeUser : {$ne: CTE.TYPE_USER.DEVELOPER}}
-	}else if($("#typeConsult").val() == "Docente"){
-		/*Docentes*/
+	}else if($("#typeConsult").val() == "Docente" && $("#typeConsulStatusUser").val() == "T"){
+		/*Todos-Docentes*/
 		data.query = {typeUser : CTE.TYPE_USER.TEACHER}
-	}else if($("#typeConsult").val() == "Administrador"){
-		/*Administradores*/
+	}else if($("#typeConsult").val() == "Docente" && $("#typeConsulStatusUser").val() == "Inactivo"){
+		/*Inactivo-Docentes*/
+		data.query = {typeUser : CTE.TYPE_USER.TEACHER, statusUser : CTE.STATUS_USER.INACTIVE}
+	}else if($("#typeConsult").val() == "Docente" && $("#typeConsulStatusUser").val() == "Activo"){
+		/*Activo-Docentes*/
+		data.query = {typeUser : CTE.TYPE_USER.TEACHER, statusUser : CTE.STATUS_USER.ACTIVE}
+	}else if($("#typeConsult").val() == "Administrador" && $("#typeConsulStatusUser").val() == "T"){
+		/*Todos-Administradores*/
 		data.query = {typeUser : CTE.TYPE_USER.ADMINISTRATOR}
+	}else if($("#typeConsult").val() == "Administrador" && $("#typeConsulStatusUser").val() == "Inactivo"){
+		/*Inactivo-Administradores*/
+		data.query = {typeUser : CTE.TYPE_USER.ADMINISTRATOR, statusUser : CTE.STATUS_USER.INACTIVE}
+	}else if($("#typeConsult").val() == "Administrador" && $("#typeConsulStatusUser").val() == "Activo"){
+		/*Activo-Administradores*/
+		data.query = {typeUser : CTE.TYPE_USER.ADMINISTRATOR, statusUser : CTE.STATUS_USER.ACTIVE}
 	}
 
 	data.fn = "renderListUser"

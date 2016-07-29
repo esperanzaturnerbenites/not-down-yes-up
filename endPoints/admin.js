@@ -370,7 +370,13 @@ router.get("/reports",(req,res)=>{
 				if(!activities) return res.json({msg:"Not Activities",statusCode:CTE.STATUS_CODE.OK})
 				if(activities){
 					data.activities = activities
-					res.render("report", {reportData:data})
+					models.adminuser.find({typeUser:CTE.TYPE_USER.TEACHER, statusUser:CTE.STATUS_USER.ACTIVE})
+					.populate("idUser")
+					.exec(function(err,adminusers){
+						if(err) return res.json({err:err})
+						data.adminusers = adminusers
+						res.render("report", {reportData:data})
+					})
 				}
 			})
 		}

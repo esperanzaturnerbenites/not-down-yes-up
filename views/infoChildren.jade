@@ -1,10 +1,10 @@
 extends templates/template.jade
 block title
-	title Info Niñ@s en ¡No Down, Yes Up!
+	title Info #{infoChildren.child.nameChildren} #{infoChildren.child.lastnameChildren} en ¡No Down, Yes Up!
 block content
 
 	section.register
-		h3 Información del Niñ@
+		h3 Información de #{infoChildren.child.nameChildren} #{infoChildren.child.lastnameChildren}
 
 		nav.menuInfoChild
 			article.menuPcplInfoChild
@@ -226,6 +226,8 @@ block content
 			section.contentTab#contentTab3.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ETAPAS
 				if (infoChildren.stepsValid.length)
+					button#drawGlobalStepsValid(type="button")
+						span Ver Gráfica Global
 					table
 						thead
 							tr
@@ -239,15 +241,11 @@ block content
 						tbody
 							- var n = 0
 							- for (stepvalid of infoChildren.stepsValid)
-								-if (stepvalid.statusStep == 0)
-									- var statusValidS = "No Completada"
-								-if (stepvalid.statusStep == 1)
-									- var statusValidS = "Completada"
 								- n++
 								tr
 									td #{n}
 									td #{stepvalid.idStep.nameStep}
-									td #{statusValidS}
+									td #{stepvalid.statusStep}
 									td #{stepvalid.scoreStep}
 									td #{stepvalid.observationStep}
 									td #{new Date(stepvalid.date).getStringCustom()}
@@ -258,6 +256,8 @@ block content
 			section.contentTab#contentTab4.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ACTIVIDADES
 				if (infoChildren.activitiesValid.length > 0)
+					button#drawGLobalActivitiesValid(type="button")
+						span Ver Gráfica Global
 					table
 						thead
 							tr

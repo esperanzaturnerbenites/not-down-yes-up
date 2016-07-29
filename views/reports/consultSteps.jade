@@ -10,6 +10,8 @@ block content
 			button(type="button")
 				span Generar PDF
 		article.consulTable
+			p
+				span #[b ETAPA #{dataCustom[0].stepsValid[0].idStep.stepStep}: #{dataCustom[0].stepsValid[0].idStep.nameStep}]
 			table
 				thead
 					tr
@@ -33,13 +35,13 @@ block content
 								a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
 							td #{children.nameChildren} #{children.lastnameChildren}
 							td #{children.ageChildren}
-							td #{children.statusChildren}
-							td #{children.statusChildrenEstimulation}
+							td #{parserCustom(children.statusChildren,"STATUS_USER")}
+							td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
 							each stepValid in stepsValid
 								-var activities = stepValid.activities
 								each activity in activities
 									if activity.activitiesValid
-										td #{activity.activitiesValid.statusActivity}
+										td #{parserCustom(activity.activitiesValid.statusActivity,"STATUS_ACTIVITY")}
 									else 
 										td Sin Iniciar
 

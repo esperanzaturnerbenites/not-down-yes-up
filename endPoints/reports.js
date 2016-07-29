@@ -18,15 +18,25 @@ router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/consult-step-act",(req,res)=>{
 	var data = req.body,
-		promises = []
+		promises = [],
+		numberStep,
+		numberActivity,
+		report,
+		view
 
-	var numberStep = parseInt(data.consulStep)
-	var numberActivity = parseInt(data.consulAct)
 
-	var report = numberActivity ? 1 : 2
+	if(data.consulStep != 0){
+		numberStep = parseInt(data.consulStep)
+		numberActivity = parseInt(data.consulAct)
 
+		report = numberActivity ? 1 : 2
+		view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
 
-	var view = report == 1 ? "views/reports/consultAct.jade" : "views/reports/consultSteps.jade"
+	}else{
+		view = "views/reports/listSteps.jade"
+
+	}
+
 
 	var filters
 	if(numberActivity){
@@ -34,8 +44,10 @@ router.post("/consult-step-act",(req,res)=>{
 			steps:[numberStep],
 			activities:[numberActivity]
 		}
-	}else{
+	}else if(numberStep){
 		filters = {steps:[numberStep]}
+	}else{
+		filters = {}
 	}
 
 	var dataChildrens = []
@@ -161,7 +173,8 @@ router.get("/info-children/:id",(req,res)=>{
 	Response {String}: html del reporte solicitado
 */
 router.post("/general",(req,res)=>{
-	var report = req.body.reportGeneral
+	var data = req.body,
+		report = req.body.typeReportCollection
 
 	/*
 		report:
@@ -169,6 +182,101 @@ router.post("/general",(req,res)=>{
 			1: Listado General Profesores
 			2: Listado por Etapas
 	*/
+	var pathView = "views/reports/",
+		fieldsPopulate = "",
+		collection = "",
+		func = false,
+		query = {}
+
+	if(report == "children"){
+		pathView = pathView + "listChildren.jade"
+		fieldsPopulate = ""
+		collection = "children"
+		if(!data.reportGeneralStatusEstimulationChildren){
+			if(data.reportGeneralStatusChildren == "T"){
+				query = {}
+			}else if(data.reportGeneralStatusChildren == 0){
+				query = {statusChildren:0}
+			}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
+
+		}else if(data.reportGeneralStatusEstimulationChildren){
+			if(data.reportGeneralStatusEstimulationChildren == "T"){
+				query = {statusChildren:1}
+			}else if(data.reportGeneralStatusEstimulationChildren == 0){
+				query = {statusChildren:1,statusChildrenEstimulation:0}
+			}else if(data.reportGeneralStatusEstimulationChildren == 1){
+				query = {statusChildren:1,statusChildrenEstimulation:1}
+			}else if(data.reportGeneralStatusEstimulationChildren == 2){
+				query = {statusChildren:1,statusChildrenEstimulation:2}
+			}else if(data.reportGeneralStatusEstimulationChildren == 3){
+				query = {statusChildren:1,statusChildrenEstimulation:3}
+			}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
+
+		}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
+
+	}else if(report == "adminuser"){
+		console.log("report-user")
+		pathView = pathView + "listTeacher.jade"
+		fieldsPopulate = "idUser"
+		collection = "adminuser"
+		if(data.reportGeneralStatusUser == "T"){
+			query = {typeUser:CTE.TYPE_USER.TEACHER}
+		}else if(data.reportGeneralStatusUser == 0){
+			query = {typeUser:CTE.TYPE_USER.TEACHER,statusUser:0}
+		}else if(data.reportGeneralStatusUser == 1){
+			query = {typeUser:CTE.TYPE_USER.TEACHER,statusUser:1}
+		}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
+		
+	}else{
+		return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})
+	}
+
+	models[collection].find(query)
+	.populate(fieldsPopulate)
+	.exec(function(err,documents){
+		if (err) {res.json(err)}
+		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:CTE.STATUS_CODE.INFORMATION})
+
+		localsJade.dataCustom = documents
+		localsJade.forPdf = true
+
+		if(func) localsJade.dataCustomFilter = func(documents)
+
+		var fn = jade.compileFile(pathView,{})
+		var html = fn(localsJade)
+		
+		var optionsPDF = {
+			format: "Letter",
+			"orientation": "landscape",
+			"base": "http://localhost:8000"
+		}
+		pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
+			if (err) return console.log(err);
+			console.log(data) // { filename: '/app/businesscard.pdf' } 
+		})
+
+		return res.json({html:html,locals:localsJade})
+	})
+})
+
+
+
+/*
+	Genera y Retorna los Reportes Generales
+	Request Data {String} reportGeneral: reporte a generar
+	Response {String}: html del reporte solicitado
+*/
+
+	/*
+		report:
+			0: Listado General Niñ@s
+			1: Listado General Profesores
+			2: Listado por Etapas
+	*/
+/*
+router.post("/general-childrens",(req,res)=>{
+	var report = req.body.reportGeneralStatusChildren
+
 	var pathView = "views/reports/",
 		fieldsPopulate = "",
 		collection = "",
@@ -221,7 +329,7 @@ router.post("/general",(req,res)=>{
 
 		return res.json({html:html,locals:localsJade})
 	})
-})
+})*/
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router

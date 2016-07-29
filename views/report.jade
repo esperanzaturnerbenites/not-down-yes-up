@@ -9,17 +9,45 @@ block content
 		h3 ¿Qué deseas consultar?
 		section.consulFlex
 
-			form#consultGeneral
+			form#consultGeneralChildrens
 				fieldset.consul.consulGeneral
-					legend Consultas Generales
-					label(for='reportGeneral') Tipo de Consulta: 
-					select#reportGeneral(name='reportGeneral')
-						option(value="" disabled selected) Escoge tu Consulta: 
-						option(value=0) Listado General Niñ@s
-						option(value=1) Listado General Profesores
-						option(value=2) Listado por Etapas
-					button.buttons(type='submit')
-						span Consultar
+					legend Consultas Generales Niñ@s
+					input#typeReportCollection(type="hidden" name="typeReportCollection" value="children")
+					article
+						p
+							span #[b Listado General Niñ@s]
+					article
+						label(for='reportGeneralStatusChildren') Estado: 
+						select#reportGeneralStatusChildren(data-toggle-select="#statusEstimulationOnlyActives, #reportGeneralStatusEstimulationChildren" name='reportGeneralStatusChildren')
+							each status in CTE.STATUS_USER
+								option(value="#{status}") #{parserCustom(status,"STATUS_USER")}
+							option(value="T") Todos
+					article#statusEstimulationOnlyActives.hide
+						label(for='reportGeneralStatusEstimulationChildren') Estado Centro Estimulación: 
+						select#reportGeneralStatusEstimulationChildren(disabled name='reportGeneralStatusEstimulationChildren')
+							each statusEstimulation in CTE.STATUS_ESTIMULATION
+								option(value="#{statusEstimulation}") #{parserCustom(statusEstimulation,"STATUS_ESTIMULATION")}
+							option(value="T") Todos
+					article
+						button.buttons(type='submit')
+							span Consultar
+
+			form#consultGeneralTeachers
+				fieldset.consul.consulGeneral
+					legend Consultas Generales Docentes
+					input#typeReportCollection(type="hidden" name="typeReportCollection" value="adminuser")
+					article
+						p
+							span #[b Listado General Docentes]
+					article
+						label(for='reportGeneralStatusUser') Estado Docentes: 
+						select#reportGeneralStatusUser(name='reportGeneralStatusUser')
+							each status in CTE.STATUS_USER
+								option(value="#{status}") #{parserCustom(status,"STATUS_USER")}
+							option(value="T") Todos
+					article
+						button.buttons(type='submit')
+							span Consultar
 
 			form#consulChildren
 				fieldset.consul.consulChildren
@@ -52,6 +80,22 @@ block content
 					button.buttons#buttonReportAges(type='submit')
 						span Consultar
 
+			form#ChildrensToTeacherConsul
+				fieldset.consul.consulAvanced
+					legend Consulta de Niñ@s por Docente
+					article
+						label(for='consulTeacher') Docente: 
+						select#consulTeacher(name='consulTeacher')
+							-for (user of reportData.adminusers)
+								option(value=user.userUser select) #{user.userUser}: #{user.idUser.nameUser} #{user.idUser.lastnameUser}
+					article
+						label(for='consulTeacherStep') Etapa: 
+						select#consulTeacherStep(name='consulTeacherStep')
+							-for (step of reportData.steps)
+								option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
+					button.buttons(type='submit')
+						span Consultar
+
 			form#formConsulStep
 				fieldset.consul.consulAvanced
 					legend Consulta por Etapas
@@ -60,12 +104,13 @@ block content
 						article
 							label(for='stepConsul') Etapa: 
 							select#consulStep(name='consulStep')
+								option(value=0) Todas Etapas
 								-for (step of reportData.steps)
 									option(value= step.stepStep) #{step.stepStep} - #{step.nameStep}
 						button.buttons#buttonReportSteps(type='submit')
 							span Consultar
 					else
-						h2 No existen atapas
+						h2 No existen Etapas
 
 			form#formConsulActStepsReport
 				fieldset.consul.consulAvanced

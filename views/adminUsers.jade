@@ -10,16 +10,22 @@ block content
 		article.data
 
 			form#formFindAll
-				fieldset
+				fieldset.consul
 					legend Ver Usuarios
 					article
+						label(for="typeConsult") Tipo de Consulta: 
 						select#typeConsult(name='typeConsult')
 							each typeUser,nUser in CTE.TYPE_USER
 								if (typeUser != CTE.TYPE_USER.DEVELOPER)
 									option(value='#{parserCustom(typeUser,"TYPE_USER")}') #{parserCustom(typeUser,"TYPE_USER")}
+							option(value='T') Todos
+					article
+						label(for="typeConsulStatusUser") Estado de Usuarios: 
+						select#typeConsulStatusUser
 							each statusUser,nStatus in CTE.STATUS_USER
 								option(value='#{parserCustom(statusUser,"STATUS_USER")}') #{parserCustom(statusUser,"STATUS_USER")}
-							option(value='Todos') Todos
+							option(value='T') Todos
+					article
 						button(type='submit')
 							span Buscar
 

@@ -22,7 +22,7 @@ $(".headerTab").on("click",function() {
 		2 - Listado por Etapas: Listado de Niñ@s por Etapas
 	Request POST /reports/general
 */
-$("#consultGeneral").submit(function (event) {
+$("#consultGeneralChildrens,#consultGeneralTeachers").submit(function (event) {
 	event.preventDefault()
 	$.ajax({
 		url: "/reports/general",
@@ -30,11 +30,13 @@ $("#consultGeneral").submit(function (event) {
 		data : $(this).serialize(),
 		success: function(response){
 			window.response = response
+			$("#showResultsReport").html("")
 			$("#showResultsReport").html(response.html)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
 	})
 })
+
 $("#consultGeneralPDF").submit(function (event) {
 	event.preventDefault()
 	$.ajax({
@@ -150,6 +152,7 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(result){
+			$("#showResultsReport").html("")
 			$("#showResultsReport").html(result.html)
 			$("#showResultsReport")[0].scrollIntoView()
 		}

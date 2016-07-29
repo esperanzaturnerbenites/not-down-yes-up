@@ -100,7 +100,8 @@ block content
 
 										tr
 											td #{n}
-											td #{children.idChildren}
+											td 
+												a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
 											td #{children.nameChildren} #{children.lastnameChildren}
 					else
 						h2 No tiene niñ@s asignados.
