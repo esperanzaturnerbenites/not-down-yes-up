@@ -37,3 +37,19 @@ $("[data-id = question]").on("click", function() {
 		$(selector).removeClass("hide")
 	}
 })
+
+$("li[data-reference]:not([data-id=ulPcpal])").click(function(e){
+	var referenceOptionFind = $(this).data("reference"),
+		optionFind = manual.find(option => {return option.reference == referenceOptionFind.replace("#","")})
+
+	var ul = $("<ul>")
+	optionFind.guides.forEach(guide => {
+		ul.append($("<li>",{html:guide}))
+	}) 
+
+	$(referenceOptionFind)
+	.empty()
+	.append(ul)
+
+	console.log(optionFind)
+})
