@@ -19,59 +19,44 @@ router.use(bodyParser.urlencoded({extended:false}))
 
 router.post("/consult-teacher-activities",(req,res)=>{
 	var data = req.body,
-		promises = [],
-		view = "views/reports/consultChildrensToTeacher.jade",
-		numberStep = parseInt(data.consulTeacherStep),
-		filters = {steps:[numberStep]}
-
-	var dataChildrens = []
+		numberStep = parseInt(data.consulTeacherStep)
 
 	models.step.findOne({stepStep:numberStep},function(err,stepFind){
 		models.activityhistory.aggregate([
 			{$match: {idUser:mongoose.Types.ObjectId(data.consulTeacher),idStep:stepFind._id}},
 			{$group: {
-				_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
-				scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
-				scoreAvgTeachActivity: {$avg:"$scoreTeachActivity"},
-				max: {$max:"$scoreTeachActivity"},
-				min: {$min:"$scoreTeachActivity"},
-				documents: { $push: "$$ROOT" }
-			}}
-		], function (err, hisact) {
-			if(hisact){
-				models.children.populate(hisact, {path: "_id.idChildren"},(err, hisactP) => {
-					return res.json(hisact)
-					var childrens = hisactP.map(his => {
-						return his._id
+				//_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
+				_id: {idActivity: "$idActivity"},
+				//scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
+				//scoreAvgTeachActivity: {$avg:"$scoreTeachActivity"},
+				//max: {$max:"$scoreTeachActivity"},
+				//idUser: {$last:"$idUser"},
+				//min: {$min:"$scoreTeachActivity"},
+				activitiesHistory: { $push: "$$ROOT" }
+			}},
+			{$project: {activitiesHistory:1}}
+		], function (err, activitiesHistory) {
+			/*models.adminuser.populate(activitiesHistory, {path: "idUser"},(err, activitiesHistoryU) => {
+				models.children.populate(activitiesHistoryU, {path: "_id.idChildren"},(err, activitiesHistoryUC) => {
+					models.activity.populate(activitiesHistoryUC, {path: "_id.idActivity"},(err, activitiesHistoryUCA) => {
+						return res.json(activitiesHistoryUCA)
 					})
-					childrens.forEach(children => {
-						var promise = children.getDataAll({
-							filters:filters
-						}).then(
-							function(data){
-								dataChildrens.push(data)
-							},
-							function(err){}
-						)
-						promises.push(promise)
-					})
-					Q.all(promises).then(
-						function(data){
-							localsJade.dataCustom = dataChildrens
-							
-							var fn = jade.compileFile(view,{})
-							var html = fn(localsJade)
-							return res.json(localsJade)
-							return res.json({html:html,localsJade:localsJade})
-						},
-						function(err){console.log("reject")}
-					)
 				})
-			}
+			})*/
+			models.activityhistory.populate(
+				activitiesHistory,
+				[
+					{path: "activitiesHistory.idActivity", model:"activity"},
+					{path: "activitiesHistory.idStep", model:"step"},
+					{path: "activitiesHistory.idUser", model:"adminuser"},
+					{path: "activitiesHistory.idChildren", model:"children"},
+					{path: "_id.idActivity", model:"activity"}
+				],
+				(err, activitiesHistoryP) => {
+					return res.json(activitiesHistoryP)
+				})
 		})
-		
 	})
-
 })
 
 router.post("/consult-step-act",(req,res)=>{
@@ -223,169 +208,35 @@ router.get("/info-children/:id",(req,res)=>{
 	})
 })
 
-/*
-	Genera y Retorna los Reportes Generales
-	Request Data {String} reportGeneral: reporte a generar
-	Response {String}: html del reporte solicitado
-*/
-router.post("/general",(req,res)=>{
-	var data = req.body,
-		report = req.body.typeReportCollection
-
-	/*
-		report:
-			0: Listado General Niñ@s
-			1: Listado General Profesores
-			2: Listado por Etapas
-	*/
-	var pathView = "views/reports/",
-		fieldsPopulate = "",
-		collection = "",
-		func = false,
-		query = {}
-
-	if(report == "children"){
-		pathView = pathView + "listChildren.jade"
-		fieldsPopulate = ""
-		collection = "children"
-		if(!data.reportGeneralStatusEstimulationChildren){
-			if(data.reportGeneralStatusChildren == "T"){
-				query = {}
-			}else if(data.reportGeneralStatusChildren == 0){
-				query = {statusChildren:0}
-			}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
-
-		}else if(data.reportGeneralStatusEstimulationChildren){
-			if(data.reportGeneralStatusEstimulationChildren == "T"){
-				query = {statusChildren:1}
-			}else if(data.reportGeneralStatusEstimulationChildren == 0){
-				query = {statusChildren:1,statusChildrenEstimulation:0}
-			}else if(data.reportGeneralStatusEstimulationChildren == 1){
-				query = {statusChildren:1,statusChildrenEstimulation:1}
-			}else if(data.reportGeneralStatusEstimulationChildren == 2){
-				query = {statusChildren:1,statusChildrenEstimulation:2}
-			}else if(data.reportGeneralStatusEstimulationChildren == 3){
-				query = {statusChildren:1,statusChildrenEstimulation:3}
-			}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
-
-		}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
-
-	}else if(report == "adminuser"){
-		console.log("report-user")
-		pathView = pathView + "listTeacher.jade"
-		fieldsPopulate = "idUser"
-		collection = "adminuser"
-		if(data.reportGeneralStatusUser == "T"){
-			query = {typeUser:CTE.TYPE_USER.TEACHER}
-		}else if(data.reportGeneralStatusUser == 0){
-			query = {typeUser:CTE.TYPE_USER.TEACHER,statusUser:0}
-		}else if(data.reportGeneralStatusUser == 1){
-			query = {typeUser:CTE.TYPE_USER.TEACHER,statusUser:1}
-		}else{return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})}
-		
-	}else{
-		return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})
-	}
-
-	models[collection].find(query)
-	.populate(fieldsPopulate)
-	.exec(function(err,documents){
-		if (err) {res.json(err)}
-		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:CTE.STATUS_CODE.INFORMATION})
-
-		localsJade.dataCustom = documents
-		localsJade.forPdf = true
-
-		if(func) localsJade.dataCustomFilter = func(documents)
-
-		var fn = jade.compileFile(pathView,{})
-		var html = fn(localsJade)
-		
-		var optionsPDF = {
-			format: "Letter",
-			"orientation": "landscape",
-			"base": "http://localhost:8000"
-		}
-		pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
-			if (err) return console.log(err)
-			console.log(data) // { filename: '/app/businesscard.pdf' } 
-		})
-
-		return res.json({html:html,locals:localsJade})
-	})
-})
-
-
-
-/*
-	Genera y Retorna los Reportes Generales
-	Request Data {String} reportGeneral: reporte a generar
-	Response {String}: html del reporte solicitado
-*/
-
-	/*
-		report:
-			0: Listado General Niñ@s
-			1: Listado General Profesores
-			2: Listado por Etapas
-	*/
-/*
-router.post("/general-childrens",(req,res)=>{
-	var report = req.body.reportGeneralStatusChildren
-
-	var pathView = "views/reports/",
-		fieldsPopulate = "",
-		collection = "",
-		func = false,
-		query = {}
-
-	if(report == 0){
-		pathView = pathView + "listChildren.jade"
-		fieldsPopulate = ""
-		collection = "children"
-
-	}else if(report == 1){
-		pathView = pathView + "listTeacher.jade"
-		fieldsPopulate = "idUser"
-		collection = "adminuser"
-		query = {typeUser:CTE.TYPE_USER.TEACHER}
-		
-	}else if(report == 2){
-		pathView = pathView + "listSteps.jade"
-		fieldsPopulate = "idChildren idUser idStep"
-		collection = "stepvalid"
-		func = functions["groupStepsValids"]
-	}else{
-		return res.json({"msg":"Este Reporte No Existe", statusCode:CTE.STATUS_CODE.NOT_OK})
-	}
-
-	models[collection].find(query)
-	.populate(fieldsPopulate)
-	.exec(function(err,documents){
-		if (err) {res.json(err)}
-		if(!documents.length) return res.json({"msg":"No hay Registrados", statusCode:CTE.STATUS_CODE.INFORMATION})
-
-		localsJade.dataCustom = documents
-		localsJade.forPdf = true
-
-		if(func) localsJade.dataCustomFilter = func(documents)
-
-		var fn = jade.compileFile(pathView,{})
-		var html = fn(localsJade)
-		
-		var optionsPDF = {
-			format: "Letter",
-			"orientation": "landscape",
-			"base": "http://localhost:8000"
-		}
-		pdf.create(html, optionsPDF).toFile("public/temp/" + filename(pathView) + ".pdf", function(err, data) {
-			if (err) return console.log(err);
-			console.log(data) // { filename: '/app/businesscard.pdf' } 
-		})
-
-		return res.json({html:html,locals:localsJade})
-	})
-})*/
-
 //Exportar una variable de js mediante NodeJS
 module.exports = router
+
+/*
+temp1.map(e => {
+  var newElement = {}
+  newElement.activity = e._id.idActivity
+  newElement.activitiesHistory = e.activitiesHistory
+
+  var childrens = {}
+
+  e.activitiesHistory.forEach(ee => {
+    if(!childrens[ee.idChildren.idChildren]) childrens[ee.idChildren.idChildren] = {}
+    if(!childrens[ee.idChildren.idChildren].ah) childrens[ee.idChildren.idChildren].ah = []
+    childrens[ee.idChildren.idChildren].ah.push(ee)
+  })
+
+  for (eee in childrens){
+    console.log(childrens[eee])
+    var totalScoreTeachActivity = 0
+    childrens[eee].ah.forEach(aa => {
+     totalScoreTeachActivity += aa.scoreTeachActivity
+   })
+    childrens[eee].totalScoreTeachActivity = totalScoreTeachActivity
+    childrens[eee].avgScoreTeachActivity = totalScoreTeachActivity/childrens[eee].ah.length
+  }
+
+  newElement.activitiesHistoryFilter = childrens
+ 
+ return newElement
+})
+*/

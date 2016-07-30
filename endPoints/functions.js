@@ -42,10 +42,14 @@ function checkNewAdminUser(params,info){
 }
 
 function renderListUser(params){
+	console.log("renderListUser")
 	return new Promise(function(resolve,reject){
 		models.adminuser.find(params.query)
 		.populate("idUser")
 		.exec(function(err,adminuser){
+			console.log("-----------------------")
+			console.log(adminuser)
+			console.log("-----------------------")
 			if(err) return reject(err)
 			localsJade.dataCustom = adminuser
 			var fn = jade.compileFile(params.view,{})

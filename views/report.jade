@@ -12,19 +12,18 @@ block content
 			form#consultGeneralChildrens
 				fieldset.consul.consulGeneral
 					legend Consultas Generales Niñ@s
-					input#typeReportCollection(type="hidden" name="typeReportCollection" value="children")
 					article
 						p
 							span #[b Listado General Niñ@s]
 					article
-						label(for='reportGeneralStatusChildren') Estado: 
-						select#reportGeneralStatusChildren(data-toggle-select="#statusEstimulationOnlyActives, #reportGeneralStatusEstimulationChildren" name='reportGeneralStatusChildren')
+						label(for='statusChildren') Estado: 
+						select#statusChildren(data-toggle-select="#statusEstimulationOnlyActives, #statusChildrenEstimulation" name='statusChildren')
 							each status in CTE.STATUS_USER
 								option(value="#{status}") #{parserCustom(status,"STATUS_USER")}
 							option(value="T") Todos
 					article#statusEstimulationOnlyActives.hide
-						label(for='reportGeneralStatusEstimulationChildren') Estado Centro Estimulación: 
-						select#reportGeneralStatusEstimulationChildren(disabled name='reportGeneralStatusEstimulationChildren')
+						label(for='statusChildrenEstimulation') Estado Centro Estimulación: 
+						select#statusChildrenEstimulation(disabled name='statusChildrenEstimulation')
 							each statusEstimulation in CTE.STATUS_ESTIMULATION
 								option(value="#{statusEstimulation}") #{parserCustom(statusEstimulation,"STATUS_ESTIMULATION")}
 							option(value="T") Todos
@@ -40,8 +39,8 @@ block content
 						p
 							span #[b Listado General Docentes]
 					article
-						label(for='reportGeneralStatusUser') Estado Docentes: 
-						select#reportGeneralStatusUser(name='reportGeneralStatusUser')
+						label(for='statusUser') Estado Docentes: 
+						select#statusUser(name='statusUser')
 							each status in CTE.STATUS_USER
 								option(value="#{status}") #{parserCustom(status,"STATUS_USER")}
 							option(value="T") Todos

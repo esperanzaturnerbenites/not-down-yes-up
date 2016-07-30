@@ -20,32 +20,53 @@ $(".headerTab").on("click",function() {
 		0 - Listado General Niñ@s: Listado de Niñ@s
 		1 - Listado General Profesores: Listado de Profesores
 		2 - Listado por Etapas: Listado de Niñ@s por Etapas
-	Request POST /reports/general
+	Request POST /reports/children
 */
-$("#consultGeneralChildrens,#consultGeneralTeachers").submit(function (event) {
+$("#consultGeneralChildrens").submit(function (event) {
 	event.preventDefault()
+
+	var data = {query:{statusChildren : $("#statusChildren").val()}}
+
+	if(data.query.statusChildren == CTE.STATUS_USER.ACTIVE) data.query.statusChildrenEstimulation = $("#statusChildrenEstimulation").val()
+
+	data.fn = "renderReportAge"
+	data.params = {
+		view: "views/reports/listChildren.jade",
+		query: data.query
+	}
+
 	$.ajax({
-		url: "/reports/general",
+		url: "/api/children",
 		type : "POST",
-		data : $(this).serialize(),
+		contentType: "application/json",
+		data : JSON.stringify(data),
 		success: function(response){
-			window.response = response
-			$("#showResultsReport").html("")
-			$("#showResultsReport").html(response.html)
+			$("#showResultsReport").html(response.returnFn)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
 	})
 })
 
-$("#consultGeneralPDF").submit(function (event) {
+$("#consultGeneralTeachers").submit(function (event) {
 	event.preventDefault()
+
+	var data = {query:{}}
+
+	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val()
+
+	data.fn = "renderListUser"
+	data.params = {
+		view: "views/reports/listTeacher.jade",
+		query: data.query
+	}
+
 	$.ajax({
-		url: "/reports/general",
+		url: "/api/adminuser",
 		type : "POST",
-		data : $(this).serialize(),
+		contentType: "application/json",
+		data : JSON.stringify(data),
 		success: function(response){
-			window.response = response
-			$("#showResultsReport").html(response.html)
+			$("#showResultsReport").html(response.returnFn)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
 	})
@@ -167,6 +188,7 @@ $("#childrensToTeacherConsul").submit(function(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(result){
+			console.log(result)
 			$("#showResultsReport").html("")
 			$("#showResultsReport").html(result.html)
 			$("#showResultsReport")[0].scrollIntoView()
@@ -225,11 +247,11 @@ $("#tableActivitiesValid tbody tr").click(function(){
 function drawCalendarActivities(documents){
 	window.documents = documents
 	console.log(documents)
-	var dataChart = documents.map(element => {return [new Date(element.date),3000]})
+	var dataChart = documents.map(element => {return [new Date(element.date),new Date(element.date).getDate()]})
 
 	var dataTable = new google.visualization.DataTable()
 	dataTable.addColumn({ type: "date", id: "Date" })
-	dataTable.addColumn({ type: "number", id: "Won/Loss" })
+	dataTable.addColumn({ type: "number", id: "Date" })
 	dataTable.addRows(dataChart)
 
 	var chart = new google.visualization.Calendar(document.getElementById("showResultsReport"))
