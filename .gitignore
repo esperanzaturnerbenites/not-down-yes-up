@@ -2,7 +2,8 @@ node_modules/*
 *.png
 *.sh
 *.jpg
-
 public/backups/*
 public/reports/*
 public/temp/*
+public/img/*
+public/audio/*
