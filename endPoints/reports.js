@@ -24,36 +24,43 @@ router.post("/consult-teacher-activities",(req,res)=>{
 	models.step.findOne({stepStep:numberStep},function(err,stepFind){
 		models.activityhistory.aggregate([
 			{$match: {idUser:mongoose.Types.ObjectId(data.consulTeacher),idStep:stepFind._id}},
+			{$sort: { data : 1}},
 			{$group: {
-				//_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
-				_id: {idActivity: "$idActivity"},
-				//scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
-				//scoreAvgTeachActivity: {$avg:"$scoreTeachActivity"},
-				//max: {$max:"$scoreTeachActivity"},
-				//idUser: {$last:"$idUser"},
-				//min: {$min:"$scoreTeachActivity"},
+				_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
+				scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
+				attempts: {$sum:1},
+				scoreAvgTeachActivity: {$avg:"$scoreTeachActivity"},
+				maxScoreTeachActivity: {$max:"$scoreTeachActivity"},
+				lastActivityHistory: {$last:"$_id"},
+				idUser: {$last:"$idUser"},
+				minScoreTeachActivity: {$min:"$scoreTeachActivity"},
 				activitiesHistory: { $push: "$$ROOT" }
 			}},
-			{$project: {activitiesHistory:1}}
+			{$project: {attempts:1,lastActivityHistory:1,scoreTotalTeachActivity:1,scoreAvgTeachActivity:1,maxScoreTeachActivity:1,idUser:1,minScoreTeachActivity:1,activitiesHistory:1}}
 		], function (err, activitiesHistory) {
-			/*models.adminuser.populate(activitiesHistory, {path: "idUser"},(err, activitiesHistoryU) => {
-				models.children.populate(activitiesHistoryU, {path: "_id.idChildren"},(err, activitiesHistoryUC) => {
-					models.activity.populate(activitiesHistoryUC, {path: "_id.idActivity"},(err, activitiesHistoryUCA) => {
-						return res.json(activitiesHistoryUCA)
-					})
-				})
-			})*/
 			models.activityhistory.populate(
 				activitiesHistory,
 				[
-					{path: "activitiesHistory.idActivity", model:"activity"},
-					{path: "activitiesHistory.idStep", model:"step"},
-					{path: "activitiesHistory.idUser", model:"adminuser"},
-					{path: "activitiesHistory.idChildren", model:"children"},
-					{path: "_id.idActivity", model:"activity"}
+					{path: "idUser", model:"adminuser"},
+					{path: "_id.idChildren", model:"children"},
+					{path: "_id.idActivity", model:"activity"},
+					{path: "lastActivityHistory", model:"activityhistory"}
 				],
 				(err, activitiesHistoryP) => {
-					return res.json(activitiesHistoryP)
+					//return res.json(activitiesHistoryP)
+					var numbersActivities = activitiesHistoryP.map(e => {
+						return e._id.idActivity.activityActivity
+					}).filter(function(item, pos,array) {
+						return array.indexOf(item) == pos
+					}).sort()
+					var activites = numbersActivities.map((e,i,a)=>{
+						return activitiesHistoryP.filter(r => {return r._id.idActivity.activityActivity == e})
+					})
+					localsJade.dataCustom = activites
+
+					var fn = jade.compileFile("views/reports/consultChildrensToTeacher.jade",{})
+					var html = fn(localsJade)
+					return res.json({html:html,localsJade:localsJade})
 				})
 		})
 	})
@@ -210,33 +217,3 @@ router.get("/info-children/:id",(req,res)=>{
 
 //Exportar una variable de js mediante NodeJS
 module.exports = router
-
-/*
-temp1.map(e => {
-  var newElement = {}
-  newElement.activity = e._id.idActivity
-  newElement.activitiesHistory = e.activitiesHistory
-
-  var childrens = {}
-
-  e.activitiesHistory.forEach(ee => {
-    if(!childrens[ee.idChildren.idChildren]) childrens[ee.idChildren.idChildren] = {}
-    if(!childrens[ee.idChildren.idChildren].ah) childrens[ee.idChildren.idChildren].ah = []
-    childrens[ee.idChildren.idChildren].ah.push(ee)
-  })
-
-  for (eee in childrens){
-    console.log(childrens[eee])
-    var totalScoreTeachActivity = 0
-    childrens[eee].ah.forEach(aa => {
-     totalScoreTeachActivity += aa.scoreTeachActivity
-   })
-    childrens[eee].totalScoreTeachActivity = totalScoreTeachActivity
-    childrens[eee].avgScoreTeachActivity = totalScoreTeachActivity/childrens[eee].ah.length
-  }
-
-  newElement.activitiesHistoryFilter = childrens
- 
- return newElement
-})
-*/

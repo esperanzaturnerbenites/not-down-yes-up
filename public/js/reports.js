@@ -1,6 +1,8 @@
 google.charts.load("current", {packages: ["corechart", "bar","calendar"]})
 
-var notification = new NotificationC()
+var notification = new NotificationC(),
+	/*Variable de reasigna cuando se consulta el reporte de childrens to teacher*/
+	dataToChartChildrenToTeacher = false
 
 /*
 	Informacion Detallada
@@ -187,17 +189,16 @@ $("#childrensToTeacherConsul").submit(function(event){
 		url: "/reports/consult-teacher-activities",
 		type : "POST",
 		data : $(this).serialize(),
-		success: function(result){
-			console.log(result)
+		success: function(response){
+			dataToChartChildrenToTeacher = response.localsJade.dataCustom
 			$("#showResultsReport").html("")
-			$("#showResultsReport").html(result.html)
+			$("#showResultsReport").html(response.html)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
 	})
 })
 
 
-/////////////******************* luzma hizo ---- revisar
 /*
 	Crear select de actividades
 	form#formConsulActStepsReport
@@ -398,5 +399,36 @@ function drawChartActivityHistory(step,activity){
 	}
 
 	var chart = new google.visualization.AreaChart(document.getElementById("containerChart"))
+	chart.draw(data, options)
+}
+
+function drawChartChildrenToTeacher(numberActivity) {
+	var activityFind = dataToChartChildrenToTeacher.filter(activity => {return activity.some(dataActivity => {return dataActivity._id.idActivity.activityActivity == numberActivity})})
+
+	var headerChart = [["Niñ@", "Puntaje Promedio"]]
+
+	var dataChart = activityFind.map(dataActivity => {
+		return dataActivity.map(datachildren => {
+			var children = datachildren._id.idChildren
+			var id = children.idChildren + " - " + children.nameChildren + " " + children.lastnameChildren
+			return [id,datachildren.scoreAvgTeachActivity]
+		})
+	})[0]
+	console.info(dataChart)
+
+	dataChart = headerChart.concat(dataChart)
+
+	var data = google.visualization.arrayToDataTable(dataChart)
+
+	var options = {
+		height:200,
+		title : "Niños Por Docente",
+		vAxis: {title: "Puntaje Promedio",viewWindow:{min:0,max:10}},
+		hAxis: {title: "Niñ@"},
+
+		seriesType: "bars"
+	}
+
+	var chart = new google.visualization.ComboChart(document.getElementById("containerChart"))
 	chart.draw(data, options)
 }

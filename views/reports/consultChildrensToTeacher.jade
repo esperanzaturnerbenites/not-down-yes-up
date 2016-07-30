@@ -1,3 +1,4 @@
+- var dataAllActivities = dataCustom
 section.consul.consulQuery 
 	h3 RESULTADO CONSULTA
 	p
@@ -6,19 +7,42 @@ section.consul.consulQuery
 		button(type="button")
 			span Generar PDF
 	article.consulTable
-		table
-			thead
-				tr
-					th ID
-					th NOMBRE NIÑ@
-					th EDAD
-					th ESTADO NIÑ@
-					th N. ACTIVIDAD
-					th NOMBRE ACTIVIDAD
-					th ESTADO
-					th PUNTAJE SISTEMA
-					th PUNTAJE DOCENTE
-					th OBSERVACIÓN
-					th FECHA VALIDACIÓN
-			tbody
-				
+	each dataActivities in dataAllActivities
+		each dataActivity in dataActivities
+			- var activity = dataActivity._id.idActivity
+			- var lastActivityHistory = dataActivity.lastActivityHistory
+			- var children = dataActivity._id.idChildren
+			button(onclick="drawChartChildrenToTeacher(#{activity.activityActivity})")
+				span Grafica #{activity.nameActivity}
+			table
+				thead
+					tr
+						th ID
+						th NOMBRE NIÑ@
+						th EDAD
+						th ESTADO NIÑ@
+						th ESTADO ACTIVIDAD
+						th PUNTAJE SISTEMA
+						th PUNTAJE DOCENTE
+						th OBSERVACIÓN
+						th FECHA VALIDACIÓN
+						th INTENTOS
+						th PUNTAJE MAYOR
+						th PUNTAJE MENOR
+						th PUNTAJE TOTAL
+						th PUNTAJE PROMEDIO
+				tbody
+						td #{children.idChildren}
+						td #{children.nameChildren} #{children.lastnameChildren} 
+						td #{children.ageChildren}
+						td #{parserCustom(children.statusChildren,"STATUS_USER")}
+						td #{parserCustom(lastActivityHistory.statusActivity,"STATUS_ACTIVITY")}
+						td #{lastActivityHistory.scoreSystemActivity}
+						td #{lastActivityHistory.scoreTeachActivity}
+						td #{lastActivityHistory.observationActivity}
+						td #{new Date(lastActivityHistory.date).getStringCustom()}
+						th #{dataActivity.attempts}
+						th #{dataActivity.maxScoreTeachActivity}
+						th #{dataActivity.minScoreTeachActivity}
+						th #{dataActivity.scoreTotalTeachActivity}
+						th #{dataActivity.scoreAvgTeachActivity}
