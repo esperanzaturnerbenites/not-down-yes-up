@@ -6,7 +6,7 @@
 		Reques Data {Object}
 			@propertie {String} id: id a Validar
 */
-$(".idChildren,.idMom,.idDad,.idCare").change(function(){
+$(".idMom,.idDad,.idCare").change(function(){
 	var target = this,
 		selector = "." + $(this).attr("class"),
 		otherInput = $(".idChildren,.idMom,.idDad,.idCare").not(selector)
@@ -16,25 +16,43 @@ $(".idChildren,.idMom,.idDad,.idCare").change(function(){
 		data : {id: $(this).val()},
 		type : "POST",
 		success: function(response){
-			if (response.statusCode != CTE.STATUS_CODE.OK) {
-				$(target).val("")
-				return notification.show({msg:response.msg, type:response.statusCode})
-			}
+			var containerInputs = $(target).closest("fieldset.data")
+			$(":input",containerInputs).not(selector).prop("disabled",false).val("")
+			
 			otherInput.each(function(index,element){
-				if($(element).val() == $(target).val()) {
-					$(target).val("")
-					notification.show({
-						msg:"Hay Identificaiones Repetidas",
-						type:CTE.STATUS_CODE.INFORMATION
-					})
+				if($(target).attr("class") != "idCare"){
+					if($(element).val() == $(target).val()) {
+						$(target).val("")
+						notification.show({
+							msg:"Hay Identificaiones Repetidas",
+							type:CTE.STATUS_CODE.INFORMATION
+						})
+					}
+				}else{
+					if($(".idChildren").val() == $(".idCare").val()) {
+						$(target).val("")
+						notification.show({
+							msg:"Hay Identificaiones Repetidas",
+							type:CTE.STATUS_CODE.INFORMATION
+						})
+					}
+
 				}
 			})
+			if (response.statusCode != CTE.STATUS_CODE.OK) {
+				if(response.parent){
+					$(":input",containerInputs).not(selector).prop("disabled",true)
+					$("#nameParent",containerInputs).val(response.parent.nameParent)
+					$("#lastnameParent",containerInputs).val(response.parent.lastnameParent)
+				}else{
+					$(target).val("")
+					return notification.show({msg:response.msg, type:response.statusCode})
+				}
+			}
 		}
 	})
 })
 
-//*********************************Hizo Luz ma**************************************
-//Asigna un escuchador de evento --- Cuando suceda el evento 
 $("#formValidChildren").on("submit",(event) => {
 	event.preventDefault()
 	$.ajax({
@@ -57,27 +75,6 @@ $("#formValidChildren").on("submit",(event) => {
 			}
 		}
 	})
-	/*$.ajax({
-		url: "/admin/valid-children",
-		async : false, 
-		data : $("#formValidChildren").serialize(),
-		type : "POST",
-		success: function(result){
-			if(result.valid) {
-				$("#formAddChildren")
-				.removeClass("hide")
-				//.on("submit",addChildren)
-				$("#idChildren").val($("#validChildren").val())
-				$("#validChildren").prop("readonly", true)
-			}else{
-				$("#formAddChildren")
-				.addClass("hide")
-				//.off("submit",addChildren)
-				$("#validChildren").prop("readonly", false)
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		}
-	})*/
 })
 
 if(eval($("#editingChildren").val())){

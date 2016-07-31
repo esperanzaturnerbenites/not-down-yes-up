@@ -30,26 +30,49 @@ $("[data-id = admest]").on("click", function() {
 	}
 })
 
+//Revisar
 $("[data-id = question]").on("click", function() {
-	$(".menuHelpQuestion").addClass("hide")
+	//$(".menuHelpQuestion").addClass("hide")
+	$(".menuHelpQuestion").not($(this).data("reference")).addClass("hide")
 	var selector = $(this).data("reference")
 	if(selector){
-		$(selector).removeClass("hide")
+		//$(selector).removeClass("hide")
+		$(selector).toggleClass("hide")
+
 	}
 })
 
-$("li[data-reference]:not([data-id=ulPcpal])").click(function(e){
+$("article[data-reference]:not([data-id=ulPcpal])").click(function(e){
 	var referenceOptionFind = $(this).data("reference"),
 		optionFind = manual.find(option => {return option.reference == referenceOptionFind.replace("#","")})
 
-	var ul = $("<ul>")
+	var pDescription = $("<p>").append($("<b>",{html:optionFind.id + ": " + optionFind.description}))
+
+	var pIncludes = $("<p>")
+		.append($("<b>",{html:"Incluye: "}))
+		.append($("<span>",{html:optionFind.includes}))
+
+	var pRoute = $("<p>")
+		.append($("<b>",{html:"Ruta: "}))
+		.append($("<span>",{html:optionFind.route}))
+
+	var ulGuides = $("<ul>")
+		.append($("<p>").append($("<b>",{html:"Guías:"})))
 	optionFind.guides.forEach(guide => {
-		ul.append($("<li>",{html:guide}))
-	}) 
+		ulGuides
+		.append($("<li>",{html:guide}))
+	})
+
+	var ulWarnings = $("<ul>")
+		.append($("<p>").append($("<b>",{html:"Alertas:"})))
+	optionFind.warnings.forEach(warning => {
+		ulWarnings
+		.append($("<li>",{html:warning}))
+	})
 
 	$(referenceOptionFind)
 	.empty()
-	.append(ul)
+	.append(pDescription,pIncludes,pRoute,ulGuides,ulWarnings)
 
 	console.log(optionFind)
 })

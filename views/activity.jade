@@ -34,28 +34,23 @@ html(lang='es')
 				fieldset
 					legend Validación Final Actividad
 					article
-						label Docente: 
-						input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
-					article#dataNameChild
-					
-					article
 						label Resultado Sistema 
-						input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
-					
+						input#scoreSystemActivity(type='text' name='scoreSystemActivity' readonly)
+
 					article
 						label Puntuación Docente 
-						input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
-					
+						input#scoreTeachActivity(type='number' name='scoreTeachActivity' min='1', max='10' placeholder='Puntaje' required)
+
 					article
 						label Estado de la Actividad 
 						select#statusActivity(name='statusActivity')
-							option(value='0', selected='') No Completada
+							option(value='0', selected) No Completada
 							option(value='1') Completada
 
 					article
 						label Apoyo Máximo 
 						select#backingMaxActivity(name='backingMaxActivity')
-							option(value='0', selected='') No Requiere
+							option(value='0', selected) No Requiere
 							option(value='1') L: Logrado
 							option(value='2') LP: Logro Parcialmente Obtenido
 							option(value='3') P: Planeado
@@ -63,7 +58,7 @@ html(lang='es')
 					article
 						label Apoyo Mínimo 
 						select#backingMinActivity(name='backingMinActivity')
-							option(value='0', selected='') No Requiere
+							option(value='0', selected) No Requiere
 							option(value='1') L: Logrado
 							option(value='2') LP: Logro Parcialmente Obtenido
 							option(value='3') P: Planeado
@@ -71,7 +66,7 @@ html(lang='es')
 					article
 						label D. Funcional 
 						select#backingDFunctionActivity(name='backingDFunctionActivity')
-							option(value='0', selected='') No Requiere
+							option(value='0', selected) No Requiere
 							option(value='1') L: Logrado
 							option(value='2') LP: Logro Parcialmente Obtenido
 							option(value='3') P: Planeado
@@ -87,22 +82,17 @@ html(lang='es')
 				fieldset
 					legend Validación Actividad
 					article
-						label Docente: 
-						input#userUser.userR(type='text', name='userUser', value='#{user.userUser}', readonly)
-					article#dataNameChildParcial
-
-					article
 						label Resultado Sistema 
-						input#scoreSystemActivity(type='text', name='scoreSystemActivity', value='0', readonly)
+						input#scoreSystemActivity(type='text' name='scoreSystemActivity' readonly)
 
 					article
 						label Puntuación Docente 
-						input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='0', max='10', placeholder='Puntaje', required='')
+						input#scoreTeachActivity(type='number', name='scoreTeachActivity', min='1', max='10', placeholder='Puntaje', required)
 
 					article
 						label Estado de la Actividad 
 						select#statusActivity(name='statusActivity')
-							option(value='0', selected='') Pendiente
+							option(value='0', selected) Pendiente
 							option(value='1') Completada
 
 					article
@@ -119,7 +109,7 @@ html(lang='es')
 				form#startActivity
 					fieldset
 						legend ¿Con cuál niñ@ nos divertiremos ahora?
-						input#idChildren(type='number' name='idChildren' min='1111' placeholder='Identificación Niño' required data-valid-exists="children,false,true")
+						input#idChildren(type='number' name='idChildren' min='1000' placeholder='Identificación Niño' required data-valid-exists="children,false,true")
 						article
 							button(type='submit')
 								span Iniciar Actividad

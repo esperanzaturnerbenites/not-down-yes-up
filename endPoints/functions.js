@@ -23,6 +23,17 @@ function renderReportAge(params){
 	})
 }
 
+function updateStatusChildrenEstimulation(params,info){
+	return new Promise(function(resolve,reject){
+		models.children.update(
+			{_id:params.idChildren},
+			{$set:{statusChildrenEstimulation:params.statusChildrenEstimulation}},
+			function(err,status){
+				if(err) return reject(err)
+				resolve({data:{message:"Actualizacion de estado completada"}})
+			})
+	})
+}
 function checkNewAdminUser(params,info){
 	info.passUser = cryptr.encrypt(info.passUser)
 	return new Promise(function(resolve,reject){
@@ -159,6 +170,7 @@ module.exports = {
 	parserCustom: parserCustom,
 	renderListUser: renderListUser,
 	groupStepsValids: groupStepsValids,
+	updateStatusChildrenEstimulation: updateStatusChildrenEstimulation,
 	htmlToPdf: htmlToPdf,
 	renderReportAge: renderReportAge
 }

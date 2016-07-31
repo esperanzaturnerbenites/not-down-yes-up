@@ -8,7 +8,7 @@ block content
 	section.register 
 		h3 Administración de Usuarios
 		article.data
-
+			p #{user.userUser}
 			form#formFindAll
 				fieldset.consul
 					legend Ver Usuarios
@@ -33,7 +33,7 @@ block content
 				fieldset
 					legend Nuevo Usuario del Sistema
 					article
-						input#idUser(type='number', name='idUser', min='1111', placeholder='Cédula Usuario', required data-valid-id-exists="false,true,user,idUser")
+						input#idUser(type='number', name='idUser', min='1000', placeholder='Cédula Usuario', required data-valid-id-exists="false,true,user,idUser")
 						input#userUser(type='text', name='userUser', placeholder='Nuevo Usuario' autocomplete="off" required data-valid-user-exists="true,false")
 					article
 						label(for='typeUser') Tipo de usuario: 
@@ -41,8 +41,8 @@ block content
 							option(value='0', selected) Administrador
 							option(value='1') Docente
 					article
-						input#passUser(type='password', name='passUser', placeholder='Contraseña', required='')
-						input#newPassConfirmUser(type='password', name='newPassConfirmUser', placeholder='Repite Contraseña', required='')
+						input#passUser(type='password', name='passUser', data-equal-to="#newPassConfirmUser" placeholder='Contraseña', required='')
+						input#newPassConfirmUser(type='password', name='newPassConfirmUser', data-equal-to="#passUser" placeholder='Repite Contraseña', required='')
 						button(type='submit')
 							span Crear
 			
@@ -50,7 +50,7 @@ block content
 				fieldset
 					legend Actualizar Contraseña
 					article
-						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario' autocomplete="off" required data-valid-user-exists="false,true")
+						input#adminIdUser(type='text', name='adminIdUser', placeholder='Usuario' autocomplete="off" required data-valid-user-exists="false,true" data-not-equal-to="#userUserAuthenticate")
 					article
 						input#adminPassUser(type='password', data-equal-to="#adminPassConfirmUser" name='adminPassUser', placeholder='Contraseña', required='')
 						input#adminPassConfirmUser(type='password', data-equal-to="#adminPassUser" name='adminPassConfirmUser', placeholder='Repite Contraseña', required='')
@@ -61,7 +61,7 @@ block content
 				fieldset
 					legend Actualizar Rol
 					section
-						input#adminRolIdUser(type='text', name='adminRolIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true")
+						input#adminRolIdUser(type='text', name='adminRolIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true" data-not-equal-to="#userUserAuthenticate")
 						select#rolUser(name='rolUser')
 							option(value='0', selected='') Administrador
 							option(value='1') Docente
@@ -72,7 +72,7 @@ block content
 				fieldset
 					legend Actualizar Estado
 					section
-						input#adminStaIdUser(type='text', name='adminStaIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true")
+						input#adminStaIdUser(type='text', name='adminStaIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true" data-not-equal-to="#userUserAuthenticate")
 						select#statusUser(name='statusUser')
 							option(value='0', selected='') Inactivo
 							option(value='1') Activo
@@ -83,7 +83,7 @@ block content
 				fieldset
 					legend Eliminar Usuario Sistema
 					section
-						input#adminOpeIdUser(type='text', name='adminOpeIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true")
+						input#adminOpeIdUser(type='text', name='adminOpeIdUser' autocomplete="off" placeholder='Usuario', required data-valid-user-exists="false,true" data-not-equal-to="#userUserAuthenticate")
 						button#formOpeUserDel(type='submit')
 							span Eliminar
 			

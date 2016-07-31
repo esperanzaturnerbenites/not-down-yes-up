@@ -38,6 +38,7 @@ router.post("/consult-teacher-activities",(req,res)=>{
 			}},
 			{$project: {attempts:1,lastActivityHistory:1,scoreTotalTeachActivity:1,scoreAvgTeachActivity:1,maxScoreTeachActivity:1,idUser:1,minScoreTeachActivity:1,activitiesHistory:1}}
 		], function (err, activitiesHistory) {
+			if(!activitiesHistory.length) return res.json({message:"El Docente no ha realizado actividades",type:CTE.STATUS_CODE.INFORMATION})
 			models.activityhistory.populate(
 				activitiesHistory,
 				[
@@ -47,14 +48,13 @@ router.post("/consult-teacher-activities",(req,res)=>{
 					{path: "lastActivityHistory", model:"activityhistory"}
 				],
 				(err, activitiesHistoryP) => {
-					//return res.json(activitiesHistoryP)
 					var numbersActivities = activitiesHistoryP.map(e => {
 						return e._id.idActivity.activityActivity
 					}).filter(function(item, pos,array) {
 						return array.indexOf(item) == pos
 					}).sort()
 					var activites = numbersActivities.map((e,i,a)=>{
-						return activitiesHistoryP.filter(r => {return r._id.idActivity.activityActivity == e})
+						return activitiesHistoryP.filter(r => {return (r._id.idActivity.activityActivity == e && r._id.idChildren.statusChildren == CTE.STATUS_USER.ACTIVE)})
 					})
 					localsJade.dataCustom = activites
 
@@ -100,7 +100,7 @@ router.post("/consult-step-act",(req,res)=>{
 
 	var dataChildrens = []
 
-	models.children.find({},(err,childrens) => {
+	models.children.find({statusChildren:CTE.STATUS_USER.ACTIVE},(err,childrens) => {
 		childrens.forEach(children => {
 			var promise = children.getDataAll({
 				filters:filters

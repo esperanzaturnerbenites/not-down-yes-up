@@ -23,7 +23,7 @@ block content
 				fieldset.data.validChildren
 					legend Digita la cédula
 					article
-						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1111', placeholder='Cédula', autocomplete = "off" required data-valid-id-exists="true,false")
+						input#validUser(type='number', value="#{data.idUser}" name='validUser', min='1000', placeholder='Cédula', autocomplete = "off" required data-valid-id-exists="true,false")
 					article
 						button(type='submit')
 							span Iniciar Registro
@@ -52,8 +52,8 @@ block content
 						fieldset
 							legend Contacto
 							article
-								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1111111', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete="off")
-								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1111111111', max='9999999999', placeholder='Celular', required='' autocomplete="off")
+								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1000000', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete="off")
+								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1000000000', max='9999999999', placeholder='Celular', required='' autocomplete="off")
 								input#emailUser(type='email', name='user[emailUser]',value="#{data.emailUser}" placeholder='correo-usuario@abc.com', required autocomplete="off")
 							article
 								input#addressUser(type='text', name='user[addressUser]',value="#{data.addressUser}" placeholder='Dirección', required='' autocomplete="off")
@@ -66,15 +66,9 @@ block content
 							article
 								label(for='studyUser') Nivel de Estudios:
 								select#studyUser(name='user[studyUser]')
-									option(value='0', selected) Básica Primaria
-									option(value='1') Básica Secundaria
-									option(value='2') Bachiller
-									option(value='3') Técnico Profesional 
-									option(value='4') Tecnólogo
-									option(value='5') Profesional
-									option(value='6') Especialización
-									option(value='7') Maestría
-									option(value='8') Doctorado
+									each level,nombreLevel in CTE.LEVEL_STUDY
+										option(value='#{level}') #{parserCustom(level,"LEVEL_STUDY")}
+
 							input#professionUser(type='text', value="#{data.professionUser}" name='user[professionUser]', placeholder='Título adquirido', required autocomplete="off")
 							label(for='experienceUser') Experiencia en meses:
 							input#experienceUser(type='number', value="#{data.experienceUser}" name='user[experienceUser]', min='0', max='999', placeholder='Experiencia en meses', required autocomplete="off")

@@ -6,24 +6,17 @@ $("#formOpeChildrenUpd").click(function(event){
 	window.open("/admin/register-children/" + $("#adminInfoChildren").val())
 }) 
 
+$("#formOpeChildren").submit(function(event){event.preventDefault()})
+
 $("#formOpeStatusChildren").submit(function(event){
 	event.preventDefault()
 	if(confirm("Se cambiará el estado del niñ@ " + $("#adminUpdChildren").val() + ". ¿Desea continuar?")){
-		var statusEstimulation = ""
-		if($("#statusChildren").val() == 0){
-			statusEstimulation = 3
-		}else if($("#statusChildren").val() == 1){
-			statusEstimulation = 0
-		}
 		$.ajax({
 			url: "/api/children",
 			contentType : "application/json", 
 			data : JSON.stringify({
 				data:{
-					$set: {
-						statusChildren:$("#statusChildren").val(),
-						statusChildrenEstimulation:statusEstimulation
-					},
+					$set: {statusChildren:$("#statusChildren").val()},
 					$push: {
 						observationChildren: {
 							observation: $("#observationChildren").val(),

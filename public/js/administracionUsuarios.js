@@ -109,13 +109,13 @@ $("#formUpdatePass").submit(function(event){
 				contentType: "application/json",
 				data: JSON.stringify({
 					data:{$set:{passUser:$("#adminPassUser").val()}},
-					query:{userUser:$("#adminIdUser").val()},
+					query:{userUser:$("#adminIdUser").val(),typeUser:{ $ne: 2 }},
 					fn: "encryptPass",
 					params :{passUser:$("#adminPassUser").val()}
 				}),
 				type: "PUT",
 				success: function(result){
-					$(this).trigger("reset")
+					$("#formUpdatePass").trigger("reset")
 					notification.show({msg:result.msg, type:result.statusCode})
 				}
 			})
@@ -133,7 +133,7 @@ $("#formOpeUserRol").submit(function(event){
 			contentType: "application/json",
 			data: JSON.stringify({
 				data:{$set:{typeUser:$("#rolUser").val()}},
-				query:{userUser:$("#adminRolIdUser").val()}
+				query:{userUser:$("#adminRolIdUser").val(),typeUser:{ $ne: 2 }}
 			}),
 			type: "PUT",
 			success: function(result){
@@ -161,7 +161,7 @@ $("#formOpeUserStatus").submit(function(event){
 			contentType: "application/json",
 			data: JSON.stringify({
 				data:{$set:{statusUser:$("#statusUser").val()}},
-				query:{userUser:$("#adminStaIdUser").val()}
+				query:{userUser:$("#adminStaIdUser").val(),typeUser:{ $ne: 2 }}
 			}),
 			type: "PUT",
 			success: function(result){
@@ -179,7 +179,7 @@ $("#formOpeUser").submit(function(event) {
 			url: "/api/adminuser",
 			contentType: "application/json",
 			data : JSON.stringify({
-				query:{userUser:$("#adminOpeIdUser").val()},
+				query:{userUser:$("#adminOpeIdUser").val(),typeUser:{ $ne: 2 }},
 				fn:"checkActivities",
 				params:{userUser:$("#adminOpeIdUser").val()}
 			}),

@@ -10,6 +10,7 @@ Date.prototype.toHour12 = function () {
 $.ajaxSetup({
 	headers: {"Desktop-App": "false"}
 })
+
 const CTE = { 
 	INDICATORS: {
 		L:1,
@@ -71,6 +72,8 @@ const CTE = {
 	MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY:3,
 	BASE_PATH_LOG : "logs/",
 	BASE_NAME_LOG : "log-year-month.log",
+	MIN_SCORE_SYSTEM:5,
+	MAX_SCORE_SYSTEM:10,
 	FN: {
 		STATUS_ESTIMULATION: {},
 		STATUS_ACTIVITY: {},
@@ -84,7 +87,9 @@ const CTE = {
 		YES_OR_NOT: {}
 	}
 }
+
 var notification = new NotificationC()
+
 $(document).ready(function () {
 	$("[href='/logout']").click(event => {
 		if(!confirm("Desea Salir de la Aplicación")) event.preventDefault()
@@ -109,10 +114,44 @@ $(document).ready(function () {
 			if($(reference).val() != $(this).val()){
 				$(reference).val("")
 				$(this).val("")
-				
 			}
 		}
 		
+	})
+	$("[data-not-equal-to]").change(function(event){
+		var reference = $(this).data("not-equal-to")
+		if($(reference).val()){
+			if($(reference).val() == $(this).val()){
+				//$(reference).val("")
+				$(this).val("")
+			}
+		}
+		
+	})
+	$("[data-valid-active-children]").change(function(event){
+		var input = $(this)
+
+		var buttonSubmit = input.closest("form").find("[type=submit]")
+		buttonSubmit.prop("disabled",true)
+
+		var query = {idChildren:input.val()}
+
+		$.ajax({
+			url: "/api/children",
+			contentType: "application/json",
+			data : JSON.stringify({query:query}),
+			type : "POST",
+			success: (response) => {
+				if(response.documents.length){
+					var children = response.documents[0]
+					if(children.statusChildren != CTE.STATUS_USER.ACTIVE) {
+						input.val("")
+						notification.show({msg:"El niñ@ esta inactivo",type:CTE.STATUS_CODE.INFORMATION})
+					}
+				}
+				buttonSubmit.prop("disabled",false)
+			}
+		})
 	})
 	$("[data-valid-id-exists]").change(function(event){
 		var input = $(this)

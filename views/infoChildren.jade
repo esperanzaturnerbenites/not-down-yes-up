@@ -224,6 +224,7 @@ block content
 						span #{infoChildren.parents[2].jobParent}
 
 			section.contentTab#contentTab3.hide.continue.continueViewMore
+
 				h2 INFORMACIÓN DE ETAPAS
 				if (infoChildren.stepsValid.length)
 					button#drawGlobalStepsValid(type="button")
@@ -250,14 +251,13 @@ block content
 									td #{stepvalid.observationStep}
 									td #{new Date(stepvalid.date).getStringCustom()}
 									td #{stepvalid.idUser.userUser}
+					section#containerChartGlobalStepsValid
 				else
 					h2 No tiene actividades.
 
 			section.contentTab#contentTab4.hide.continue.continueViewMore
 				h2 INFORMACIÓN DE ACTIVIDADES
 				if (infoChildren.activitiesValid.length > 0)
-					button#drawGLobalActivitiesValid(type="button")
-						span Ver Gráfica Global
 					table
 						thead
 							tr

@@ -45,6 +45,7 @@ function validateFinalActivity(event){
 		},
 		type : "POST",
 		success: function(response){
+			$("#formValidateFinalActivity").trigger("reset")
 			$("#formValidateFinalActivity").addClass("hide")
 			if(response.documents) return notification.show({msg:"Validacion Definitiva Correcta",type:CTE.STATUS_CODE.OK})
 		}
@@ -67,12 +68,18 @@ function validatePartialActivity(event){
 				idStep: j_stepCurrent._id,
 				idUser: j_userCurrent._id,
 				idChildren: j_childrenCurrent._id
+			},
+			fn:"updateStatusChildrenEstimulation",
+			params:{
+				"idChildren": j_childrenCurrent._id,
+				"statusChildrenEstimulation": CTE.STATUS_ESTIMULATION.IN_PROGRESS
 			}
 		}),
 		type : "POST",
 		success: function(response){
+			$("#formValidatePartialActivity").trigger("reset")
 			$("#formValidatePartialActivity").addClass("hide")
-			if(response.documents) return notification.show({msg:"Validacion Parcial Correcta",type:CTE.STATUS_CODE.OK})
+			if(response) return notification.show({msg:"Validacion Parcial Correcta",type:CTE.STATUS_CODE.OK})
 		}
 	})
 
@@ -105,16 +112,16 @@ socket.on("connect", function() {
 })
 
 socket.on("arduino:data", function (data) {
-	var scoreSystemActivity = 0,
+	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,
 		srcImage = "/img/imgacts/activities/sad.png"
 	if(data.statusCode == CTE.STATUS_CODE.OK){
-		scoreSystemActivity = 10
+		scoreSystemActivity = CTE.MAX_SCORE_SYSTEM
 		srcImage = "/img/imgacts/activities/smile.png"
 	}
+	if(data.isCorrect) $("#aswerAct audio").trigger("play")
 	$("#aswerAct").removeClass("hide")
 	$("#aswerAct #scoreSystemActivity").val(scoreSystemActivity)
 	$("#aswerAct img").attr("src",srcImage)
-	$("#aswerAct audio").trigger("play")
 	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
 	notification.show({msg:data.message, type:data.statusCode})
 })
@@ -128,15 +135,6 @@ function getClone(selector){
 
 function renderResultDataResult(node){$("#results").html(""); $("#results").append(node)}
 function renderResultDataStep(node){$("#resultStepActs").html(""); $("#resultStepActs").append(node)}
-
-function funcStatusAct(status){
-	var statusText = ""
-	if(status == 0)
-		statusText = "No Completado"
-	if(status == 1)
-		statusText = "Completado"
-	return statusText
-}
 
 // continueViewMore -> viewInforChildren
 // continueActAll ->  viewHistoryActivities
@@ -175,3 +173,5 @@ $("#continueViewMore").click(() => {
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)
 })
+
+$("[name=scoreSystemActivity]").val(CTE.MIN_SCORE_SYSTEM)

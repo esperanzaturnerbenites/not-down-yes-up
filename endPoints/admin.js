@@ -29,61 +29,68 @@ router.get("/valid-step",(req,res)=>{return res.render("validStep")})
 router.get("/backup",(req,res)=>{return res.render("backup")})
 
 function createChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
-	var promises = []
 	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		req.flash("success","¡Números de identificación iguales")
 		res.redirect(req.get("referer"))
 	}else{
 
-		var queryParents = [
-			{idParent : dataMom.idParent},
-			{idParent : dataDad.idParent},
-			{idParent : dataCare.idParent}
+		var parents = [
+			{idParent : dataMom,relationshipParent:0},
+			{idParent : dataDad,relationshipParent:1},
+			{idParent : dataCare,relationshipParent:2}
 		]
 
-		var idParents = [
-			{idParent : dataMom.idParent,relationshipParent:0},
-			{idParent : dataDad.idParent,relationshipParent:1},
-			{idParent : dataCare.idParent,relationshipParent:2}
-		]
-
-		var arrayParents = [dataMom, dataDad, dataCare]
 		models.step.find({}, (err, steps) => {
 			if(err) return res.json({err:err})
 			if(!steps.length) return res.json({msg:"Not steps"})
 
-			models.parent.create(arrayParents,(err, parentsCreate) => {
-				if(err) {
-					if(err.message != "¡Familiar ya existe!") return res.json({err:err})
-				}
+			var parentsChildren = []
+			var promisesParent = []
 
-				var parentsChildren = []
-
-				models.parent.find({$or:queryParents},{_id:1,idParent:1},(err, parentsFind) => {
-					idParents.forEach(parent => {
-						var parentTemp = parentsFind.find(parentFind => {return parentFind.idParent == parent.idParent})
-						parentTemp.relationshipParent = parent.relationshipParent
-						parentsChildren.push({idParent:parentTemp._id,relationshipParent:parent.relationshipParent})
-					})
-
-					dataChildren.idParent = parentsChildren
-
-					models.children.create(dataChildren, function (err, children) {
-						if(err) return res.json({err:err})
-
-						for(var stepDB of steps){
-							promises.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
+			parents.forEach(oparent => {
+				var promiseParent = new Promise(function(resolve,reject){
+					models.parent.findOne({idParent : oparent.idParent.idParent},(err, parentFind) => {
+						console.log("----------------------------")
+						if(parentFind){
+							console.log("Exist")
+							console.log(oparent)
+							parentsChildren.push({idParent:parentFind._id,relationshipParent:oparent.relationshipParent})
+							resolve()
+						}else{
+							console.log("Create")
+							console.log("..........................................")
+							console.log(oparent)
+							console.log("..........................................")
+							models.parent.create(oparent.idParent,(err, parentCreate) => {
+								console.log(parentCreate)
+								parentsChildren.push({idParent:parentCreate._id,relationshipParent:oparent.relationshipParent})
+								resolve()
+							})
 						}
+						console.log("----------------------------")
+					})
+				})
+				promisesParent.push(promiseParent)
+			})
 
-						Q.all(promises).then(function 	() {
-							return res.redirect("/admin/menu-admin")
-						})
+			console.log(promisesParent)
+			Q.all(promisesParent).then(function () {
+				dataChildren.idParent = parentsChildren
+				console.log(parentsChildren)
+				models.children.create(dataChildren, function (err, children) {
+					if(err) return res.json({err:err})
 
+					var promisesSteps = []
+					for(var stepDB of steps){
+						promisesSteps.push(models.stepvalid.create({idStep:stepDB._id, idUser:req.user._id, idChildren:children._id}))
+					}
+
+					Q.all(promisesSteps).then(function () {
+						return res.redirect("/admin/menu-admin")
 					})
 				})
 			})
 		})
-
 	}
 }
 
@@ -171,11 +178,6 @@ router.post(["/update-children","/register-children"],upload.any(),(req,res)=>{
 		imgDad =  fileDad ? fileDad.filename : defaultImage,
 		imgCure =  fileCure ? fileCure.filename : defaultImage
 
-
-
-
-
-	//return res.json(dataChildren)
 	if(eval(data.editingChildren)){
 		if(fileChildren){dataChildren.imgChildren = fileChildren.filename}
 		else{delete dataChildren.imgChildren}
@@ -205,7 +207,9 @@ router.get("/register-children/:id?",(req,res)=>{
 	if(!id) return res.render("registerChildren")
 		
 	models.children.findOne({idChildren:id}).populate('idParent.idParent').exec((err,childrenSearch) =>{
+
 		if (err) return {err : err}
+		if (!childrenSearch) return res.json({message : "El niñ@ no Existe",statusCode:CTE.STATUS_CODE.NOT_OK})
 
 
 		var mom = childrenSearch.idParent.find(parent => {return parent.relationshipParent == 0}),
@@ -303,6 +307,7 @@ router.get("/register-user/:id?",(req,res)=>{
 
 	models.user.findOne({idUser:id}).exec((err,userSearch) =>{
 		if (err) return {err : err}
+		if (!userSearch) return res.json({message : "El Usuario no Existe",statusCode:CTE.STATUS_CODE.NOT_OK})
 		return res.render("registerUserRol",{userEdit: userSearch})
 	})
 })
@@ -312,7 +317,7 @@ router.get("/info-user/:id",(req,res)=>{
 		data = {}
 	models.user.findOne({idUser:id}).exec((err,userFind) =>{
 		if (err) return res.json({err:err})
-		if (!userFind) return res.json({err:{message:"User not exist"}})
+		if (!userFind) return res.json({message : "El Usuario no Existe",statusCode:CTE.STATUS_CODE.NOT_OK})
 		if(userFind){
 			data.user = userFind
 			models.adminuser.find({idUser:userFind._id},(err,adminU) =>{
@@ -388,8 +393,9 @@ router.post("/valid-step",(req,res)=>{
 	//res.json(data)
 
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		if(children.statusChildren != CTE.STATUS_USER.ACTIVE) return res.json({message:"El niñ@ esta inactivo",statusCode:CTE.STATUS_CODE.INFORMATION})
+
 		models.step.findOne({stepStep:data.stepStep},function(err,step){
-			console.log(step)
 			models.stepvalid.findOne({idChildren:children._id,idStep:step._id},function(err,stepValid){
 				
 				data.idUser = req.user._id
@@ -403,7 +409,7 @@ router.post("/valid-step",(req,res)=>{
 				}else{
 					models.stepvalid.create(data,function(err,newStepValid){
 						children.update(
-							{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.QUALIFIED}},
+							{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.IN_PROGRESS}},
 							function(err,update){
 								if(err) return res.json({message:"Validación Etapa Completada, No se Actualizo el estado del niñ@",type:CTE.STATUS_CODE.OK})
 								return res.json({message:"Validación Etapa Completada",type:CTE.STATUS_CODE.OK})
@@ -424,6 +430,8 @@ router.post("/pre-valid-step",(req,res)=>{
 		}
 
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
+		if(children.statusChildren != CTE.STATUS_USER.ACTIVE) return res.json({message:"El niñ@ esta inactivo",statusCode:CTE.STATUS_CODE.INFORMATION})
+
 		children.getDataAll({
 			filters:filters
 		}).then(
@@ -452,9 +460,9 @@ router.post("/backup",(req,res)=>{
 router.post("/restore",uploadBackup.single("data"),(req,res)=>{
 	var file = fs.createReadStream(req.file.path)
 	restore({
-		uri: "mongodb://localhost/centerestimulation", // mongodb://<dbuser>:<dbpassword>@<dbdomain>.mongolab.com:<dbport>/<dbdatabase>
-		stream: file, // send this stream into db
-		callback: function(err) { // callback after restore
+		uri: "mongodb://localhost/centerestimulation",
+		stream: file,
+		callback: function(err) {
 			if(err) return res.json({err:err})
 			return res.json({msg:"importacion correcta"})
 			

@@ -219,6 +219,7 @@ function requiredType (types){
 		}else{
 			if (req.isAuthenticated()){
 				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+				req.flash("info","No tiene permisos para acceder a esta opcion")
 				return res.redirect("/")
 			}else{
 				res.redirect("/users/login")

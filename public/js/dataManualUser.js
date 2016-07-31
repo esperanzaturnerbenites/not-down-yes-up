@@ -1,26 +1,28 @@
 var manual = [
 	{
-		"name": "¡Not Down, Yes Up!",
+		"name": "Not Down, ¡Yes Up!",
 		"id": "1.1",
 		"route": "No Aplica",
 		"reference": "allNotDownYesUp",
 		"includes": [],
 		"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.1.png)",
-		"description": "Descripción de la aplicación ¡Not Down, Yes Up!.",
+		"description": "Descripción de la aplicación Not Down, ¡Yes Up!.",
 		"guides": [
-			"¡Not Down, Yes Up! es una aplicación Web diseñada para la estimulación temprana en niños y niñas con Síndrome de Down, a través del desarrollo de actividades que estimulan al/la niño/a dependiendo de su edad. Estas actividades son desarrolladas por el/la niño/a con el acompamiento del docente quién es el encargado de velar por que cada actividad se desrrolle de la manera adecuada. ¡Not Down, Yes Up! utiliza ConectionRUG, que es una aplicación de escritorio que permite la conexion entre un tapete electrónico y ¡Not Down, Yes Up!. El tapete electrónico diseñado para el desarrollo de las actividades, permite una interacción directa entre el/la niño/a y el software, lo cual ofrece una estimulación completa, al involucrar actividades que no solo requieran de atención cognitiva, sino del uso de movientos físicos."
+			"Not Down, ¡Yes Up! es una aplicación Web diseñada para la estimulación temprana en niños y niñas con Síndrome de Down, a través del desarrollo de actividades que estimulan al/la niño/a dependiendo de su edad. Estas actividades son desarrolladas por el/la niño/a con el acompamiento del docente quién es el encargado de velar por que cada actividad se desrrolle de la manera adecuada. Not Down, ¡Yes Up! utiliza ConectionRUG, que es una aplicación de escritorio que permite la conexion entre un tapete electrónico y Not Down, ¡Yes Up!. El tapete electrónico diseñado para el desarrollo de las actividades, permite una interacción directa entre el/la niño/a y el software, lo cual ofrece una estimulación completa, al involucrar actividades que no solo requieran de atención cognitiva, sino del uso de movientos físicos."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
-		"name": "PÁGINA PRINCIPAL ¡Not Down, Yes Up!",
+		"name": "PÁGINA PRINCIPAL Not Down, ¡Yes Up!",
 		"id": "1.2",
 		"route": "/",
 		"reference": "allPaginaPrincipal",
 		"includes": [],
 		"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.1.png)",
-		"description": "Es el inicio de la aplicación ¡Not Down, Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
+		"description": "Es el inicio de la aplicación Not Down, ¡Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
 		"guides": [
-			"Al iniciar la aplicación ¡Not Down, Yes Up! estará de inmediato en la página principal.",
+			"Al iniciar la aplicación Not Down, ¡Yes Up! estará de inmediato en la página principal.",
 			"Para regresar a la página principal solo escriba la dirección en la barra de direcciones (A).",
 			"Existen dos tipos de menú:",
 			"Menú de 1 opción: Donde solo esta la opción de autenticación ((B) Botón: INGRESAR)",
@@ -36,7 +38,7 @@ var manual = [
 		"reference": "allLogin",
 		"includes": ["1.2"],
 		"image": "![IMAGEN AUTENTICACIÓN](/img/help/1.2.png)",
-		"description": "Permite ingresar a la aplicación ¡Not Down, Yes Up! y sus funciones dependiendo de los permisos de cada usuario.",
+		"description": "Permite ingresar a la aplicación Not Down, ¡Yes Up! y sus funciones dependiendo de los permisos de cada usuario.",
 		"guides": [
 			"Digitar su Usuario y Contraseña en los campos correspondientes (A).",
 			"Dar clic en el botón Ingresar (B)."
@@ -53,7 +55,7 @@ var manual = [
 		"reference": "allUnlogin",
 		"includes": ["1.3", "1.5"],
 		"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.3.png)",
-		"description": "Permite salir por completo de la aplicación ¡Not Down, Yes Up!.",
+		"description": "Permite salir por completo de la aplicación Not Down, ¡Yes Up!.",
 		"guides": [
 			"Para salir del sistema debe encontrarse en el menú principal (A).",
 			"Dar clic en el botón SALIR que se envuentra en la parte superior izquierda (B).",
@@ -74,9 +76,11 @@ var manual = [
 			"Para poder acceder al menú principal debe autenticarse.",
 			"Tras autenticarse aparecerá su menú principal."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
-		"name": "AYÚDA ¡Not Down, Yes Up!",
+		"name": "AYÚDA Not Down, ¡Yes Up!",
 		"id": "1.6",
 		"route": "/admin/menu-admin",
 		"reference": "admMenuPrincipalAdmin",
@@ -87,7 +91,9 @@ var manual = [
 			"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niña con un globo en el cual tiene un signo de Pregunta (A).",
 			"Este ícono es visible en todas las ventanas del software."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "MENÚ PRINCIPAL ADMINISTRACIÓN",
 		"id": "2.1.1",
@@ -149,7 +155,9 @@ var manual = [
 			"El ID de cada usuario es un link para ver información mas detallada del mismo y el campo Editar de cada usuario permite modificar la información de dicho usuario (E).",
 			"Para regresar al Menú Principal dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana (E)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "DETALLAR UN USUARIO",
 		"id": "2.1.4",
@@ -516,7 +524,9 @@ var manual = [
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (J).",
 			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "CONSULTA POR ETAPAS",
 		"id": "2.3.4",
@@ -534,7 +544,9 @@ var manual = [
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (F).",
 			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "CONSULTA POR ACTIVIDAD",
 		"id": "2.3.5",
@@ -552,7 +564,9 @@ var manual = [
 			"Puede exportar toda la información a un archivo PDF al dar clic en el botón Generar PDF (F).",
 			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "GENERACIÓN DE REPORTE FINAL",
 		"id": "2.3.6",
@@ -569,7 +583,9 @@ var manual = [
 			"Se genera un archivo en PDF que se descarga automáticamente (E).",
 			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "SALVAR INFORMACIÓN (BACKUPS)",
 		"id": "2.4.1",
@@ -585,7 +601,9 @@ var manual = [
 			"Guardar el archivo del backup en una carpeta segura (D).",
 			"Para regresar al Menú Principal debe dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "RESTAURAR BACKUPS (RECUPERAR INFORMACIÓN)",
 		"id": "2.4.2",
@@ -601,13 +619,13 @@ var manual = [
 			"En caso de perder información del sistema y requerir una restauración contacte a Soporte."
 		]
 	}, {
-		"name": "ENTRAR AL CENTRO DE ESTIMULACIÓN ¡Not Down, Yes Up!",
+		"name": "ENTRAR AL CENTRO DE ESTIMULACIÓN Not Down, ¡Yes Up!",
 		"id": "3.1.1",
 		"route": "No aplica",
 		"reference": "estEstimulation",
 		"includes": ["1.3"],
 		"image": "![IMAGEN ENTRAR AL CENTRO DE ESTIMULACIÓN](/img/help/3.1.1.png)",
-		"description": "Permite acceder al Centro de Estimulación de ¡Not Down, Yes Up!.",
+		"description": "Permite acceder al Centro de Estimulación de Not Down, ¡Yes Up!.",
 		"guides": [
 			"Debe autenticarse con un usuario tipo Docente (A)."
 		],
@@ -641,7 +659,9 @@ var manual = [
 			"Dar clic en el botón INICIAR (A).",
 			"Para regresar al Menú Principal debe dar clic en el botón TERMINAR que se encuentra en la parte superior derecha de la ventana (B)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "DETALLAR UNA ETAPA",
 		"id": "3.2.2",
@@ -654,7 +674,9 @@ var manual = [
 			"Dar clic sobre el número de la etapa a la que quiere acceder (A).",
 			"Para regresar al menú anterior debe dar clic en el botón VOLVER que se encuentra en la parte superior derecha de la ventana (B)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "VER ACTIVIDADES DE UNA ETAPA",
 		"id": "3.3.1",
@@ -666,7 +688,9 @@ var manual = [
 		"guides": [
 			"Ver DETALLAR UNA ETAPA."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "INGRESAR A UNA ACTIVIDAD",
 		"id": "3.3.2",
@@ -679,7 +703,9 @@ var manual = [
 			"Dar clic sobre el número de la actividad a la que quiere acceder (A).",
 			"Para regresar al menú anterior debe dar clic en el botón VOLVER que se encuentra en la parte superior derecha de la ventana (B)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "INICIAR UNA ACTIVIDAD",
 		"id": "3.3.3",
@@ -719,7 +745,9 @@ var manual = [
 			"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad. Permite escuchar la guía del/la niño/a. (G).",
 			"¡ESCÚCHAME!: Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (H)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "REINICIAR O CANCELAR ACTIVIDAD",
 		"id": "3.3.5",
@@ -731,7 +759,9 @@ var manual = [
 		"guides": [
 			"Dar clic en el botón Reiniciar Actividad (A)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "DETALLAR UN/A NIÑ/A",
 		"id": "3.3.6",
@@ -752,7 +782,9 @@ var manual = [
 			"Para regresar al desarrollo de la actividad debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (G).",
 			"Para volver al menú anterior dar clic en el botón VOLVER que se encuentra en la parte superior derecha de la ventana"
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "ACTIVIDAD DE APOYO",
 		"id": "3.3.7",
@@ -769,7 +801,9 @@ var manual = [
 			"Dar clic a la imagen para que se escuche la frase descriptiva de la imagen (D).",
 			"Realizar lo mismo con cada imagen visible."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "VALIDACIÓN PARCIAL DE UNA ACTIVIDAD",
 		"id": "3.2.8",
@@ -786,7 +820,9 @@ var manual = [
 			"Digitar la calificación obtenida en el campo Puntuación Docente, seleccionar en la lista desplegable Estado de la Actividad el indicador correspondiente y, escribir las observaciones respectivas (D).",
 			"Dar clic en el botón Validar (D)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "VALIDACIÓN FINAL DE UNA ACTIVIDAD",
 		"id": "3.3.9",
@@ -817,7 +853,7 @@ var manual = [
 		"image": "![IMAGEN DESCRIPCIÓN](/img/help/3.4.1.png)",
 		"description": "Conozca lo que es el tapete electrónico.",
 		"guides": [
-			"El tapete electrónico es una herramienta diseñada para el desarrollo de las actividades en ¡Not Down, Yes Up!.",
+			"El tapete electrónico es una herramienta diseñada para el desarrollo de las actividades en Not Down, ¡Yes Up!.",
 			"Este permite la interacción directa entre el/la niño/a y el software ofreciendo una estimulación mas completa.",
 			"El tapete esta diseñado con elementos reciclados en pro de generar un aporte positivo al medio ambiente.",
 			"Toda actividad desarrollada por los/las niños/as con el tapete debe ser bajo la supervisión de un adulto responsable, previamente capacitado para el uso del mismo.",
@@ -825,7 +861,9 @@ var manual = [
 			"En esta sección hay 4 espacios o lugares marcados con un número consecutivo de 1 hasta 4 (B).",
 			"En estos espacios se ubican los contenedores con sus fichas correspondientes (C) "
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "CONEXIÓN",
 		"id": "3.4.2",
@@ -838,7 +876,9 @@ var manual = [
 			"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
 			"Debe tener en cuenta que el cable USB del tapete tiene un largor de 1.5 metros."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "CUIDADO Y SEGURIDAD",
 		"id": "3.4.3",
@@ -861,7 +901,9 @@ var manual = [
 			"Siempre, al terminar de usar en tapete, debe guardarse en su empaque original.",
 			"Si el tapete electrónico presenta alguna falla o daño llame al desarrollador."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "ACCESO A ConectionRUG",
 		"id": "3.5.1",
@@ -872,10 +914,12 @@ var manual = [
 		"description": "Permite la conexión del tapete electrónico.",
 		"guides": [
 			"Para el desarrollo de una actividad acceder a la aplicación de escritorio ConectionRUG.",
-			"ConectionRUG permite conectar el tapete electrónico con la aplicación ¡Not Down, Yes Up! para el envio de los datos.",
+			"ConectionRUG permite conectar el tapete electrónico con la aplicación Not Down, ¡Yes Up! para el envio de los datos.",
 			"Para acceder a ConectionRUG debe abrir la aplicación de escritorio dando doble clic en el acceso directo que encuentra en el escritorio. (A)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "VALIDACIONES EN ConectionRUG",
 		"id": "3.5.2",
@@ -907,7 +951,9 @@ var manual = [
 			"En el anverso cada ficha tiene una imagen referente a la actividad en desarrollo y en el reverso la referencia a la actividad (EJ: E1 - A1, donde E1 significa Etapa 1 y, donde A1, significa Actividad 1, es decir, esa ficha correspondería a la Actividad 1 de la Etapa 1.) (A).",
 			"Para desarrollar una actividad debe buscar las 4 fichas que tienen la referencia de dicha actividad en su anverso (B)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)",
 		"id": "3.5.4",
@@ -923,7 +969,9 @@ var manual = [
 			"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (B).",
 			"Tras haber iniciado la actividad a desarrollar y haber ubicado los containers con sus respectivas fichas correspondientes a la actividad debe ubicar la ficha correcta, validar el PIN en el cual se encuentra y configurarlo en la opción PIN de ConectionRug y luego dar clic en el botón Conectar (C)."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "CONEXIÓN/DESCONEXIÓN DE TAPETE",
 		"id": "3.5.5",
@@ -955,7 +1003,9 @@ var manual = [
 			"Ubique visualmente la sección Guía (A).",
 			"Allí puede leer cada uno de los pasos que debe tener en cuenta para el desarrollo correcto de la actividad."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "GUÍA NIÑOS/AS",
 		"id": "3.5.7",
@@ -970,7 +1020,9 @@ var manual = [
 			"Allí se pueden leer cada uno de los pasos o indicaciones que se le deben dar al/la niño/a para el desarrollo correcto de la actividad.",
 			"Para que el sistema lea esta guía y pueda ser escuchada por los/las niños/as debe dar clic en el ícono Reproducir que se encuentra debajo de ¡LÉEME!."
 		],
-		"warnings": []
+		"warnings": [
+			"No Aplica."
+		]
 	}, {
 		"name": "IMÁGENES",
 		"id": "3.5.8",

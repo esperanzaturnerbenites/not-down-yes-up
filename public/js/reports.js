@@ -83,17 +83,34 @@ $("#calendarActivities").submit(function (event) {
 		type : "POST",
 		contentType: "application/json",
 		data : JSON.stringify({
-			query:{
-				date: {
-					$gte: dateInit.toISOString(),
-					$lte: dateEnd.toISOString()
-				}
-			},
-			projection: {
-				date:1
+			query:{date: {
+				$gte: dateInit.toISOString(),
+				$lte: dateEnd.toISOString()
 			}
+			},
+			projection: {date:1}
 		}),
-		success: function(response){drawCalendarActivities(response.documents)}
+		success: function(response){
+			response.documents.forEach(document => {document.type = 1})
+			$.ajax({
+				url: "/api/activityvalid",
+				type : "POST",
+				contentType: "application/json",
+				data : JSON.stringify({
+					query:{date: {
+						$gte: dateInit.toISOString(),
+						$lte: dateEnd.toISOString()
+					}
+					},
+					projection: {date:1}
+				}),
+				success: function(response2){
+					response2.documents.forEach(document => {document.type = 10})
+					console.info(response.documents.concat(response2.documents))
+					drawCalendarActivities(response.documents.concat(response2.documents))
+				}
+			})
+		}
 	})
 })
 /*
@@ -185,7 +202,7 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 $("#childrensToTeacherConsul").submit(function(event){
 	event.preventDefault()
 
-	$.ajax({
+	$.ajax({ 
 		url: "/reports/consult-teacher-activities",
 		type : "POST",
 		data : $(this).serialize(),
@@ -248,7 +265,7 @@ $("#tableActivitiesValid tbody tr").click(function(){
 function drawCalendarActivities(documents){
 	window.documents = documents
 	console.log(documents)
-	var dataChart = documents.map(element => {return [new Date(element.date),new Date(element.date).getDate()]})
+	var dataChart = documents.map(element => {return [new Date(element.date),element.type]})
 
 	var dataTable = new google.visualization.DataTable()
 	dataTable.addColumn({ type: "date", id: "Date" })
@@ -432,3 +449,26 @@ function drawChartChildrenToTeacher(numberActivity) {
 	var chart = new google.visualization.ComboChart(document.getElementById("containerChart"))
 	chart.draw(data, options)
 }
+
+function drawChartGlobalStepsValid() {
+
+	var headerChart = [["Etapa", "Puntaje"]],
+		dataChart = dataTemplate.stepsValid.map(stepValid => {return [stepValid.idStep.stepStep + " " + stepValid.idStep.nameStep,stepValid.scoreStep]})
+
+
+	dataChart = headerChart.concat(dataChart)
+
+	var data = google.visualization.arrayToDataTable(dataChart)
+
+	var options = {
+		title: "Estimulación",
+		is3D:true,
+		height:500
+	}
+
+	var chart = new google.visualization.PieChart(document.getElementById("containerChartGlobalStepsValid"))
+
+	chart.draw(data, options)
+}
+
+$("#drawGlobalStepsValid").click(drawChartGlobalStepsValid)

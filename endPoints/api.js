@@ -20,12 +20,17 @@ router.post("/id-exists",(req,res)=>{
 	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
 
 	models.user.findOne({idUser : req.body.id}, (err, user) => {
+		message.user = user
 		if(user) return res.json(message)
 		models.parent.findOne({idParent : req.body.id}, (err, parent) => {
+			message.parent = parent
 			if(parent) return res.json(message)
 			models.children.findOne({idChildren : req.body.id}, (err, children) => {
+				message.children = children
 				if(children) return res.json(message)
-				return res.json({msg:"Ok",statusCode:CTE.STATUS_CODE.OK})
+				message.msg = "Ok"
+				message.statusCode = CTE.STATUS_CODE.OK
+				return res.json(message)
 			})
 		})
 	})
