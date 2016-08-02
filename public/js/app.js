@@ -46,7 +46,7 @@ $(".idMom,.idDad,.idCare").change(function(){
 					$("#lastnameParent",containerInputs).val(response.parent.lastnameParent)
 				}else{
 					$(target).val("")
-					return notification.show({msg:response.msg, type:response.statusCode})
+					return notification.show({msg:response.message, type:response.statusCode})
 				}
 			}
 		}
@@ -61,7 +61,7 @@ $("#formValidChildren").on("submit",(event) => {
 		data : JSON.stringify({query:{idChildren:$("#validChildren").val()}}),
 		type : "POST",
 		success: function(response){
-			if (response.documents.err) return notification.show({msg:response.documents.message, type:CTE.STATUS_CODE.NOT_OK})
+			if (response.err) return notification.show({msg:response.message, type:CTE.STATUS_CODE.NOT_OK})
 			if(!response.documents.length){
 				$("#formAddChildren")
 				.removeClass("hide")

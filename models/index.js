@@ -84,8 +84,6 @@ const userSchema = new Mongoose.Schema({
 		studyParent: {type:String},
 		professionParent: {type:String},
 		jobParent: {type:String}
-	//	relationshipParent: [{type:Number}],
-	//	idChildren: [{type:Schema.ObjectId, ref: "children"}]
 	}),
 
 	activityvalidSchema = new Mongoose.Schema({
@@ -131,12 +129,11 @@ const userSchema = new Mongoose.Schema({
 		onlyTextActivity: {type:String},
 		scriptActivity: {type:String},
 		audioActivity: [],
-		urlActivity: {type:String},
 		stepActivity: {type:Number}
 	}),
 
 	stepvalidSchema = new Mongoose.Schema({
-		statusStep: {type:Number, default:0},
+		statusStep: {type:Number, default:CTE.STATUS_ACTIVITY.UNVALIDATED},
 		scoreStep: {type:Number, default:0},
 		observationStep: {type:String, default:"Sin Calificar"},
 		date: {type:Date, default:Date.now},
@@ -146,10 +143,9 @@ const userSchema = new Mongoose.Schema({
 	}),
 
 	stepSchema = new Mongoose.Schema({
-		stepStep: {type:Number},
-		nameStep: {type:String},
-		descriptionStep: {type:String},
-		urlStep: {type:String}
+		stepStep: {type:Number, required:[true,"El valor de 'stepStep' es requerido."]},
+		nameStep: {type:String, required:[true,"El valor de 'nameStep' es requerido."]},
+		descriptionStep: {type:String, required:[true,"El valor de 'descriptionStep' es requerido."]}
 	})
 
 activitySchema.method("getHistory", function (children,step){

@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({extended:false}))
 		@property {Number} statusCode: Estado de la Validacion
 */
 router.post("/id-exists",(req,res)=>{
-	var message = {msg:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
+	var message = {message:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
 
 	models.user.findOne({idUser : req.body.id}, (err, user) => {
 		message.user = user
@@ -28,7 +28,8 @@ router.post("/id-exists",(req,res)=>{
 			models.children.findOne({idChildren : req.body.id}, (err, children) => {
 				message.children = children
 				if(children) return res.json(message)
-				message.msg = "Ok"
+
+				message.message = "La Identificacion no se encuentra registrda."
 				message.statusCode = CTE.STATUS_CODE.OK
 				return res.json(message)
 			})
@@ -55,13 +56,11 @@ router.post("/new/:collection",(req, res) => {
 		data => {
 			model.create(info,(err,documents) => {
 				if (err) return res.json(err)
-					console.log("resolve")
 				return res.json({documents:documents})
 			})
 		},
 		err => {
-			console.log("reject")
-			return res.json({message:err})
+			return res.json({err:{message:err.message}})
 		}
 	)
 
@@ -84,24 +83,6 @@ router.post("/:collection",(req, res) => {
 		/*Projection(Busquedas) Campos ha seleccionar*/
 		projection = data.projection ? data.projection : {}
 
-	/*
-	var promise = fn(params)
-	promise.then( 
-		data => {
-			model.find(query,projection)
-				.populate("user parent activity children")
-				.exec((err,documents) => {
-					if (err) return res.json({err:err})
-					params.data = documents
-					return res.json({documents:documents,returnFn:data.data})
-				})
-			
-		},
-		err => {
-			return res.json({message:err.message})
-		}
-	)
-	*/
 	model.find(query,projection)
 	.populate("user parent activity children")
 	.exec((err,documents) => {
@@ -134,13 +115,12 @@ router.put("/:collection",(req, res) => {
 		data => {
 			model.update(query,dataUpdate,function(err,status) {
 				if (err) return res.json({err:err})
-				if (status.nModified) return res.json({msg:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
-				if (!status.nModified) return res.json({msg:"Actualizacion Incompleta",statusCode:CTE.STATUS_CODE.NOT_OK,status:status})
+				if (status.nModified) return res.json({message:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
+				if (!status.nModified) return res.json({message:"Actualizacion Incompleta",statusCode:CTE.STATUS_CODE.NOT_OK,status:status})
 			})
 		},
 		err => {
-			console.log("callback reject")
-			return res.json({msg:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
+			return res.json({message:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
 		}
 	)
 })
@@ -158,15 +138,13 @@ router.delete("/:collection",(req, res) => {
 
 	promise.then(
 		data => {
-			console.log("callback resolve")
 			model.remove(query,function(err,status) {
 				if (err) return res.json({err:err})
-				return res.json({msg:"Eliminacion Completa.",statusCode:CTE.STATUS_CODE.OK,status:status})
+				return res.json({message:"Eliminacion Completa.",statusCode:CTE.STATUS_CODE.OK,status:status})
 			})
 		},
 		err => {
-			console.log("callback reject")
-			return res.json({msg:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
+			return res.json({message:err.message,statusCode:CTE.STATUS_CODE.NOT_OK})
 		}
 
 	)

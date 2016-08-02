@@ -39,7 +39,8 @@ const CTE = {
 	},
 	STATUS_ACTIVITY: {
 		UNCOMPLETED:0,
-		COMPLETED:1
+		COMPLETED:1,
+		UNVALIDATED:2
 	},
 	FIRST_USER: {
 		USERNAME:"Developer",

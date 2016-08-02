@@ -278,31 +278,31 @@ function drawCalendarActivities(documents){
 		title: "Calendario de Actividades",
 		height: 350,
 		calendar: {
-			//cellSize: 16,
 			cellColor: {
-				stroke: '#76a7fa',
+				stroke: "#76a7fa",
 				strokeOpacity: 0.5,
 				strokeWidth: 1
 			}
 		},
 		noDataPattern: {
-			backgroundColor: '#76a7fa',
-			color: '#a0c3ff'
+			backgroundColor: "#76a7fa",
+			color: "#a0c3ff"
 		}
 	}
 
-	chart.draw(dataTable, options);
+	chart.draw(dataTable, options)
 }
 
 function drawChartStep(){
 
 	var steps = dataTemplate.stepsValid
-	var data = steps.map(element => {return [element.idStep.nameStep,element.scoreStep]})
+	var headerChart = [["Etapa", "Puntaje"]]
+	var dataChart = steps.map(element => {return [element.idStep.nameStep,element.scoreStep]})
 
-	if(!data.length) return notification.show({msg:"No hay Datos Para la Graficas",type:CTE.STATUS_CODE.INFORMATION})
+	if(!dataChart.length) return notification.show({msg:"No hay Datos Para la Graficas",type:CTE.STATUS_CODE.INFORMATION})
 
-	var headerChart = [["Etapa", "Puntaje"]],
-		dataChart = headerChart.concat(data)
+	
+	dataChart = headerChart.concat(dataChart)
 
 	var data = google.visualization.arrayToDataTable(dataChart)
 

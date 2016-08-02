@@ -102,6 +102,14 @@ function showFormValidateFinalActivity(){
 $("#audioPrinc").prop("volume", 0.1)
 $("#audioPrinc").trigger("play")
 
+if($("#audioPrinc")[0]){
+	$("#audioPrinc")[0].addEventListener("ended", function() {
+		this.currentTime = 0
+		this.play()
+		console.log("infinite")
+	}, false)
+}
+
 //var socket = io.connect("http://192.168.0.3:8000/")
 var socket = io.connect()
 
@@ -113,16 +121,23 @@ socket.on("connect", function() {
 
 socket.on("arduino:data", function (data) {
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,
-		srcImage = "/img/imgacts/activities/sad.png"
+		srcImage = "/img/imgacts/activities/sad.png",
+		srcAudio = "/audio/bad.mp3"
+
 	if(data.statusCode == CTE.STATUS_CODE.OK){
 		scoreSystemActivity = CTE.MAX_SCORE_SYSTEM
-		srcImage = "/img/imgacts/activities/smile.png"
+		srcImage = "/img/imgacts/activities/smile.png",
+		srcAudio = "/audio/good.mp3"
 	}
-	if(data.isCorrect) $("#aswerAct audio").trigger("play")
 	$("#aswerAct").removeClass("hide")
+
+	$("#aswerAct audio").attr("src",srcAudio)
+	$("#aswerAct audio").trigger("play")
+
 	$("#aswerAct #scoreSystemActivity").val(scoreSystemActivity)
 	$("#aswerAct img").attr("src",srcImage)
 	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
+	
 	notification.show({msg:data.message, type:data.statusCode})
 })
 
@@ -151,7 +166,6 @@ $(".viewMore").click(function(){
 		},
 		type : "POST",
 		success: function(response){
-			console.log(response)
 			$("#resultViewMore").html(response.html)
 		}
 	})
@@ -165,10 +179,8 @@ $("#viewHistoryActivities").click(() => {})
 $("#viewValidsActivities").click(() => {})
 
 $("#continueViewMore").click(() => {
-	var msg = "¡Consulta éxitosa!",
-		type = 0
 	$("#results")[0].scrollIntoView()
-	notification.show({msg:msg, type:type})
+	notification.show({msg:"¡Consulta éxitosa!", type:CTE.STATUS_CODE.OK})
 	$("#resultStepActs").empty()
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)

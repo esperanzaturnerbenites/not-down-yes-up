@@ -147,7 +147,7 @@ router.post("/report-final/",(req,res)=>{
 
 	models.children.findOne({idChildren : idChildren},(err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
+		if(!children) {return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
 		
 		children.getDataAll().then(
 			function(data){
@@ -177,7 +177,7 @@ router.get("/info-children/:id",(req,res)=>{
 	.populate("idParent.idParent")
 	.exec((err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {return res.json({"msg":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
+		if(!children) {return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
 			
 		data.child = children
 		data.parents = children.idParent.map(objParent => {return objParent.idParent})
@@ -187,7 +187,6 @@ router.get("/info-children/:id",(req,res)=>{
 		.populate("idActivity idUser idStep")
 		.exec((err, activitiesH) => {
 			if (err) return res.json({err:err})
-			if(!activitiesH) {return res.json({"msg":"Activities history not found"})}
 			data.histories = activitiesH
 
 			models.activityvalid.find({idChildren: children._id})
@@ -195,7 +194,6 @@ router.get("/info-children/:id",(req,res)=>{
 			.populate("idActivity idUser idStep")
 			.exec((err, activitiesV) => {
 				if (err) return res.json({err:err})
-				if(!activitiesV) {return res.json({"msg":"Activities valid not found"})}
 				if(activitiesV) {
 					data.activitiesValid = activitiesV
 					models.stepvalid.find({idChildren:children._id})
@@ -203,7 +201,6 @@ router.get("/info-children/:id",(req,res)=>{
 					.populate("idStep idUser")
 					.exec((err,stepvalidChild) =>{
 						if(err) return res.json({err:err})
-						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
 						if(stepvalidChild){
 							data.stepsValid = stepvalidChild
 							res.render("infoChildren",{infoChildren: data})

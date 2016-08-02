@@ -42,7 +42,6 @@ function checkNewAdminUser(params,info){
 			if(!user) return reject(new Error("El usuario No existe"))
 			info.idUser = user._id
 			models.adminuser.findOne({idUser:user._id,typeUser:params.typeUser},function(err,adminuser){
-				console.log("holaaaa")
 				if(err) return reject(err)
 				if(adminuser) return reject(new Error("Ya existe un usuario de tipo "))
 				resolve({data:{message:"Ok"}})
@@ -53,14 +52,10 @@ function checkNewAdminUser(params,info){
 }
 
 function renderListUser(params){
-	console.log("renderListUser")
 	return new Promise(function(resolve,reject){
 		models.adminuser.find(params.query)
 		.populate("idUser")
 		.exec(function(err,adminuser){
-			console.log("-----------------------")
-			console.log(adminuser)
-			console.log("-----------------------")
 			if(err) return reject(err)
 			localsJade.dataCustom = adminuser
 			var fn = jade.compileFile(params.view,{})

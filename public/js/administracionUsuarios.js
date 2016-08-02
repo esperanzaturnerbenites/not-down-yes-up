@@ -74,30 +74,13 @@ $("#formNewUser").submit(function(event){
 				}
 			}),
 			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
+			success: function(response){
+				if (response.err) return notification.show({msg:response.err.message, type:1})
 				$("#formNewUser").trigger("reset")
-				notification.show({msg:result.msg, type:result.statusCode})
+				notification.show({msg:"El Usuario se creo correctamente", type:CTE.STATUS_CODE.OK})
 			}
 		})
-		/*$.ajax({
-			url: "/admin/register-newuser",
-			async : false, 
-			data : $(this).serialize(),
-			type : "POST",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
-				$("#idUser").val("")
-				$("#userUser").val("")
-				$("#passUser").val("")
-				$("#newPassConfirmUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
-			}
-		})*/
-	}else{
-		var msg = "¡Contraseña no coincide!"
-		notification.show({msg:msg, type:1})
-	}
+	}else notification.show({msg:"¡Contraseña no coincide!", type:CTE.STATUS_CODE.NOT_OK})
 })
 
 $("#formUpdatePass").submit(function(event){ 
@@ -114,9 +97,9 @@ $("#formUpdatePass").submit(function(event){
 					params :{passUser:$("#adminPassUser").val()}
 				}),
 				type: "PUT",
-				success: function(result){
+				success: function(response){
 					$("#formUpdatePass").trigger("reset")
-					notification.show({msg:result.msg, type:result.statusCode})
+					notification.show({msg:response.message, type:response.statusCode})
 				}
 			})
 		}
@@ -135,11 +118,13 @@ $("#formOpeUserRol").submit(function(event){
 				data:{$set:{typeUser:$("#rolUser").val()}},
 				query:{userUser:$("#adminRolIdUser").val(),typeUser:{ $ne: 2 }}
 			}),
+			fn:"checkActivities",
+			params:{userUser:$("#adminRolIdUser").val()},
 			type: "PUT",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
+			success: function(response){
+				if (response.err) return notification.show({msg:response.err.message, type:1})
 				$("#adminRolIdUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
+				notification.show({msg:response.message, type:response.statusCode})
 			}
 		})
 	}
@@ -164,9 +149,9 @@ $("#formOpeUserStatus").submit(function(event){
 				query:{userUser:$("#adminStaIdUser").val(),typeUser:{ $ne: 2 }}
 			}),
 			type: "PUT",
-			success: function(result){
+			success: function(response){
 				$(this).trigger("reset")
-				notification.show({msg:result.msg, type:result.statusCode})
+				notification.show({msg:response.message, type:response.statusCode})
 			}
 		})
 	}
@@ -184,10 +169,10 @@ $("#formOpeUser").submit(function(event) {
 				params:{userUser:$("#adminOpeIdUser").val()}
 			}),
 			type : "DELETE",
-			success: function(result){
-				if (result.err) return notification.show({msg:result.err.message, type:1})
+			success: function(response){
+				if (response.err) return notification.show({msg:response.err.message, type:1})
 				$("#adminOpeIdUser").val("")
-				notification.show({msg:result.msg, type:result.statusCode})
+				notification.show({msg:response.message, type:response.statusCode})
 			}
 		})
 	}

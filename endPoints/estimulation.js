@@ -157,7 +157,7 @@ router.get("/info-children/:id",(req,res)=>{
 	.populate('idParent.idParent')
 	.exec((err, children) => {
 		if(err) return res.json({err:err})
-		if(!children) return res.json({"msg":"Children not found"})
+		if(!children) return res.json({"message":"Children not found",statusCode:CTE.STATUS_CODE.NOT_OK})
 		dataChildren = children
 		
 		dataChildren.parents = children.idParent.map(objParent => {return objParent.idParent})

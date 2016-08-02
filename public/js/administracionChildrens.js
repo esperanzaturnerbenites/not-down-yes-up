@@ -32,7 +32,7 @@ $("#formOpeStatusChildren").submit(function(event){
 			}),
 			type : "PUT",
 			success: function(response){
-				notification.show({msg:response.msg, type:response.statusCode})
+				notification.show({msg:response.message, type:response.statusCode})
 			}
 		})
 	}
@@ -45,6 +45,10 @@ function validStep(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(response){
+			$("#showResultValid").empty()
+			$("#formValidStep").addClass("hide")
+			$("#formValidStep").off("submit",validStep)
+			notification.show({msg:response.message, type:response.statusCode})
 		}
 	})
 }

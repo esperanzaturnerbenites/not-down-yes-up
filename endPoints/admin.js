@@ -42,7 +42,7 @@ function createChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 
 		models.step.find({}, (err, steps) => {
 			if(err) return res.json({err:err})
-			if(!steps.length) return res.json({msg:"Not steps"})
+			if(!steps.length) return res.json({message:"No Hay Etapas Creadas",statusCode:CTE.STATUS_CODE.NOT_OK})
 
 			var parentsChildren = []
 			var promisesParent = []
@@ -50,33 +50,22 @@ function createChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 			parents.forEach(oparent => {
 				var promiseParent = new Promise(function(resolve,reject){
 					models.parent.findOne({idParent : oparent.idParent.idParent},(err, parentFind) => {
-						console.log("----------------------------")
 						if(parentFind){
-							console.log("Exist")
-							console.log(oparent)
 							parentsChildren.push({idParent:parentFind._id,relationshipParent:oparent.relationshipParent})
 							resolve()
 						}else{
-							console.log("Create")
-							console.log("..........................................")
-							console.log(oparent)
-							console.log("..........................................")
 							models.parent.create(oparent.idParent,(err, parentCreate) => {
-								console.log(parentCreate)
 								parentsChildren.push({idParent:parentCreate._id,relationshipParent:oparent.relationshipParent})
 								resolve()
 							})
 						}
-						console.log("----------------------------")
 					})
 				})
 				promisesParent.push(promiseParent)
 			})
 
-			console.log(promisesParent)
 			Q.all(promisesParent).then(function () {
 				dataChildren.idParent = parentsChildren
-				console.log(parentsChildren)
 				models.children.create(dataChildren, function (err, children) {
 					if(err) return res.json({err:err})
 
@@ -117,7 +106,7 @@ function updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 			promises.push(promise)
 		})
 		Q.all(promises).then(() => {
-			return res.json("update listo")
+			return res.json({message:"Niñ@ Actualizd@ Correctamente.",statusCode:CTE.STATUS_CODE.OK})
 		})
 	})
 }
@@ -128,7 +117,7 @@ function createUser(dataUser,dataAdminuser,req,res){
 
 		models.adminuser.findOne({userUser : dataAdminuser.userUser}, (err, adminFind) => {
 			if(err) return res.json({err:err})
-			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!"}})
+			if(adminFind) return res.json({err:{message:"¡Usuario de logueo ya existe!",statusCode:CTE.STATUS_CODE.INFORMATION}})
 			if(!adminFind){
 				models.user.create(dataUser, function (err, user) {
 					if(err) return res.json({err:err})
@@ -143,7 +132,7 @@ function createUser(dataUser,dataAdminuser,req,res){
 				})
 			}
 		})
-	}else return res.json({err:{message:"¡Contraseña no coincide!"}})
+	}else return res.json({err:{message:"¡Contraseña no coincide!",statusCode:CTE.STATUS_CODE.NOT}})
 }
 
 function updateUser(dataUser,req,res){
@@ -250,7 +239,6 @@ router.get("/info-children/:id",(req,res)=>{
 			.populate("idActivity idStep idUser")
 			.exec((err,acthisChild) =>{
 				if(err) return res.json({err:err})
-				if(!acthisChild) return res.json({msg:"No tiene actividades - History"})
 				data.historys = acthisChild
 				
 				models.activityvalid.find({idChildren:childrenFind._id})
@@ -258,7 +246,6 @@ router.get("/info-children/:id",(req,res)=>{
 				.populate("idStep idActivity idUser")
 				.exec((err,actvalidChild) =>{
 					if(err) return res.json({err:err})
-					if(!actvalidChild) return res.json({err:{message:"No tiene actividades - Valid"}})
 					data.valids = actvalidChild
 					
 					models.stepvalid.find({idChildren:childrenFind._id})
@@ -266,7 +253,6 @@ router.get("/info-children/:id",(req,res)=>{
 					.populate("idStep idUser")
 					.exec((err,stepvalidChild) =>{
 						if(err) return res.json({err:err})
-						if(!stepvalidChild) return res.json({err:{message:"No tiene etapas - Valid"}})
 						if(stepvalidChild){
 							data.stepvalids = stepvalidChild
 							res.render("infoChildren",{infoChildren: data})
@@ -322,7 +308,6 @@ router.get("/info-user/:id",(req,res)=>{
 			data.user = userFind
 			models.adminuser.find({idUser:userFind._id},(err,adminU) =>{
 				if(err) return res.json({err:err})
-				if(!adminU) return res.json({msg:"No users asigned"})
 				data.admin = adminU
 
 				var adminuserTeacher = adminU.find(adminuser => {
@@ -366,13 +351,11 @@ router.get("/reports",(req,res)=>{
 
 	models.step.find({},(err,steps)=>{
 		if(err) return res.json({err:err})
-		if(!steps) return res.json({msg:"Not Steps",statusCode:CTE.STATUS_CODE.OK})
 		if(steps){
 			data.steps = steps
 
 			models.activity.find({stepActivity:1},(err,activities)=>{
 				if(err) return res.json({err:err})
-				if(!activities) return res.json({msg:"Not Activities",statusCode:CTE.STATUS_CODE.OK})
 				if(activities){
 					data.activities = activities
 					models.adminuser.find({typeUser:CTE.TYPE_USER.TEACHER, statusUser:CTE.STATUS_USER.ACTIVE})
@@ -390,7 +373,6 @@ router.get("/reports",(req,res)=>{
 
 router.post("/valid-step",(req,res)=>{
 	var data = req.body
-	//res.json(data)
 
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
 		if(children.statusChildren != CTE.STATUS_USER.ACTIVE) return res.json({message:"El niñ@ esta inactivo",statusCode:CTE.STATUS_CODE.INFORMATION})
@@ -404,7 +386,18 @@ router.post("/valid-step",(req,res)=>{
 
 				if(stepValid){
 					stepValid.update({$set:data},function(err,updateStepValid){
-						res.json({message:"Validación Actualizada",type:CTE.STATUS_CODE.OK})
+						models.stepvalid.count({idChildren:children._id,statusStep:{$ne:CTE.STATUS_ACTIVITY.UNVALIDATED}},function(err,numberStepsValid){
+							models.step.count({},function(err,numberSteps){
+								if(numberStepsValid != numberSteps) return res.json({message:"Validación Actualizada",statusCode:CTE.STATUS_CODE.OK})
+								children.update(
+									{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.QUALIFIED}},
+									function(err,update){
+										if(err) return res.json({message:"Validación Actualizada, No se Actualizo el estado del niñ@",statusCode:CTE.STATUS_CODE.OK})
+										return res.json({message:"Validación Actualizada",statusCode:CTE.STATUS_CODE.OK})
+									}
+								)
+							})
+						})
 					})
 				}else{
 					models.stepvalid.create(data,function(err,newStepValid){
@@ -464,8 +457,7 @@ router.post("/restore",uploadBackup.single("data"),(req,res)=>{
 		stream: file,
 		callback: function(err) {
 			if(err) return res.json({err:err})
-			return res.json({msg:"importacion correcta"})
-			
+			return res.json({message:"Importación Correcta.",statusCode:CTE.STATUS_CODE.OK})
 		}
 	})
 })
