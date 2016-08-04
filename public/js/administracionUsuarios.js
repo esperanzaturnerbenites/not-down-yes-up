@@ -116,7 +116,7 @@ $("#formOpeUserRol").submit(function(event){
 			contentType: "application/json",
 			data: JSON.stringify({
 				data:{$set:{typeUser:$("#rolUser").val()}},
-				query:{userUser:$("#adminRolIdUser").val(),typeUser:{ $ne: 2 }}
+				query:{userUser:$("#adminRolIdUser").val(),typeUser:{ $nin: [1,2] }}
 			}),
 			fn:"checkActivities",
 			params:{userUser:$("#adminRolIdUser").val()},
@@ -164,7 +164,7 @@ $("#formOpeUser").submit(function(event) {
 			url: "/api/adminuser",
 			contentType: "application/json",
 			data : JSON.stringify({
-				query:{userUser:$("#adminOpeIdUser").val(),typeUser:{ $ne: 2 }},
+				query:{userUser:$("#adminOpeIdUser").val(),typeUser:{ $nin: [1,2] }},
 				fn:"checkActivities",
 				params:{userUser:$("#adminOpeIdUser").val()}
 			}),

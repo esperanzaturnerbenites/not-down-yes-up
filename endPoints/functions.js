@@ -30,22 +30,23 @@ function updateStatusChildrenEstimulation(params,info){
 			{$set:{statusChildrenEstimulation:params.statusChildrenEstimulation}},
 			function(err,status){
 				if(err) return reject(err)
-				resolve({data:{message:"Actualizacion de estado completada"}})
+				resolve({data:{message:"Actualizacion de estado completada",statusCode:CTE.STATUS_CODE.OK}})
 			})
 	})
 }
 function checkNewAdminUser(params,info){
 	info.passUser = cryptr.encrypt(info.passUser)
+
 	return new Promise(function(resolve,reject){
 		models.user.findOne({idUser:params.idUser},function(err,user){
 			if(err) return reject(err)
 			if(!user) return reject(new Error("El usuario No existe"))
+
 			info.idUser = user._id
 			models.adminuser.findOne({idUser:user._id,typeUser:params.typeUser},function(err,adminuser){
 				if(err) return reject(err)
-				if(adminuser) return reject(new Error("Ya existe un usuario de tipo "))
-				resolve({data:{message:"Ok"}})
-				
+				if(adminuser) return reject(new Error("Ya existe un usuario de tipo."))
+				resolve({data:{message:"El nuevo uuario se puede crear",statusCode:CTE.STATUS_CODE.OK}})
 			})
 		})
 	})
@@ -55,9 +56,9 @@ function renderListUser(params){
 	return new Promise(function(resolve,reject){
 		models.adminuser.find(params.query)
 		.populate("idUser")
-		.exec(function(err,adminuser){
+		.exec(function(err,adminusers){
 			if(err) return reject(err)
-			localsJade.dataCustom = adminuser
+			localsJade.dataCustom = adminusers
 			var fn = jade.compileFile(params.view,{})
 			var html = fn(localsJade)
 			resolve({data:html})
@@ -78,14 +79,12 @@ function addObservationChildren(params){
 			},
 			function(err,children){
 				if(err) return reject(err)
-				resolve({message:"Observacion Añadida"})
+				resolve({message:"Observacion Añadida",statusCode:CTE.STATUS_CODE.OK})
 			})
 	})
 }
 
-function defaulFn(){
-	return Promise.resolve("Success")
-}
+function defaulFn(){return Promise.resolve("Success")}
 
 function checkActivities(params,data,res){
 	return new Promise(function(resolve,reject){
@@ -93,12 +92,12 @@ function checkActivities(params,data,res){
 
 		models.adminuser.findOne({userUser:userUser},function(err,adminuser){
 			if(err) return reject(err)
-			models.activityhistory.count({idUser:adminuser._id},function(err,status){
+			models.activityhistory.count({idUser:adminuser._id},function(err,quantity){
 				if(err) return reject(err)
-				if(status){
-					reject({message: "El Usuario Tiene actividades Iniciadas. Inactivelo."})
+				if(quantity){
+					reject(new Error("El Usuario tiene actividades Iniciadas. Inactivelo."))
 				}else{
-					resolve({message: "El usuario se puede Eliminar"})
+					resolve({message: "El usuario se puede Eliminar",statusCode:CTE.STATUS_CODE.OK})
 				}
 			})
 		})
@@ -109,9 +108,10 @@ function checkActivities(params,data,res){
 function encryptPass(params,data,res){
 	return new Promise(function(resolve,reject){
 		data.passUser = cryptr.encrypt(params.passUser)
-		resolve({message:"Encriptacion Correcta"})
+		resolve({message:"Encriptacion Correcta",statusCode:CTE.STATUS_CODE.OK})
 	})
 }
+
 function groupStepsValids(stepsValid){
 	var data = {}
 	stepsValid.forEach(function(stepValid){

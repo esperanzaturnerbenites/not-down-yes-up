@@ -5,15 +5,14 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	jade = require("jade"),
 	functions = require("./functions"),
+	Q = require("q"),
+	filename = require("filename"),
+	mongoose = require("mongoose"),
 	localsJade = {
 		dataGeneral:{},
 		parserCustom: functions.parserCustom,
 		CTE: CTE
-	},
-	pdf = require("html-pdf"),
-	Q = require("q"),
-	filename = require("filename"),
-	mongoose = require("mongoose")
+	}
 
 router.use(bodyParser.urlencoded({extended:false}))
 
@@ -24,7 +23,7 @@ router.post("/consult-teacher-activities",(req,res)=>{
 	models.step.findOne({stepStep:numberStep},function(err,stepFind){
 		models.activityhistory.aggregate([
 			{$match: {idUser:mongoose.Types.ObjectId(data.consulTeacher),idStep:stepFind._id}},
-			{$sort: { data : 1}},
+			{$sort: { date : 1}},
 			{$group: {
 				_id: {idChildren: "$idChildren",idActivity: "$idActivity"},
 				scoreTotalTeachActivity: {$sum:"$scoreTeachActivity"},
@@ -101,13 +100,10 @@ router.post("/consult-step-act",(req,res)=>{
 	var dataChildrens = []
 
 	models.children.find({statusChildren:CTE.STATUS_USER.ACTIVE},(err,childrens) => {
+		if(!childrens.length) return res.json({message:"No hay Niñ@s",statusCode:CTE.STATUS_CODE.INFORMATION})
 		childrens.forEach(children => {
-			var promise = children.getDataAll({
-				filters:filters
-			}).then(
-				function(data){
-					dataChildrens.push(data)
-				},
+			var promise = children.getDataAll({filters:filters}).then(
+				function(data){dataChildrens.push(data)},
 				function(err){}
 			)
 			promises.push(promise)
@@ -117,8 +113,6 @@ router.post("/consult-step-act",(req,res)=>{
 				localsJade.dataCustom = dataChildrens
 				localsJade.dataGeneral.numberStep = numberStep
 				localsJade.dataGeneral.numberActivity = numberActivity
-
-				//return res.json(localsJade)
 
 				var fn = jade.compileFile(view,{})
 				var html = fn(localsJade)
@@ -147,7 +141,7 @@ router.post("/report-final/",(req,res)=>{
 
 	models.children.findOne({idChildren : idChildren},(err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
+		if(!children) return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})
 		
 		children.getDataAll().then(
 			function(data){
@@ -177,7 +171,7 @@ router.get("/info-children/:id",(req,res)=>{
 	.populate("idParent.idParent")
 	.exec((err, children) => {
 		if (err) {res.json(err)}
-		if(!children) {return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})}
+		if(!children) return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})
 			
 		data.child = children
 		data.parents = children.idParent.map(objParent => {return objParent.idParent})

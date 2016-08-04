@@ -1,12 +1,14 @@
 const express = require("express"),
 	router = express.Router(),
-	bodyParser = require("body-parser")
+	bodyParser = require("body-parser"),
+	dataManualUser = require("../dataManualUser")
 
 router.use(bodyParser.urlencoded({extended:false}))
 
 router.get("/login",(req,res)=>{res.render("login")})
 
-router.get("/help-me",(req,res)=>{res.render("helpMe")})
+router.get("/help-me",(req,res)=>{
+	res.render("helpMe",{manual:dataManualUser})
+})
 
-//Exportar una variable de js mediante NodeJS
 module.exports = router

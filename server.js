@@ -24,7 +24,7 @@ const express = require("express"),
 
 	//Definicion de Rutas
 	arduinoURL = require("./endPoints/arduino"),
-	api = require("./endPoints/api"),
+	URLapi = require("./endPoints/api"),
 	userURLUsers = require("./endPoints/users"),
 	userURLEstimulation = require("./endPoints/estimulation"),
 	userURLAdmin = require("./endPoints/admin"),
@@ -197,12 +197,12 @@ app.use((req,res,next) => {
 	})
 })
 
-app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),api)
 app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
 app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
 app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
 app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
 
+app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),URLapi)
 
 //Valida si se encuentra autenticado
 function requiredType (types){

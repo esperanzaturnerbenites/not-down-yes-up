@@ -1,9 +1,11 @@
-$("#formOpeChildrenInfo").click(function(event){ 
-	window.open("/reports/info-children/" + $("#adminInfoChildren").val())
+$("#formOpeChildrenInfo").click(function(event){
+	if(!$("#adminInfoChildren"))
+		window.open("/reports/info-children/" + $("#adminInfoChildren").val())
 })
 
 $("#formOpeChildrenUpd").click(function(event){
-	window.open("/admin/register-children/" + $("#adminInfoChildren").val())
+	if(!$("#adminInfoChildren"))
+		window.open("/admin/register-children/" + $("#adminInfoChildren").val())
 }) 
 
 $("#formOpeChildren").submit(function(event){event.preventDefault()})

@@ -9,6 +9,46 @@ var express = require("express"),
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
+router.use(["/new/:collection","/:collection"],(req,res,next)=>{
+	var data = req.body.query || req.body.info
+
+	if(req.params.collection == "adminuser"){
+		if(data.userUser == req.user.userUser){
+			return res.json({message:"No puede realizar acciones Sobre este usuario, pues esta logeado actualmente.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}else if(data.typeUser == CTE.TYPE_USER.DEVELOPER){
+			return res.json({message:"No puede realizar acciones sobre este tipo de usuarios.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}else if(data.userUser == CTE.FIRST_USER.USERNAME){
+			return res.json({message:"No puede realizar acciones sobre este usuario.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}
+	}
+	next()
+})
+
+
+router.use("/:collection",(req,res,next)=>{
+	if(req.method == "POST"){
+		return res.send("POST")
+	}else if(req.method == "PUT"){
+		if(req.params.collection == "adminuser"){
+			if(req.body.query.userUser){
+				if(req.body.data.typeUser){
+					models.adminuser.findOne({userUser:req.body.query.userUser},function(err,adminuser){
+						if(adminuser.typeUser == CTE.TYPE_USER.TEACHER) return res.json({message:"Ha este usuario no se le puede actualizar el rol",type:CTE.STATUS_CODE.NOT_OK})
+						next()
+					})
+				}
+			}
+		}
+	}else if(req.method == "DELETE"){
+		return res.send("DELETE")
+	}else{
+		return res.json({err:{message:"Este Verbo HTTP no esta soportado por la aplicación."}})
+	}
+
+	next()
+})
+
+
 /*
 	Valida que un id(Identificacion) no se encuentre Registrada
 	Request Data {String} id: id a Validar
@@ -55,13 +95,16 @@ router.post("/new/:collection",(req, res) => {
 	promise.then(
 		data => {
 			model.create(info,(err,documents) => {
-				if (err) return res.json(err)
-				return res.json({documents:documents})
+				if (err) return res.json({err:{message:err.message,err:err}})
+
+				return res.json({
+					message: "La crecion se realizo exitosamente.",
+					statusCode: CTE.STATUS_CODE.OK,
+					documents: documents
+				})
 			})
 		},
-		err => {
-			return res.json({err:{message:err.message}})
-		}
+		err => {return res.json({err:{message:err.message,err:err}})}
 	)
 
 })
@@ -86,7 +129,8 @@ router.post("/:collection",(req, res) => {
 	model.find(query,projection)
 	.populate("user parent activity children")
 	.exec((err,documents) => {
-		if (err) return res.json({err:err})
+		if (err) return res.json({err:{message:err.message,err:err}})
+
 		params.data = documents
 		var promise = fn(params)
 		promise.then( 
@@ -94,7 +138,7 @@ router.post("/:collection",(req, res) => {
 				return res.json({documents:documents,returnFn:data.data})
 			},
 			err => {
-				return res.json({message:err.message})
+				return res.json({err:{message:err.message,err:err}})
 			}
 		)
 	})
@@ -114,9 +158,9 @@ router.put("/:collection",(req, res) => {
 	promise.then(
 		data => {
 			model.update(query,dataUpdate,function(err,status) {
-				if (err) return res.json({err:err})
-				if (status.nModified) return res.json({message:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
-				if (!status.nModified) return res.json({message:"Actualizacion Incompleta",statusCode:CTE.STATUS_CODE.NOT_OK,status:status})
+				if(err) return res.json({err:err})
+				if(status.nModified) return res.json({message:"Actualizacion Completa",statusCode:CTE.STATUS_CODE.OK,status:status})
+				if(!status.nModified) return res.json({message:"Actualizacion Incompleta",statusCode:CTE.STATUS_CODE.NOT_OK,status:status})
 			})
 		},
 		err => {

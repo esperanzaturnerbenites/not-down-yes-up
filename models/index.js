@@ -196,9 +196,6 @@ childrenSchema.method("getDataAll", function (options){
 		filterActivities = options.filters.activities ? options.filters.activities: false
 	}
 
-	console.log(filterSteps)
-	console.log(filterActivities)
-
 	return new Promise((resolvep1, rejectp1) => {
 		models.children.findOne({idChildren:children.idChildren})
 		.populate("idParent.idParent")
@@ -208,6 +205,7 @@ childrenSchema.method("getDataAll", function (options){
 			models.stepvalid.find({idChildren:childrenDB._id})
 			.lean()
 			.populate("idChildren idUser idStep")
+			.sort({"idStep.stepStep":1})
 			.exec(function(err,stepsValidDB){
 				if(!stepsValidDB.length) return rejectp1({message:"No hay Etapas Validadas"})
 
@@ -221,6 +219,7 @@ childrenSchema.method("getDataAll", function (options){
 
 						stepValidDB.activities = []
 						models.activity.find({stepActivity:stepValidDB.idStep.stepStep})
+						.sort({activityActivity:1})
 						.exec(function(err,activitiesDB){
 
 							activitiesDB.forEach(activityDB => {

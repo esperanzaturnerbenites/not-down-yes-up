@@ -440,6 +440,7 @@ router.post("/pre-valid-step",(req,res)=>{
 		)
 	})
 })
+
 router.post("/backup",(req,res)=>{
 	res.writeHead(200, {"Content-Type": "application/x-tar"})
 	backup({
@@ -462,5 +463,4 @@ router.post("/restore",uploadBackup.single("data"),(req,res)=>{
 	})
 })
 
-//Exportar una variable de js mediante NodeJS
 module.exports = router

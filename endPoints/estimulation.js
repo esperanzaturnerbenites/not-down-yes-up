@@ -17,15 +17,17 @@ router.get("/menu-teacher",(req,res)=>{res.render("menuTeacher")})
 
 router.post("/startActivity",(req,res)=>{
 	var data = req.body
-	var fn = jade.compileFile("views/contentActivity.jade",{})
+
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
 		if(!children) return res.json({message:"Niño no Existe",statusCode:CTE.STATUS_CODE.INFORMATION})
+
 		models.activity.findOne({activityActivity:data.idActivity,stepActivity:data.idStep},function(err,activity){
-			if(!activity) return res.json({message:"No Existe la actividad",statusCode:CTE.STATUS_CODE.INFORMATION})
+			if(!activity) return res.json({message:"No Existe la actividad", statusCode:CTE.STATUS_CODE.INFORMATION})
 			
 			localsJade.activity = activity
 			localsJade.children = children
 
+			var fn = jade.compileFile("views/contentActivity.jade",{})
 			var html = fn(localsJade)
 			return res.json({html: html,message:"Correcto",statusCode:CTE.STATUS_CODE.OK})
 		})
@@ -40,50 +42,47 @@ router.post("/valid-activity",(req,res)=>{
 		{idChildren:data.idChildren,idActivity:data.idActivity,idStep:data.idStep},
 		function(err,count){
 			if(err) return res.json(err)
+
 			if(count < CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY){
-				res.json({message:"Debe COmpletar por lo minimo " + CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY + " actividdes parciales"})
-			}else{
-				models.activityvalid.findOne({idChildren:data.idChildren,idActivity:data.idActivity,idStep:data.idStep},function(err,activityvalid){
-					if(activityvalid){
-						activityvalid.update({$set:data},function(err,updateActivityvalid){
-							res.json({message:"Validación Actividad Actualizada",type:CTE.STATUS_CODE.OK})
-						})
-					}else{
-						models.activityvalid.create(data,function(err,newActivityvalid){
-							models.children.update(
-								{_id:data.idChildren},
-								{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.IN_PROGRESS}},
-								function(err,update){
-									if(err) return res.json({message:"Validación Actividad Completada, No se Actualizo el estado del niñ@",type:CTE.STATUS_CODE.OK})
-									return res.json({message:"Validación Actividad Completada",type:CTE.STATUS_CODE.OK})
-								}
-							)
-						})
-					}
+				return res.json({
+					message:"Debe Completar por lo minimo " + CTE.MIN_NUMBER_ACTIVITIES_HISTORIES_FOR_VALIDATE_ACTIVITY + " activides parciales",
+					statusCode:CTE.STATUS_CODE.INFORMATION
 				})
+			}else{
+				models.activityvalid.findOne(
+					{idChildren:data.idChildren,idActivity:data.idActivity,idStep:data.idStep},
+					function(err,activityvalid){
+						if(activityvalid){
+							activityvalid.update({$set:data},function(err,updateActivityvalid){
+								return res.json({message:"Validación Actividad Actualizada",type:CTE.STATUS_CODE.OK})
+							})
+						}else{
+							models.activityvalid.create(data,function(err,newActivityvalid){
+								models.children.update(
+									{_id:data.idChildren},
+									{$set:{statusChildrenEstimulation:CTE.STATUS_ESTIMULATION.IN_PROGRESS}},
+									function(err,update){
+										if(err) return res.json({message:"Validación Actividad Completada, No se Actualizo el estado del niñ@",type:CTE.STATUS_CODE.OK})
+										return res.json({message:"Validación Actividad Completada",type:CTE.STATUS_CODE.OK})
+									}
+								)
+							})
+						}
+					})
 			}
 		})
 })
 
 router.get("/steps",(req,res)=>{
-	var step = {}
-
-	models.step.find({})
-	.sort({stepStep:1})
-	.exec((err, stepDB) => {
-		step = stepDB
-		res.render("stepMenu",{steps:step})
-	})
+	models.step.find({}).sort({stepStep:1}).exec(function (err, steps){res.render("stepMenu",{steps:steps})})
 })
 
 router.get("/steps/:step",(req,res)=>{
 	const numberStep = parseInt(req.params.step)
-	var step = {}
 
-	models.step.findOne({stepStep:numberStep}, (err, stepDB) => {
-		step = stepDB
-		models.activity.find({stepActivity:numberStep})
-		.sort({activityActivity:1})
+	models.step.findOne({stepStep:numberStep}).lean()
+	.exec((err, step) => {
+		models.activity.find({stepActivity:numberStep}).sort({activityActivity:1})
 		.exec((err, activities) => {
 			step.activities = activities
 			res.render("stepDetail",{step:step})
@@ -183,5 +182,4 @@ router.get("/info-children/:id",(req,res)=>{
 	})
 })
 
-//Exportar una variable de js mediante NodeJS
 module.exports = router

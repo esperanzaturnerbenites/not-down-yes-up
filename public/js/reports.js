@@ -27,9 +27,11 @@ $(".headerTab").on("click",function() {
 $("#consultGeneralChildrens").submit(function (event) {
 	event.preventDefault()
 
-	var data = {query:{statusChildren : $("#statusChildren").val()}}
+	var data = {query:{}}
 
+	if($("#statusChildren").val() != "T") data.query.statusChildren = $("#statusChildren").val()
 	if(data.query.statusChildren == CTE.STATUS_USER.ACTIVE) data.query.statusChildrenEstimulation = $("#statusChildrenEstimulation").val()
+
 
 	data.fn = "renderReportAge"
 	data.params = {
@@ -54,7 +56,9 @@ $("#consultGeneralTeachers").submit(function (event) {
 
 	var data = {query:{}}
 
-	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val()
+	data.query.typeUser = {$ne : 2}
+
+	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val(),
 
 	data.fn = "renderListUser"
 	data.params = {
@@ -68,6 +72,7 @@ $("#consultGeneralTeachers").submit(function (event) {
 		contentType: "application/json",
 		data : JSON.stringify(data),
 		success: function(response){
+			$("#showResultsReport").html("")
 			$("#showResultsReport").html(response.returnFn)
 			$("#showResultsReport")[0].scrollIntoView()
 		}
@@ -192,6 +197,8 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(result){
+			//***********************************                revisar notificaction
+			if(!result.html) return notification.show({msg:result.message,type:result.statusCode})
 			$("#showResultsReport").html("")
 			$("#showResultsReport").html(result.html)
 			$("#showResultsReport")[0].scrollIntoView()
@@ -207,6 +214,8 @@ $("#childrensToTeacherConsul").submit(function(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(response){
+			//***********************************                revisar notificaction
+			if(!response.localsJade) return notification.show({msg:response.message,type:response.type})
 			dataToChartChildrenToTeacher = response.localsJade.dataCustom
 			$("#showResultsReport").html("")
 			$("#showResultsReport").html(response.html)
