@@ -19,7 +19,7 @@ var manual = [
 		"route": "/",
 		"reference": "allPaginaPrincipal",
 		"includes": [],
-		"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.1.png)",
+		"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.2.png)",
 		"description": "Es el inicio de la aplicación Not Down, ¡Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
 		"guides": [
 			"Al iniciar la aplicación Not Down, ¡Yes Up! estará de inmediato en la página principal.",
@@ -1076,8 +1076,8 @@ var manual = [
 		"guides": [
 			"Las imágenes que se muestran en la sección ¡ESCÚCHAME! se cargan dependiendo de cada actividad.",
 			"Pueden ser desde 1 hasta 3 imágenes las mostradas en esta sección (A).",
-			"Dependiendo de la actividad, junto a la imagen puede aparecer un ícono de reproducción de audio requerido para el desarrollo de la actividad, al dar clic en el sonara una canción o un cuento dependiendo de la actividad. (B)",
-			"Al pasar el cursor sobre cada imagen esta agranda su tamaño . (C)",
+			"Dependiendo de la actividad, junto a la imagen puede aparecer un ícono de reproducción de audio requerido para el desarrollo de la actividad, al dar clic en el sonará una canción o un cuento dependiendo de la actividad. (B)",
+			"Al pasar el cursor sobre cada imagen esta agranda su tamaño (C).",
 			"Al dar clic sobre cada imagen el sistema lee su descripción y dependiendo de cada actividad oculta o muestra dicha imagen."
 		],
 		"warnings": [
@@ -1096,7 +1096,7 @@ var manual = [
 			"Que el niño presione la ficha correcta:.",
 			"Al presionarse la ficha correcta el tapete se ilumina, muestra un mensaje que dice '¡Muy Bien!' y se despliega una sección en el software que muestra una imagen de una carita feliz y un campo con la puntuación obtenida que para este caso es 10 (A).",
 			"Que el niño presione la ficha incorrecta:.",
-			"Al presionarse una ficha incorrecta el tapete no se ilumina, muestra un mensaje que dice 'Sigue Intentando' y se despliega una sección en el software que muestra una imagen de una carita apenada y un campo con la puntuación obtenida que para este caso es 0 (B)."
+			"Al presionarse una ficha incorrecta el tapete no se ilumina, muestra un mensaje que dice 'Sigue Intentando' y se despliega una sección en el software que muestra una imagen de una carita apenada y un campo con la puntuación obtenida que para este caso es 5 (B)."
 		],
 		"warnings": [
 			"Verifique la correcta conexión del tapete."
