@@ -1,4 +1,4 @@
-var manual = [
+module.exports = [
 	{
 		"name": "Not Down, ¡Yes Up!",
 		"id": "1.1",
@@ -23,10 +23,9 @@ var manual = [
 		"description": "Es el inicio de la aplicación Not Down, ¡Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
 		"guides": [
 			"Al iniciar la aplicación Not Down, ¡Yes Up! estará de inmediato en la página principal.",
-			"Para regresar a la página principal solo escriba la dirección en la barra de direcciones (A).",
 			"Existen dos tipos de menú:",
-			"Menú de 1 opción: Donde solo esta la opción de autenticación ((B) Botón: INGRESAR)",
-			"Menú de 3 opciones: Donde le permite sali del sistema o acceder al menú principal dependiendo de el usuario que se encuentre autenticado ((C) Botones: ADMINISTRACIÓN - ESTIMULACIÓN - SALIR)"
+			"Menú de 1 opción: Donde solo esta la opción de autenticación ((A) Botón: INGRESAR)",
+			"Menú de 3 opciones: Donde le permite salir del sistema o acceder al menú principal dependiendo de el usuario que se encuentre autenticado ((B) Botones: ADMINISTRACIÓN - ESTIMULACIÓN - SALIR)"
 		],
 		"warnings": [
 			"Verificar la conexión a Internet."
@@ -57,9 +56,9 @@ var manual = [
 		"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.3.png)",
 		"description": "Permite salir por completo de la aplicación Not Down, ¡Yes Up!.",
 		"guides": [
-			"Para salir del sistema debe encontrarse en el menú principal (A).",
-			"Dar clic en el botón SALIR que se envuentra en la parte superior izquierda (B).",
-			"En el cuadro emergente, dar clic en Aceptar."
+			"Para salir del sistema debe encontrarse siempre en el menú principal.",
+			"Dar clic en el botón SALIR que se encuentra en la parte superior izquierda (A).",
+			"En el cuadro emergente, dar clic en Aceptar (B)."
 		],
 		"warnings": [
 			"Verifique que se encuentre en el menú principal."
@@ -103,7 +102,7 @@ var manual = [
 		"image": "![IMAGEN MENÚ PRINCIPAL ADMINISTRACIÓN](/img/help/2.1.png)",
 		"description": "Permite acceder a todas las opciones del administrador.",
 		"guides": [
-			"Al autenticarse en el sistema con un usuario de tipo Administrador automáticamente se carga el Menú Principal del Administrador (A)."
+			"Al autenticarse en el sistema con un usuario de tipo Administrador automáticamente se carga el Menú Principal del Administrador."
 		],
 		"warnings": [
 			"Verifique que se ha autenticado con un usuario de tipo Administrador."
@@ -126,7 +125,7 @@ var manual = [
 			"Dar clic en el botón Registrar (F).",
 			"El botón Limpiar, elimina toda la información que haya digitado en el formulario (G).",
 			"El botón Cancelar, cancela el registro y redirecciona al Menú Principal (H).",
-			"Para regresar al Menú Principal dar clic en el botón VOLVER o Cancelar (I)."
+			"Para regresar al Menú Principal dar clic en el botón VOLVER o Cancelar."
 		],
 		"warnings": [
 			"Verifique que el número de cédula sea correcto.",
@@ -144,14 +143,11 @@ var manual = [
 		"guides": [
 			"Dar clic en la opción ADMIN USUARI@S del menú principal (A).",
 			"Ubique visualmente la sección Ver Usuarios (B).",
-			"Dar clic en la lista desplegable y seleccionar la opción que quiere consultar (C).",
+			"Dar clic en las listas desplegable y seleccionar la opción que quiere consultar (C).",
 			"Dar clic en el botón Buscar (D).",
-			"Hay 5 opciones de consulta:",
-			"Primera opción, Administrador: Muestra todos los usuarios de tipo administrador que se encuentran registrados.",
-			"Segunda opción, Docente: Muestra todos los usuarios de tipo docente que se encuentran registrados.",
-			"Tercera opción, Activo: Muestra todos los usuarios activos que se encuentran registrados.",
-			"Cuarta opción, Inactivo: Muestra todos los usuarios inactvos que se encuentran registrados.",
-			"Quinta opción, Todos: Muestra todos los usuarios registrados sin discriminación.",
+			"Hay 2 listas desplegables:",
+			"La primera es Tipo de Consulta, en ella puede seleccionar entre consultar por: Administrador, Docente o Todos",
+			"La segunda lista es Estado de Usuarios, en ella puede seleccionar entre cosultar por: Inactivo, Activo o Todos.",
 			"En el resultado de la consulta el ID de cada usuario es un link para ver información mas detallada del mismo y el campo Editar de cada usuario permite modificar la información de dicho usuario.",
 			"Para regresar al Menú Principal dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
@@ -168,10 +164,9 @@ var manual = [
 		"description": "Permite consultar la información detallada de un usuario específico.",
 		"guides": [
 			"Dar clic en la opción ADMIN USUARI@S del menú principal (A).",
-			"Ubique visualmente la sección Docente/Administrador(s) (B).",
-			"Digitar el número de cédula del usuario que quiere consultar (C).",
-			"Dar clic en el botón Ver Info (E).",
-			"Se abre una nueva pestaña donde se muestra toda la información del usuario (E).",
+			"Consulte el tipo de usuario que desea detallar como se explica en 2.1.3 CONSULTAR USUARIOS/AS.",
+			"En el resultado de la consulta dar clic sobre el ID del usuario (B).",
+			"Se abre una nueva pestaña donde se muestra toda la información del usuario (C).",
 			"Para regresar al Menú Principal debe cerrar la pestaña que se abrió tras la consulta y/o volver a la pestaña anterior (ADMIN USUARI@S), y dar clic en el botón VOLVER que se encuentra en la parte superior izquierda de la ventana."
 		],
 		"warnings": [

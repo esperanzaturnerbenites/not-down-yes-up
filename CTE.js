@@ -76,11 +76,6 @@ const CTE = {
 	}
 }
 
-const PERMISSIONS = {
-	DEVELOPER:{},
-	TEACHER: {}
-}
-
 CTE.FN.INDICATORS.getString = function(indicator){
 	var indicatorString = ""
 	if(indicator == CTE.INDICATORS.L){

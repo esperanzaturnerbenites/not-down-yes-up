@@ -4,13 +4,49 @@ var express = require("express"),
 	router = express.Router(),
 	bodyParser = require("body-parser"),
 	functions = require("./functions"),
-	CTE = require("../CTE")
+	CTE = require("../CTE"),
+	permissions = require("../permissions")
 
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
+function requiredType (types){
+	return function ensureAuth (req, res, next) {
+		var ifDesktopApp = eval(req.get("Desktop-App"))
+
+		if(ifDesktopApp){
+			if (req.isAuthenticated()){
+				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+				res.json({msg: "Ok, Autenticado Correctamente",statusCode:CTE.STATUS_CODE.OK})
+			}else{
+				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
+			}
+		}else{
+			if (req.isAuthenticated()){
+				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
+				req.flash("info","No tiene permisos para acceder a esta opcion")
+				return res.redirect("/")
+			}else{
+				res.redirect("/users/login")
+			}
+		}
+	}
+}
+
 router.use(["/new/:collection","/:collection"],(req,res,next)=>{
-	var data = req.body.query || req.body.info
+	var collection = req.params.collection
+	var pCollection = permissions[collection]
+
+	if(!pCollection){
+		return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
+	}else{
+		if(pCollection[req.method] == false) return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
+	}
+	next()
+})
+
+router.use(["/new/:collection","/:collection"],(req,res,next)=>{
+	var data = req.body.query || req.body.info || {}
 
 	if(req.params.collection == "adminuser"){
 		if(data.userUser == req.user.userUser){
@@ -24,10 +60,10 @@ router.use(["/new/:collection","/:collection"],(req,res,next)=>{
 	next()
 })
 
-
+/*
 router.use("/:collection",(req,res,next)=>{
 	if(req.method == "POST"){
-		return res.send("POST")
+		next()
 	}else if(req.method == "PUT"){
 		if(req.params.collection == "adminuser"){
 			if(req.body.query.userUser){
@@ -40,13 +76,13 @@ router.use("/:collection",(req,res,next)=>{
 			}
 		}
 	}else if(req.method == "DELETE"){
-		return res.send("DELETE")
+		next()
 	}else{
 		return res.json({err:{message:"Este Verbo HTTP no esta soportado por la aplicación."}})
 	}
 
 	next()
-})
+})*/
 
 
 /*
@@ -56,7 +92,7 @@ router.use("/:collection",(req,res,next)=>{
 		@property {String} msg: Menaje de Validacion
 		@property {Number} statusCode: Estado de la Validacion
 */
-router.post("/id-exists",(req,res)=>{
+router.post("/id-exists",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.TEACHER]),(req,res)=>{
 	var message = {message:"Esta Identificacion ya se encuenta Registrada",statusCode:CTE.STATUS_CODE.INFORMATION}
 
 	models.user.findOne({idUser : req.body.id}, (err, user) => {
@@ -77,7 +113,7 @@ router.post("/id-exists",(req,res)=>{
 	})
 })
 
-router.post("/new/:collection",(req, res) => {
+router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,
@@ -109,7 +145,7 @@ router.post("/new/:collection",(req, res) => {
 
 })
 
-router.post("/:collection",(req, res) => {
+router.post("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,
@@ -144,7 +180,7 @@ router.post("/:collection",(req, res) => {
 	})
 })
 
-router.put("/:collection",(req, res) => {
+router.put("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,
@@ -169,7 +205,7 @@ router.put("/:collection",(req, res) => {
 	)
 })
 
-router.delete("/:collection",(req, res) => {
+router.delete("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,

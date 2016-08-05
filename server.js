@@ -199,13 +199,14 @@ app.use((req,res,next) => {
 
 app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
 app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
-app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLAdmin)
-app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER]), userURLReports)
+app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR]), userURLAdmin)
+app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR]), userURLReports)
 
-app.use("/api",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.DEVELOPER,CTE.TYPE_USER.TEACHER]),URLapi)
+app.use("/api",URLapi)
 
 //Valida si se encuentra autenticado
 function requiredType (types){
+	types.push(CTE.TYPE_USER.DEVELOPER)
 	return function ensureAuth (req, res, next) {
 		var ifDesktopApp = eval(req.get("Desktop-App"))
 

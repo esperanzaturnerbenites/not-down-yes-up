@@ -1,0 +1,47 @@
+{
+	"user": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"adminuser": {
+		"POST":true,
+		"DELETE":true,
+		"PUT":true
+	},
+	"children": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"parent": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"activityvalid": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"activityhistory": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"stepvalid": {
+		"POST":true,
+		"DELETE":false	,
+		"PUT":true
+	},
+	"activity": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	},
+	"step": {
+		"POST":true,
+		"DELETE":false,
+		"PUT":true
+	}
+}
