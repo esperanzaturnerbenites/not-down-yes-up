@@ -57,8 +57,16 @@ router.post("/consult-teacher-activities",(req,res)=>{
 					})
 					localsJade.dataCustom = activites
 
-					var fn = jade.compileFile("views/reports/consultChildrensToTeacher.jade",{})
+					var pathView = "views/reports/consultChildrensToTeacher.jade"
+
+					var fn = jade.compileFile(pathView,{})
 					var html = fn(localsJade)
+
+					functions.htmlToPdf(html,filename(pathView) + ".pdf").then(function(data){
+						var room = req.user.idUser
+						req.io.sockets.in(room).emit("report:generated", data)
+					})
+
 					return res.json({html:html,localsJade:localsJade})
 				})
 		})
@@ -116,6 +124,13 @@ router.post("/consult-step-act",(req,res)=>{
 
 				var fn = jade.compileFile(view,{})
 				var html = fn(localsJade)
+
+				functions.htmlToPdf(html,filename(view) + ".pdf").then(function(data){
+					var room = req.user.idUser
+					req.io.sockets.in(room).emit("report:generated", data)
+					console.log(data)
+				})
+
 				return res.json({html:html,localsJade:localsJade})
 			},
 			function(err){console.log("reject")}

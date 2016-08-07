@@ -1,14 +1,13 @@
 //- Listado de Profesores
 //- POST /reports/general
-if forPdf
-	include ../templates/templatePdf.jade
+extends ../templates/templatePdf.jade
 
 block content
 	section.consul.consulQuery
 		h3 Listado General PROFESORES
 		section
-			button(type="button")
-				span Generar PDF
+			button#buttonOpenPDF(type="button").hide
+				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
 		article.consulTable
 			table
 				thead

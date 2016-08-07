@@ -11,6 +11,17 @@ $.ajaxSetup({
 	headers: {"Desktop-App": "false"}
 })
 
+
+var room = $("input[name=idUserAuthenticate]").val()
+
+if(room){
+	//var socket = io.connect("http://192.168.0.3:8000/")
+	var socket = io.connect()
+	socket.on("connect", function() {
+		socket.emit("room", room)
+	})
+}
+
 const CTE = { 
 	INDICATORS: {
 		L:1,

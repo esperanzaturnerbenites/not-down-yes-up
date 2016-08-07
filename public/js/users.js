@@ -22,6 +22,15 @@ $("[data-id = ulPcpal]" ).hover(
 	}
 )
 
+$("[data-id = navAbout]").on("click", function() {
+	var selector = $(this).data("reference")
+	$(".menuDesc").addClass("hide")
+	if(selector){
+		$(selector).removeClass("hide")
+	}
+})
+
+
 $("[data-id = admest]").on("click", function() {
 	var selector = $(this).data("reference")
 	$(".menuDesc").addClass("hide")

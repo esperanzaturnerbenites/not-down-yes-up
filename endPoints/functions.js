@@ -4,6 +4,7 @@ var jade = require("jade"),
 	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("../CTE"),
 	models = require("../models"),
+	filename = require("filename"),
 	localsJade = {
 		parserCustom: parserCustom,
 		CTE: CTE
@@ -14,11 +15,19 @@ Date.prototype.getStringCustom = function(){
 	return this.toLocaleString("es-CO",{hour12:true})
 }
 
-function renderReportAge(params){
+function renderReportAge(params,req){
 	return new Promise(function(resolve,reject){
 		var fn = jade.compileFile(params.view,{})
 		localsJade.dataCustom = params.data
 		var html = fn(localsJade)
+		
+
+		htmlToPdf(html,filename(params.view) + ".pdf").then(function(data){
+			var room = req.user.idUser
+			req.io.sockets.in(room).emit("report:generated", data)
+			console.log(data)
+		})
+
 		resolve({data:html})
 	})
 }
@@ -52,7 +61,7 @@ function checkNewAdminUser(params,info){
 	})
 }
 
-function renderListUser(params){
+function renderListUser(params,req){
 	return new Promise(function(resolve,reject){
 		models.adminuser.find(params.query)
 		.populate("idUser")
@@ -61,6 +70,12 @@ function renderListUser(params){
 			localsJade.dataCustom = adminusers
 			var fn = jade.compileFile(params.view,{})
 			var html = fn(localsJade)
+
+			htmlToPdf(html,filename(params.view) + ".pdf").then(function(data){
+				var room = req.user.idUser
+				req.io.sockets.in(room).emit("report:generated", data)
+				console.log(data)
+			})
 			resolve({data:html})
 		})
 	})
@@ -86,7 +101,7 @@ function addObservationChildren(params){
 
 function defaulFn(){return Promise.resolve("Success")}
 
-function checkActivities(params,data,res){
+function checkActivities(params,data){
 	return new Promise(function(resolve,reject){
 		var userUser = params.userUser
 
@@ -105,7 +120,7 @@ function checkActivities(params,data,res){
 	})
 }
 
-function encryptPass(params,data,res){
+function encryptPass(params,data){
 	return new Promise(function(resolve,reject){
 		data.passUser = cryptr.encrypt(params.passUser)
 		resolve({message:"Encriptacion Correcta",statusCode:CTE.STATUS_CODE.OK})
@@ -142,9 +157,11 @@ function htmlToPdf(stringHTML,nameFile,options){
 	return new Promise(function(resolve,reject){
 		var optionsDefault = {
 			format: "Letter",
-			"orientation": "portrait",
+			"orientation": "landscape",
 			"base": "http://localhost:8000",
-			"border": "2cm"
+			"border": "0cm",
+			"header": {"height": "2cm"},
+			"footer": {"height": "2cm"}
 		}
 		options = options ? options : optionsDefault
 		pdf.create(stringHTML, options).toFile("public/temp/" + nameFile, function(err, data) {

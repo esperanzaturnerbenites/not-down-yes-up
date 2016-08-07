@@ -1,14 +1,13 @@
 //- 
 //- POST /reports/general
-if forPdf
-	include ../templates/templatePdf.jade
+extends ../templates/templatePdf.jade
 
 block content
 	section.consul.consulQuery
 		h3 RESULTADO CONSULTA
 		section
-			button(type="button")
-				span Generar PDF
+			button#buttonOpenPDF(type="button").hide
+				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
 		article.consulTable
 			p
 				span #[b ETAPA #{dataCustom[0].stepsValid[0].idStep.stepStep}: #{dataCustom[0].stepsValid[0].idStep.nameStep}]

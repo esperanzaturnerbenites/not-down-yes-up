@@ -11,6 +11,7 @@ router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
 function requiredType (types){
+	types.push(CTE.TYPE_USER.DEVELOPER)
 	return function ensureAuth (req, res, next) {
 		var ifDesktopApp = eval(req.get("Desktop-App"))
 
@@ -127,7 +128,7 @@ router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req,
 		/*info(Busquedas) Campos ha seleccionar*/
 		info = data.info ? data.info : {}
 
-	var promise = fn(params,info)
+	var promise = fn(params,info,req)
 	promise.then(
 		data => {
 			model.create(info,(err,documents) => {
@@ -168,7 +169,7 @@ router.post("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res
 		if (err) return res.json({err:{message:err.message,err:err}})
 
 		params.data = documents
-		var promise = fn(params)
+		var promise = fn(params,req)
 		promise.then( 
 			data => {
 				return res.json({documents:documents,returnFn:data.data})
@@ -189,7 +190,7 @@ router.put("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res)
 		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
 		params = data.params ? data.params : {}
 
-	var promise = fn(params,dataUpdate,res)
+	var promise = fn(params,dataUpdate,req)
 
 	promise.then(
 		data => {
@@ -214,7 +215,7 @@ router.delete("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, r
 		fn = data.fn ? functions[data.fn] : functions["defaulFn"],
 		params = data.params ? data.params : {}
 
-	var promise = fn(params,dataUpdate,res)
+	var promise = fn(params,dataUpdate,req)
 
 	promise.then(
 		data => {

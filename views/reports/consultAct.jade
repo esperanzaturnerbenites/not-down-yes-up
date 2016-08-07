@@ -1,69 +1,71 @@
 //- 
 //- POST /reports/general
+extends ../templates/templatePdf.jade
 
-section.consul.consulQuery 
-	h3 RESULTADO CONSULTA
-	p
-	section#buttons
-	section
-		button(type="button")
-			span Generar PDF
-	article.consulTable
-		table
-			thead
-				tr
-					th ID
-					th NOMBRE NIÑ@
-					th EDAD
-					th ESTADO NIÑ@
-					th N. ACTIVIDAD
-					th NOMBRE ACTIVIDAD
-					th ESTADO
-					th PUNTAJE SISTEMA
-					th PUNTAJE DOCENTE
-					th APOYO MÁXIMO
-					th APOYO MÍNIMO
-					th D FUNCIONAL
-					th OBSERVACIÓN
-					th FECHA VALIDACIÓN
-			tbody
-				each dataChildren in dataCustom
-					- var children = dataChildren.children
+block content
+	section.consul.consulQuery 
+		h3 RESULTADO CONSULTA
+		p
+		section#buttons
+		section
+			button#buttonOpenPDF(type="button").hide
+				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
+		article.consulTable
+			table
+				thead
+					tr
+						th ID
+						th NOMBRE NIÑ@
+						th EDAD
+						th ESTADO NIÑ@
+						th N. ACTIVIDAD
+						th NOMBRE ACTIVIDAD
+						th ESTADO
+						th PUNTAJE SISTEMA
+						th PUNTAJE DOCENTE
+						th APOYO MÁXIMO
+						th APOYO MÍNIMO
+						th D FUNCIONAL
+						th OBSERVACIÓN
+						th FECHA VALIDACIÓN
+				tbody
+					each dataChildren in dataCustom
+						- var children = dataChildren.children
 
-					each stepValid in dataChildren.stepsValid
-						each activity in stepValid.activities
-							- var activityValid = activity.activitiesValid
-							if activityValid
-								tr
-									td 
-										a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
-									td #{children.nameChildren} #{children.lastnameChildren}
-									td #{children.ageChildren}
-									td #{parserCustom(children.statusChildren,"STATUS_USER")}
-									td #{activityValid.idActivity.activityActivity} 
-									td #{activityValid.idActivity.nameActivity}
-									td #{parserCustom(activityValid.statusActivity,"STATUS_ACTIVITY")}
-									td #{activityValid.scoreSystemActivity}
-									td #{activityValid.scoreTeachActivity}
-									td #{parserCustom(activityValid.backingMaxActivity,"INDICATORS")}
-									td #{parserCustom(activityValid.backingMinActivity,"INDICATORS")}
-									td #{parserCustom(activityValid.backingDFunctionActivity,"INDICATORS")}
-									td #{activityValid.observationActivity}
-									td #{new Date(activityValid.date).getStringCustom()}
-							else
-								tr
-									td 
-										a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
-									td #{children.nameChildren} #{children.lastnameChildren}
-									td #{children.ageChildren}
-									td #{parserCustom(children.statusChildren,"STATUS_USER")}
-									td #{activity.activityActivity} 
-									td #{activity.nameActivity}
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
-									td Sin Datos
+						each stepValid in dataChildren.stepsValid
+							each activity in stepValid.activities
+								- var activityValid = activity.activitiesValid
+								if activityValid
+									tr
+										td 
+											a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
+										td #{children.nameChildren} #{children.lastnameChildren}
+										td #{children.ageChildren}
+										td #{parserCustom(children.statusChildren,"STATUS_USER")}
+										td #{activityValid.idActivity.activityActivity} 
+										td #{activityValid.idActivity.nameActivity}
+										td #{parserCustom(activityValid.statusActivity,"STATUS_ACTIVITY")}
+										td #{activityValid.scoreSystemActivity}
+										td #{activityValid.scoreTeachActivity}
+										td #{parserCustom(activityValid.backingMaxActivity,"INDICATORS")}
+										td #{parserCustom(activityValid.backingMinActivity,"INDICATORS")}
+										td #{parserCustom(activityValid.backingDFunctionActivity,"INDICATORS")}
+										td #{activityValid.observationActivity}
+										td #{new Date(activityValid.date).getStringCustom()}
+								else
+									tr
+										td 
+											a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren} 
+										td #{children.nameChildren} #{children.lastnameChildren}
+										td #{children.ageChildren}
+										td #{parserCustom(children.statusChildren,"STATUS_USER")}
+										td #{activity.activityActivity} 
+										td #{activity.nameActivity}
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos
+										td Sin Datos

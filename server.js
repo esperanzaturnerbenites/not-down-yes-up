@@ -138,6 +138,9 @@ app.use((req,res,next) => {
 	res.locals.CTE = CTE
 	res.locals.parserCustom = functions.parserCustom
 	res.locals.pretty = true
+	res.locals.mediaURL = ""
+
+	res.locals.mediaURL = process.env.NODE_ENV == "dev" ? "" : "https://googledrive.com/host/0B-a0YhEjhS0WQUtDQ2ppUUFpVTA/"
 	next()
 })
 
@@ -207,13 +210,13 @@ app.use("/api",URLapi)
 //Valida si se encuentra autenticado
 function requiredType (types){
 	types.push(CTE.TYPE_USER.DEVELOPER)
+	console.log(types)
 	return function ensureAuth (req, res, next) {
 		var ifDesktopApp = eval(req.get("Desktop-App"))
 
 		if(ifDesktopApp){
 			if (req.isAuthenticated()){
 				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-				res.json({msg: "Ok, Autenticado Correctamente",statusCode:CTE.STATUS_CODE.OK})
 			}else{
 				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
 			}

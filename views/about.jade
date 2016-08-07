@@ -1,0 +1,79 @@
+doctype html
+html(lang='es')
+	head
+		meta(charset='UTF-8')
+		title Acerca de Not Down, ¡Yes Up!
+		link(rel='stylesheet', href='/css/styles.css')
+
+	body.backgroundF
+		section.container
+
+			section.menuHelp.flex
+				section
+					p Acerca de...
+					p.menuHelpColor Not Down, ¡Yes Up!
+
+			nav.menuAbout.menuHelp
+				ul
+					li(data-id='navAbout' data-reference="#developer")
+						a DESARROLLADORA
+					li(data-id='navAbout' data-reference="#app")
+						a APLICACIÓN
+					li(data-id='navAbout' data-reference="#contact")
+						a CONTACTO
+					li(data-id='navAbout' data-reference="#resources")
+						a RECURSOS
+
+			section#developer.menuDesc.menuAbout.hide.flex
+				section.aboutPhoto
+					img(src='/img/favicon.png')
+				section.aboutDescription
+					article
+						p Luz María Esperanza Turner Benites
+					article
+						p Ingeniería de Sistemas
+					article
+						p Universidad Piloto de Colombia
+					article
+						p Año: 2016
+			section#app.menuDesc.hide
+				
+			section#contact.menuDesc.menuAbout.socials.hide
+				section.flexWrap
+					article
+						a
+							p
+								img.socials(src='/img/about/wh.png')
+								span 312 449 9558
+					article
+						a(href='https://www.facebook.com/esperanzaturnerbenites' target='_blank')
+							p
+								img.socials(src='/img/about/fb.png')
+								span Luz Maria Turner
+					article
+						a(href='https://twitter.com/espeturner' target='_blank')
+							p
+								img.socials(src='/img/about/tw.png')
+								span @espeturner
+					article
+						a(href='' target='_blank')
+							p
+								img.socials(src='/img/about/gm.png')
+								span esperanzaturnerbenites@gmail.com
+					article
+						a(href='' target='_blank')
+							p
+								img.socials(src='/img/about/gh.png')
+								span esperanzaturnerbenites
+					article
+						a(href='' target='_blank')
+							p
+								img.socials(src='/img/about/yt.png')
+								span esperanzaturnerbenites
+				section
+					article 	
+			section#resources.menuDesc.hide
+
+		script(src="/js/lib/jquery-2.2.0.min.js")
+		script(src="/js/dataManualUser.js")
+		script(src="/js/users.js")

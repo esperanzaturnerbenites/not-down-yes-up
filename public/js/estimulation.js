@@ -106,18 +106,8 @@ if($("#audioPrinc")[0]){
 	$("#audioPrinc")[0].addEventListener("ended", function() {
 		this.currentTime = 0
 		this.play()
-		console.log("infinite")
 	}, false)
 }
-
-//var socket = io.connect("http://192.168.0.3:8000/")
-var socket = io.connect()
-
-var room = $("input[name=idUserAuthenticate]").val()
-
-socket.on("connect", function() {
-	socket.emit("room", room)
-})
 
 socket.on("arduino:data", function (data) {
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,

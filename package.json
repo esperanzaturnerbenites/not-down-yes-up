@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "supervisor server.js",
+    "dev": "NODE_ENV=dev supervisor server.js",
+    "start": "NODE_ENV=prod node server.js",
     "stylus": "stylus -w -c public/stylus/styles.styl -o public/css"
   },
   "keywords": [

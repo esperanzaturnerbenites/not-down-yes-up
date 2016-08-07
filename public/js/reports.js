@@ -1,4 +1,9 @@
 google.charts.load("current", {packages: ["corechart", "bar","calendar"]})
+function showReportResult(response){
+	var html = $(response.returnFn || response.html).filter(".consulQuery")
+	$("#showResultsReport").empty().append(html)
+	$("#showResultsReport")[0].scrollIntoView()
+}
 
 var notification = new NotificationC(),
 	/*Variable de reasigna cuando se consulta el reporte de childrens to teacher*/
@@ -44,10 +49,7 @@ $("#consultGeneralChildrens").submit(function (event) {
 		type : "POST",
 		contentType: "application/json",
 		data : JSON.stringify(data),
-		success: function(response){
-			$("#showResultsReport").html(response.returnFn)
-			$("#showResultsReport")[0].scrollIntoView()
-		}
+		success: showReportResult
 	})
 })
 
@@ -58,7 +60,7 @@ $("#consultGeneralTeachers").submit(function (event) {
 
 	data.query.typeUser = {$ne : 2}
 
-	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val(),
+	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val()
 
 	data.fn = "renderListUser"
 	data.params = {
@@ -71,11 +73,7 @@ $("#consultGeneralTeachers").submit(function (event) {
 		type : "POST",
 		contentType: "application/json",
 		data : JSON.stringify(data),
-		success: function(response){
-			$("#showResultsReport").html("")
-			$("#showResultsReport").html(response.returnFn)
-			$("#showResultsReport")[0].scrollIntoView()
-		}
+		success: showReportResult
 	})
 })
 
@@ -142,10 +140,7 @@ $("#ageConsul").submit(function (event) {
 		type : "POST",
 		contentType: "application/json",
 		data : JSON.stringify(data),
-		success: function(response){
-			$("#showResultsReport").html(response.returnFn)
-			$("#showResultsReport")[0].scrollIntoView()
-		}
+		success: showReportResult
 	})
 })
 
@@ -196,13 +191,7 @@ $("#formConsulStep,#formConsulActStepsReport").submit(function(event){
 		url: "/reports/consult-step-act",
 		type : "POST",
 		data : $(this).serialize(),
-		success: function(result){
-			//***********************************                revisar notificaction
-			if(!result.html) return notification.show({msg:result.message,type:result.statusCode})
-			$("#showResultsReport").html("")
-			$("#showResultsReport").html(result.html)
-			$("#showResultsReport")[0].scrollIntoView()
-		}
+		success: showReportResult
 	})
 })
 
@@ -214,12 +203,9 @@ $("#childrensToTeacherConsul").submit(function(event){
 		type : "POST",
 		data : $(this).serialize(),
 		success: function(response){
-			//***********************************                revisar notificaction
 			if(!response.localsJade) return notification.show({msg:response.message,type:response.type})
 			dataToChartChildrenToTeacher = response.localsJade.dataCustom
-			$("#showResultsReport").html("")
-			$("#showResultsReport").html(response.html)
-			$("#showResultsReport")[0].scrollIntoView()
+			showReportResult(response)
 		}
 	})
 })
@@ -481,3 +467,12 @@ function drawChartGlobalStepsValid() {
 }
 
 $("#drawGlobalStepsValid").click(drawChartGlobalStepsValid)
+
+socket.on("report:generated", function (data) {
+	var fullPath = data.filename,
+		regExpFile = /\/temp\/\w+.pdf/ig,
+		path = fullPath.match(regExpFile)[0]
+
+	$("#buttonOpenPDF").removeClass("hide")
+	$("#linkpOenPDF").attr("href",path)
+})

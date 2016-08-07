@@ -8,6 +8,11 @@ html(lang='es')
 			table {
 				font-size: 10px
 			}
-	body
-		div#pageHeader Default header
+	body.html-pdf
+		div#pageHeader
+			img.img(src="/img/LogoCorpSD.png")
+
 		block content
+
+		div#pageFooter
+			span Reporte por Not Down, ¡Yes Up! #[span #{new Date().getStringCustom()}]

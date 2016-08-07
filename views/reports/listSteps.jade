@@ -1,45 +1,47 @@
 //- Listado de Niñ@s por Etapa
 //- POST /reports/general
+extends ../templates/templatePdf.jade
 
-section.consul.consulQuery
-	h3 Listado General De Niñ@s Por Etapa
-	section
-		button(type="button")
-			span Generar PDF
-	article.consulTable
-		var steps = dataCustomFilter
-		each step in steps
-			h2 Etapa: #{step.idStep}
-			table
-				thead
-					tr
-						th ID
-						th NOMBRES
-						th APELLIDOS
-						th ESTADO NIÑ@
-						th ESTADO CURSOS
-						th ESTADO ETAPA
-						th PUNTUACION
-						th OBSERVACION
-						th FECHA REALIZACION
-						th PROFESOR
-				tbody
-					each stepValid in step
-						- var children = stepValid.idChildren
-						
-						if (stepValid.statusStep == 0)
-							-var statusStep = "Pendiente"
-						if (stepValid.statusStep == 1)
-							-var statusStep = "Completada"
+block content
+	section.consul.consulQuery
+		h3 Listado General De Niñ@s Por Etapa
+		section
+			button#buttonOpenPDF(type="button").hide
+				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
+		article.consulTable
+			var steps = dataCustomFilter
+			each step in steps
+				h2 Etapa: #{step.idStep}
+				table
+					thead
 						tr
-							td
-								a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
-							td #{children.nameChildren}
-							td #{children.lastnameChildren}
-							td #{parserCustom(children.statusChildren,"STATUS_USER")}
-							td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
-							td #{statusStep}
-							td #{stepValid.scoreStep}
-							td #{stepValid.observationStep}
-							td #{new Date(stepValid.date).getStringCustom()}
-							td #{stepValid.idUser.userUser}
+							th ID
+							th NOMBRES
+							th APELLIDOS
+							th ESTADO NIÑ@
+							th ESTADO CURSOS
+							th ESTADO ETAPA
+							th PUNTUACION
+							th OBSERVACION
+							th FECHA REALIZACION
+							th PROFESOR
+					tbody
+						each stepValid in step
+							- var children = stepValid.idChildren
+							
+							if (stepValid.statusStep == 0)
+								-var statusStep = "Pendiente"
+							if (stepValid.statusStep == 1)
+								-var statusStep = "Completada"
+							tr
+								td
+									a(href="/reports/info-children/#{children.idChildren}" target="blank") #{children.idChildren}
+								td #{children.nameChildren}
+								td #{children.lastnameChildren}
+								td #{parserCustom(children.statusChildren,"STATUS_USER")}
+								td #{parserCustom(children.statusChildrenEstimulation,"STATUS_ESTIMULATION")}
+								td #{statusStep}
+								td #{stepValid.scoreStep}
+								td #{stepValid.observationStep}
+								td #{new Date(stepValid.date).getStringCustom()}
+								td #{stepValid.idUser.userUser}

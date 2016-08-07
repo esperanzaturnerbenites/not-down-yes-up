@@ -1,26 +1,32 @@
-article#articleFindAll.consul.consulQuery
-	p.consulTableP
-		h3 RESULTADOS
-	article.consulTable
-		table#consulUser
-			thead
-				tr
-					th ID
-					th USUARIO
-					th USUARIO DE LOGUEO
-					th TIPO
-					th ESTADO
-					th FECHA CREACIÓN
-					th EDITAR
-			tbody
-				each adminuser in dataCustom
+extends ../templates/templatePdf.jade
+
+block content
+	article#articleFindAll.consul.consulQuery
+		p.consulTableP
+			h3 RESULTADOS
+		section
+			button#buttonOpenPDF(type="button").hide
+				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
+		article.consulTable
+			table#consulUser
+				thead
 					tr
-						td 
-							a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
-						td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastnameUser}
-						td #{adminuser.userUser}
-						td #{parserCustom(adminuser.typeUser,"TYPE_USER")}
-						td #{parserCustom(adminuser.statusUser,"STATUS_USER")}
-						td #{new Date(adminuser.dateUser).getStringCustom()}
-						td
-							a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar
+						th ID
+						th USUARIO
+						th USUARIO DE LOGUEO
+						th TIPO
+						th ESTADO
+						th FECHA CREACIÓN
+						th EDITAR
+				tbody
+					each adminuser in dataCustom
+						tr
+							td 
+								a(href="/admin/info-user/#{adminuser.idUser.idUser}" target="blank") #{adminuser.idUser.idUser}
+							td #{adminuser.idUser.nameUser} #{adminuser.idUser.lastnameUser}
+							td #{adminuser.userUser}
+							td #{parserCustom(adminuser.typeUser,"TYPE_USER")}
+							td #{parserCustom(adminuser.statusUser,"STATUS_USER")}
+							td #{new Date(adminuser.dateUser).getStringCustom()}
+							td
+								a(href="/admin/register-user/#{adminuser.idUser.idUser}" target="blank") Editar
