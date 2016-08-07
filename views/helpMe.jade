@@ -18,11 +18,24 @@ html(lang='es')
 			nav.menuHelp
 				ul
 					each menu in manual.menu
-						li(data-id='admest' data-reference="##{reference}")#allMenu
+						li(class='itemMenu' data-reference="##{menu.reference}")#allMenu
 							span #{menu.name}
-						ul
+							nav.menuSub.hide(id="#{menu.reference}")
+								ul
+									each item in menu
+										if item instanceof Object
+											li(class='itemSubmenu' data-reference="##{item.reference}") #{item.name}
+
+			section#menuAdminHelp
+				each menu in manual.menu
+					nav(id="#{menu.reference}")
 						each item in menu
-							li(data-id='admest' data-reference="#admUsers") #{item.name}
+							if item instanceof Object
+								section(id="#{item.reference}").hide.menuDesc
+									each data in item.content
+										article(data-id = 'question' data-reference = '##{data.reference}')
+											p.helpTitle #{data.name}
+											section.menuHelpQuestion.hide(id="#{data.reference}")
 
 		script(src="/js/lib/jquery-2.2.0.min.js")
 		script(src="/js/dataManualUser.js")

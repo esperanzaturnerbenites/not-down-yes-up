@@ -2,113 +2,120 @@ module.exports = {
 	menu:{
 		all:{
 			name:"PARA TODOS",
-			content:[
-				{
-					"name": "Not Down, ¡Yes Up!",
-					"id": "1.1",
-					"route": "No Aplica",
-					"reference": "allNotDownYesUp",
-					"includes": [],
-					"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.1.png)",
-					"description": "Descripción de la aplicación Not Down, ¡Yes Up!.",
-					"guides": [
-						"Not Down, ¡Yes Up! es una aplicación Web diseñada para la estimulación temprana en niños y niñas con Síndrome de Down, a través del desarrollo de actividades que estimulan al/la niño/a . Estas actividades son desarrolladas por el/la niño/a con el acompamiento del docente quién es el encargado de velar por que cada actividad se desrrolle de la manera adecuada. Not Down, ¡Yes Up! utiliza ConectionRUG, que es una aplicación de escritorio que permite la conexion entre un tapete electrónico y Not Down, ¡Yes Up!. El tapete electrónico diseñado para el desarrollo de las actividades, permite una interacción directa entre el/la niño/a y el software, lo cual ofrece una estimulación completa, al involucrar actividades que no solo requieran de atención cognitiva, sino del uso de movientos físicos."
-					],
-					"warnings": [
-						"No Aplica."
-					]
-				},
-				{
-					"name": "PÁGINA PRINCIPAL Not Down, ¡Yes Up!",
-					"id": "1.2",
-					"route": "/",
-					"reference": "allPaginaPrincipal",
-					"includes": [],
-					"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.2.png)",
-					"description": "Es el inicio de la aplicación Not Down, ¡Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
-					"guides": [
-						"Al iniciar la aplicación Not Down, ¡Yes Up! estará de inmediato en la página principal.",
-						"Existen dos tipos de menú:",
-						"Menú de 1 opción: Donde solo esta la opción de autenticación ((A) Botón: INGRESAR)",
-						"Menú de 3 opciones: Donde le permite salir del sistema o acceder al menú principal dependiendo de el usuario que se encuentre autenticado ((B) Botones: ADMINISTRACIÓN - ESTIMULACIÓN - SALIR)"
-					],
-					"warnings": [
-						"Verificar la conexión a Internet."
-					]
-				},
-				{
-					"name": "AUTENTICACIÓN",
-					"id": "1.3",
-					"route": "/users/login",
-					"reference": "allLogin",
-					"includes": ["1.2"],
-					"image": "![IMAGEN AUTENTICACIÓN](/img/help/1.2.png)",
-					"description": "Permite ingresar a la aplicación Not Down, ¡Yes Up! y sus funciones dependiendo de los permisos de cada usuario.",
-					"guides": [
-						"Digitar su Usuario y Contraseña en los campos correspondientes (A).",
-						"Dar clic en el botón Ingresar (B)."
-					],
-					"warnings": [
-						"Verifique que el usuario y la contraseña sean las correctas.",
-						"Verifique que el usuario se encuentre registrado.",
-						"Verifique que el usuario se encuentre ACTIVO."
-					]
-				},
-				{
-					"name": "SALIR DEL SISTEMA (DESAUTENTICACIÓN)",
-					"id": "1.4",
-					"route": "No aplica",
-					"reference": "allUnlogin",
-					"includes": ["1.3", "1.5"],
-					"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.3.png)",
-					"description": "Permite salir por completo de la aplicación Not Down, ¡Yes Up!.",
-					"guides": [
-						"Para salir del sistema debe encontrarse siempre en el menú principal.",
-						"Dar clic en el botón SALIR que se encuentra en la parte superior izquierda (A).",
-						"En el cuadro emergente, dar clic en Aceptar (B)."
-					],
-					"warnings": [
-						"Verifique que se encuentre en el menú principal."
-					]
-				},
-				{
-					"name": "MENÚ PRINCIPAL",
-					"id": "1.5",
-					"route": "Varia dependiendo del usuario autenticado.",
-					"reference": "allMenuPrincipal",
-					"includes": ["1.3"],
-					"image": "",
-					"description": "Es el menú que contiene las funciones globales que puede ejecutar un usuario dependiendo del tipo de usuario que sea. Este se muestra inmediatamente después de autenticarse.",
-					"guides": [
-						"Para poder acceder al menú principal debe autenticarse.",
-						"Tras autenticarse aparecerá su menú principal."
-					],
-					"warnings": [
-						"No Aplica."
-					]
-				},
-				{
-					"name": "AYÚDA Not Down, ¡Yes Up!",
-					"id": "1.6",
-					"route": "/admin/menu-admin",
-					"reference": "admMenuPrincipalAdmin",
-					"includes": [],
-					"image": "![IMAGEN AYÚDA](/img/help/1.5.png)",
-					"description": "Ofrece una ayuda que contiene la información completa acerca de las opciones a las que los usuarios autenticados pueden acceder.",
-					"guides": [
-						"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niña con un globo en el cual tiene un signo de Pregunta (A).",
-						"Este ícono es visible en todas las ventanas del software."
-					],
-					"warnings": [
-						"No Aplica."
-					]
-				},
-			]
+			"reference": "subAll",
+			all:{
+				name:"PARA TODOS",
+				content:[
+					{
+						"name": "Not Down, ¡Yes Up!",
+						"id": "1.1",
+						"route": "No Aplica",
+						"reference": "allNotDownYesUp",
+						"includes": [],
+						"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.1.png)",
+						"description": "Descripción de la aplicación Not Down, ¡Yes Up!.",
+						"guides": [
+							"Not Down, ¡Yes Up! es una aplicación Web diseñada para la estimulación temprana en niños y niñas con Síndrome de Down, a través del desarrollo de actividades que estimulan al/la niño/a . Estas actividades son desarrolladas por el/la niño/a con el acompamiento del docente quién es el encargado de velar por que cada actividad se desrrolle de la manera adecuada. Not Down, ¡Yes Up! utiliza ConectionRUG, que es una aplicación de escritorio que permite la conexion entre un tapete electrónico y Not Down, ¡Yes Up!. El tapete electrónico diseñado para el desarrollo de las actividades, permite una interacción directa entre el/la niño/a y el software, lo cual ofrece una estimulación completa, al involucrar actividades que no solo requieran de atención cognitiva, sino del uso de movientos físicos."
+						],
+						"warnings": [
+							"No Aplica."
+						]
+					},
+					{
+						"name": "PÁGINA PRINCIPAL Not Down, ¡Yes Up!",
+						"id": "1.2",
+						"route": "/",
+						"reference": "allPaginaPrincipal",
+						"includes": [],
+						"image": "![IMAGEN PÁGINA PRINCIPAL](/img/help/1.2.png)",
+						"description": "Es el inicio de la aplicación Not Down, ¡Yes Up!. Permite pasar a autenticarse o volver al menú principal si ya se encuentra autenticado.",
+						"guides": [
+							"Al iniciar la aplicación Not Down, ¡Yes Up! estará de inmediato en la página principal.",
+							"Existen dos tipos de menú:",
+							"Menú de 1 opción: Donde solo esta la opción de autenticación ((A) Botón: INGRESAR)",
+							"Menú de 3 opciones: Donde le permite salir del sistema o acceder al menú principal dependiendo de el usuario que se encuentre autenticado ((B) Botones: ADMINISTRACIÓN - ESTIMULACIÓN - SALIR)"
+						],
+						"warnings": [
+							"Verificar la conexión a Internet."
+						]
+					},
+					{
+						"name": "AUTENTICACIÓN",
+						"id": "1.3",
+						"route": "/users/login",
+						"reference": "allLogin",
+						"includes": ["1.2"],
+						"image": "![IMAGEN AUTENTICACIÓN](/img/help/1.2.png)",
+						"description": "Permite ingresar a la aplicación Not Down, ¡Yes Up! y sus funciones dependiendo de los permisos de cada usuario.",
+						"guides": [
+							"Digitar su Usuario y Contraseña en los campos correspondientes (A).",
+							"Dar clic en el botón Ingresar (B)."
+						],
+						"warnings": [
+							"Verifique que el usuario y la contraseña sean las correctas.",
+							"Verifique que el usuario se encuentre registrado.",
+							"Verifique que el usuario se encuentre ACTIVO."
+						]
+					},
+					{
+						"name": "SALIR DEL SISTEMA (DESAUTENTICACIÓN)",
+						"id": "1.4",
+						"route": "No aplica",
+						"reference": "allUnlogin",
+						"includes": ["1.3", "1.5"],
+						"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.3.png)",
+						"description": "Permite salir por completo de la aplicación Not Down, ¡Yes Up!.",
+						"guides": [
+							"Para salir del sistema debe encontrarse siempre en el menú principal.",
+							"Dar clic en el botón SALIR que se encuentra en la parte superior izquierda (A).",
+							"En el cuadro emergente, dar clic en Aceptar (B)."
+						],
+						"warnings": [
+							"Verifique que se encuentre en el menú principal."
+						]
+					},
+					{
+						"name": "MENÚ PRINCIPAL",
+						"id": "1.5",
+						"route": "Varia dependiendo del usuario autenticado.",
+						"reference": "allMenuPrincipal",
+						"includes": ["1.3"],
+						"image": "",
+						"description": "Es el menú que contiene las funciones globales que puede ejecutar un usuario dependiendo del tipo de usuario que sea. Este se muestra inmediatamente después de autenticarse.",
+						"guides": [
+							"Para poder acceder al menú principal debe autenticarse.",
+							"Tras autenticarse aparecerá su menú principal."
+						],
+						"warnings": [
+							"No Aplica."
+						]
+					},
+					{
+						"name": "AYÚDA Not Down, ¡Yes Up!",
+						"id": "1.6",
+						"route": "/admin/menu-admin",
+						"reference": "admMenuPrincipalAdmin",
+						"includes": [],
+						"image": "![IMAGEN AYÚDA](/img/help/1.5.png)",
+						"description": "Ofrece una ayuda que contiene la información completa acerca de las opciones a las que los usuarios autenticados pueden acceder.",
+						"guides": [
+							"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niña con un globo en el cual tiene un signo de Pregunta (A).",
+							"Este ícono es visible en todas las ventanas del software."
+						],
+						"warnings": [
+							"No Aplica."
+						]
+					}
+				]
+			}
+
 		},
 		admin:{
 			name:"ADMINISTRACIÓN",
+			"reference": "subAdmin",
 			user:{
 				name:"USUARIOS",
+				"reference": "docuser",
 				content:[
 					{
 						"name": "MENÚ PRINCIPAL ADMINISTRACIÓN",
@@ -345,6 +352,7 @@ module.exports = {
 			},
 			children:{
 				name:"NIÑ@S",
+				"reference": "docchildren",
 				content:[
 					{
 						"name": "REGISTRAR NIÑO/A NUEVO/A",
@@ -487,6 +495,7 @@ module.exports = {
 			},
 			reports:{
 				name:"REPORTES",
+				"reference": "docreports",
 				content:[
 					{
 						"name": "CONSULTAS GENERALES NIÑOS/AS Y DOCENTES",
@@ -674,6 +683,7 @@ module.exports = {
 			},
 			backup:{
 				name:"BACKUP",
+				"reference": "docbackup",
 				content:[
 					{
 						"name": "SALVAR INFORMACIÓN (BACKUPS)",
@@ -714,8 +724,10 @@ module.exports = {
 		},
 		estimulation:{
 			name:"ESTIMULACIÓN",
+			"reference": "subEstimulation",
 			general:{
 				name:"GENERAL",
+				"reference": "docestimulationgeneral",
 				content:[
 					{
 						"name": "ENTRAR AL CENTRO DE ESTIMULACIÓN Not Down, ¡Yes Up!",
@@ -753,6 +765,7 @@ module.exports = {
 			},
 			steps:{
 				name:"ETAPAS",
+				"reference": "docestimulationsteps",
 				content:[
 				
 					{
@@ -791,6 +804,7 @@ module.exports = {
 			},
 			activities:{
 				name:"ACTIVIDADES",
+				"reference": "docestimulationactivities",
 				content:[
 					{
 						"name": "VER ACTIVIDADES DE UNA ETAPA",
@@ -972,6 +986,7 @@ module.exports = {
 			},
 			rug:{
 				name:"TAPETE ELECTRÓNICO",
+				"reference": "docestimulationrug",
 				content:[
 				
 					{
@@ -1041,6 +1056,7 @@ module.exports = {
 			},
 			connectionRug:{
 				name:"DESARROLLAR ACTIVIDADES",
+				"reference": "docestimulationconnectionrug",
 				content:[
 				
 					{

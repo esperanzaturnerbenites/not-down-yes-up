@@ -1,4 +1,4 @@
-$("[data-id = ulPcpal]" ).hover(
+$(".itemMenu" ).hover(
 	function() {
 		var selector = $(this).data("reference")
 		if(selector){
@@ -31,9 +31,10 @@ $("[data-id = navAbout]").on("click", function() {
 })
 
 
-$("[data-id = admest]").on("click", function() {
+$(".itemSubmenu").on("click", function() {
 	var selector = $(this).data("reference")
 	$(".menuDesc").addClass("hide")
+	console.log(selector)
 	if(selector){
 		$(selector).removeClass("hide")
 	}
@@ -54,6 +55,7 @@ $("[data-id = question]").on("click", function() {
 $("article[data-reference]:not([data-id=ulPcpal])").click(function(e){
 	var referenceOptionFind = $(this).data("reference"),
 		optionFind = manual.find(option => {return option.reference == referenceOptionFind.replace("#","")})
+
 
 	var pDescription = $("<p>").append($("<b>",{html:optionFind.id + ": " + optionFind.description}))
 
@@ -79,6 +81,8 @@ $("article[data-reference]:not([data-id=ulPcpal])").click(function(e){
 		.append($("<li>",{html:warning}))
 	})
 
+	console.log(referenceOptionFind)
+	$(referenceOptionFind).removeClass("hide")
 	$(referenceOptionFind)
 	.empty()
 	.append(pDescription,pIncludes,pRoute,ulGuides,ulWarnings)
