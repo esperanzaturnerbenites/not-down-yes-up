@@ -42,6 +42,12 @@ const CTE = {
 		COMPLETED:1,
 		UNVALIDATED:2
 	},
+	DEFAULT_TEACHER: {
+		USERNAME:"defaultprofe"
+	},
+	DEFAULT_ADMINISTRATOR: {
+		USERNAME:"defaultadmin"
+	},
 	FIRST_USER: {
 		USERNAME:"Developer",
 		PASSWORD: "Developer"

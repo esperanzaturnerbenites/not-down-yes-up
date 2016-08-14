@@ -29,7 +29,7 @@ router.get("/valid-step",(req,res)=>{return res.render("validStep")})
 router.get("/backup",(req,res)=>{return res.render("backup")})
 
 function createChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
-	if(dataMom.idParent == dataDad.idParent || dataMom.idParent == dataCare.idParent || dataDad.idParent == dataCare.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
+	if(dataMom.idParent == dataDad.idParent || dataChildren.idChildren == dataMom.idParent || dataChildren.idChildren == dataDad.idParent || dataChildren.idChildren == dataCare.idParent){
 		req.flash("success","¡Números de identificación iguales")
 		res.redirect(req.get("referer"))
 	}else{

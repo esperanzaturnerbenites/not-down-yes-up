@@ -25,7 +25,6 @@ function renderReportAge(params,req){
 		htmlToPdf(html,filename(params.view) + ".pdf").then(function(data){
 			var room = req.user.idUser
 			req.io.sockets.in(room).emit("report:generated", data)
-			console.log(data)
 		})
 
 		resolve({data:html})
@@ -74,7 +73,6 @@ function renderListUser(params,req){
 			htmlToPdf(html,filename(params.view) + ".pdf").then(function(data){
 				var room = req.user.idUser
 				req.io.sockets.in(room).emit("report:generated", data)
-				console.log(data)
 			})
 			resolve({data:html})
 		})

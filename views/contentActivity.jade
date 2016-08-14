@@ -1,20 +1,21 @@
 section.flex.actGroup
-	article.showChildrens
-		form#formInicAct
-			fieldset
-				legend Niñ@ Actual
-				article#showChildrens.showChildrens.imgPhoto
-					p 
-						b NOMBRE: 
-						span #{children.nameChildren} #{children.lastnameChildren}
-					p 
-						b ID: 
-						span #{children.idChildren}
-					p 
-						b EDAD: 
-						span #{children.ageChildren} meses
-					a(href="/estimulation/info-children/#{children.idChildren}" target="blank")
-						img(src="/img/users/#{children.imgChildren}")
+	if children
+		article.showChildrens
+			form#formInicAct
+				fieldset
+					legend Niñ@ Actual
+					article#showChildrens.showChildrens.imgPhoto
+						p 
+							b NOMBRE: 
+							span #{children.nameChildren} #{children.lastnameChildren}
+						p 
+							b ID: 
+							span #{children.idChildren}
+						p 
+							b EDAD: 
+							span #{children.ageChildren} meses
+						a(href="/estimulation/info-children/#{children.idChildren}" target="blank")
+							img(src="/img/users/#{children.imgChildren}")
 
 	article.showChildrens
 		fieldset#fieldsetGuide
@@ -42,8 +43,11 @@ section#reviewChild.flex.actGroupReview.actGroup.hide
 				- var a = 0
 			-for (var a; a < cantImgReview; a++)
 				article#imgReviewAudio.imgReview
-					h1.h1-3#descImg #{activity.imgDescriptionActivity[aDesc]}
+					- var aDescription = activity.imgDescriptionActivity[aDesc].split("|") 
+					h1.h1-3#descImg.textToVoice #{aDescription[0]}
 					img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
+					h1.h1-3#descImg.textToVoice #{aDescription[1]}
+					h1.h1-3#descImg.textToVoice #{aDescription[2]}
 				- aDesc++
 
 section.flex.actContent
@@ -90,23 +94,23 @@ section.flex.actContent
 			-if (cantImgI > 0)
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI]}
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI].split("|")[0]}
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI2]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI2]}
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI2].split("|")[0]}
 			-else if (activity.onlyTextActivity == 1)
 				section#imgActAudio.imgReview
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
 			-else if (activity.uniqueImageActivity == 1)
 				section
 					img#uniqueImgAct(src='#{activity.imgActivity[0]}', alt='.:: ... ::.')
 			-else
 				section#imgActAudio.imgReview
 					img#uniqueImgAct(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select]}
+					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
 
 script(src="/js/scripts.js")
 script.
@@ -136,7 +140,7 @@ script.
 	var script = !{scritp}
 	if(script) script()
 
-	$("[id = imgReviewAudio]").on("click", function() {
-		var idVoice = $("#descImg",$(this)).text()
+	$(".textToVoice").on("click", function() {
+		var idVoice = $(this).text()
 		text.toVoice(idVoice)
 	})

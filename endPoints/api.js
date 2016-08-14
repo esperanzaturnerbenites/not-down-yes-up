@@ -10,42 +10,6 @@ var express = require("express"),
 
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
-
-/*
-router.use(["/new/:collection","/:collection"],(req,res,next)=>{
-	var collection = req.params.collection
-	var pCollection = permissions[collection]
-		console.log("...............................................")
-		console.log(collection)
-		console.log(pCollection)
-		console.log("...............................................")
-
-	if(!pCollection){
-		console.log("11111111111111")
-		return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
-	}else{
-		console.log("222222222222222222")
-		if(pCollection[req.method] == false) return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
-	}
-	next()
-})
-*/
-
-router.use(["/new/:collection","/:collection"],(req,res,next)=>{
-	var data = req.body.query || req.body.info || {}
-
-	if(req.params.collection == "adminuser"){
-		if(data.userUser == req.user.userUser){
-			return res.json({message:"No puede realizar acciones Sobre este usuario, pues esta logeado actualmente.",statusCode:CTE.STATUS_CODE.NOT_OK})
-		}else if(data.typeUser == CTE.TYPE_USER.DEVELOPER){
-			return res.json({message:"No puede realizar acciones sobre este tipo de usuarios.",statusCode:CTE.STATUS_CODE.NOT_OK})
-		}else if(data.userUser == CTE.FIRST_USER.USERNAME){
-			return res.json({message:"No puede realizar acciones sobre este usuario.",statusCode:CTE.STATUS_CODE.NOT_OK})
-		}
-	}
-	next()
-})
-
 /*
 	Valida que un id(Identificacion) no se encuentre Registrada
 	Request Data {String} id: id a Validar
@@ -72,6 +36,34 @@ router.post("/id-exists",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER
 			})
 		})
 	})
+})
+
+router.use(["/new/:collection","/:collection"],(req,res,next)=>{
+	var nameModels = mongoose.modelNames()
+	var collection = req.params.collection
+	if(nameModels.indexOf(collection) < 0) return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
+	var pCollection = permissions[collection]
+	if(!pCollection){
+		return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
+	}else{
+		if(pCollection[req.method] == false) return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
+	}
+	next()
+})
+
+router.use(["/new/:collection","/:collection"],(req,res,next)=>{
+	var data = req.body.query || req.body.info || {}
+
+	if(req.params.collection == "adminuser"){
+		if(data.userUser == req.user.userUser){
+			return res.json({message:"No puede realizar acciones Sobre este usuario, pues esta logeado actualmente.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}else if(data.typeUser == CTE.TYPE_USER.DEVELOPER){
+			return res.json({message:"No puede realizar acciones sobre este tipo de usuarios.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}else if([CTE.DEFAULT_TEACHER.USERNAME,CTE.DEFAULT_ADMINISTRATOR.USERNAME,CTE.FIRST_USER.USERNAME].indexOf(data.userUser) >= 0){
+			return res.json({message:"No puede realizar acciones sobre este usuario.",statusCode:CTE.STATUS_CODE.NOT_OK})
+		}
+	}
+	next()
 })
 
 router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
@@ -103,7 +95,6 @@ router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req,
 		},
 		err => {return res.json({err:{message:err.message,err:err}})}
 	)
-
 })
 
 router.post("/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {

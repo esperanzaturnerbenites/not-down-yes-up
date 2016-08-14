@@ -1,4 +1,38 @@
 {
+	"users": [{
+		"user": {
+			"idUser": 99999,
+			"expeditionUser": "DEFAULT",
+			"nameUser": "DEFAULT",
+			"lastnameUser": "DEFAULT",
+			"ageUser": 18,
+			"telUser": 99999,
+			"celUser": 99999,
+			"emailUser": "DEFAULT@gmail.com",
+			"addressUser": "DEFAULT",
+			"districtUser": "DEFAULT",
+			"localityUser": "DEFAULT",
+			"municipalityUser": "DEFAULT",
+			"departamentUser": "DEFAULT",
+			"studyUser": 1,
+			"professionUser": "DEFAULT",
+			"experienceUser": 1,
+			"centerUser": "DEFAULT",
+			"imgUser": "default.jpg"
+		},
+		"adminuser": [{
+			"userUser": "defaultprofe",
+			"passUser": "defaultprofe",
+			"typeUser": 1,
+			"statusUser": 1
+		}, {
+			"userUser": "defaultadmin",
+			"passUser": "defaultadmin",
+			"typeUser": 0,
+			"statusUser": 1
+		}]
+
+	}],
 	"steps": [{
 		"stepStep": 1,
 		"nameStep": "INTELIGENCIA CONCEPTUAL",
@@ -79,10 +113,10 @@
 			"/img/imgacts/activities/step1act2-vaca.png"
 		],
 		"imgDescriptionActivity": [
-			"Perro. Al perro le gusta jugar con los niños y las niñas.",
-			"Gato. Al gato le gusta tomar leche.",
-			"León. El león tiene una gran melena.",
-			"Vaca. A la vaca le gusta comer pasto."
+			"Perro.|El Perro.|Al perro le gusta jugar con los niños y las niñas.",
+			"Gato.|El Gato.|Al gato le gusta tomar leche.",
+			"León.|El León.|El león tiene una gran melena.",
+			"Vaca.|La Vaca.|A la vaca le gusta comer pasto."
 		],
 		"scriptActivity": "toggleImage",
 		"stepActivity": 1

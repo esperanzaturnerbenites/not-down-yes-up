@@ -19,8 +19,6 @@ router.post("/startActivity",(req,res)=>{
 	var data = req.body
 
 	models.children.findOne({idChildren:data.idChildren},function(err,children){
-		if(!children) return res.json({message:"Niño no Existe",statusCode:CTE.STATUS_CODE.INFORMATION})
-
 		models.activity.findOne({activityActivity:data.idActivity,stepActivity:data.idStep},function(err,activity){
 			if(!activity) return res.json({message:"No Existe la actividad", statusCode:CTE.STATUS_CODE.INFORMATION})
 			

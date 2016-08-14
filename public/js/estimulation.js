@@ -11,15 +11,18 @@ $("#startActivity").submit(function(event){
 		type : "POST",
 		success: function(response){
 			$("#contentActivity").html(response.html)
-			$("#validatePartialActivity,#validateFinalActivity").attr("disabled",false)
-			
+
 			$("#review").click(activityReview)
+			if(j_childrenCurrent){
+				$("#validatePartialActivity,#validateFinalActivity").attr("disabled",false)
+				$("#validatePartialActivity").click(showFormValidatePartialActivity)
+				$("#validateFinalActivity").click(showFormValidateFinalActivity)
 
-			$("#validatePartialActivity").click(showFormValidatePartialActivity)
-			$("#validateFinalActivity").click(showFormValidateFinalActivity)
+				$("#formValidateFinalActivity").submit(validateFinalActivity)
+				$("#formValidatePartialActivity").submit(validatePartialActivity)
+			}
+			
 
-			$("#formValidateFinalActivity").submit(validateFinalActivity)
-			$("#formValidatePartialActivity").submit(validatePartialActivity)
 		}
 	})
 })

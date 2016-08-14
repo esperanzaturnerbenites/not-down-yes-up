@@ -128,12 +128,11 @@ router.post("/consult-step-act",(req,res)=>{
 				functions.htmlToPdf(html,filename(view) + ".pdf").then(function(data){
 					var room = req.user.idUser
 					req.io.sockets.in(room).emit("report:generated", data)
-					console.log(data)
 				})
 
 				return res.json({html:html,localsJade:localsJade})
 			},
-			function(err){console.log("reject")}
+			function(err){}
 		)
 	})
 })
