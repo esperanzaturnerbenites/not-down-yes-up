@@ -44,7 +44,7 @@ section#reviewChild.flex.actGroupReview.actGroup.hide
 			-for (var a; a < cantImgReview; a++)
 				article#imgReviewAudio.imgReview
 					- var aDescription = activity.imgDescriptionActivity[aDesc].split("|") 
-					h1.h1-3#descImg.textToVoice #{aDescription[0]}
+					h1.h1-4#descImg.textToVoice #{aDescription[0]}
 					img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
 					h1.h1-3#descImg.textToVoice #{aDescription[1]}
 					h1.h1-3#descImg.textToVoice #{aDescription[2]}
@@ -94,23 +94,23 @@ section.flex.actContent
 			-if (cantImgI > 0)
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI].split("|")[0]}
+					h1#audioImgActivity.h1-4 #{activity.imgDescriptionIncorrectActivity[selectI].split("|")[0]}
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
+					h1#audioImgActivity.h1-4 #{activity.imgDescriptionActivity[select].split("|")[0]}
 				section#imgActAudio.imgReview
 					img(src='#{activity.imgActivityIncorrect[selectI2]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionIncorrectActivity[selectI2].split("|")[0]}
+					h1#audioImgActivity.h1-4 #{activity.imgDescriptionIncorrectActivity[selectI2].split("|")[0]}
 			-else if (activity.onlyTextActivity == 1)
 				section#imgActAudio.imgReview
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
+					h1#audioImgActivity.h1-4 #{activity.imgDescriptionActivity[select].split("|")[0]}
 			-else if (activity.uniqueImageActivity == 1)
 				section
 					img#uniqueImgAct(src='#{activity.imgActivity[0]}', alt='.:: ... ::.')
 			-else
 				section#imgActAudio.imgReview
 					img#uniqueImgAct(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
-					h1#audioImgActivity.h1-3 #{activity.imgDescriptionActivity[select].split("|")[0]}
+					h1#audioImgActivity.h1-4 #{activity.imgDescriptionActivity[select].split("|")[0]}
 
 script(src="/js/scripts.js")
 script.
