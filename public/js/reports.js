@@ -1,9 +1,4 @@
 google.charts.load("current", {packages: ["corechart", "bar","calendar"]})
-function showReportResult(response){
-	var html = $(response.returnFn || response.html).filter(".consulQuery")
-	$("#showResultsReport").empty().append(html)
-	$("#showResultsReport")[0].scrollIntoView()
-}
 
 var notification = new NotificationC(),
 	/*Variable de reasigna cuando se consulta el reporte de childrens to teacher*/
@@ -35,7 +30,10 @@ $("#consultGeneralChildrens").submit(function (event) {
 	var data = {query:{}}
 
 	if($("#statusChildren").val() != "T") data.query.statusChildren = $("#statusChildren").val()
-	if(data.query.statusChildren == CTE.STATUS_USER.ACTIVE) data.query.statusChildrenEstimulation = $("#statusChildrenEstimulation").val()
+	if(data.query.statusChildren == CTE.STATUS_USER.ACTIVE) {
+		if($("#statusChildrenEstimulation").val() != "T")
+			data.query.statusChildrenEstimulation = $("#statusChildrenEstimulation").val()
+	}
 
 
 	data.fn = "renderReportAge"
@@ -109,7 +107,8 @@ $("#calendarActivities").submit(function (event) {
 				}),
 				success: function(response2){
 					response2.documents.forEach(document => {document.type = 10})
-					console.info(response.documents.concat(response2.documents))
+					//console.info(response.documents.concat(response2.documents))
+					$("#showResultsReport")[0].scrollIntoView()
 					drawCalendarActivities(response.documents.concat(response2.documents))
 				}
 			})
@@ -426,7 +425,7 @@ function drawChartChildrenToTeacher(numberActivity) {
 			return [id,datachildren.scoreAvgTeachActivity]
 		})
 	})[0]
-	console.info(dataChart)
+	//console.info(dataChart)
 
 	dataChart = headerChart.concat(dataChart)
 
@@ -468,11 +467,3 @@ function drawChartGlobalStepsValid() {
 
 $("#drawGlobalStepsValid").click(drawChartGlobalStepsValid)
 
-socket.on("report:generated", function (data) {
-	var fullPath = data.filename,
-		regExpFile = /\/temp\/\w+.pdf/ig,
-		path = fullPath.match(regExpFile)[0]
-
-	$("#buttonOpenPDF").removeClass("hide")
-	$("#linkpOenPDF").attr("href",path)
-})

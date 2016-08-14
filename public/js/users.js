@@ -53,11 +53,13 @@ $("[data-id = question]").on("click", function() {
 })
 
 $("article[data-reference]:not([data-id=ulPcpal])").click(function(e){
+	this.scrollIntoView()
 	var referenceOptionFind = $(this).data("reference"),
-		optionFind = manual.find(option => {return option.reference == referenceOptionFind.replace("#","")})
+		pObject = $(this).data("object"),
+		manualFilter = eval(pObject).content,
+		optionFind = manualFilter.find(option => {return option.reference == referenceOptionFind.replace("#","")})
 
-
-	var pDescription = $("<p>").append($("<b>",{html:optionFind.id + ": " + optionFind.description}))
+	var pDescription = $("<p>").append($("<b>",{html:optionFind.description}))
 
 	var pIncludes = $("<p>")
 		.append($("<b>",{html:"Incluye: "}))
@@ -81,11 +83,9 @@ $("article[data-reference]:not([data-id=ulPcpal])").click(function(e){
 		.append($("<li>",{html:warning}))
 	})
 
-	console.log(referenceOptionFind)
-	$(referenceOptionFind).removeClass("hide")
+	var image = $(markdown.toHTML(optionFind.image))
 	$(referenceOptionFind)
-	.empty()
-	.append(pDescription,pIncludes,pRoute,ulGuides,ulWarnings)
-
-	console.log(optionFind)
+		.removeClass("hide")
+		.empty()
+		.append(pDescription,pIncludes,pRoute,ulGuides,ulWarnings,image)
 })

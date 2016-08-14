@@ -166,7 +166,15 @@ router.post("/report-final/",(req,res)=>{
 				var html = fn(localsJade)
 
 				var nameFilePdf = filename(pathView) + ".pdf"
-				functions.htmlToPdf(html,nameFilePdf).then(
+				var options = {
+					format: "Letter",
+					"orientation": "portrait",
+					"base": "http://localhost:8000",
+					"border": "2cm",
+					"header": {"height": "2cm"},
+					"footer": {"height": "2cm"}
+				}
+				functions.htmlToPdf(html,nameFilePdf,options).then(
 					function(data){return res.download("public/temp/" + nameFilePdf)},
 					function(err){return res.json(err)}
 				)

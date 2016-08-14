@@ -246,7 +246,7 @@ block content
 								tr
 									td #{n}
 									td #{stepvalid.idStep.nameStep}
-									td #{stepvalid.statusStep}
+									td #{parserCustom(stepvalid.statusStep, "STATUS_ACTIVITY")}
 									td #{stepvalid.scoreStep}
 									td #{stepvalid.observationStep}
 									td #{new Date(stepvalid.date).getStringCustom()}
@@ -273,16 +273,12 @@ block content
 						tbody
 							- var n = 0
 							- for (valid of infoChildren.activitiesValid)
-								-if (valid.statusActivity == 0)
-									- var statusValid = "No Completada"
-								-if (valid.statusActivity == 1)
-									- var statusValid = "Completada"
 								- n++
 								tr
 									td #{n}
 									td #{valid.idActivity.nameActivity}
 									td #{valid.idStep.stepStep}
-									td #{statusValid}
+									td #{parserCustom(valid.statusActivity, "STATUS_ACTIVITY")}
 									td #{valid.scoreTeachActivity}
 									td #{valid.scoreSystemActivity}
 									td #{valid.observationActivity}
@@ -309,16 +305,12 @@ block content
 						tbody
 							- var n = 0
 							- for (history of infoChildren.histories)
-								-if (history.statusActivity == 0)
-									- var statusHis = "Pendiente"
-								-if (history.statusActivity == 1)
-									- var statusHis = "Completada"
 								- n++
 								tr(data-ref-step="#{history.idStep.stepStep}" data-ref-activity="#{history.idActivity.activityActivity}")
 									td #{n}
 									td #{history.idActivity.nameActivity}
 									td #{history.idStep.stepStep}
-									td #{statusHis}
+									td #{parserCustom(history.statusActivity, "STATUS_ACTIVITY")}
 									td #{history.scoreTeachActivity}
 									td #{history.scoreSystemActivity}
 									td #{history.observationActivity}

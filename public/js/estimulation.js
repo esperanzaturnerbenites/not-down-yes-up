@@ -99,7 +99,8 @@ function showFormValidateFinalActivity(){
 	$("#formValidateFinalActivity").toggleClass("hide")
 }
 
-$("#audioPrinc").prop("volume", 0.1)
+/*
+$("#audioPrinc").prop("volume", 0.05)
 $("#audioPrinc").trigger("play")
 
 if($("#audioPrinc")[0]){
@@ -108,6 +109,7 @@ if($("#audioPrinc")[0]){
 		this.play()
 	}, false)
 }
+*/
 
 socket.on("arduino:data", function (data) {
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,

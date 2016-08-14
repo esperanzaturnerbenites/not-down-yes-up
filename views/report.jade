@@ -59,8 +59,16 @@ block content
 				fieldset.consul.consulChildren
 					legend Calendario Actividades
 					input#idChildren(type='number', data-valid-id-exists="false,true,children,idChildren" name='idChildren', min='1000', placeholder='Número Identificación', required)
-					input#dateInit(type='date' name='dateInit' placeholder='Fecha Inicial', required)
-					input#dateEnd(type='date' name='dateEnd' placeholder='Fecha Inicial', required)
+					input#dateInit(type='date' name='dateInit' required)
+					input#dateEnd(type='date' name='dateEnd' required)
+					button(type='submit')
+						span Consultar
+
+			form#activitiesToDate
+				fieldset.consul.consulChildren
+					legend Actividades por Fecha
+					input#idChildren(type='number', data-valid-id-exists="false,true,children,idChildren" name='idChildren', min='1000', placeholder='Número Identificación', required)
+					input#dateActivities(type='date' name='dateActivities' required)
 					button(type='submit')
 						span Consultar
 

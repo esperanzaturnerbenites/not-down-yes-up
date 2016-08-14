@@ -5,46 +5,31 @@ var express = require("express"),
 	bodyParser = require("body-parser"),
 	functions = require("./functions"),
 	CTE = require("../CTE"),
-	permissions = require("../permissions")
+	permissions = require("../permissions"),
+	requiredType = require("../middlewares/requiredType")
 
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({extended:false}))
 
-function requiredType (types){
-	types.push(CTE.TYPE_USER.DEVELOPER)
-	return function ensureAuth (req, res, next) {
-		var ifDesktopApp = eval(req.get("Desktop-App"))
-
-		if(ifDesktopApp){
-			if (req.isAuthenticated()){
-				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-				res.json({msg: "Ok, Autenticado Correctamente",statusCode:CTE.STATUS_CODE.OK})
-			}else{
-				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
-			}
-		}else{
-			if (req.isAuthenticated()){
-				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-				req.flash("info","No tiene permisos para acceder a esta opcion")
-				return res.redirect("/")
-			}else{
-				res.redirect("/users/login")
-			}
-		}
-	}
-}
-
+/*
 router.use(["/new/:collection","/:collection"],(req,res,next)=>{
 	var collection = req.params.collection
 	var pCollection = permissions[collection]
+		console.log("...............................................")
+		console.log(collection)
+		console.log(pCollection)
+		console.log("...............................................")
 
 	if(!pCollection){
+		console.log("11111111111111")
 		return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
 	}else{
+		console.log("222222222222222222")
 		if(pCollection[req.method] == false) return res.render("malasIntenciones.jade",{message:"Esta vez no fue la ocasión. .|."})
 	}
 	next()
 })
+*/
 
 router.use(["/new/:collection","/:collection"],(req,res,next)=>{
 	var data = req.body.query || req.body.info || {}
@@ -60,31 +45,6 @@ router.use(["/new/:collection","/:collection"],(req,res,next)=>{
 	}
 	next()
 })
-
-/*
-router.use("/:collection",(req,res,next)=>{
-	if(req.method == "POST"){
-		next()
-	}else if(req.method == "PUT"){
-		if(req.params.collection == "adminuser"){
-			if(req.body.query.userUser){
-				if(req.body.data.typeUser){
-					models.adminuser.findOne({userUser:req.body.query.userUser},function(err,adminuser){
-						if(adminuser.typeUser == CTE.TYPE_USER.TEACHER) return res.json({message:"Ha este usuario no se le puede actualizar el rol",type:CTE.STATUS_CODE.NOT_OK})
-						next()
-					})
-				}
-			}
-		}
-	}else if(req.method == "DELETE"){
-		next()
-	}else{
-		return res.json({err:{message:"Este Verbo HTTP no esta soportado por la aplicación."}})
-	}
-
-	next()
-})*/
-
 
 /*
 	Valida que un id(Identificacion) no se encuentre Registrada

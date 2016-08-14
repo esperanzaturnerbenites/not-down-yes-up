@@ -33,7 +33,9 @@ const express = require("express"),
 	Cryptr = require("cryptr"),
 	cryptr = new Cryptr(process.env.SECRET_KEY),
 	CTE = require("./CTE"),
-	Log = require("./log")
+	Log = require("./log"),
+	
+	requiredType = require("./middlewares/requiredType")
 
 models.adminuser.find((err, users) => {
 	if(!users.length){
@@ -144,23 +146,6 @@ app.use((req,res,next) => {
 	next()
 })
 
-/*app.post("/authenticate", (req, res, next) => {
-	passport.authenticate("local",{failureRedirect: "users/login"},(err, user,info) => {
-		var ifDesktopApp = eval(req.get("Desktop-App"))
-		console.log("--------")
-		console.log(info)
-		console.log("--------")
-		if(ifDesktopApp){
-			return res.json({user:req.user,CTE:CTE})
-		}else{
-			if(req.user.typeUser == 0 || req.user.typeUser == 2) return res.redirect("/admin/menu-admin")
-			if(req.user.typeUser == 1) return res.redirect("/estimulation/menu-teacher")
-		}
-	})
-	
-})*/
-
-
 //Redireccionamiento tras la autenticacion
 app.post("/authenticate", 
 	passport.authenticate("local",{failureRedirect: "users/login"}), 
@@ -206,31 +191,6 @@ app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR]), userURLAdmin)
 app.use("/reports", requiredType([CTE.TYPE_USER.ADMINISTRATOR]), userURLReports)
 
 app.use("/api",URLapi)
-
-//Valida si se encuentra autenticado
-function requiredType (types){
-	types.push(CTE.TYPE_USER.DEVELOPER)
-	console.log(types)
-	return function ensureAuth (req, res, next) {
-		var ifDesktopApp = eval(req.get("Desktop-App"))
-
-		if(ifDesktopApp){
-			if (req.isAuthenticated()){
-				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-			}else{
-				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
-			}
-		}else{
-			if (req.isAuthenticated()){
-				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
-				req.flash("info","No tiene permisos para acceder a esta opcion")
-				return res.redirect("/")
-			}else{
-				res.redirect("/users/login")
-			}
-		}
-	}
-}
 
 //Configurra el puerto de escucha
 //"process.env.PORT" es una variable que hace referencia al puerto a escuchar - Utilizada para heroku

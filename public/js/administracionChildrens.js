@@ -1,10 +1,10 @@
 $("#formOpeChildrenInfo").click(function(event){
-	if(!$("#adminInfoChildren"))
+	if($("#adminInfoChildren").val())
 		window.open("/reports/info-children/" + $("#adminInfoChildren").val())
 })
 
 $("#formOpeChildrenUpd").click(function(event){
-	if(!$("#adminInfoChildren"))
+	if($("#adminInfoChildren").val())
 		window.open("/admin/register-children/" + $("#adminInfoChildren").val())
 }) 
 
@@ -12,7 +12,14 @@ $("#formOpeChildren").submit(function(event){event.preventDefault()})
 
 $("#formOpeStatusChildren").submit(function(event){
 	event.preventDefault()
-	if(confirm("Se cambiará el estado del niñ@ " + $("#adminUpdChildren").val() + ". ¿Desea continuar?")){
+	var confirmSta
+
+	if($("#statusChildren").val() == 0)
+		confirmSta = "INACTIVARÁ"
+	else
+		confirmSta = "ACTIVARÁ"
+
+	if(confirm("Se " + confirmSta + " el niñ@ " + $("#adminUpdChildren").val() + ". ¿Desea continuar?")){
 		$.ajax({
 			url: "/api/children",
 			contentType : "application/json", 

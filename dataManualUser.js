@@ -93,10 +93,10 @@ module.exports = {
 					{
 						"name": "AYÚDA Not Down, ¡Yes Up!",
 						"id": "1.6",
-						"route": "/admin/menu-admin",
+						"route": "/users/help-me",
 						"reference": "admMenuPrincipalAdmin",
 						"includes": [],
-						"image": "![IMAGEN AYÚDA](/img/help/1.5.png)",
+						"image": "![IMAGEN AYÚDA](/img/help/1.6.png)",
 						"description": "Ofrece una ayuda que contiene la información completa acerca de las opciones a las que los usuarios autenticados pueden acceder.",
 						"guides": [
 							"Dar clic en el ícono de ayuda que se encuentra en la parte superior derecha de la aplicación. Ícono: Niña con un globo en el cual tiene un signo de Pregunta (A).",

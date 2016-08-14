@@ -11,6 +11,11 @@ $.ajaxSetup({
 	headers: {"Desktop-App": "false"}
 })
 
+function showReportResult(response){
+	var html = $(response.returnFn || response.html).filter(".consulQuery")
+	$("#showResultsReport").empty().append(html)
+	$("#showResultsReport")[0].scrollIntoView()
+}
 
 var room = $("input[name=idUserAuthenticate]").val()
 
@@ -19,6 +24,14 @@ if(room){
 	var socket = io.connect()
 	socket.on("connect", function() {
 		socket.emit("room", room)
+	})
+	socket.on("report:generated", function (data) {
+		var fullPath = data.filename,
+			regExpFile = /\/temp\/\w+.pdf/ig,
+			path = fullPath.match(regExpFile)[0]
+
+		$("#buttonOpenPDF").removeClass("hide")
+		$("#linkpOenPDF").attr("href",path)
 	})
 }
 
@@ -330,11 +343,11 @@ function Text (){
 		var msg = new SpeechSynthesisUtterance(),
 			voices = window.speechSynthesis.getVoices()
 
-		msg.voice = voices[4]
+		msg.voice = voices[3]
 		msg.voiceURI = "native"
 		msg.volume = 1
-		msg.rate = 1
-		msg.pitch = 1
+		msg.rate = 0.8
+		msg.pitch = 1.05
 		msg.text = text
 		msg.lang = "es-ES"
 

@@ -43,10 +43,7 @@ $("#formFindAll").submit(function(event){
 		contentType: "application/json", 
 		type : "POST",
 		data : JSON.stringify(data),
-		success: function(response){
-			$("#showResultTeachAdmin").html(response.returnFn)
-			$("#showResultTeachAdmin")[0].scrollIntoView()
-		}
+		success: showReportResult
 	})
 })
 
@@ -55,31 +52,33 @@ $("#formNewUser").submit(function(event){
 	event.preventDefault()
 
 	if($("#passUser").val() == $("#newPassConfirmUser").val()){
-		$.ajax({
-			url: "/api/new/adminuser",
-			contentType : "application/json", 
-			data : JSON.stringify({
-				info:{
-					"idUser": $("#idUser").val(),
-					"userUser": $("#userUser").val(),
-					"typeUser": $("#typeUser").val(),
-					"passUser": $("#passUser").val(),
-					"statusUser" : CTE.STATUS_USER.ACTIVE
-				},
-				fn:"checkNewAdminUser",
-				params:{
-					"idUser": $("#idUser").val(),
-					"userUser": $("#userUser").val(),
-					"typeUser": $("#typeUser").val()
+		if(confirm("Se creará nuevo usuario de autenticación. ¿Desea continuar?")){
+			$.ajax({
+				url: "/api/new/adminuser",
+				contentType : "application/json", 
+				data : JSON.stringify({
+					info:{
+						"idUser": $("#idUser").val(),
+						"userUser": $("#userUser").val(),
+						"typeUser": $("#typeUser").val(),
+						"passUser": $("#passUser").val(),
+						"statusUser" : CTE.STATUS_USER.ACTIVE
+					},
+					fn:"checkNewAdminUser",
+					params:{
+						"idUser": $("#idUser").val(),
+						"userUser": $("#userUser").val(),
+						"typeUser": $("#typeUser").val()
+					}
+				}),
+				type : "POST",
+				success: function(response){
+					if (response.err) return notification.show({msg:response.err.message, type:1})
+					$("#formNewUser").trigger("reset")
+					notification.show({msg:"El Usuario se creo correctamente", type:CTE.STATUS_CODE.OK})
 				}
-			}),
-			type : "POST",
-			success: function(response){
-				if (response.err) return notification.show({msg:response.err.message, type:1})
-				$("#formNewUser").trigger("reset")
-				notification.show({msg:"El Usuario se creo correctamente", type:CTE.STATUS_CODE.OK})
-			}
-		})
+			})
+		}
 	}else notification.show({msg:"¡Contraseña no coincide!", type:CTE.STATUS_CODE.NOT_OK})
 })
 
@@ -140,7 +139,7 @@ $("#formOpeUserStatus").submit(function(event){
 	else
 		confirmSta = "ACTIVARÁ"
 
-	if(confirm("Se " + confirmSta + ": " + $("#adminStaIdUser").val() +". ¿Desea continuar?")){
+	if(confirm("Se " + confirmSta + " a: " + $("#adminStaIdUser").val() +". ¿Desea continuar?")){
 		$.ajax({
 			url: "/api/adminuser",
 			contentType: "application/json",
@@ -159,7 +158,7 @@ $("#formOpeUserStatus").submit(function(event){
 
 $("#formOpeUser").submit(function(event) {
 	event.preventDefault()
-	if(confirm("Se borrará: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
+	if(confirm("Se borrará el usuario: " + $("#adminOpeIdUser").val() +". ¿Desea continuar?")){
 		$.ajax({
 			url: "/api/adminuser",
 			contentType: "application/json",
