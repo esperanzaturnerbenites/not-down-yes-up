@@ -67,8 +67,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
-			"¿Cuál es la imagen que viste?.",
-			"Búsca en las fichas la imagen que viste.",
+			"¿Qué imagen viste?.",
+			"Búsca la imagen que viste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -78,10 +78,10 @@
 			"/img/imgacts/activities/step1act1-verde.png"
 		],
 		"imgDescriptionActivity": [
-			"AMARILLO|Color Amarillo.|El sol es amarillo.",
-			"ROJO|Color Rojo.|La boca es roja.",
-			"AZUL|Color Azul.|La nube es azul.",
-			"VERDE|Color Verde.|La manzana es verde."
+			"amarillo|Color amarillo.|El sol es amarillo.",
+			"rojo|Color rojo.|La boca es roja.",
+			"azul|Color azul.|La nube es azul.",
+			"verde|Color verde.|La manzana es verde."
 		],
 		"scriptActivity": "toggleImage",
 		"stepActivity": 1
@@ -102,8 +102,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira el animal.",
-			"¿Cuál es el animal que viste?.",
-			"Búsca en las fichas el animal que viste.",
+			"¿Qué animal viste?.",
+			"Búsca el animal que viste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -113,10 +113,10 @@
 			"/img/imgacts/activities/step1act2-vaca.png"
 		],
 		"imgDescriptionActivity": [
-			"PERRO|El Perro.|Al perro le gusta jugar con los niños y las niñas.",
-			"GATO|El Gato.|Al gato le gusta tomar leche.",
-			"LEÓN|El León.|El león tiene una gran melena.",
-			"VACA|La Vaca.|A la vaca le gusta comer pasto."
+			"perro|El perro.|El perro juega.",
+			"gato|El gato.|El gato toma leche.",
+			"león|El león.|El león tiene una gran melena.",
+			"vaca|La vaca.|La vaca come pasto."
 		],
 		"scriptActivity": "toggleImage",
 		"stepActivity": 1
@@ -137,8 +137,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
-			"¿Cuál es la imagen que viste?.",
-			"Búsca en las fichas la imagen que viste.",
+			"¿Qué imagen viste?.",
+			"Búsca la imagen que viste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -148,10 +148,10 @@
 			"/img/imgacts/activities/step1act3-ojo.png"
 		],
 		"imgDescriptionActivity": [
-			"CABEZA|La Cabeza.|Mi cabeza es bonita.",
-			"MANO|La Mano.|Con las manos puedo coger los juguetes.",
-			"BOCA|La Boca.|Con la boca puedo comer mi comida favorita.",
-			"OJO|El Ojo.|Con los ojos puedo mirar todo lo que hay a mi alrededor."
+			"cabeza|La cabeza.|Con mi cabeza pienso.",
+			"mano|La mano.|Con las manos puedo coger los juguetes.",
+			"boca|La boca.|Con la boca puedo chupar helado.",
+			"ojo|El ojo.|Con los ojos puedo mirar los juguetes."
 		],
 		"scriptActivity": "toggleImage",
 		"stepActivity": 1
@@ -172,8 +172,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira el número.",
-			"¿Cuál es el número que viste?.",
-			"Búsca en las fichas el número que viste.",
+			"¿Cuál número viste?.",
+			"Búsca el número que viste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -183,10 +183,10 @@
 			"/img/imgacts/activities/step1act4-4.png"
 		],
 		"imgDescriptionActivity": [
-			"UNO|El Uno.|Uno, es el sol que nos ilumina todos los días.",
-			"DOS|El Dos.|Dos, son los ojos que tenemos.",
-			"TRES|El Tres.|El trébol tiene tres hojas.",
-			"CUATRO|El Cuatro.|El carro tiene cuatro llantas"
+			"uno|1|Tengo una nariz.",
+			"dos|2|Tengo dos ojos.",
+			"tres|3|El trébol tiene tres hojas.",
+			"cuatro|4|El carro tiene cuatro llantas"
 		],
 		"scriptActivity": "toggleImage",
 		"stepActivity": 1
@@ -222,10 +222,10 @@
 			"/img/imgacts/activities/step1act5-vaca.png"
 		],
 		"imgDescriptionActivity": [
-			"AUTO O CARRO|El Auto O Carro.|El carro me lleva a la escuela.",
-			"GALLINA|La Gallina.|La gallina es la mamá de los pollitos.",
-			"MUÑECO Pin pon|El Muñeco Pin pon.|Con el muñeco Pin pon me divierto jugando.",
-			"VACA|La Vaca.|La vaca es grande y dice, Mu"
+			"auto o carro|El auto o carro.|El carro me lleva al colegio.",
+			"gallina|La gallina.|La gallina es la mamá de los pollitos.",
+			"muñeco Pin Pon|El muñeco Pin Pon.|Juego con Pin Pon.",
+			"vaca|La vaca.|La vaca es grande y dice, Mu"
 		],
 		"audioActivity": [
 			"/audio/step1act5-auto.mp3",
@@ -265,10 +265,10 @@
 			"/img/imgacts/activities/step1act6-tortuga.png"
 		],
 		"imgDescriptionActivity": [
-			"ESTRELLA|La Estrella.|La estrella está en el cielo.",
-			"FLOR Y SAPO|La Flor y El Sapo.|El sapo cuida a la flor de los insectos.",
-			"OVEJA|La Oveja.|La oveja está cubierta de mucha lana",
-			"TORTUGA|La Tortuga.|La tortuga camina despacio."
+			"estrella|La estrella.|La estrella está en el cielo.",
+			"flor y sapo|La flor y el sapo.|El sapo cuida a la flor.",
+			"oveja|La oveja.|La oveja tiene mucha lana",
+			"tortuga|La tortuga.|La tortuga camina despacio."
 		],
 		"audioActivity": [
 			"/audio/step1act6-estrella.mp3",
@@ -280,7 +280,7 @@
 	}, {
 		"activityActivity": 1,
 		"nameActivity": "ESQUEMA E IMAGEN CORPORAL 1",
-		"descriptionActivity": "Nombra y señala partes gruesas del cuerpo.",
+		"descriptionActivity": "Señala y nombra partes gruesas del cuerpo.",
 		"guidesActivity": [
 			"En esta actividad se muestran tres imágenes, una es correcta haciendo referencia a una parte gruesa del cuerpo, las otras dos son incorrectas haciendo referencia a una parte fina del cuerpo.",
 			"Reproduzca el audio guía de l@s niñ@s y explique la actividad.",
@@ -294,7 +294,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿Cuál es una parte gruesa del cuerpo?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -310,22 +310,22 @@
 			"/img/imgacts/activities/step2act2-oreja.png"
 		],
 		"imgDescriptionActivity": [
-			"CABEZA|La Cabeza.|En la cabeza puedo usar un sombrero.",
-			"TRONCO|El Tronco.|En el tronco puedo ponerme una camiseta.",
-			"EXTREMIDADES SUPERIORES|Las Extremidades Superiores.|Las extremidades superiores son los brazos.",
-			"EXTREMIDADES INFERIORES|Las Extremidades Inferiores.|Las extremidades inferiores son las piernas."
+			"cabeza|La cabeza.|En la cabeza me pongo el sombrero.",
+			"estómago|El estómago.|Con la sopa lleno mi estómago.",
+			"brazos|Los brazos.|Tiro el balón con los brazos.",
+			"piernas|Las piernas.|Meto gol con las piernas."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"OJO|El Ojo.|Con los ojos puedo ver el cielo, las flores y a las personas que me rodean.",
-			"BOCA|La Boca.|Con la boca puedo comer un helado.",
-			"NARIZ|La Nariz.|Con la nariz huelo la comida deliciosa que prepara mamá.",
-			"OREJA|La Oreja.|Con las orejas escucho las canciones que me gustan."
+			"ojo|El ojo.|Con los ojos puedo ver el cielo.",
+			"boca|La boca.|Con la boca como helado.",
+			"nariz|La nariz.|Yo sueno mi nariz.",
+			"oreja|La oreja.|Con las orejas escucho las canciones."
 		],
 		"stepActivity": 2
 	}, {
 		"activityActivity": 2,
 		"nameActivity": "ESQUEMA E IMAGEN CORPORAL 2",
-		"descriptionActivity": "Nombra y señala partes finas del cuerpo.",
+		"descriptionActivity": "Señala y nombra partes finas del cuerpo.",
 		"guidesActivity": [
 			"En esta actividad se muestran tres imágenes, una es correcta haciendo referencia a una parte fina del cuerpo, las otras dos son incorrectas haciendo referencia a una parte gruesa del cuerpo.",
 			"Reproduzca el audio guía de l@s niñ@s y explique la actividad.",
@@ -340,7 +340,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿Cuál es una parte fina del cuerpo?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -356,16 +356,16 @@
 			"/img/imgacts/activities/step2act1-extInf.png"
 		],
 		"imgDescriptionActivity": [
-			"OJO|El Ojo.|Con los ojos puedo ver las películas que me gustan.",
-			"BOCA|La Boca.|Con la boca puedo comer un helado.",
-			"NARIZ|La Nariz.|Con la nariz huelo la comida deliciosa que prepara mamá",
-			"OREJA|La Oreja.|Con las orejas escucho las canciones que me gustan."
+			"ojo|El ojo.|Con los ojos puedo ver el cielo.",
+			"boca|La boca.|Con la boca como helado.",
+			"nariz|La nariz.|Yo sueno mi nariz.",
+			"oreja|La oreja.|Con las orejas escucho las canciones."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"CABEZA|La Cabeza.|En la cabeza puedo usar un sombrero.",
-			"TRONCO|El Tronco.|en el tronco puedo ponerme una camiseta.",
-			"EXTREMIDADES SUPERIORES|Las Extremidades Superiores.| Las extremidades superiores son los brazos.",
-			"EXTREMIDADES INFERIORES|Las Extremidades Inferiores.| Las extremidades inferiores son las piernas."
+			"cabeza|La cabeza.|En la cabeza puedo usar un sombrero.",
+			"estómago|El estómago.|Con la sopa lleno mi estómago.",
+			"brazos|Los brazos.|Tiro el balón con los brazos.",
+			"piernas|Las piernas.|Meto gol con las piernas."
 		],
 		"stepActivity": 2
 	}, {
@@ -386,7 +386,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿Cuál va despacio?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tu pie."
 
 		],
@@ -403,16 +403,16 @@
 			"/img/imgacts/activities/step2act4-ave.gif"
 		],
 		"imgDescriptionActivity": [
-			"DESPACIO|Ir Despacio.|El caracol va despacio porque se arrastra por el suelo.",
-			"DESPACIO|Ir Despacio.|La tortuga nada despacio en el mar.",
-			"DESPACIO|Ir Despacio.|Los niños caminan despacio.",
-			"DESPACIO|Ir Despacio.|La bicicleta va despacio por la calle."
+			"despacio|Va despacio.|El caracol camina despacio.",
+			"despacio|Va despacio.|La tortuga nada despacio.",
+			"despacio|Va despacio.|Los niños caminan despacio.",
+			"despacio|Va despacio.|La bicicleta va despacio."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"RÁPIDO|Ir Rápido.|El carro va rápido por la carretera.",
-			"RÁPIDO|Ir Rápido.|La moto pasa rápido.",
-			"RÁPIDO|Ir Rápido.|La niña rueda rápido en su triciclo.",
-			"RÁPIDO|Ir Rápido.|El ave vuela rápido en el cielo."
+			"rápido|Va rápido.|El carro va rápido.",
+			"rápido|Va rápido.|La moto pasa rápido.",
+			"rápido|Va rápido.|La niña rueda rápido.",
+			"rápido|Va rápido.|El ave vuela rápido."
 		],
 		"stepActivity": 2
 	}, {
@@ -433,7 +433,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿Cuál va rápido?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tu pie."
 		],
 		"imgActivity": [
@@ -449,16 +449,16 @@
 			"/img/imgacts/activities/step2act3-bici.gif"
 		],
 		"imgDescriptionActivity": [
-			"RÁPIDO|Ir Rápido.|El carro va rápido por la carretera.",
-			"RÁPIDO|Ir Rápido.|La moto pasa rápido.",
-			"RÁPIDO|Ir Rápido.|La niña rueda rápido en su triciclo.",
-			"RÁPIDO|Ir Rápido.|El ave vuela rápido en el cielo."
+			"rápido|Va rápido.|El carro va rápido.",
+			"rápido|Va rápido.|La moto pasa rápido.",
+			"rápido|Va rápido.|La niña rueda rápido.",
+			"rápido|Va rápido.|El ave vuela rápido."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"DESPACIO|Ir Despacio.|El caracol va despacio porque se arrastra por el suelo.",
-			"DESPACIO|Ir Despacio.|La tortuga nada despacio en el mar.",
-			"DESPACIO|Ir Despacio.|Los niños caminan despacio.",
-			"DESPACIO|Ir Despacio.|La bicicleta va despacio por la calle."
+			"despacio|Va despacio.|El caracol camina despacio.",
+			"despacio|Va despacio.|La tortuga nada despacio.",
+			"despacio|Va despacio.|Los niños caminan despacio.",
+			"despacio|Va despacio.|La bicicleta va despacio."
 		],
 		"stepActivity": 2
 	}, {
@@ -478,7 +478,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿En cuál imagen está de día?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -494,16 +494,16 @@
 			"/img/imgacts/activities/step2act6-4.png"
 		],
 		"imgDescriptionActivity": [
-			"DÍA|El Día.|En el día podemos salir a ver las flores.",
-			"DÍA|El Día.|En el día sale el sol.",
-			"DÍA|El Día.|En el día el cielo es claro.",
-			"DÍA|El Día.|En el día podemos salir a jugar al parque."
+			"día|El día.|En el día veo las flores.",
+			"día|El día.|En el día sale el sol.",
+			"día|El día.|En el día el cielo es azul.",
+			"día|El día.|En el día jugamos."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"NOCHE|La Noche.|En la noche todo se ve oscuro.",
-			"NOCHE|La Noche.|En la noche se ven las estrellas.",
-			"NOCHE|La Noche.|En la noche se ve la luna.",
-			"NOCHE|La Noche.|En la noche se deben encender las luces."
+			"noche|La noche.|En la noche todo se ve oscuro.",
+			"noche|La noche.|En la noche se ven las estrellas.",
+			"noche|La noche.|En la noche se ve la luna.",
+			"noche|La noche.|En la noche se prenden las luces."
 		],
 		"stepActivity": 2
 	}, {
@@ -523,7 +523,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿En cuál imagen está de noche?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -539,16 +539,16 @@
 			"/img/imgacts/activities/step2act5-4.png"
 		],
 		"imgDescriptionActivity": [
-			"NOCHE|La Noche.|En la noche todo se ve oscuro.",
-			"NOCHE|La Noche.|En la noche se ven las estrellas.",
-			"NOCHE|La Noche.|En la noche se ve la luna.",
-			"NOCHE|La Noche.|En la noche se deben encender las luces."
+			"noche|La noche.|En la noche todo se ve oscuro.",
+			"noche|La noche.|En la noche se ven las estrellas.",
+			"noche|La noche.|En la noche se ve la luna.",
+			"noche|La noche.|En la noche se prenden las luces."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"DÍA|El Día.|En el día podemos salir a ver las flores.",
-			"DÍA|El Día.|En el día sale el sol.",
-			"DÍA|El Día.|En el día el cielo es claro.",
-			"DÍA|El Día.|En el día podemos salir a jugar al parque."
+			"día|El día.|En el día veo las flores.",
+			"día|El día.|En el día sale el sol.",
+			"día|El día.|En el día el cielo es azul.",
+			"día|El día.|En el día jugamos."
 		],
 		"stepActivity": 2
 	}, {
@@ -567,8 +567,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
-			"¿En cuál imagen el avión está cerca?.",
-			"Búsca en las fichas la imagen correcta.",
+			"¿Donde está cerca el avión?.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -584,16 +584,16 @@
 			"/img/imgacts/activities/step2act8-4.png"
 		],
 		"imgDescriptionActivity": [
-			"CERCA|Estar Cerca.|El avión dibujado en el tablero está cerca de la profesora.",
-			"CERCA|Estar Cerca.|El avión sobre la mesa está cerca de las personas.",
-			"CERCA|Estar Cerca.|El avión está volando cerca de la playa.",
-			"CERCA|Estar Cerca.|El avión está volando cerca del árbol."
+			"cerca|Está cerca.|El avión está cerca de la niña.",
+			"cerca|Está cerca.|El avión está cerca de la casa.",
+			"cerca|Está cerca.|El avión está cerca de la playa.",
+			"cerca|Está cerca.|El avión está cerca del árbol."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"LEJOS|Estar Lejos.|El avión está volando lejos del lago.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de los árboles.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de las montañas.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de la playa."
+			"lejos|Está lejos.|El avión está lejos de la niña.",
+			"lejos|Está lejos.|El avión está lejos de la casa.",
+			"lejos|Está lejos.|El avión está lejos de la playa.",
+			"lejos|Está lejos.|El avión está lejos del árbol."
 		],
 		"stepActivity": 2
 	}, {
@@ -613,8 +613,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
-			"¿En cuál imagen el avión está lejos?.",
-			"Búsca en las fichas la imagen correcta.",
+			"¿Dónde está lejos el avión?.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tu pie."
 		],
 		"imgActivity": [
@@ -630,16 +630,16 @@
 			"/img/imgacts/activities/step2act7-4.png"
 		],
 		"imgDescriptionActivity": [
-			"LEJOS|Estar Lejos.|El avión está volando lejos del lago.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de los árboles.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de las montañas.",
-			"LEJOS|Estar Lejos.|El avión está volando lejos de la playa."
+			"lejos|Está lejos.|El avión está lejos de la niña.",
+			"lejos|Está lejos.|El avión está lejos de la casa.",
+			"lejos|Está lejos.|El avión está lejos de la playa.",
+			"lejos|Está lejos.|El avión está lejos del árbol."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"CERCA|Estar Cerca.|El avión dibujado en el tablero está cerca de la profesora.",
-			"CERCA|Estar Cerca.|El avión sobre la mesa está cerca de las personas.",
-			"CERCA|Estar Cerca.|El avión está volando cerca de la playa.",
-			"CERCA|Estar Cerca.|El avión está volando cerca del árbol."
+			"cerca|Está cerca.|El avión está cerca de la niña.",
+			"cerca|Está cerca.|El avión está cerca de la casa.",
+			"cerca|Está cerca.|El avión está cerca de la playa.",
+			"cerca|Está cerca.|El avión está cerca del árbol."
 		],
 		"stepActivity": 2
 	}, {
@@ -658,8 +658,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
-			"¿En cuál imagen el pajarito esta arriba?.",
-			"Búsca en las fichas la imagen correcta.",
+			"¿Donde está arriba el pajarito?.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -675,16 +675,16 @@
 			"/img/imgacts/activities/step2act10-4.png"
 		],
 		"imgDescriptionActivity": [
-			"ARRIBA|Estar Arriba.|El pajarito está arriba, sobre la mano de la niña.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la taza.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la rama cantando.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la rama, junto al tigre."
+			"arriba|Está arriba.|El pajarito está arriba de la casa.",
+			"arriba|Está arriba.|El pajarito está arriba de la mesa.",
+			"arriba|Está arriba.|El pajarito está arriba del rodadero.",
+			"arriba|Está arriba.|El pajarito está arriba del árbol."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"ABAJO|Estar Abajo.|El pajarito está abajo del árbol, junto a los conejos.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo en el plato.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo del puente, junto al agua.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo de la flor, junto a los insectos."
+			"abajo|Está abajo.|El pajarito está abajo de la casa.",
+			"abajo|Está abajo.|El pajarito está abajo de la mesa.",
+			"abajo|Está abajo.|El pajarito está abajo del rodadero.",
+			"abajo|Está abajo.|El pajarito está abajo del árbol."
 		],
 		"stepActivity": 2
 	}, {
@@ -705,7 +705,7 @@
 			"Escucha a tu profesor.",
 			"Mira las imágenes.",
 			"¿En cuál imagen el avión está abajo?.",
-			"Búsca en las fichas la imagen correcta.",
+			"Búsca la imagen correcta.",
 			"Presiona la ficha con tu pie."
 		],
 		"imgActivity": [
@@ -721,16 +721,16 @@
 			"/img/imgacts/activities/step2act9-4.png"
 		],
 		"imgDescriptionActivity": [
-			"ABAJO|Estar Abajo.|El pajarito está abajo del árbol, junto a los conejos.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo en el plato.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo del puente, junto al agua.",
-			"ABAJO|Estar Abajo.|El pajarito está abajo de la flor, junto a los insectos."
+			"abajo|Está abajo.|El pajarito está abajo de la casa.",
+			"abajo|Está abajo.|El pajarito está abajo de la mesa.",
+			"abajo|Está abajo.|El pajarito está abajo del rodadero.",
+			"abajo|Está abajo.|El pajarito está abajo del árbol."
 		],
 		"imgDescriptionIncorrectActivity": [
-			"ARRIBA|Estar Arriba.|El pajarito está arriba, sobre el hombro de la niña.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la taza.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la rama cantando.",
-			"ARRIBA|Estar Arriba.|El pajarito está arriba de la rama, junto al tigre."
+			"arriba|Está arriba.|El pajarito está arriba de la casa.",
+			"arriba|Está arriba.|El pajarito está arriba de la mesa.",
+			"arriba|Está arriba.|El pajarito está arriba del rodadero.",
+			"arriba|Está arriba.|El pajarito está arriba del árbol."
 		],
 		"stepActivity": 2
 	}, {
@@ -749,7 +749,7 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
-			"Búsca en las fichas la imagen.",
+			"Búsca la imagen.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -759,10 +759,10 @@
 			"/img/imgacts/activities/step2act11-4.png"
 		],
 		"imgDescriptionActivity": [
-			"CEPILLO DE DIENTES|El Cepillo de dientes.|Con el cepillo de dientes debo cepillarme todos los días.",
-			"OSO DE PELUCHE|El Oso de peluche.|El oso de peluche es muy suave porque está hecho de tela y algodón.",
-			"SOMBRERO|El Sombrero.|El sombrero se pone en la cabeza para cubrirla del sol.",
-			"CUCHARA|La Cuchara, el cuchillo y eltenedor.|La cuchara, el cuchillo y el tenedor son cubiertos que sirven para comer."
+			"cepillo|El cepillo de dientes.|El cepillo tiene crema.",
+			"oso|El oso de peluche.|El oso descansa.",
+			"sombrero|El sombrero.|El sombrero está en la rama.",
+			"cubiertos|Los cubiertos.|Con los cubiertos como."
 		],
 		"stepActivity": 2
 	}, {
@@ -781,7 +781,7 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
-			"Búsca en las fichas la imagen que se parece a la.",
+			"Búsca la imagen que se parece a la silueta.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -791,10 +791,10 @@
 			"/img/imgacts/activities/step2act12-4.png"
 		],
 		"imgDescriptionActivity": [
-			"MANO|Silueta de la Mano.|La mano tiene cinco dedos.",
-			"PERRO|Silueta del Perro.|El perro bate la cola cuando está feliz.",
-			"BEBÉ|Silueta del Bebé.|El bebé gatea por la casa para divertirse.",
-			"PIE|Silueta del Pie.|Con los pies puedes caminar a tu lugar favorito."],
+			"mano|Silueta de la mano.|La mano tiene cinco dedos.",
+			"perro|Silueta del perro.|El perro bate la cola.",
+			"bebé|Silueta del bebé.|El bebé gatea.",
+			"pie|Silueta del pie.|Con los pies camino."],
 		"stepActivity": 2
 	}, {
 		"activityActivity": 1,
@@ -812,7 +812,7 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
-			"Búsca en las fichas la imagen.",
+			"Búsca la imagen.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -822,10 +822,10 @@
 			"/img/imgacts/activities/step3act1-verde.png"
 		],
 		"imgDescriptionActivity": [
-			"AMARILLO|Color Amarillo.|El banano es amarillo.",
-			"AZUL|Color Azul.|El tractor es azul.",
-			"ROJO|Color Rojo.|La manzana es roja.",
-			"VERDE|Color Verde.|La tortuga es verde."
+			"amarillo|Color amarillo.|El banano es amarillo.",
+			"azul|Color azul.|El tractor es azul.",
+			"rojo|Color rojo.|La manzana es roja.",
+			"verde|Color verde.|La tortuga es verde."
 		],
 		"stepActivity": 3
 	}, {
@@ -846,7 +846,7 @@
 			"Escucha a tu profesor.",
 			"Mira la imagen.",
 			"¿Cómo se llama la imagen?",
-			"Búsca en las fichas la imagen.",
+			"Búsca la imagen.",
 			"Presiona la ficha con tu pie."
 		],
 		"imgActivity": [
@@ -856,10 +856,10 @@
 			"/img/imgacts/activities/step3act2-vestido.png"
 		],
 		"imgDescriptionActivity": [
-			"CAMISA|La Camisa.|La camisa la usa mi papá en la oficina.",
-			"FALDA|La Falda.|Las niñas usan falda.",
-			"PANTALÓN|El Pantalón.|El pantalón cubre las piernas.",
-			"VESTIDO|La Vestido.|El vestido lo usan las mujeres."
+			"camisa|La camisa.|Mi papá usa camisa.",
+			"falda|La falda.|Mi mamá usa falda.",
+			"pantalón|El pantalón.|Yo uso pantalón.",
+			"vestido|El vestido.|Mi abuela usa vestido."
 		],
 		"stepActivity": 3
 	}, {
@@ -880,7 +880,7 @@
 			"Escucha a tu profesor.",
 			"Escucha lo que dice la pantalla.",
 			"¿Qué animal escuchaste?",
-			"Búsca en las fichas el animal que escuchaste.",
+			"Búsca el animal que escuchaste.",
 			"Presiona la ficha con tu pie."
 		],
 		"imgActivity": [
@@ -890,10 +890,10 @@
 			"/img/imgacts/activities/step3act3-selva.png"
 		],
 		"imgDescriptionActivity": [
-			"AVE|El Ave.|El pajarito es un ave y puede volar.",
-			"INSECTO|El Insecto.|La abispa es un insecto muy pequeño.",
-			"PEZ|El Pez.|El pez vive en el agua.",
-			"MONO|El Mono.|El mono vive en la selva y se cuelga de las ramas de los árboles."
+			"pajarito|Los pajaritos.|Los pajaritos tienen plumas.",
+			"abispa|La abispa.|La abispa tiene alas.",
+			"pez|El pez.|El pez tiene escamas.",
+			"mico|El mico.|El mico tiene patas."
 		],
 		"onlyTextActivity": 1,
 		"stepActivity": 3
@@ -914,7 +914,7 @@
 			"Escucha a tu profesor.",
 			"Escucha lo que dice la pantalla.",
 			"¿Qué escuchaste?",
-			"Búsca en las fichas el objeto que escuchaste.",
+			"Búsca el objeto que escuchaste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -924,10 +924,10 @@
 			"/img/imgacts/activities/step4act1-mesa.png"
 		],
 		"imgDescriptionActivity": [
-			"ABEJA|La Abeja.|La abeja vive en un panal donde produce la miel.",
-			"CORAZÓN|El Corazón.|El corazón nos permite vivir.",
-			"LLAVES|Las Llaves.|Con las llaves podemos abrir la puerta de la casa.",
-			"MESA|La Mesa.|En la mesa podemos comer el desayuno."
+			"abeja |La abeja.|La abeja es pequeña.",
+			"corazón|El corazón.|El corazón es rojo.",
+			"llaves|Las llaves.|Con las llaves se abre la puerta.",
+			"mesa|La mesa.|En la mesa comemos."
 		],
 		"onlyTextActivity": 1,
 		"stepActivity": 4
@@ -947,8 +947,8 @@
 			"Mira la pantalla.",
 			"Escucha a tu profesor.",
 			"Mira la vocal.",
-			"¿Cuál es la vocal?.",
-			"Búsca en las fichas la vocal que viste.",
+			"¿Qué vocal viste?.",
+			"Búsca la vocal que viste.",
 			"Presiona la ficha con tus manos."
 		],
 		"imgActivity": [
@@ -959,11 +959,11 @@
 			"/img/imgacts/activities/step4act2-u.png"
 		],
 		"imgDescriptionActivity": [
-			"A|La A.|La A, es una vocal. Con la A, se escribe Avión.",
-			"E|La E.|La E, es una vocal.  Con la E, se escribe Espejo.",
-			"I|la I.|la I, es una vocal. Con la I, se escribe Imagen.",
-			"O|La O.|La O, es una vocal. Con la O, se escribe Oso.",
-			"U|La U.|La U, es una vocal. Con la U, se escrive Uva."
+			"a|La a, es una vocal.|avión",
+			"e|La e, es una vocal.|espejo",
+			"i|la i, es una vocal.|iglesia",
+			"o|La o, es una vocal.|oso",
+			"u|La u, es una vocal.|uvas"
 		],
 		"stepActivity": 4
 	}]

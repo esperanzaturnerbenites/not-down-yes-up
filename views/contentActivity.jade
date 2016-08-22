@@ -105,7 +105,7 @@ section.flex.actContent
 				section#imgActAudio.imgReview
 					h1#audioImgActivity.h1-4 #{activity.imgDescriptionActivity[select].split("|")[0]}
 			-else if (activity.uniqueImageActivity == 1)
-				section
+				section.imgReview
 					img#uniqueImgAct(src='#{activity.imgActivity[0]}', alt='.:: ... ::.')
 			-else
 				section#imgActAudio.imgReview

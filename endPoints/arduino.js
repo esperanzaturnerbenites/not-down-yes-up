@@ -15,7 +15,7 @@ router.post("/data",(req, res) => {
 	data.statusCode = CTE.STATUS_CODE.OK
 	data.isCorrect = true
 
-	if(!data.pinPress != data.pinCorrect){
+	if(data.pinPress != data.pinCorrect){
 		data.message = "Siguelo intentando"
 		data.statusCode = CTE.STATUS_CODE.INFORMATION
 		data.isCorrect = false
