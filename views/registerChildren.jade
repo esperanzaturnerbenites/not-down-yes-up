@@ -44,18 +44,18 @@ block content
 								input.idChildren#idChildren(type='number', name='children[idChildren]' value="#{children.idChildren}" autocomplete = "off")
 							else
 								input.idChildren#idChildren(type='number', name='children[idChildren]' value="#{children.idChildren}", readonly)
-							input#nameChildren(type='text', name='children[nameChildren]' value="#{children.nameChildren}", placeholder='Nombres Niñ@', required='' autocomplete = "off")
-							input#lastnameChildren(type='text', name='children[lastnameChildren]' value="#{children.lastnameChildren}", placeholder='Apellidos Niñ@', required='' autocomplete = "off")
+							input#nameChildren(type='text', name='children[nameChildren]' value="#{children.nameChildren}", placeholder='Nombres Niñ@', autocomplete = "off")
+							input#lastnameChildren(type='text', name='children[lastnameChildren]' value="#{children.lastnameChildren}", placeholder='Apellidos Niñ@', autocomplete = "off")
 							article.img
 								span Foto
 								input#imgChildren.inputfile(type='file', name='children[imgChildren]' value="#{children.imgChildren}", accept='image/*' )
 							label(for='birthdateChildren') Fecha de Nacimiento
-							input#birthdateChildren(type='date' name='children[birthdateChildren]' data-date='#{children.birthdateChildren}' required='')
+							input#birthdateChildren(type='date' name='children[birthdateChildren]' data-date='#{children.birthdateChildren}')
 
-							input#birthplaceChildren(type='text', name='children[birthplaceChildren]' value="#{children.birthplaceChildren}", placeholder='Lugar de Nacimiento', required='')
+							input#birthplaceChildren(type='text', name='children[birthplaceChildren]' value="#{children.birthplaceChildren}", placeholder='Lugar de Nacimiento',)
 							article
 								label(for='ageChildren') Edad en Meses: 
-								input#ageChildren(type='number', name='children[ageChildren]' autocomplete = "off" value="#{children.ageChildren}", min='0', max='48', placeholder='Edad en meses', required='')
+								input#ageChildren(type='number', name='children[ageChildren]' autocomplete = "off" value="#{children.ageChildren}", min='0', max='180')
 								label(for='genderChildren') Sexo
 								select#genderChildren(name='children[genderChildren]' data-value="#{children.genderChildren}")
 									option(value='0', selected='') Niña
@@ -67,18 +67,18 @@ block content
 									option(value='2') Papá
 									option(value='3') Otro Cuidador
 							article
-								input#addressChildren(type='text', name='children[addressChildren]' autocomplete = "off" value="#{children.addressChildren}", placeholder='Dirección', required='')
-								input#districtChildren(type='text', name='children[districtChildren]' autocomplete = "off" value="#{children.districtChildren}", placeholder='Barrio', required='')
+								input#addressChildren(type='text', name='children[addressChildren]' autocomplete = "off" value="#{children.addressChildren}", placeholder='Dirección',)
+								input#districtChildren(type='text', name='children[districtChildren]' autocomplete = "off" value="#{children.districtChildren}", placeholder='Barrio',)
 								input#localityChildren(type='text', name='children[localityChildren]' autocomplete = "off" value="#{children.localityChildren}", placeholder='Localidad')
-								input#municipalityChildren(type='text', name='children[municipalityChildren]' autocomplete = "off" value="#{children.municipalityChildren}", placeholder='Ciudad/Municipio', required='')
-								input#departamentChildren(type='text', name='children[departamentChildren]' autocomplete = "off" value="#{children.departamentChildren}", placeholder='Departamento', required='')
+								input#municipalityChildren(type='text', name='children[municipalityChildren]' autocomplete = "off" value="#{children.municipalityChildren}", placeholder='Ciudad/Municipio',)
+								input#departamentChildren(type='text', name='children[departamentChildren]' autocomplete = "off" value="#{children.departamentChildren}", placeholder='Departamento',)
 								label(for='levelhomeChildren') Estrato de la residencia: 
-								input#levelhomeChildren(type='number', name='children[levelhomeChildren]' autocomplete = "off" value="#{children.levelhomeChildren}", min='1', max='6', placeholder='Estrato', required='')
+								input#levelhomeChildren(type='number', name='children[levelhomeChildren]' autocomplete = "off" value="#{children.levelhomeChildren}", min='1', max='6', placeholder='Estrato',)
 						fieldset
 							legend Salud
-							textarea#healthChildren(name='children[healthChildren]' placeholder='Indicaciones de Salud...' required autocomplete = "off") #{children.healthChildren}
+							textarea#healthChildren(name='children[healthChildren]' placeholder='Indicaciones de Salud...' autocomplete = "off") #{children.healthChildren}
 							article
-								input#epsChildren(type='text', name='children[epsChildren]' value="#{children.epsChildren}", placeholder='EPS del niñ@', required='' autocomplete = "off")
+								input#epsChildren(type='text', name='children[epsChildren]' value="#{children.epsChildren}", placeholder='EPS del niñ@', autocomplete = "off")
 							article
 								label(for='apbChildren') APB -Organización que cobija al niñ@ (Policia, Ejercito, Sanidad Naval, Fuerza Aérea, Ecopetrol, ETB): 
 								input#apbChildren(type='text', name='children[apbChildren]' value="#{children.apbChildren}", placeholder='APB del niño' autocomplete = "off")
@@ -103,11 +103,11 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idMom#idParent(type='number', name='mom[idParent]', value="#{mom.idParent}" min='1000', placeholder='Cédula Mamita', autocomplete = "off" required='')
-								input#idExpeditionParent(type='text', name='mom[idExpeditionParent]', value="#{mom.idExpeditionParent}" placeholder='Lugar de Expedición', required='' autocomplete = "off")
+								input.idMom#idParent(type='number', name='mom[idParent]', value="#{mom.idParent}" min='1000', placeholder='Cédula Mamita', autocomplete = "off")
+								input#idExpeditionParent(type='text', name='mom[idExpeditionParent]', value="#{mom.idExpeditionParent}" placeholder='Lugar de Expedición', autocomplete = "off")
 							article
-								input#nameParent(type='text', name='mom[nameParent]', value="#{mom.nameParent}" placeholder='Nombres Mamita', required='' autocomplete = "off")
-								input#lastnameParent(type='text', name='mom[lastnameParent]', value="#{mom.lastnameParent}" placeholder='Apellidos Mamita', required='' autocomplete = "off")
+								input#nameParent(type='text', name='mom[nameParent]', value="#{mom.nameParent}" placeholder='Nombres Mamita', autocomplete = "off")
+								input#lastnameParent(type='text', name='mom[lastnameParent]', value="#{mom.lastnameParent}" placeholder='Apellidos Mamita', autocomplete = "off")
 							article
 								label(for='birthdateParent') Fecha de Nacimiento
 								input#birthdateParent(type='date' name='mom[birthdateParent]' data-date="#{mom.birthdateParent}")
@@ -117,8 +117,8 @@ block content
 						fieldset
 							legend Contacto
 							article
-								input#telParent(type='number', name='mom[telParent]', value="#{mom.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete = "off")
-								input#celParent(type='number', name='mom[celParent]', value="#{mom.celParent}" min='1000000000', max='9999999999', placeholder='Celular', required='' autocomplete = "off")
+								input#telParent(type='number', name='mom[telParent]', value="#{mom.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', autocomplete = "off")
+								input#celParent(type='number', name='mom[celParent]', value="#{mom.celParent}" min='1000000000', max='9999999999', placeholder='Celular', autocomplete = "off")
 								input#emailParent(type='email', name='mom[emailParent]', value="#{mom.emailParent}" placeholder='correo-mamita@abc.com' autocomplete = "off")
 						fieldset
 							legend Profesión
@@ -136,11 +136,11 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idDad#idParent(type='number', name='dad[idParent]', value="#{dad.idParent}" min='1000', placeholder='Cédula Papito', autocomplete = "off" required='')
-								input#idExpeditionParent(type='text', name='dad[idExpeditionParent]', value="#{dad.idExpeditionParent}" placeholder='Lugar de Expedición', required='' autocomplete = "off")
+								input.idDad#idParent(type='number', name='dad[idParent]', value="#{dad.idParent}" min='1000', placeholder='Cédula Papito', autocomplete = "off")
+								input#idExpeditionParent(type='text', name='dad[idExpeditionParent]', value="#{dad.idExpeditionParent}" placeholder='Lugar de Expedición', autocomplete = "off")
 							article
-								input#nameParent(type='text', name='dad[nameParent]', value="#{dad.nameParent}" placeholder='Nombres Papito', required='' autocomplete = "off")
-								input#lastnameParent(type='text', name='dad[lastnameParent]', value="#{dad.lastnameParent}" placeholder='Apellidos Papito', required='' autocomplete = "off")
+								input#nameParent(type='text', name='dad[nameParent]', value="#{dad.nameParent}" placeholder='Nombres Papito', autocomplete = "off")
+								input#lastnameParent(type='text', name='dad[lastnameParent]', value="#{dad.lastnameParent}" placeholder='Apellidos Papito', autocomplete = "off")
 							article
 								label(for='birthdateParent') Fecha de Nacimiento
 								input#birthdateParent(type='date' name='dad[birthdateParent]' data-date="#{dad.birthdateParent}")
@@ -150,8 +150,8 @@ block content
 						fieldset
 							legend Contacto
 							article
-								input#telParent(type='number', name='dad[telParent]', value="#{dad.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete = "off")
-								input#celParent(type='number', name='dad[celParent]', value="#{dad.celParent}" min='1000000000', max='9999999999', placeholder='Celular', required='' autocomplete = "off")
+								input#telParent(type='number', name='dad[telParent]', value="#{dad.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', autocomplete = "off")
+								input#celParent(type='number', name='dad[celParent]', value="#{dad.celParent}" min='1000000000', max='9999999999', placeholder='Celular', autocomplete = "off")
 								input#emailParent(type='email', name='dad[emailParent]', value="#{dad.emailParent}" placeholder='correo-papito@abc.com' autocomplete = "off")
 						fieldset
 							legend Profesión
@@ -169,11 +169,11 @@ block content
 						fieldset
 							legend Personal
 							article
-								input.idCare#idParent(type='number', name="care[idParent]", value="#{cure.idParent}" min='1000', placeholder='Cédula Cuidador', required='' autocomplete = "off")
-								input#idExpeditionParent(type='text', name="care[idExpeditionParent]", value="#{cure.idExpeditionParent}" placeholder='Lugar de Expedición', required='' autocomplete = "off")
+								input.idCare#idParent(type='number', name="care[idParent]", value="#{cure.idParent}" min='1000', placeholder='Cédula Cuidador', autocomplete = "off")
+								input#idExpeditionParent(type='text', name="care[idExpeditionParent]", value="#{cure.idExpeditionParent}" placeholder='Lugar de Expedición', autocomplete = "off")
 							article
-								input#nameParent(type='text', name="care[nameParent]", value="#{cure.nameParent}" placeholder='Nombres Cuidador', required='' autocomplete = "off")
-								input#lastnameParent(type='text', name="care[lastnameParent]", value="#{cure.lastnameParent}" placeholder='Apellidos Cuidador', required='' autocomplete = "off")
+								input#nameParent(type='text', name="care[nameParent]", value="#{cure.nameParent}" placeholder='Nombres Cuidador', autocomplete = "off")
+								input#lastnameParent(type='text', name="care[lastnameParent]", value="#{cure.lastnameParent}" placeholder='Apellidos Cuidador', autocomplete = "off")
 							article
 								label(for='birthdateParent') Fecha de Nacimiento
 								input#birthdateParent(type='date' name='care[birthdateParent]' data-date="#{cure.birthdateParent}")
@@ -183,8 +183,8 @@ block content
 						fieldset
 							legend Contacto
 							article
-								input#telParent(type='number', name="care[telParent]", value="#{cure.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', required='' autocomplete = "off")
-								input#celParent(type='number', name="care[celParent]", value="#{cure.celParent}" min='1000000000', max='9999999999', placeholder='Celular', required='' autocomplete = "off")
+								input#telParent(type='number', name="care[telParent]", value="#{cure.telParent}" min='1000000', max='9999999', placeholder='Teléfono Fijo', autocomplete = "off")
+								input#celParent(type='number', name="care[celParent]", value="#{cure.celParent}" min='1000000000', max='9999999999', placeholder='Celular', autocomplete = "off")
 								input#emailParent(type='email', name="care[emailParent]", value="#{cure.emailParent}" placeholder='correo-cuidador@abc.com' autocomplete = "off")
 
 				fieldset.user.data

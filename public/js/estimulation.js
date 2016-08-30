@@ -1,10 +1,53 @@
-$("#startActivity").submit(function(event){
+$("#registerChildrenToActivities").submit(function(event){
 	event.preventDefault()
+	$.ajax({
+		url: "/estimulation/registerChildrenToActivities",
+		async : false,
+		data : {
+			idChildren: $("#idChildren").val()
+		},
+		type : "POST",
+		success: function(response){
+			console.log(response)
+			
+			if(response.children){
+
+				var ids = $("[data-id-children-select]")
+					.toArray()
+					.map(
+						function(e){
+							return $(e).attr("id")
+						}
+					)
+
+				if(ids.indexOf(response.children.idChildren.toString()) >= 0){
+					return notification.show({msg:"El niñ@ ya registrado.",type:CTE.STATUS_CODE.INFORMATION})
+				} 
+
+				var nameChild = response.children.nameChildren + " " + response.children.lastnameChildren
+				var buttonChildren = $("<button>")
+					.append($("<span>",{html:nameChild}))
+					.attr("id",response.children.idChildren)
+					.attr("data-id-children-select","startActivityWithChildSelect")
+					.click(
+						function(event){
+							event.preventDefault()
+							startActivity(response.children.idChildren)
+						}
+					)
+
+				$("#buttonChildrenToStartActivity").append(buttonChildren)
+			}else notification.show({msg:response.message,type:response.statusCode})
+		}
+	})
+})
+
+function startActivity (children){
 	$.ajax({
 		url: "/estimulation/startActivity",
 		async : false,
 		data : {
-			idChildren: $("#idChildren").val(),
+			idChildren: children,
 			idActivity: j_activityCurrent.activityActivity,
 			idStep: j_activityCurrent.stepActivity
 		},
@@ -25,6 +68,11 @@ $("#startActivity").submit(function(event){
 
 		}
 	})
+}
+
+$("#startActivity").submit(function(event){
+	event.preventDefault()
+	startActivity()
 })
 
 /* Creo o Actualizar */
@@ -114,7 +162,16 @@ if($("#audioPrinc")[0]){
 }
 */
 
+function autoSaveActivityHistory(){
+	
+}
+
 socket.on("arduino:data", function (data) {
+
+	if($("#ifAutoSaveActivityHistory")[0].checked){
+		autoSaveActivityHistory()
+	}
+
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,
 		srcImage = "/img/imgacts/activities/sad.png",
 		srcAudio = "/audio/bad.mp3"
@@ -165,6 +222,7 @@ $(".viewMore").click(function(){
 		}
 	})
 })
+
 $("#viewInforChildren").click(() => {})
 
 // HistorialActividades

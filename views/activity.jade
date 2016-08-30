@@ -106,13 +106,28 @@ html(lang='es')
 				p #{activity.descriptionActivity}
 
 			section.actGroup
-				form#startActivity
+				form#registerChildrenToActivities
 					fieldset
 						legend ¿Con cuál niñ@ nos divertiremos ahora?
 						input#idChildren(type='number' name='idChildren' min='1000' placeholder='Identificación Niño' data-valid-exists="children,false,true")
 						article
 							button(type='submit')
-								span Iniciar Actividad
+								span Registrar Niñ@
+						article
+							input(type="checkbox" id="ifAutoSaveActivityHistory")
+							label(for="ifAutoSaveActivityHistory") Guardar Automaticamente Validacion Parcial
+
+			section.actGroup
+				form
+					fieldset
+						section#buttonChildrenToStartActivity
+
+			section.actGroup
+				form#startActivity
+					fieldset
+						section#buttonChildrenToStartActivity
+							button(type='submit')
+								span Iniciar Actividad sin Niños Registrados
 
 			section#contentActivity
 		script.

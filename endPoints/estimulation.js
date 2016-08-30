@@ -33,6 +33,17 @@ router.post("/startActivity",(req,res)=>{
 	})
 })
 
+router.post("/registerChildrenToActivities",(req,res)=>{
+	var data = req.body
+
+	models.children.findOne({idChildren:data.idChildren},function(err, children){
+		if(err) return res.json({err:err})
+		if(!children) return res.json({"message":"¡Niño no existe!",statusCode:CTE.STATUS_CODE.NOT_OK})
+		res.json({children:children})
+
+	})
+})
+
 router.post("/valid-activity",(req,res)=>{
 	var data = req.body
 
@@ -72,8 +83,7 @@ router.post("/valid-activity",(req,res)=>{
 })
 
 router.get("/steps",(req,res)=>{
-	models.step.find({}).sort({stepStep:1}).exec(function (err, steps){res.render("stepMenu",{steps:steps})})
-})
+	models.step.find({}).sort({stepStep:1}).exec(function (err, steps){res.render("stepMenu",{steps:steps})})})
 
 router.get("/steps/:step",(req,res)=>{
 	const numberStep = parseInt(req.params.step)

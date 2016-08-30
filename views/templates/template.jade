@@ -15,8 +15,6 @@ html(lang='es')
 				for message in messages[typeMessages]
 					- var messageText = message
 					p(class="#{typeMessages}").message #{messageText}
-						button(type="button" class="close" )
-							span ×
 		section.container
 			header
 				section.help

@@ -52,12 +52,6 @@ section#reviewChild.flex.actGroupReview.actGroup.hide
 
 section.flex.actContent
 	article#nameChild
-		section#aswerAct.hide
-			h1 ¿CÓMO TE FUÉ?
-			img(src='/img/imgacts/activities/espera.png', alt='')
-			audio(src='/audio/good.mp3', alt='')
-			input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity' readonly)
-
 		section.imgPhoto
 			h1 ¡LÉEME!
 			h1 
@@ -70,12 +64,13 @@ section.flex.actContent
 					p 
 						span #{guide}
 
+section.flex.actContent
 	article#nameChild1.actCentral
 		-if (activity.scriptActivity)
 			-var scritp = activity.scriptActivity
 		-else
 			-var scritp = false
-		h1 ¡ESCÚCHAME!
+		h1 MIRA Y ESCÚCHA
 
 		section.actCentralImg
 			-var cantImg = activity.imgActivity.length
@@ -111,6 +106,12 @@ section.flex.actContent
 				section#imgActAudio.imgReview
 					img#uniqueImgAct(src='#{activity.imgActivity[select]}', alt='.:: ... ::.')
 					h1#audioImgActivity.h1-4 #{activity.imgDescriptionActivity[select].split("|")[0]}
+
+	article#aswerAct.hide
+		h1 ¿CÓMO TE FUÉ?
+		img(src='/img/imgacts/activities/espera.png', alt='')
+		audio(src='/audio/good.mp3', alt='')
+		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity' readonly)
 
 script(src="/js/scripts.js")
 script.

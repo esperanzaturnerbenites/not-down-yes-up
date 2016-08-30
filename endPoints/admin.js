@@ -106,7 +106,8 @@ function updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 			promises.push(promise)
 		})
 		Q.all(promises).then(() => {
-			return res.json({message:"Niñ@ Actualizd@ Correctamente.",statusCode:CTE.STATUS_CODE.OK})
+			req.flash("success","Niñ@ Actualizd@ Correctamente")
+			return res.redirect("/admin/register-children/" + dataChildren.idChildren)
 		})
 	})
 }
@@ -145,7 +146,7 @@ function updateUser(dataUser,req,res){
 		,(err,status) => {
 			if(err) return res.json({err:err})
 			req.flash("success","¡Usuario actualizado con éxito!")
-			return res.redirect("/admin/menu-admin")
+			return res.redirect("/admin/register-user/" + dataUser.idUser)
 		})
 }
 
@@ -269,7 +270,6 @@ router.post(["/register-user","/update-user"],upload.any(),(req,res)=>{
 		dataUser = data.user,
 		dataAdminuser = data.adminuser
 
-	dataAdminuser.untouchableUser = false
 
 	var defaultImage = "defaultUser.png",
 		fileUser =  req.files.find(e => {return e.fieldname == "user[imgUser]"})
@@ -282,6 +282,7 @@ router.post(["/register-user","/update-user"],upload.any(),(req,res)=>{
 		}
 		updateUser(dataUser,req,res)
 	}else{
+		dataAdminuser.untouchableUser = false
 		dataUser.imgUser = fileUser ? fileUser.filename : defaultImage
 		createUser(dataUser,dataAdminuser,req,res)
 	}

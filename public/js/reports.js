@@ -56,7 +56,7 @@ $("#consultGeneralTeachers").submit(function (event) {
 
 	var data = {query:{}}
 
-	data.query.typeUser = {$ne : 2}
+	data.query.typeUser = {$nin : [2,0]}
 
 	if($("#statusUser").val() != "T") data.query.statusUser = $("#statusUser").val()
 

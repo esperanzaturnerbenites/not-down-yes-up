@@ -846,9 +846,16 @@ module.exports = {
 						"image": "![IMAGEN INICIAR UNA ACTIVIDAD](/img/help/3.3.3.png)",
 						"description": "Permite acceder a las opciones completas de una actividad.",
 						"guides": [
+							"Existen dos maneras de iniciar una actividad:.",
+							"La primera es registrando los niños/as que van a realizar la actividad de la siguiente forma:.",
 							"Digitar el número de identificación del/la niño/a (A).",
-							"Dar clic en el botón Iniciar Actidad (B).",
-							"Para cancelar una actidad debe dar clic en Reiniciar Actidad (C)."
+							"Dar clic en el botón Registrar Niñ@ (B).",
+							"Se agrega un botón con el nombre del/la niño/a Registrado (C).",
+							"Dar clic en el botón con el nombre.",
+							"Si selecciona la opción 'Guardar Automáticamente Validación Parcial', el sistema guardará los datos de la actividad realizada cada vez que el/la niño/a presione la ficha en el tapete electrónico. Si no selecciona esta opción, deberá hacer la validación parcial manualmente (D).",
+							"La segunda opción para iniciar una actividad, es hacerlo sin registrar niños/as, para esto debe dar clic en el botón Iniciar Actividad sin Niñ@s Registrados (E).",
+							"Esta opción no guarda ningún dato de las actividades que se realicen.",
+							"Para cancelar una actividad debe dar clic en Reiniciar Actividad (F)."
 						],
 						"warnings": [
 							"Verifique que el número de identificación sea correcto",
@@ -870,12 +877,14 @@ module.exports = {
 							"Validación Parcial: Despliega un formulario que permite validar parcialmente la actividad.",
 							"Validación Final: Despliega un formulario que permite validar definitivamente la actividad.",
 							"Descripción de la actividad: Muestra la descripción de una actividad (C).",
-							"Selección de un/a niño/a: Permite iniciar la actividad con el/la niño/a digitado (D).",
-							"Niño/a Actual: Muestra el nombre, identificación y foto del/la niño/a sesleccionado. Tambien permite ver información detallada del/la niño/a (E).",
-							"Guía: Muestra la guía del profesor para desarrollar la actividad. También permite desarrollar la actividad de apoyo (F).",
-							"Contenedor actividad: Es el espacio que observará el/la niño/a durante la actividad. Se divide en 2, ¡LÉEME! y ¡ESCÚCHAME!:",
-							"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad. Permite escuchar la guía del/la niño/a. (G).",
-							"¡ESCÚCHAME!: Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (H)."
+							"Registro niños/as: Permite registrar  los/las niños/as que van a realizar la actividad (D).",
+							"Guardado automático: Si se selecciona esta opción el sistema guardará los datos de la actividad realizada cada vez que el/la niño/a presione la ficha en el tapete electrónico. Si no selecciona esta opción, deberá hacer la validación parcial manualmente (E).",
+							"Niños/as Registrados: Muestra los niños que se registraron para el desarrollo de la actividad. (F)",
+							"Iniciar actividad sin Niños/as: Permite iniciar la actividad sin registrar niños/as. Esta opción no guarda ningún dato de las actividades que se realicen. (G)",
+							"Niño/a Actual: Muestra el nombre, identificación y foto del/la niño/a sesleccionado. Tambien permite ver información detallada del/la niño/a (H).",
+							"Guía: Muestra la guía del profesor para desarrollar la actividad. También permite desarrollar la actividad de apoyo (I).",
+							"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad. Permite escuchar la guía del/la niño/a. (J).",
+							"¡ESCÚCHAME!: Es el espacio que verán los niños durnte el desarrollo de la actividad. Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (K)."
 						],
 						"warnings": [
 							"No Aplica."
@@ -950,7 +959,9 @@ module.exports = {
 						"description": "Permite validar parcialmente una actividad.",
 						"guides": [
 							"La validación parcial de una actividad hace referencia a calificar una actividad desarrollada a modo de enseñanza.",
-							"Dar clic en el botón Validación Parcial para mostrar u ocultar la sección de validación parcial (A).",
+							"Existen dos maneras de validar parcialmente una actividad:",
+							"La primera, seleccionando la opción 'Guardar Automáticamente Validación Parcial'. De esta manera, cada vez que el/la niño/a presione la ficha en el tapete electrónico se guardarán automáticamente los datos de la actividad.",
+							"La segunda opción es, dar clic en el botón Validación Parcial para mostrar u ocultar la sección de validación parcial (A).",
 							"Se muestra la sección Validación Actividad (B).",
 							"Validar la información que se muestra (C).",
 							"Digitar la calificación obtenida en el campo Puntuación Docente, seleccionar en la lista desplegable Estado de la Actividad el indicador correspondiente y, escribir las observaciones respectivas (D).",
