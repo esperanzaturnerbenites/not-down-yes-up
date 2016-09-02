@@ -19,12 +19,11 @@ block content
 						th EDAD
 						th ESTADO
 						th ESTADO CURSOS
-						each dataChildren in dataCustom
-							- var stepsValid = dataChildren.stepsValid
-							each stepValid in stepsValid
-								-var activities = stepValid.activities
-								each activity in activities
-									th ACTIVIDAD #{activity.activityActivity}
+						- var stepsValid = dataCustom[0].stepsValid
+						each stepValid in stepsValid
+							-var activities = stepValid.activities
+							each activity in activities
+								th ACTIVIDAD #{activity.activityActivity}
 				tbody
 					each dataChildren in dataCustom
 						- var children = dataChildren.children

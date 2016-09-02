@@ -196,6 +196,7 @@ router.get("/info-children/:id",(req,res)=>{
 		if(!children) return res.json({"message":"¡Niñ@ no existe!", statusCode:CTE.STATUS_CODE.INFORMATION})
 			
 		data.child = children
+		children.idParent.sort(function(a,b){return a.relationshipParent>b.relationshipParent})
 		data.parents = children.idParent.map(objParent => {return objParent.idParent})
 
 		models.activityhistory.find({idChildren: children._id})

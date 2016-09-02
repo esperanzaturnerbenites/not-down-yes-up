@@ -11,31 +11,37 @@ block content
 				a#linkpOenPDF(href="#" target="_blank") Mostrar PDF
 		article.consulTable
 		- var dataAllActivities = dataCustom
+		- var activties = dataCustom.map(function(e){return e[0]._id.idActivity})
+
+		each activity in activties
+			button(onclick="drawChartChildrenToTeacher(#{activity.activityActivity})")
+				span Grafica #{activity.nameActivity}
+		span INT = INTENTOS
 		each dataActivities in dataAllActivities
-			each dataActivity in dataActivities
-				- var activity = dataActivity._id.idActivity
-				- var lastActivityHistory = dataActivity.lastActivityHistory
-				- var children = dataActivity._id.idChildren
-				button(onclick="drawChartChildrenToTeacher(#{activity.activityActivity})")
-					span Grafica #{activity.nameActivity}
-				table
-					thead
-						tr
-							th ID
-							th NOMBRE NIÑ@
-							th EDAD
-							th ESTADO NIÑ@
-							th ESTADO ACTIVIDAD
-							th PUNTAJE SISTEMA
-							th PUNTAJE DOCENTE
-							th OBSERVACIÓN
-							th FECHA VALIDACIÓN
-							th INTENTOS
-							th PUNTAJE MAYOR
-							th PUNTAJE MENOR
-							th PUNTAJE TOTAL
-							th PUNTAJE PROMEDIO
+			table
+				thead
+					tr
+						th ACTIVIDAD
+						th ID
+						th NOMBRE NIÑ@
+						th EDAD
+						th ESTADO NIÑ@
+						th ESTADO ACT
+						th P.SIS
+						th P.DOC
+						th OBSERVACIÓN
+						th F. VALIDACIÓN
+						th INT
+						th P. MAYOR
+						th P. MENOR
+						th P. TOTAL
+						th P. PROM
+				each dataActivity in dataActivities
+					- var activity = dataActivity._id.idActivity
+					- var lastActivityHistory = dataActivity.lastActivityHistory
+					- var children = dataActivity._id.idChildren
 					tbody
+							td #{activity.nameActivity}
 							td #{children.idChildren}
 							td #{children.nameChildren} #{children.lastnameChildren} 
 							td #{children.ageChildren}
@@ -50,3 +56,5 @@ block content
 							th #{dataActivity.minScoreTeachActivity}
 							th #{dataActivity.scoreTotalTeachActivity}
 							th #{dataActivity.scoreAvgTeachActivity}
+		script.
+			var d = !{JSON.stringify(dataCustom)}

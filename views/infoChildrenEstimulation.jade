@@ -6,7 +6,7 @@ block content
 		article.continueData
 			input#idChildren(type="hidden" value="#{childrenAct._id}") 
 			section.date
-				h3 Datos Niñ@
+				h3 Datos de #{childrenAct.nameChildren}
 				p
 					span
 						b Nombre: 
@@ -69,9 +69,6 @@ block content
 						tr
 							th Actividades Completadas
 							td#continueNumComp #{complete}
-						tr
-							th Actividades Pendientes
-							td#continueNumPend #{nocomplete}
 			- else
 				h2 No se encontraron actividades completadas.
 

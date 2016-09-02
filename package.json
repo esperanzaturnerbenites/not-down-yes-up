@@ -28,6 +28,7 @@
     "filename": "^0.2.1",
     "html-pdf": "^2.0.1",
     "jade": "^1.11.0",
+    "mongo-round": "^1.0.0",
     "mongodb-backup": "^1.6.0",
     "mongodb-restore": "^1.5.3",
     "winston": "^2.2.0"

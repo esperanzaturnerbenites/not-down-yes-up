@@ -85,9 +85,8 @@ function createChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 
 function updateChildren(dataChildren,dataMom,dataDad,dataCare,req,res){
 
-
 	models.children.findOneAndUpdate(
-		{idChildren : dataChildren.idChildren},
+		{idChildren : dataChildren.currentIdChildren},
 		{"$set": dataChildren},
 	(err,children) => {
 		if(err) return res.json({err:err})
@@ -141,7 +140,7 @@ function updateUser(dataUser,req,res){
 	delete dataUser.passUser
 
 	models.user.update(
-		{idUser : dataUser.idUser},
+		{idUser : dataUser.currentIdUser},
 		{"$set": dataUser}
 		,(err,status) => {
 			if(err) return res.json({err:err})
@@ -453,10 +452,14 @@ router.post("/backup",(req,res)=>{
 })
 
 router.post("/restore",uploadBackup.single("data"),(req,res)=>{
-	var file = fs.createReadStream(req.file.path)
+	console.log("--------------------------")
+	console.log(req.file.path)
+	console.log("--------------------------")
+	var file = fs.createReadStream("public/backups/b.tar")
 	restore({
 		uri: "mongodb://localhost/centerestimulation",
 		stream: file,
+		parser:"json",
 		callback: function(err) {
 			if(err) return res.json({err:err})
 			return res.json({message:"Importación Correcta.",statusCode:CTE.STATUS_CODE.OK})

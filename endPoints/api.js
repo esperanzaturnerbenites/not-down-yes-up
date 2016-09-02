@@ -66,7 +66,7 @@ router.use(["/new/:collection","/:collection"],(req,res,next)=>{
 	next()
 })
 
-router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR]),(req, res) => {
+router.post("/new/:collection",requiredType([CTE.TYPE_USER.ADMINISTRATOR,CTE.TYPE_USER.TEACHER]),(req, res) => {
 	var collection = req.params.collection,
 		model = mongoose.model(collection),
 		data = req.body,

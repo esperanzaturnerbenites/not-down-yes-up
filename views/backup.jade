@@ -18,15 +18,16 @@ block content
 						button
 							span Realizar Backup
 
-			form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
-				fieldset
-					legend Restaurar Info
-					section
-						article
-							p Only Developer
-						article
-							input(type="file" name="data" accept=".tar" required disabled)
-							button(type="submit" disabled)
-								span Realizar Restauracion
-			
+			if (user.typeUser == CTE.TYPE_USER.DEVELOPER)
+				form(action="/admin/restore/" enctype="multipart/form-data" method="POST")
+					fieldset
+						legend Restaurar Info
+						section
+							article
+								p Only Developer
+							article
+								input(type="file" name="data" accept=".tar" required)
+								button(type="submit")
+									span Realizar Restauracion
+
 	script(src="/js/app.js")

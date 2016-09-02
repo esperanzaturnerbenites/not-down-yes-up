@@ -12,7 +12,7 @@ var jade = require("jade"),
 
 
 Date.prototype.getStringCustom = function(){
-	return this.toLocaleString("es-CO",{hour12:true})
+	return this.toLocaleDateString("es-CO",{hour12:true})
 }
 
 function renderReportAge(params,req){

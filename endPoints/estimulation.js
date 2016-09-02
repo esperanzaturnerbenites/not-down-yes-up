@@ -161,7 +161,7 @@ router.get("/info-children/:id",(req,res)=>{
 	var dataChildren = {}
 
 	models.children.findOne({idChildren: idChildren})
-	.populate('idParent.idParent')
+	.populate("idParent.idParent")
 	.exec((err, children) => {
 		if(err) return res.json({err:err})
 		if(!children) return res.json({"message":"Children not found",statusCode:CTE.STATUS_CODE.NOT_OK})

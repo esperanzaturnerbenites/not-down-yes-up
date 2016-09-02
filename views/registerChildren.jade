@@ -42,6 +42,7 @@ block content
 							legend Personal
 							if (edit)
 								input.idChildren#idChildren(type='number', name='children[idChildren]' value="#{children.idChildren}" autocomplete = "off")
+								input(type='hidden' name='children[currentIdChildren]' value="#{children.idChildren}")
 							else
 								input.idChildren#idChildren(type='number', name='children[idChildren]' value="#{children.idChildren}", readonly)
 							input#nameChildren(type='text', name='children[nameChildren]' value="#{children.nameChildren}", placeholder='Nombres Niñ@', autocomplete = "off")

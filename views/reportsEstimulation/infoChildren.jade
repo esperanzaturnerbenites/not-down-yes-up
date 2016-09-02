@@ -1,7 +1,7 @@
 - var children = dataCustom[0]
-h1 DATOS BÁSICOS DEL NIÑ@
 section.continue.continueViewMore
 	article.consulName
+		h2 DATOS BÁSICOS DEL NIÑ@
 		p
 			b #[span NOMBRE: ]
 			span #{children.nameChildren} #{children.lastnameChildren}
@@ -69,15 +69,6 @@ section.continue.continueViewMore
 		p
 			b #[span Fecha de Ingreso: ]
 			span #{new Date(children.dateStart).getStringCustom()}
-
-		if (children.statusChildren == 0)
-			- var statusChildren = "Registrado"
-		if (children.statusChildren == 1)
-			- var statusChildren = "En Cursos"
-		if (children.statusChildren == 2)
-			- var statusChildren = "Calificado"
-		if (children.statusChildren == 3)
-			- var statusChildren = "Retirado/Inactivo"
 		p
 			b #[span Estado Actual: ]
-			span #{statusChildren}
+			span #{parserCustom(children.statusChildren,"STATUS_ESTIMULATION")}

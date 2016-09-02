@@ -37,6 +37,7 @@ block content
 							article
 								if edit
 									input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" autocomplete = "off")
+									input(type='hidden' name='user[currentIdUser]' value="#{data.idUser}")
 								else
 									input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" readonly)
 								input#expeditionUser(type='text', name='user[expeditionUser]', value="#{data.expeditionUser}" placeholder='Lugar de Expedición', autocomplete = "off")

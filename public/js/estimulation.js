@@ -32,11 +32,25 @@ $("#registerChildrenToActivities").submit(function(event){
 					.click(
 						function(event){
 							event.preventDefault()
+							
 							startActivity(response.children.idChildren)
+							$("[data-id-children-select]").prop("disabled", false)
+							$(this).prop("disabled", true)
 						}
 					)
+				
 
-				$("#buttonChildrenToStartActivity").append(buttonChildren)
+				$("#buttonChildrenToStartActivity")
+					.append(
+						$("<section>")
+							.append(buttonChildren)
+							.append(
+								$("<span>",{class:"buttonDeleteChildren",html:"x"})
+								.click(function(){
+									$(this).parent().remove()
+								})
+							)
+						)
 			}else notification.show({msg:response.message,type:response.statusCode})
 		}
 	})
@@ -163,14 +177,14 @@ if($("#audioPrinc")[0]){
 */
 
 function autoSaveActivityHistory(){
-	
+	var scoreSystem = $("form#formValidatePartialActivity #scoreSystemActivity").val()
+	$("form#formValidatePartialActivity #scoreTeachActivity").val(scoreSystem)
+	$("form#formValidatePartialActivity #observationActivity").val("GUARDADO AUTOMATICO.")
+	$("#formValidatePartialActivity").submit()
 }
 
 socket.on("arduino:data", function (data) {
 
-	if($("#ifAutoSaveActivityHistory")[0].checked){
-		autoSaveActivityHistory()
-	}
 
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,
 		srcImage = "/img/imgacts/activities/sad.png",
@@ -189,6 +203,10 @@ socket.on("arduino:data", function (data) {
 	$("#aswerAct #scoreSystemActivity").val(scoreSystemActivity)
 	$("#aswerAct img").attr("src",srcImage)
 	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
+
+	if($("#ifAutoSaveActivityHistory")[0].checked){
+		autoSaveActivityHistory()
+	}
 	
 	notification.show({msg:data.message, type:data.statusCode})
 })
@@ -218,25 +236,25 @@ $(".viewMore").click(function(){
 		},
 		type : "POST",
 		success: function(response){
-			$("#resultViewMore").html(response.html)
+			showResult("#resultViewMore",response.html)
 		}
 	})
 })
 
-$("#viewInforChildren").click(() => {})
+//$("#viewInforChildren").click(() => {})
 
 // HistorialActividades
-$("#viewHistoryActivities").click(() => {})
+//$("#viewHistoryActivities").click(() => {})
 
 // actividades validadas
-$("#viewValidsActivities").click(() => {})
+//$("#viewValidsActivities").click(() => {})
 
-$("#continueViewMore").click(() => {
+/*$("#continueViewMore").click(() => {
 	$("#results")[0].scrollIntoView()
 	notification.show({msg:"¡Consulta éxitosa!", type:CTE.STATUS_CODE.OK})
 	$("#resultStepActs").empty()
 	var clone = getClone("#consulQueryDataChild")
 	renderResultDataResult(clone)
-})
+})*/
 
 $("[name=scoreSystemActivity]").val(CTE.MIN_SCORE_SYSTEM)

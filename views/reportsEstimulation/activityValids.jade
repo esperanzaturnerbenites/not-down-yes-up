@@ -5,6 +5,7 @@ section.continue.continueProgressLogros
 			thead
 				tr
 					th INGRESO
+					th ETAPA
 					th ACTIVIDAD
 					th ESTADO
 					th PUNT DOCENTE
@@ -15,12 +16,14 @@ section.continue.continueProgressLogros
 			tbody
 				- var ingreso = 1
 				each activityValid in activitiesValid
-					td #{ingreso}
-					td #{activityValid.idActivity.nameActivity}
-					td #{activityValid.statusActivity}
-					td #{activityValid.scoreTeachActivity}
-					td #{activityValid.scoreSystemActivity}
-					td #{activityValid.observationActivity}
-					td #{activityValid.idUser.userUser}
-					td #{new Date(activityValid.date).getStringCustom()}
-					- ingreso++
+					tr
+						td #{ingreso}
+						td #{activityValid.idActivity.stepActivity}
+						td #{activityValid.idActivity.nameActivity}
+						td #{parserCustom(activityValid.statusActivity,"STATUS_ACTIVITY")}
+						td #{activityValid.scoreTeachActivity}
+						td #{activityValid.scoreSystemActivity}
+						td #{activityValid.observationActivity}
+						td #{activityValid.idUser.userUser}
+						td #{new Date(activityValid.date).getStringCustom()}
+						- ingreso++

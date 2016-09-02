@@ -37,7 +37,7 @@ const express = require("express"),
 	
 	requiredType = require("./middlewares/requiredType")
 
-models.adminuser.find((err, users) => {
+models.adminuser.find({typeUser:CTE.TYPE_USER.DEVELOPER},(err, users) => {
 	if(!users.length){
 		models.adminuser.create({
 			userUser:CTE.FIRST_USER.USERNAME,

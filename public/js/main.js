@@ -17,6 +17,12 @@ function showReportResult(response){
 	$("#showResultsReport")[0].scrollIntoView()
 }
 
+
+function showResult(selectorContainer,stringHTML){
+	$(selectorContainer).empty().append(stringHTML)
+	$(selectorContainer)[0].scrollIntoView()
+}
+
 var room = $("input[name=idUserAuthenticate]").val()
 
 if(room){
