@@ -30,11 +30,10 @@ $("[data-id = navAbout]").on("click", function() {
 	}
 })
 
-
+ 
 $(".itemSubmenu").on("click", function() {
 	var selector = $(this).data("reference")
 	$(".menuDesc").addClass("hide")
-	console.log(selector)
 	if(selector){
 		$(selector).removeClass("hide")
 	}

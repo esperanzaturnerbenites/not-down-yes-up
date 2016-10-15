@@ -9,7 +9,7 @@ function requiredType (types){
 			if (req.isAuthenticated()){
 				if (types.indexOf(parseInt(req.user.typeUser)) >= 0) return next()
 			}else{
-				res.json({msg: "Autentiquese para continuar",statusCode:CTE.STATUS_CODE.INFORMATION})
+				res.json({msg: "Autentiquese para continuar.",statusCode:CTE.STATUS_CODE.INFORMATION})
 			}
 		}else{
 			if (req.isAuthenticated()){

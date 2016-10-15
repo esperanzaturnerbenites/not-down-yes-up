@@ -49,9 +49,13 @@ models.adminuser.find({typeUser:CTE.TYPE_USER.DEVELOPER},(err, users) => {
 	}
 })
 
+var req_socket = null
+//Creacion de salas para cada usuario
 io.sockets.on("connection", function(socket) {
+	req_socket = socket
 	socket.on("room", function(room) {
 		socket.join(room)
+		console.log("room")
 	})
 })
 
@@ -59,8 +63,12 @@ io.sockets.on("connection", function(socket) {
 app.use(cookieParser())
 app.use(flash())
 app.use(favicon(__dirname + "/public/img/favicon.png"))
+
+//Añadir io al request
 app.use(function(req,res,next){
+	console.log(io)
 	req.io = io
+	req.req_socket = req_socket
 	next()
 })
 //Cofiguracion de la session
@@ -135,6 +143,7 @@ passport.deserializeUser(function(user, done) {
 /*conectarse a una db. si no se especifica el puerto ,el se conecta al default*/
 mongoose.connect("mongodb://localhost/centerestimulation")
 
+//Añade variables al response
 app.use((req,res,next) => {
 	res.locals.user = req.user
 	res.locals.CTE = CTE
@@ -185,6 +194,7 @@ app.use((req,res,next) => {
 	})
 })
 
+//Montar URLs
 app.use("/arduino",requiredType([CTE.TYPE_USER.TEACHER]),arduinoURL)
 app.use("/estimulation", requiredType([CTE.TYPE_USER.TEACHER]), userURLEstimulation)
 app.use("/admin", requiredType([CTE.TYPE_USER.ADMINISTRATOR]), userURLAdmin)

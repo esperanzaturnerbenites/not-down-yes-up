@@ -390,7 +390,7 @@ function drawChartActivityHistory(step,activity){
 	var dataChart = dataFilter.map(function(history){
 		var date = new Date(history.date)
 		return [
-			date.toLocaleString("es-CO",{hour12:true}),
+			date.getStringCustom(),
 			history.scoreTeachActivity,
 			history.scoreSystemActivity
 		]

@@ -70,6 +70,9 @@ function startActivity (children){
 			$("#contentActivity").html(response.html)
 
 			$("#review").click(activityReview)
+
+			$("#viewGuides").click(viewGuidesHide)
+
 			if(j_childrenCurrent){
 				$("#validatePartialActivity,#validateFinalActivity").attr("disabled",false)
 				$("#validatePartialActivity").click(showFormValidatePartialActivity)
@@ -154,6 +157,10 @@ function activityReview(){
 	$("#reviewChild").toggleClass("hide")
 }
 
+function viewGuidesHide() {
+	$("#contentViewGuides").toggleClass("hide")
+}
+
 function showFormValidatePartialActivity(){
 	$("#formValidatePartialActivity").toggleClass("hide")
 	$("#formValidateFinalActivity").addClass("hide")
@@ -183,7 +190,14 @@ function autoSaveActivityHistory(){
 	$("#formValidatePartialActivity").submit()
 }
 
+socket.on("arduino:get_pin_correct", function (data) {
+	//socket.in(room).emit("arduino:pin_correct", {pinCorrect : $("#pinCorrect").val()})
+	console.log("emitted arduino:get_pin_correct")
+	socket.emit("arduino:pin_correct", {pinCorrect : $("#pinCorrect").val()})
+})
+
 socket.on("arduino:data", function (data) {
+	console.log("emitted arduino:data")
 
 
 	var scoreSystemActivity = CTE.MIN_SCORE_SYSTEM,
@@ -207,6 +221,10 @@ socket.on("arduino:data", function (data) {
 	if($("#ifAutoSaveActivityHistory")[0].checked){
 		autoSaveActivityHistory()
 	}
+
+	$("#goValidActivity").on("click", function() {
+		$("#validatePartialActivity")[0].scrollIntoView()
+	})
 	
 	notification.show({msg:data.message, type:data.statusCode})
 })

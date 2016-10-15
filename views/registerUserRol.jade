@@ -42,26 +42,26 @@ block content
 									input#idUser(type='number', name='user[idUser]', value="#{data.idUser}" readonly)
 								input#expeditionUser(type='text', name='user[expeditionUser]', value="#{data.expeditionUser}" placeholder='Lugar de Expedición', autocomplete = "off")
 							article
-								input#nameUser(type='text', name='user[nameUser]', value="#{data.nameUser}" placeholder='Nombres', autocomplete = "off")
-								input#lastnameUser(type='text', name='user[lastnameUser]', value="#{data.lastnameUser}" placeholder='Apellidos', autocomplete = "off")
+								input#nameUser(type='text', name='user[nameUser]', value="#{data.nameUser}" placeholder='Nombres', required autocomplete = "off")
+								input#lastnameUser(type='text', name='user[lastnameUser]', value="#{data.lastnameUser}" placeholder='Apellidos', required autocomplete = "off")
 							article
 								label(for='ageUser') Edad:
-								input#ageUser(type='number', name='user[ageUser]', value="#{data.ageUser}" min='18', max='99', placeholder='Edad' autocomplete = "off")
+								input#ageUser(type='number', name='user[ageUser]', value="#{data.ageUser}" min='18', max='99', placeholder='Edad' required autocomplete = "off")
 							article.img
 								span Foto
 								input#imgUser(type='file', name='user[imgUser]', value='#{imgUser}', accept='image/*')
 						fieldset
 							legend Contacto
 							article
-								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1000000', max='9999999', placeholder='Teléfono Fijo', autocomplete="off")
-								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1000000000', max='9999999999', placeholder='Celular', autocomplete="off")
+								input#telUser(type='number', name='user[telUser]',value="#{data.telUser}" min='1000000', max='9999999', placeholder='Teléfono Fijo', required autocomplete="off")
+								input#celUser(type='number', name='user[celUser]',value="#{data.celUser}" min='1000000000', max='9999999999', placeholder='Celular', required autocomplete="off")
 								input#emailUser(type='email', name='user[emailUser]',value="#{data.emailUser}" placeholder='correo-usuario@abc.com', autocomplete="off")
 							article
-								input#addressUser(type='text', name='user[addressUser]',value="#{data.addressUser}" placeholder='Dirección', autocomplete="off")
-								input#districtUser(type='text', name='user[districtUser]',value="#{data.districtUser}" placeholder='Barrio', autocomplete="off")
+								input#addressUser(type='text', name='user[addressUser]',value="#{data.addressUser}" placeholder='Dirección', required autocomplete="off")
+								input#districtUser(type='text', name='user[districtUser]',value="#{data.districtUser}" placeholder='Barrio', required autocomplete="off")
 								input#localityUser(type='text', name='user[localityUser]',value="#{data.localityUser}" placeholder='Localidad' autocomplete="off")
-								input#districtUser(type='text', name='user[municipalityUser]',value="#{data.municipalityUser}" placeholder='Ciudad/Municipio', autocomplete="off")
-								input#departamentUser(type='text', name='user[departamentUser]',value="#{data.departamentUser}" placeholder='Departamento', autocomplete="off")
+								input#districtUser(type='text', name='user[municipalityUser]',value="#{data.municipalityUser}" placeholder='Ciudad/Municipio', required autocomplete="off")
+								input#departamentUser(type='text', name='user[departamentUser]',value="#{data.departamentUser}" placeholder='Departamento', required autocomplete="off")
 						fieldset
 							legend Profesión
 							article
@@ -70,11 +70,11 @@ block content
 									each level,nombreLevel in CTE.LEVEL_STUDY
 										option(value='#{level}') #{parserCustom(level,"LEVEL_STUDY")}
 
-							input#professionUser(type='text', value="#{data.professionUser}" name='user[professionUser]', placeholder='Título adquirido', autocomplete="off")
+							input#professionUser(type='text', value="#{data.professionUser}" name='user[professionUser]', placeholder='Título adquirido', required autocomplete="off")
 							label(for='experienceUser') Experiencia en meses:
-							input#experienceUser(type='number', value="#{data.experienceUser}" name='user[experienceUser]', min='0', max='999', placeholder='Experiencia en meses', autocomplete="off")
+							input#experienceUser(type='number', value="#{data.experienceUser}" name='user[experienceUser]', min='0', max='999', placeholder='Experiencia en meses', required autocomplete="off")
 							article
-							input#centerUser(type='text', value="#{data.centerUser}" name='user[centerUser]', placeholder='Centro Zonal', autocomplete="off")
+							input#centerUser(type='text', value="#{data.centerUser}" name='user[centerUser]', placeholder='Centro Zonal', required autocomplete="off")
 
 				fieldset.userAdmin.data.user
 					legend Confirmar Registro

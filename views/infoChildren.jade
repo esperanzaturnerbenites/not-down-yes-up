@@ -240,11 +240,9 @@ block content
 								th FECHA
 								th USUARIO
 						tbody
-							- var n = 0
 							- for (stepvalid of infoChildren.stepsValid)
-								- n++
 								tr
-									td #{n}
+									td #{stepvalid.idStep.stepStep}
 									td #{stepvalid.idStep.nameStep}
 									td #{parserCustom(stepvalid.statusStep, "STATUS_ACTIVITY")}
 									td #{stepvalid.scoreStep}
@@ -271,11 +269,9 @@ block content
 								th FECHA
 								th USUARIO
 						tbody
-							- var n = 0
 							- for (valid of infoChildren.activitiesValid)
-								- n++
 								tr
-									td #{n}
+									td #{valid.idActivity.activityActivity}
 									td #{valid.idActivity.nameActivity}
 									td #{valid.idStep.stepStep}
 									td #{parserCustom(valid.statusActivity, "STATUS_ACTIVITY")}

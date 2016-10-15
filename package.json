@@ -31,10 +31,10 @@
     "mongo-round": "^1.0.0",
     "mongodb-backup": "^1.6.0",
     "mongodb-restore": "^1.5.3",
+    "body-parser": "^1.14.2",
     "winston": "^2.2.0"
   },
   "devDependencies": {
-    "body-parser": "^1.14.2",
     "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
     "express-flash": "0.0.2",

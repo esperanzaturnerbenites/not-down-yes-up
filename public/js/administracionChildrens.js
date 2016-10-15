@@ -1,10 +1,10 @@
 $("#formOpeChildrenInfo").click(function(event){
-	if($("#adminInfoChildren").val())
+	if($("#adminInfoChildren").val()!="")
 		window.open("/reports/info-children/" + $("#adminInfoChildren").val())
 })
 
 $("#formOpeChildrenUpd").click(function(event){
-	if($("#adminInfoChildren").val())
+	if($("#adminInfoChildren").val()!="")
 		window.open("/admin/register-children/" + $("#adminInfoChildren").val())
 }) 
 

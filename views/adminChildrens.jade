@@ -59,7 +59,8 @@ block content
 						label(for="statusStep") Estado
 						select#statusStep(name='statusStep')
 							each value,name in CTE.STATUS_ACTIVITY
-								option(value='#{value}') #{parserCustom(value,"STATUS_ACTIVITY")}
+								if (value != 2)
+									option(value='#{value}') #{parserCustom(value,"STATUS_ACTIVITY")}
 					article
 						textarea#observationStep(name='observationStep' required placeholder="Observaciones...")
 					article

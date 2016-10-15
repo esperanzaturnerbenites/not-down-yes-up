@@ -1,3 +1,6 @@
+Date.prototype.getStringCustom = function(){
+	return this.toLocaleDateString("es-CO",{hour12:true})
+}
 Date.prototype.toHour12 = function () {
 	/*
 		Formatea un Object Date en Tiempo (12 horas)

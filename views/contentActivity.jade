@@ -1,70 +1,82 @@
-section.flex.actGroup
-	if children
+
+article.actGroup.viewG
+	button#viewGuides Ver Niñ@ y Guías
+article#contentViewGuides.hide
+	section.flex.actGroup
+		if children
+			article.showChildrens
+				form#formInicAct
+					fieldset
+						legend Niñ@ Actual
+						article#showChildrens.showChildrens.imgPhoto
+							p 
+								b NOMBRE: 
+								span #{children.nameChildren} #{children.lastnameChildren}
+							p 
+								b ID: 
+								span #{children.idChildren}
+							p 
+								b EDAD: 
+								span #{children.ageChildren} meses
+							a(href="/estimulation/info-children/#{children.idChildren}" target="blank")
+								img(src="/img/users/#{children.imgChildren}")
+
 		article.showChildrens
-			form#formInicAct
-				fieldset
-					legend Niñ@ Actual
-					article#showChildrens.showChildrens.imgPhoto
-						p 
-							b NOMBRE: 
-							span #{children.nameChildren} #{children.lastnameChildren}
-						p 
-							b ID: 
-							span #{children.idChildren}
-						p 
-							b EDAD: 
-							span #{children.ageChildren} meses
-						a(href="/estimulation/info-children/#{children.idChildren}" target="blank")
-							img(src="/img/users/#{children.imgChildren}")
-
-	article.showChildrens
-		fieldset#fieldsetGuide
-			legend Guía
-			-var n = 0
-			for guide in activity.guidesActivity
-				-n++
-				p 
-					b #{n}: 
-					span #{guide}
-			button#review
-				span Actividad de Apoyo
-
-section#reviewChild.flex.actGroupReview.actGroup.hide
-	fieldset
-		legend Aprendamos Juntos
-		article.flex
-			-var cantImgReview = activity.imgActivity.length
-			-var select = Math.floor((Math.random() * (cantImgReview - 0)) + 0)
-			
-			- var aDesc = 0
-			if (activity.uniqueImageActivity == 1)
-				- var a = 1
-			else
-				- var a = 0
-			-for (var a; a < cantImgReview; a++)
-				article#imgReviewAudio.imgReview
-					- var aDescription = activity.imgDescriptionActivity[aDesc].split("|") 
-					h1.h1-4#descImg.textToVoice #{aDescription[0]}
-					img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
-					h1.h1-3#descImg.textToVoice #{aDescription[1]}
-					h1.h1-3#descImg.textToVoice #{aDescription[2]}
-				- aDesc++
-
-section.flex.actContent.actContentGD
-	article#nameChild
-		section.imgPhoto
-			h1 ¡LÉEME!
-			h1 
-				img#imgAct(src='/img/imgacts/activities/listen.png', alt='Listen')
-			-var n = 0
-			for guide in activity.guidesChildActivity
-				article.actContentGuidesChild
+			fieldset#fieldsetGuide
+				legend Guía Docente
+				-var n = 0
+				for guide in activity.guidesActivity
 					-n++
-					h1 #{n} 
 					p 
+						b #{n}: 
 						span #{guide}
+				button#review
+					span Actividad de Apoyo
+
+		article.flex.actContent.actContentGD
+			article#nameChild
+				section.imgPhoto
+					h1 ¡LÉEME!
+					h1 
+						img#imgAct(src='/img/imgacts/activities/listen.png', alt='Listen')
+					-var n = 0
+					for guide in activity.guidesChildActivity
+						article.actContentGuidesChild
+							-n++
+							h1 #{n} 
+							p 
+								span #{guide}
+
+	section#reviewChild.flex.actGroupReview.actGroup.hide
+		fieldset
+			legend Aprendamos Juntos
+			article.flex
+				-var cantImgReview = activity.imgActivity.length
+				-var select = Math.floor((Math.random() * (cantImgReview - 0)) + 0)
+				
+				- var aDesc = 0
+				if (activity.uniqueImageActivity == 1)
+					- var a = 1
+				else
+					- var a = 0
+				-for (var a; a < cantImgReview; a++)
+					article#imgReviewAudio.imgReview
+						- var aDescription = activity.imgDescriptionActivity[aDesc].split("|") 
+						h1.h1-4#descImg.textToVoice #{aDescription[0]}
+						img(data-imgref="#{a}" src='#{activity.imgActivity[a]}', alt='.:: ... ::.')
+						h1.h1-3#descImg.textToVoice #{aDescription[1]}
+						h1.h1-3#descImg.textToVoice #{aDescription[2]}
+					- aDesc++
 
 section.flex.actContent
+	section.selectPin
+		//label(for='pinCorrect') Pin:
+		select#pinCorrect(name='pinCorrect', size='4')
+			option(selected, value='1') 1
+			option(value='2') 2
+			option(value='3') 3
+			option(value='4') 4
+	
 	article#nameChild1.actCentral
 		-if (activity.scriptActivity)
 			-var scritp = activity.scriptActivity
@@ -112,6 +124,9 @@ section.flex.actContent
 		img(src='/img/imgacts/activities/espera.png', alt='')
 		audio(src='/audio/good.mp3', alt='')
 		input#scoreSystemActivity.actCentralI(type='text', name='scoreSystemActivity' readonly)
+		section.actGroup
+			button#goValidActivity.validInShowImg 
+				span Validar
 
 script(src="/js/scripts.js")
 script.

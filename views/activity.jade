@@ -35,7 +35,7 @@ html(lang='es')
 					legend Validación Final Actividad
 					article
 						label Resultado Sistema 
-						input#scoreSystemActivity(type='number' name='scoreSystemActivity' min='5', max='10')
+						input#scoreSystemActivity(type='number' name='scoreSystemActivity' min='5', readonly max='10')
 
 					article
 						label Puntuación Docente 
@@ -83,7 +83,7 @@ html(lang='es')
 					legend Validación Actividad
 					article
 						label Resultado Sistema 
-						input#scoreSystemActivity(type='number' name='scoreSystemActivity' min='5', max='10' )
+						input#scoreSystemActivity(type='number' name='scoreSystemActivity' min='5', readonly max='10' )
 
 					article
 						label Puntuación Docente 
@@ -106,6 +106,13 @@ html(lang='es')
 				p #{activity.descriptionActivity}
 
 			section.actGroup
+				form#startActivity
+					fieldset
+						section
+							button(type='submit')
+								span Iniciar Actividad sin Niños Registrados
+
+			section.actGroup
 				form#registerChildrenToActivities
 					fieldset
 						legend ¿Con cuál niñ@ nos divertiremos ahora?
@@ -121,13 +128,6 @@ html(lang='es')
 				form
 					fieldset
 						section#buttonChildrenToStartActivity
-
-			section.actGroup
-				form#startActivity
-					fieldset
-						section#buttonChildrenToStartActivity
-							button(type='submit')
-								span Iniciar Actividad sin Niños Registrados
 
 			section#contentActivity
 		script.
