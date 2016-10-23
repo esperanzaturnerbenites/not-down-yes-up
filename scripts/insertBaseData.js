@@ -37,7 +37,14 @@ models.step.create(baseData.steps,function(err,steps){
 			}))
 		})
 		Q.all(aPromises).then(function(data){
-			process.exit()
+			baseData.parents.forEach(e => {e.birthdateParent = new Date()})
+			models.parent.create(baseData.parents,function(err,parents){
+				console.log("Parents Create")
+				process.exit()
+
+			})
+
+
 		})
 
 	})

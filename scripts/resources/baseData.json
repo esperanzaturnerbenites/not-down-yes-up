@@ -1,4 +1,18 @@
 {
+	"parents": [{
+		"idParent": 1000,
+		"idExpeditionParent": "Sin Datos",
+		"nameParent": "Sin Datos",
+		"lastnameParent": "Sin Datos",
+		"birthdateParent": "",
+		"imgParent": "Sin Datos",
+		"telParent": 0000,
+		"celParent": 0000,
+		"emailParent": "Sin Datos",
+		"studyParent": "Sin Datos",
+		"professionParent": "Sin Datos",
+		"jobParent": "Sin Datos"
+	}],
 	"users": [{
 		"user": {
 			"idUser": 99999,

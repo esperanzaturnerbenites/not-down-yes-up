@@ -19,23 +19,56 @@ html(lang='es')
 						a DESARROLLADORA
 					li(data-id='navAbout' data-reference="#app")
 						a APLICACIÓN
-					li(data-id='navAbout' data-reference="#contact")
-						a CONTACTO
+					li(data-id='navAbout' data-reference="#collaborator")
+						a COLABORADORES
 					li(data-id='navAbout' data-reference="#resources")
 						a RECURSOS
 
 			section#developer.menuDesc.menuAbout.hide.flex
 				section.aboutPhoto
-					img(src='/img/favicon.png')
+					img(src='/img/about/et.jpg')
 				section.aboutDescription
 					article
 						p Luz María Esperanza Turner Benites
 					article
 						p Ingeniería de Sistemas
-					article
-						p Universidad Piloto de Colombia
+					article.socials
+						a(href='http://www.unipiloto.edu.co' target='_blank')
+							p
+								img(src='/img/about/upc.png')
+								span Universidad Piloto de Colombia
 					article
 						p Año: 2016
+					article.socials
+						a
+							p
+								img(src='/img/about/wh.png')
+								span 312 449 9558
+					article.socials
+						a(href='https://www.facebook.com/esperanzaturnerbenites' target='_blank')
+							p
+								img(src='/img/about/fb.png')
+								span Luz Maria Turner
+					article.socials
+						a(href='https://twitter.com/espeturner' target='_blank')
+							p
+								img(src='/img/about/tw.png')
+								span @espeturner
+					article.socials
+						a(href='https://mail.google.com/' target='_blank')
+							p
+								img(src='/img/about/gm.png')
+								span esperanzaturnerbenites@gmail.com
+					article.socials
+						a(href='https://github.com/esperanzaturnerbenites' target='_blank')
+							p
+								img(src='/img/about/gh.png')
+								span esperanzaturnerbenites
+					article.socials
+						a(href='https://www.youtube.com/channel/UC1Dq3TBumNLIM_8-BM1kpVA' target='_blank')
+							p
+								img(src='/img/about/yt.png')
+								span esperanzaturnerbenites
 			section#app.menuDesc.menuAbout.hide
 				section.aboutDescriptionApp
 					article
@@ -46,38 +79,25 @@ html(lang='es')
 						p
 							span Para mayor información clic 
 							a(href='/users/help-me') aquí
-			section#contact.menuDesc.menuAbout.socials.hide
-				section.flexWrap
+			section#collaborator.menuDesc.menuAbout.flex.hide
+				section.aboutPhoto
+					a(href='http://corporacionsindromededown.org' target='_blank')
+							img(src='/img/about/csd.png')
 					article
-						a
-							p
-								img.socials(src='/img/about/wh.png')
-								span 312 449 9558
+						p La Corporación Síndrome de Down (CSD) es una organización de padres de familia no gubernamental, fundación sin ánimo de lucro de carácter social que se constituyó con el fin de mejorar la calidad de vida de las personas con Síndrome de Down y sus familias. Fue fundada en Junio de 1988 por cinco parejas de padres de familia que tienen hijos con Síndrome de Down: Antonio Pabón y Rosario Gamboa, Tomás Mach y Ana María Esguerra, Fabio  Gómez y Esperanza Vásquez, Jaime Escallón e Inés Elvira Buraglia, Germán Robledo y María Elisa Casas.
+				section.aboutDescription.photosCollaborators
 					article
-						a(href='https://www.facebook.com/esperanzaturnerbenites' target='_blank')
-							p
-								img.socials(src='/img/about/fb.png')
-								span Luz Maria Turner
+						img(src='/img/about/gh.png')
+						p MARCELA FERNANDEZ
 					article
-						a(href='https://twitter.com/espeturner' target='_blank')
-							p
-								img.socials(src='/img/about/tw.png')
-								span @espeturner
+						img(src='/img/about/gh.png')
+						p MARCELA FERNANDEZ
 					article
-						a(href='https://mail.google.com/' target='_blank')
-							p
-								img.socials(src='/img/about/gm.png')
-								span esperanzaturnerbenites@gmail.com
+						img(src='/img/about/gh.png')
+						p MARCELA FERNANDEZ
 					article
-						a(href='https://github.com/esperanzaturnerbenites' target='_blank')
-							p
-								img.socials(src='/img/about/gh.png')
-								span esperanzaturnerbenites
-					article
-						a(href='https://www.youtube.com/channel/UC1Dq3TBumNLIM_8-BM1kpVA' target='_blank')
-							p
-								img.socials(src='/img/about/yt.png')
-								span esperanzaturnerbenites
+						img(src='/img/about/gh.png')
+						p MARCELA FERNANDEZ
 			section#resources.menuDesc.menuAbout.socials.hide
 				section.flexWrap
 					article

@@ -62,8 +62,8 @@ module.exports = {
 						"id": "1.4",
 						"route": "No aplica",
 						"reference": "allUnlogin",
-						"includes": ["1.3", "1.5"],
-						"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.3.png)",
+						"includes": ["1.3", ",1.5"],
+						"image": "![IMAGEN SALIR DEL SISTEMA (DESAUTENTICACIÓN)](/img/help/1.4.png)",
 						"description": "Permite salir por completo de la aplicación Not Down, ¡Yes Up!.",
 						"guides": [
 							"Para salir del sistema debe encontrarse siempre en el menú principal.",
@@ -661,7 +661,7 @@ module.exports = {
 						"name": "CALENDARIO DE ACTIVIDADES",
 						"id": "2.3.8",
 						"route": "/admin/reports",
-						"reference": "admReportChildToTeacher",
+						"reference": "admReportChildCalendar",
 						"includes": ["2.1.1"],
 						"image": "![IMAGEN CALENDARIO DE ACTIVIDADES](/img/help/2.3.8.png)",
 						"description": "Genera una consulta gráfica de un calendario que muestra los dias en los cuales los/as niños/as han realizado actividades.",
@@ -810,7 +810,7 @@ module.exports = {
 						"name": "VER ACTIVIDADES DE UNA ETAPA",
 						"id": "3.3.1",
 						"route": "/estimulation/steps",
-						"reference": "estDetailStep",
+						"reference": "estDetailStep1",
 						"includes": ["3.2.2"],
 						"image": "",
 						"description": "Permite acceder al menú de actividades de una etapa.",
@@ -884,7 +884,8 @@ module.exports = {
 							"Niño/a Actual: Muestra el nombre, identificación y foto del/la niño/a sesleccionado. Tambien permite ver información detallada del/la niño/a (H).",
 							"Guía: Muestra la guía del profesor para desarrollar la actividad. También permite desarrollar la actividad de apoyo (I).",
 							"¡LÉEME!: Muestra la guía del/la niño/a y el resultado del desarrollo de la actividad. Permite escuchar la guía del/la niño/a. (J).",
-							"¡ESCÚCHAME!: Es el espacio que verán los niños durnte el desarrollo de la actividad. Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (K)."
+							"¡ESCÚCHAME!: Es el espacio que verán los niños durante el desarrollo de la actividad. Muestra las imágenes para el desarrollo de la actividad y las opciones de reproducción de audio (K).",
+							"¡CONFIGURAR PIN CORRECTO!: Tras haber iniciado la actividad a desarrollar y haber ubicado los containers con sus respectivas fichas correspondientes a la actividad debe ubicar la ficha correcta, validar el PIN en el cual se encuentra y configurarlo en la lista desplegable PIN. Esta lista inicialmente se muestra semioculta (L) donde no se pueden observar los números de 1 hasta 4 que son los que corresponden a los números validos para configurar el Pin correcto, pero al ubicar el cursor del mouse sobre esta lista cambia de tamaño y muestra los números para que pueda seleccionar el que corresponde al PIN correcto de la actividad. (M)"
 						],
 						"warnings": [
 							"No Aplica."
@@ -914,6 +915,7 @@ module.exports = {
 						"image": "![IMAGEN DETALLAR UN/A NIÑ/A](/img/help/3.3.6.png)",
 						"description": "Permite ver la información detallada de un/a niño/a.",
 						"guides": [
+							"Dar clic en el botón 'Ver Niñ@ y Guías'.",
 							"Ubique visualmente la sección Niñ@ Actual (A).",
 							"Dar clic en la imagen del/a niño/a (B).",
 							"Se abre una nueva pestaña donde se muestra toda la información del/a niño/a.",
@@ -938,6 +940,7 @@ module.exports = {
 						"image": "![IMAGEN ACTIVIDAD DE APOYO](/img/help/3.3.7.png)",
 						"description": "Permite realizar la actividad de apoyo, para el refuerzo de conocimientos.",
 						"guides": [
+							"Dar clic en el botón 'Ver Niñ@ y Guías'.",
 							"Ubique visualmente la sección Guía (A).",
 							"Dar clic en el botón Actividad de Apoyo (B).",
 							"Se despliega la sección Aprendamos Juntos (C).",
@@ -1134,9 +1137,8 @@ module.exports = {
 						"guides": [
 							"El PIN corresponde a cada uno de los números que se encuentran en la sección Fichas del tapete electrónico (A)",
 							"Junto con el tapete electrónico vienen 4 containers, los cuales son pequeñas cajas en las que se insertan las fichas para poder desarrollar una actividad (B).",
-							"Al colocar los containers con sus respectivas fichas en el tapete electrónico debe tener en cuenta el PIN (número) en donde se encuentra la ficha que corresponde a la respuesta correcta, ya que ese PIN debe configurarse en ConectionRug.",
-							"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (C).",
-							"Tras haber iniciado la actividad a desarrollar y haber ubicado los containers con sus respectivas fichas correspondientes a la actividad debe ubicar la ficha correcta, validar el PIN en el cual se encuentra y configurarlo en la opción PIN de ConectionRug y luego dar clic en el botón Conectar (D)."
+							"Al colocar los containers con sus respectivas fichas en el tapete electrónico debe tener en cuenta el PIN (número) en donde se encuentra la ficha que corresponde a la respuesta correcta, ya que ese PIN debe configurarse en el sistema.",
+							"En la sección de fichas del tapete electrónico ubicar cada uno de los containers teniendo en cuenta el PIN (C)."
 						],
 						"warnings": [
 							"No Aplica."
@@ -1152,10 +1154,9 @@ module.exports = {
 						"description": "Conexión del tapete electrónico.",
 						"guides": [
 							"Para hacer la conexión del tapete electrónico debe conectar el cable USB del tapete al puerto USB del computador.",
-							"Seleccionar el PIN correcto en las lista desplegable PIN (Ver: UBICACIÓN DE FICHAS (Concordancia PIN-FICHA)) (A)",
-							"Dar clic en el botón Conectar (B).",
+							"Dar clic en el botón Conectar (A).",
 							"Esperar a que es sistema realice la conexión, cuando el ícono de conexión se encuentre en color verde, significa que ya el tapete se encuentra conectado.",
-							"Para desconectar el tapete dar clic en el botón Desconectar (C)."
+							"Puede configurar el tiempo de espera en segundos para poder presionar de nuevo las fichas. El tiempo por defecto son 15 segundos. (B)."
 						],
 						"warnings": [
 							"Verifique el tapete se encuentre bien conectado al computador."
@@ -1171,6 +1172,7 @@ module.exports = {
 						"description": "Descripción de la Guía de los Docentes.",
 						"guides": [
 							"La guía de los docentes contiene los pasos para la realización de la actividad que se inició.",
+							"Dar clic en el botón 'Ver Niñ@ y Guías'.",
 							"Ubique visualmente la sección Guía.",
 							"Allí puede leer cada uno de los pasos que debe tener en cuenta para el desarrollo correcto de la actividad."
 						],
@@ -1182,12 +1184,13 @@ module.exports = {
 						"name": "GUÍA NIÑOS/AS",
 						"id": "3.5.7",
 						"route": "No Aplica",
-						"reference": "estGuideTeacher",
+						"reference": "estGuideChildren",
 						"includes": ["3.3.3"],
 						"image": "![IMAGEN GUÍA NIÑOS/AS](/img/help/3.5.7.png)",
 						"description": "Descripción de la Guía de los Niños/as.",
 						"guides": [
 							"La guía de los/las niños/as contiene los pasos para la realización de la actividad que se inició.",
+							"Dar clic en el botón 'Ver Niñ@ y Guías'.",
 							"Ubique visualmente la sección ¡LÉEME!.",
 							"Allí se pueden leer cada uno de los pasos o indicaciones que se le deben dar al/la niño/a para el desarrollo correcto de la actividad.",
 							"Para que el sistema lea esta guía y pueda ser escuchada por los/las niños/as debe dar clic en el ícono Reproducir que se encuentra debajo de ¡LÉEME! (A)."
@@ -1228,7 +1231,8 @@ module.exports = {
 							"Que el niño presione la ficha correcta:.",
 							"Al presionarse la ficha correcta el tapete se ilumina, muestra un mensaje que dice '¡Muy Bien!' y se despliega una sección en el software que muestra una imagen de una carita feliz y un campo con la puntuación obtenida que para este caso es 10.",
 							"Que el niño presione la ficha incorrecta:.",
-							"Al presionarse una ficha incorrecta el tapete no se ilumina, muestra un mensaje que dice 'Sigue Intentando' y se despliega una sección en el software que muestra una imagen de una carita apenada y un campo con la puntuación obtenida que para este caso es 5."
+							"Al presionarse una ficha incorrecta el tapete no se ilumina, muestra un mensaje que dice 'Sigue Intentando' y se despliega una sección en el software que muestra una imagen de una carita apenada y un campo con la puntuación obtenida que para este caso es 5.",
+							"Al dar clic en el botón Validar lo lleva a la opción correspondiente."
 						],
 						"warnings": [
 							"Verifique la correcta conexión del tapete."

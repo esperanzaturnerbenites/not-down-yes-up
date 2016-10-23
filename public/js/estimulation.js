@@ -218,7 +218,7 @@ socket.on("arduino:data", function (data) {
 	$("#aswerAct img").attr("src",srcImage)
 	$("[name=scoreSystemActivity]").val(scoreSystemActivity)
 
-	if($("#ifAutoSaveActivityHistory")[0].checked){
+	if($("#ifAutoSaveActivityHistory")[0].checked && j_childrenCurrent){
 		autoSaveActivityHistory()
 	}
 
